@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(Tutorial main.cpp common/loadShaders.cpp common/loadShaders.h)
+add_executable(Tutorial main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h)
 
 # gotta add that one to make sure we get all of OpenGL
 find_package(OpenGL)
