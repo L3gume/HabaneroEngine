@@ -33,16 +33,16 @@ void CameraController::computeMatricesFromInputs() {
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
     glm::vec3 direction(
-            cos(v_angle) * sin(h_angle),
-            sin(v_angle),
-            cos(v_angle) * cos(h_angle)
+            glm::cos(v_angle) * glm::sin(h_angle),
+            glm::sin(v_angle),
+            glm::cos(v_angle) * glm::cos(h_angle)
     );
 
     // Right vector
     glm::vec3 right = glm::vec3(
-            sin(h_angle - 3.14f / 2.0f),
+            glm::sin(h_angle - 3.14f / 2.0f),
             0,
-            cos(h_angle - 3.14f / 2.0f)
+            glm::cos(h_angle - 3.14f / 2.0f)
     );
 
     // Up vector : perpendicular to both direction and right

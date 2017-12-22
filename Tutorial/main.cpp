@@ -26,7 +26,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow *window = nullptr;
-    window = glfwCreateWindow(1280, 720, "Tutorial 01", NULL, NULL);
+    window = glfwCreateWindow(1280, 720, "Tutorial 01", nullptr, nullptr);
     if (!window) {
         fprintf(stderr, "Failed to open GLFWwindow.\n");
         glfwTerminate();
