@@ -12,79 +12,79 @@ glm::mat4 CameraController::render() {
 }
 
 void CameraController::computeMatricesFromInputs() {
-    if (!window) {
+    if (!m_window) {
         // TODO create a logging system that opens a console or something
         return;
     }
 
     double currentTime = glfwGetTime();
-    auto deltaTime = float(currentTime - last_time);
-    last_time = currentTime;
+    auto deltaTime = float(currentTime - m_dLastTime);
+    m_dLastTime = currentTime;
 
     // Get mouse pos
     double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
+    glfwGetCursorPos(m_window, &xpos, &ypos);
     // Reset mouse pos for next frame
-    glfwSetCursorPos(window, 1280 / 2, 720 / 2);
+    glfwSetCursorPos(m_window, 1280 / 2, 720 / 2);
 
     // Compute new orientation
-    h_angle += mouse_speed * deltaTime * float(1280 / 2 - xpos);
-    v_angle += mouse_speed * deltaTime * float(720 / 2 - ypos);
+    m_fhAngle += m_fMouseSpeed * deltaTime * float(1280 / 2 - xpos);
+    m_fvAngle += m_fMouseSpeed * deltaTime * float(720 / 2 - ypos);
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
     glm::vec3 direction(
-            glm::cos(v_angle) * glm::sin(h_angle),
-            glm::sin(v_angle),
-            glm::cos(v_angle) * glm::cos(h_angle)
+            glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
+            glm::sin(m_fvAngle),
+            glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
     );
 
     // Right vector
     glm::vec3 right = glm::vec3(
-            glm::sin(h_angle - 3.14f / 2.0f),
+            glm::sin(m_fhAngle - 3.14f / 2.0f),
             0,
-            glm::cos(h_angle - 3.14f / 2.0f)
+            glm::cos(m_fhAngle - 3.14f / 2.0f)
     );
 
     // Up vector : perpendicular to both direction and right
     glm::vec3 up = glm::cross(right, direction);
 
     // Move forward
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        pos += direction * deltaTime * speed;
+    if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
+        m_pos += direction * deltaTime * m_fSpeed;
     }
     // Move backward
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        pos -= direction * deltaTime * speed;
+    if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) {
+        m_pos -= direction * deltaTime * m_fSpeed;
     }
     // Strafe right
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        pos += right * deltaTime * speed;
+    if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) {
+        m_pos += right * deltaTime * m_fSpeed;
     }
     // Strafe left
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        pos -= right * deltaTime * speed;
+    if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS) {
+        m_pos -= right * deltaTime * m_fSpeed;
     }
     // go up
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-        pos += up * deltaTime * speed;
+    if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        m_pos += up * deltaTime * m_fSpeed;
     }
     // go down
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        pos -= up * deltaTime * speed;
+    if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        m_pos -= up * deltaTime * m_fSpeed;
     }
 
-    projMat = glm::perspective(glm::radians(fov), 16.0f / 9.0f, 0.1f, 100.0f);
-    viewMat = glm::lookAt(
-            pos,           // Camera is here
-            pos + direction, // and looks here : at the same pos, plus "direction"
+    m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
+    m_viewMat = glm::lookAt(
+            m_pos,           // Camera is here
+            m_pos + direction, // and looks here : at the same pos, plus "direction"
             up                  // Head is up (set to 0,-1,0 to look upside-down)
     );
 }
 
 glm::mat4 CameraController::getProjectionMatrix() {
-    return projMat;
+    return m_projMat;
 }
 
 glm::mat4 CameraController::getViewMatrix() {
-    return viewMat;
+    return m_viewMat;
 }
