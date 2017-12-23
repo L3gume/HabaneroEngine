@@ -7,21 +7,37 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "InputMessage.h"
 
-//
-// Interface for listeners (Abstract class)
-//
-class InputListener {
-public:
-    InputListener();
-    ~InputListener(); // TODO: This will have to go update the inputManager's listener list.
+namespace VapeInput {
+    //
+    // Interface for listeners (Abstract class)
+    //
+    class InputListener {
+    public:
+        InputListener(bool _useKeyboard, bool _useMouseMov, bool _useMouseButtons, bool _useController) :
+                m_bUseKeyboard(_useKeyboard),
+                m_bUseMouseMovement(_useMouseMov),
+                m_bUseMouseButtons(_useMouseButtons),
+                m_bUseController(_useController) {
+            // Constructor
+        }
 
-protected:
-    /* These methods have to be overridden by the derived listeners */
-    virtual void onKeyPressed() = 0; // TODO: Setup a way to pass around inputs, probably an InputEvent struct or just an array of GLFW keycodes
-    virtual void onMouseMoved() = 0; // TODO: Pass mouse movement
-    virtual void onMousePressed() = 0;
-};
+        /* For now, responsibility is left to the programmer to delete the listener from the InputManager */
+        virtual ~InputListener() = default;
 
+    protected:
+        /* These methods have to be overridden by the derived listeners */
+        // TODO: Setup a way to pass around inputs, probably an InputEvent struct or just an array of GLFW keycodes
+        virtual void onKeyPressed(const KeyboardInputMessage& _kbdMsg, float _deltaTime) = 0;
+        virtual void onMouseMoved(const MouseMovedInputMessage& _msMsg, float _deltaTime) = 0; // TODO: Pass mouse movement
+        virtual void onMousePressed(const MouseClickedInputMessage& _msMsg, float _deltaTime) = 0;
+
+        bool m_bUseKeyboard         : 1;
+        bool m_bUseMouseMovement    : 1;
+        bool m_bUseMouseButtons     : 1;
+        bool m_bUseController       : 1; // That won't be done before a while
+    };
+}
 
 #endif //TUTORIAL_INPUTLISTENER_H

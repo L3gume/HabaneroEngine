@@ -15,6 +15,10 @@
 //
 int main() {
 
+#ifdef DEBUG
+    printf("DEBUG ENABLED\n");
+#endif
+
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
         return -1;

@@ -5,7 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h common/InputManager.cpp common/InputManager.h common/InputListener.cpp common/InputListener.h)
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h common/InputManager.cpp common/InputManager.h common/InputListener.cpp common/InputListener.h common/InputMessage.h)
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    target_compile_definitions(VapeEngine PUBLIC DEBUG=1)
+elseif(CMAKE_BUILD_TYPE MATCHES Release)
+    target_compile_definitions(VapeEngine PUBLIC DEBUG=0)
+endif()
 
 # gotta add that one to make sure we get all of OpenGL
 find_package(OpenGL)

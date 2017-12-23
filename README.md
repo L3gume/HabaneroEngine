@@ -21,6 +21,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
     * Member variables should be prefixed by : `m_x`, where refers to its type
         * `int m_iVarInCamelCase;`
         * If the variables aren't a primitive type (ex: glm::mat4), choose descriptive names: `glm::mat4 m_someMat;`
+* Function arguments: prefix with `_` : `_arg`
 * Brackets start to the side of the function definition:
     * `int foo() { ...`
     * Same for logic blocks:
@@ -40,6 +41,14 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
     * Member variable naming applies to structs
 * When possible, convert booleans to bit maps
 * standard library features are allowed, but make sure you know what you're doing
+* Surround debug statement, procedures with DEBUG preprocessor tag:
+
+```C++
+#ifdef DEBUG
+    printf("Debug statement...\n");
+#endif
+```
+
 
 *Stuff can be added to this list and the style list*
 
