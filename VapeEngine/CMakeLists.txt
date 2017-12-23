@@ -3,9 +3,21 @@ project(VapeEngine)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# multi-threaded build!
+include(ProcessorCount)
+ProcessorCount(N)
+if(NOT N EQUAL 0)
+    set(CTEST_BUILD_FLAGS -j${N})
+    set(ctest_test_args ${ctest_test_args} PARALLEL_LEVEL ${N})
+endif()
+
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h common/InputManager.cpp common/InputManager.h common/InputListener.cpp common/InputListener.h common/InputMessage.h)
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.cpp input/InputListener.h input/InputMessage.h)
+
+# Whenever a new directory is created, add it to the include path
+include_directories(common)
+include_directories(input)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_definitions(VapeEngine PUBLIC DEBUG=1)

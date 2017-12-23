@@ -26,12 +26,18 @@ namespace VapeInput {
         /* For now, responsibility is left to the programmer to delete the listener from the InputManager */
         virtual ~InputListener() = default;
 
-    protected:
+        // Inlining a getter for a simple flag basically saves a function call
+        inline bool getUseKeyboard() { return m_bUseKeyboard; }
+        inline bool getUseMouseMove() { return m_bUseMouseMovement; }
+        inline bool getUseMouseButtons() { return m_bUseMouseButtons; }
+        inline bool getUseController() { return m_bUseController; }
+
         /* These methods have to be overridden by the derived listeners */
         // TODO: Setup a way to pass around inputs, probably an InputEvent struct or just an array of GLFW keycodes
         virtual void onKeyPressed(const KeyboardInputMessage& _kbdMsg, float _deltaTime) = 0;
         virtual void onMouseMoved(const MouseMovedInputMessage& _msMsg, float _deltaTime) = 0; // TODO: Pass mouse movement
         virtual void onMousePressed(const MouseClickedInputMessage& _msMsg, float _deltaTime) = 0;
+    protected:
 
         bool m_bUseKeyboard         : 1;
         bool m_bUseMouseMovement    : 1;
