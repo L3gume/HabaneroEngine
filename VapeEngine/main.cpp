@@ -26,7 +26,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow *window = nullptr;
-    window = glfwCreateWindow(1280, 720, "Tutorial 01", nullptr, nullptr);
+    window = glfwCreateWindow(1280, 720, "VapeEngine", nullptr, nullptr);
     if (!window) {
         fprintf(stderr, "Failed to open GLFWwindow.\n");
         glfwTerminate();
@@ -50,7 +50,7 @@ int main() {
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
-// Accept fragment if it closer to the camera than the former one
+    // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
 
