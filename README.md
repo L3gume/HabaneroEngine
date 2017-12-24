@@ -67,3 +67,17 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * Game loop
 * Physics (Collisions, etc.)
 * Logging system (that opens a console and stuff)
+
+## NEXT MILESTONE
+
+For version 0.1:
+
+* Working Camera - **MOSTLY DONE**
+* Working Rendering system
+    * Simple shapes and volumes
+* Working Input system - **DONE**
+* Simple Physics engine
+    * Basic collsions
+    * Gravity
+    * Forces
+* Simple debug log system
