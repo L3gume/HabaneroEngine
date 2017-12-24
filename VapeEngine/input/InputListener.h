@@ -12,6 +12,7 @@
 namespace VapeInput {
     //
     // Interface for listeners (Abstract class)
+    // Since it is abstract and has no method implementation, its header-only
     //
     class InputListener {
     public:
@@ -34,9 +35,9 @@ namespace VapeInput {
 
         /* These methods have to be overridden by the derived listeners */
         // TODO: Setup a way to pass around inputs, probably an InputEvent struct or just an array of GLFW keycodes
-        virtual void onKeyPressed(const KeyboardInputMessage& _kbdMsg, float _deltaTime) = 0;
-        virtual void onMouseMoved(const MouseMovedInputMessage& _msMsg, float _deltaTime) = 0; // TODO: Pass mouse movement
-        virtual void onMousePressed(const MouseClickedInputMessage& _msMsg, float _deltaTime) = 0;
+        virtual void onKeyPressed(const KeyboardInputMessage& _kbdMsg) = 0;
+        virtual void onMouseMoved(const MouseMovedInputMessage& _msMsg) = 0; // TODO: Pass mouse movement
+        virtual void onMousePressed(const MouseClickedInputMessage& _msMsg) = 0;
     protected:
 
         bool m_bUseKeyboard         : 1;

@@ -13,7 +13,7 @@ endif()
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.cpp input/InputListener.h input/InputMessage.h)
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h)
 
 # Whenever a new directory is created, add it to the include path
 include_directories(common)

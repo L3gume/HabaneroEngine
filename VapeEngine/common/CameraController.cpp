@@ -3,33 +3,74 @@
 //
 #include "CameraController.h"
 
-glm::mat4 CameraController::render() {
-    computeMatricesFromInputs();
+glm::mat4 CameraController::render(const float _deltaTime) {
+    computeMatricesFromInputs(_deltaTime);
     glm::mat4 ProjectionMatrix = getProjectionMatrix();
     glm::mat4 ViewMatrix = getViewMatrix();
     glm::mat4 ModelMatrix = glm::mat4(1.0);
     return ProjectionMatrix * ViewMatrix * ModelMatrix;
 }
 
-void CameraController::computeMatricesFromInputs() {
+/*
+ * Overridden from InputListener
+ * This is going to be called every frame
+ */
+void CameraController::onKeyPressed(const VapeInput::KeyboardInputMessage& _kbdMsg) {
+    m_bMoveForward = _kbdMsg.KEY_W;
+    m_bMoveBack = _kbdMsg.KEY_S;
+    m_bMoveLeft = _kbdMsg.KEY_A;
+    m_bMoveRight = _kbdMsg.KEY_D;
+    m_bMoveUp = _kbdMsg.KEY_SPACE;
+    m_bMoveDown = _kbdMsg.KEY_LEFT_SHIFT;
+}
+
+/*
+ * Overridden from InputListener
+ * This is going to be called every frame
+ */
+void CameraController::onMouseMoved(const VapeInput::MouseMovedInputMessage& _msMsg) {
+    if (m_bCaptureMoveMovement) {
+        // We only want to use the mouse movement when right click is held down
+        m_dMouseXPos = _msMsg.m_dXPos;
+        m_dMouseYPos = _msMsg.m_dYPos;
+        glfwSetCursorPos(m_window, 1280 / 2, 720 / 2);
+    }
+}
+
+/*
+ * Overridden from InputListener
+ * This is going to be called every frame
+ */
+void CameraController::onMousePressed(const VapeInput::MouseClickedInputMessage& _msMsg) {
+    if (_msMsg.MOUSE_BUTTON_RIGHT) {
+        // We only want to use the mouse movement when right click is held down
+        if (!m_bRightClickHeld) {
+            glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            m_bRightClickHeld = true;
+            m_bCaptureMoveMovement = true; // flip the bit
+        }
+    } else {
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        m_bRightClickHeld = false;
+        m_bCaptureMoveMovement = false;
+    }
+}
+
+void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     if (!m_window) {
         // TODO create a logging system that opens a console or something
         return;
     }
 
-    double currentTime = glfwGetTime();
-    auto deltaTime = float(currentTime - m_dLastTime);
-    m_dLastTime = currentTime;
-
-    // Get mouse pos
-    double xpos, ypos;
-    glfwGetCursorPos(m_window, &xpos, &ypos);
-    // Reset mouse pos for next frame
-    glfwSetCursorPos(m_window, 1280 / 2, 720 / 2);
+//    double currentTime = glfwGetTime();
+//    auto deltaTime = float(currentTime - m_dLastTime);
+//    m_dLastTime = currentTime;
 
     // Compute new orientation
-    m_fhAngle += m_fMouseSpeed * deltaTime * float(1280 / 2 - xpos);
-    m_fvAngle += m_fMouseSpeed * deltaTime * float(720 / 2 - ypos);
+    if (m_dMouseXPos != -1 && m_dMouseYPos != -1 && m_bCaptureMoveMovement) {
+        m_fhAngle += m_fMouseSpeed * _deltaTime * float(1280 / 2 - m_dMouseXPos);
+        m_fvAngle += m_fMouseSpeed * _deltaTime * float(720 / 2 - m_dMouseYPos);
+    }
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
     glm::vec3 direction(
@@ -49,28 +90,28 @@ void CameraController::computeMatricesFromInputs() {
     glm::vec3 up = glm::cross(right, direction);
 
     // Move forward
-    if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
-        m_pos += direction * deltaTime * m_fSpeed;
+    if (m_bMoveForward) {
+        m_pos += direction * _deltaTime * m_fSpeed;
     }
     // Move backward
-    if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) {
-        m_pos -= direction * deltaTime * m_fSpeed;
+    if (m_bMoveBack) {
+        m_pos -= direction * _deltaTime * m_fSpeed;
     }
     // Strafe right
-    if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) {
-        m_pos += right * deltaTime * m_fSpeed;
+    if (m_bMoveRight) {
+        m_pos += right * _deltaTime * m_fSpeed;
     }
     // Strafe left
-    if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS) {
-        m_pos -= right * deltaTime * m_fSpeed;
+    if (m_bMoveLeft) {
+        m_pos -= right * _deltaTime * m_fSpeed;
     }
     // go up
-    if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-        m_pos += up * deltaTime * m_fSpeed;
+    if (m_bMoveUp) {
+        m_pos += up * _deltaTime * m_fSpeed;
     }
     // go down
-    if (glfwGetKey(m_window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        m_pos -= up * deltaTime * m_fSpeed;
+    if (m_bMoveDown) {
+        m_pos -= up * _deltaTime * m_fSpeed;
     }
 
     m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);

@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <InputManager.h>
 
 #include "common/loadShaders.h"
 #include "common/CameraController.h"
@@ -57,9 +58,6 @@ int main() {
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    CameraController cc = CameraController(window, glm::vec3(0, 0, 5), 3.14f, 0.f, 80.f);
 
     static const GLfloat g_vertex_buffer_data[] = {
             -1.0f,-1.0f,-1.0f, // triangle 1 : begin
@@ -139,6 +137,12 @@ int main() {
             0.982f,  0.099f,  0.879f
     };
 
+    CameraController cc = CameraController(window, glm::vec3(0, 0, 5), 3.14f, 0.f, 80.f);
+    VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
+    inputManager.addInputListener(&cc);
+    float last_time = 0.f;
+    float deltaTime = 0.f;
+
     do {
         /* Draw a triangle */
         GLuint vertexArrayID;
@@ -173,7 +177,12 @@ int main() {
         glDisableVertexAttribArray(0);
 
         /* Do the camera ting */
-        glm::mat4 MVP = cc.render();
+        auto cur_time = (float)glfwGetTime();
+        deltaTime = cur_time - last_time;
+        inputManager.update(window, deltaTime);
+        glm::mat4 MVP = cc.render(deltaTime);
+        last_time = cur_time;
+
         glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
 
         glfwSwapBuffers(window);

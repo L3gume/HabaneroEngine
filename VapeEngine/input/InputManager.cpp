@@ -56,13 +56,13 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
 
     for (InputListener* il : m_listeners) {
         if (il->getUseKeyboard()) {
-            il->onKeyPressed(kbdInMsg, _deltaTime);
+            il->onKeyPressed(kbdInMsg);
         }
         if (il->getUseMouseMove()) {
-            il->onMouseMoved(msMvMsg, _deltaTime);
+            il->onMouseMoved(msMvMsg);
         }
         if (il->getUseMouseButtons()) {
-            il->onMousePressed(msClkMsg, _deltaTime);
+            il->onMousePressed(msClkMsg);
         }
         if (il->getUseController()) {
 #ifdef DEBUG
@@ -75,7 +75,7 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
 /*
  * [Justin]: I feel kinda bad about that one...
  */
-KeyboardInputMessage InputManager::getKeyboardInputs(GLFWwindow* _window) {
+KeyboardInputMessage InputManager::getKeyboardInputs(GLFWwindow *_window) {
     KeyboardInputMessage kbdInMsg = {}; // In theory that should initialize everything to false.
     if (glfwGetKey(_window, GLFW_KEY_SPACE        ) == GLFW_PRESS) kbdInMsg.KEY_SPACE         = true;
     if (glfwGetKey(_window, GLFW_KEY_APOSTROPHE   ) == GLFW_PRESS) kbdInMsg.KEY_APOSTROPHE    = true;

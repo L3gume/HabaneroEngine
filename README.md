@@ -36,6 +36,12 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
     * `unique_ptr` is allowed when creating a pointer only for the scope of a function, but pretty much useless
 * No exception handling (no try/catch blocks)
 * Use `nullptr` instead of `NULL`
+* Whenever you can, use `const`
+    * never return `const` from function, as that apparently leads to weird stuff
+        * You can definitely cast the return to const tho
+    * If passing pointers, you can pass const pointers
+    * Make getters const
+    * If a method/function doesn't change any members of an object, you can make it const
 * Classes implement functionality, structs and unions carry data
     * Structs can have some functions, but mostly setters/getters
     * Member variable naming applies to structs
@@ -49,6 +55,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 #endif
 ```
 
+*These don't have to ALWAYS be followed, they're basically just tips*
 
 *Stuff can be added to this list and the style list*
 
