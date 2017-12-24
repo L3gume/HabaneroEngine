@@ -38,7 +38,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * Use `nullptr` instead of `NULL`
 * Whenever you can, use `const`
     * never return `const` from function, as that apparently leads to weird stuff
-        * You can definitely cast the return to const tho
+        * You can definitely cast the return to const though
     * If passing pointers, you can pass const pointers
     * Make getters const
     * If a method/function doesn't change any members of an object, you can make it const
@@ -61,7 +61,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 
 ## TODO
 
-* Input Management [Justin]
+* Camera Controller [Justin]
 * Encapsulate rendering in its own system
     * Entities, hierarchies of entities (composite design pattern, anyone?)
 * Game loop
