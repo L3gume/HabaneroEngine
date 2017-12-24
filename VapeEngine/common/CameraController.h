@@ -16,7 +16,6 @@
 #include "InputMessage.h"
 
 /*
- * TODO: Make it possible to "drag" screen with scrollwheel click
  * TODO: Make it possible to change mouse speed with scrollwheel while right click is held
  * TODO: Make it possible to move back and forward with scrollwheel while right click is not held
  */

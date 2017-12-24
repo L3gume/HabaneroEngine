@@ -149,13 +149,6 @@ namespace VapeInput {
         bool MOUSE_BUTTON_RIGHT  : 1;
         bool MOUSE_BUTTON_MIDDLE : 1;
     };
-
-    // This allows the InputMessage to be "polymorphic"
-    union InputMessage {
-        KeyboardInputMessage m_keyboardInputMessage;
-        MouseMovedInputMessage m_mouseMovedInputMessage;
-        MouseClickedInputMessage m_mouseClickedInputMessage;
-    };
 }
 
 #endif //VAPEENGINE_INPUTMESSAGE_H
