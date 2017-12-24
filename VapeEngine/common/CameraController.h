@@ -22,17 +22,19 @@
  */
 class CameraController : public VapeInput::InputListener {
 public:
-    explicit CameraController(GLFWwindow *_window) : InputListener(false, false, false, false), m_window(_window),
+    explicit CameraController(GLFWwindow *_window) : InputListener(true, true, true, true), m_window(_window),
                                                      m_bMoveForward(false), m_bMoveBack(false), m_bMoveLeft(false),
                                                      m_bMoveRight(false), m_bMoveUp(false),
                                                      m_bMoveDown(false), m_bCaptureMoveMovement(false),
-                                                     m_bRightClickHeld(false) { /* Default constructor */ }
+                                                     m_bRightClickHeld(false), m_bMiddleClickHeld(false),
+                                                     m_bPerspective(true), m_bOrthogonal(false) { /* Default constructor */ }
 
     CameraController(GLFWwindow *_window, glm::vec3 _pos, float _h_angle, float _v_angle, float _fov)
             : InputListener(true, true, true, false), m_window(_window), m_pos(_pos), m_fhAngle(_h_angle),
               m_fvAngle(_v_angle), m_fFov(_fov), m_bMoveForward(false), m_bMoveBack(false), m_bMoveLeft(false),
               m_bMoveRight(false), m_bMoveUp(false), m_bMoveDown(false), m_bCaptureMoveMovement(false),
-              m_bRightClickHeld(false) { /* constructor with data stuff */ }
+              m_bRightClickHeld(false), m_bMiddleClickHeld(false), m_bPerspective(true), m_bOrthogonal(false)
+    { /* constructor with data stuff */ }
 
     /* Getters and Setters, implemented in .h file since its basically nothing */
     void setMoveSpeed(float _speed) { m_fSpeed = _speed; }
@@ -76,8 +78,12 @@ private:
     bool m_bMoveRight           : 1;
     bool m_bMoveUp              : 1;
     bool m_bMoveDown            : 1;
-    bool m_bCaptureMoveMovement : 1;
-    bool m_bRightClickHeld      : 1;
+    /* Flags */
+    bool m_bCaptureMoveMovement : 1; // Indicates whether or not to move the camera with the mouse
+    bool m_bRightClickHeld      : 1; // Indicates that the right mouse button is held
+    bool m_bMiddleClickHeld     : 1; // Indicates that the scroll wheel button is held
+    bool m_bPerspective         : 1; // Perspective view mode
+    bool m_bOrthogonal          : 1; // Orthogonal view mode
 };
 
 #endif //CAMERA_CONTROLLER_H

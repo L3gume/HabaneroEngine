@@ -31,7 +31,7 @@ namespace VapeInput {
     private:
         InputManager() = default; // Constructor kept private since this is a singleton
 
-        KeyboardInputMessage getKeyboardInputs(GLFWwindow *_window);
+        KeyboardInputMessage getKeyboardInputs(GLFWwindow* _window);
         MouseMovedInputMessage getMouseCoordinates(GLFWwindow* _window);
         MouseClickedInputMessage getMouseInputs(GLFWwindow* _window);
 

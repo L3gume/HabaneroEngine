@@ -25,7 +25,7 @@ bool InputManager::addInputListener(InputListener* _listener) {
 }
 
 /*
- * Deletes the pointer that was passed
+ * Removes the pointer from the deque, the object is not deleted from memory.
  */
 bool InputManager::removeInputListener(InputListener* _listener) {
     if (!_listener) {
@@ -38,7 +38,6 @@ bool InputManager::removeInputListener(InputListener* _listener) {
     // Go through the deque of listeners, delete the listener if found
     for (auto it = m_listeners.begin(); it != m_listeners.end(); it++) {
         if (*it == _listener) {
-            delete *it;
             it = m_listeners.erase(it);
             return true;
         }
@@ -54,6 +53,7 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
     MouseMovedInputMessage msMvMsg = getMouseCoordinates(_window);
     MouseClickedInputMessage msClkMsg = getMouseInputs(_window);
 
+    /* Observer Pattern anyone? :D */
     for (InputListener* il : m_listeners) {
         if (il->getUseKeyboard()) {
             il->onKeyPressed(kbdInMsg);
@@ -73,9 +73,9 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
 }
 
 /*
- * [Justin]: I feel kinda bad about that one...
+ * [Justin]: I feel kinda bad about that one... At least I formatted it in a readable-ish way
  */
-KeyboardInputMessage InputManager::getKeyboardInputs(GLFWwindow *_window) {
+KeyboardInputMessage InputManager::getKeyboardInputs(GLFWwindow* _window) {
     KeyboardInputMessage kbdInMsg = {}; // In theory that should initialize everything to false.
     if (glfwGetKey(_window, GLFW_KEY_SPACE        ) == GLFW_PRESS) kbdInMsg.KEY_SPACE         = true;
     if (glfwGetKey(_window, GLFW_KEY_APOSTROPHE   ) == GLFW_PRESS) kbdInMsg.KEY_APOSTROPHE    = true;
