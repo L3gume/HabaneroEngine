@@ -180,7 +180,7 @@ int main() {
         auto cur_time = (float)glfwGetTime();
         deltaTime = cur_time - last_time;
         inputManager.update(window, deltaTime);
-        glm::mat4 MVP = cc.render(deltaTime);
+        glm::mat4 MVP = cc.getMVP(deltaTime);
         last_time = cur_time;
 
         glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);

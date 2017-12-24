@@ -46,7 +46,7 @@ public:
     void onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) override;
     void onMouseMoved(const VapeInput::MouseMovedInputMessage &_msMsg) override;
     void onMousePressed(const VapeInput::MouseClickedInputMessage &_msMsg) override;
-    glm::mat4 render(const float _deltaTime);
+    glm::mat4 getMVP(const float _deltaTime);
 
 private:
     void computeMatricesFromInputs(const float _deltaTime);

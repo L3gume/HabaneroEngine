@@ -4,7 +4,7 @@
 #include <cstdio>
 #include "CameraController.h"
 
-glm::mat4 CameraController::render(const float _deltaTime) {
+glm::mat4 CameraController::getMVP(const float _deltaTime) {
     computeMatricesFromInputs(_deltaTime);
     glm::mat4 ProjectionMatrix = getProjectionMatrix();
     glm::mat4 ViewMatrix = getViewMatrix();
