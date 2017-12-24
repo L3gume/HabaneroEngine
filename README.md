@@ -18,7 +18,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 ## Code Style
 
 * camelCase for functions, methods and variables.
-    * Member variables should be prefixed by : `m_x`, where refers to its type
+    * Member variables should be prefixed by : `m_x`, where x refers to its type
         * `int m_iVarInCamelCase;`
         * If the variables aren't a primitive type (ex: glm::mat4), choose descriptive names: `glm::mat4 m_someMat;`
 * Function arguments: prefix with `_` : `_arg`
