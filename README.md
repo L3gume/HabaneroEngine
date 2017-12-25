@@ -61,12 +61,11 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 
 ## TODO
 
-* Camera Controller [Justin]
-* Encapsulate rendering in its own system
+* Encapsulate rendering in its own system [Evan]
     * Entities, hierarchies of entities (composite design pattern, anyone?)
-* Game loop
+* Game loop [Justin, on hold]
 * Physics (Collisions, etc.)
-* Logging system (that opens a console and stuff)
+* Logging system (that opens a console and stuff) [Justin]
 
 ## NEXT MILESTONE
 
