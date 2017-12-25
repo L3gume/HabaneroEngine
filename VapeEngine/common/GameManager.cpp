@@ -160,8 +160,8 @@ void GameManager::gameLoop() {
      * The actual loop is here
      */
 
-    // TODO: Change the condition lul
-    while (glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(m_window)) {
+    // TODO: Change the condition lul, The key escape thing breaks the window
+    while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
         m_fCurTime = static_cast<float>(glfwGetTime());
         float deltaTime = m_fCurTime - m_fLastTime;
         m_fLastTime = m_fCurTime;
