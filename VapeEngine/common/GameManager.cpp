@@ -14,6 +14,10 @@ void GameManager::init() {
     m_bInitialized = true;
 }
 
+/**
+ * Here it is, the game loop.
+ * There will be A LOT, and by a lot, I mean A WHOLE LOT more stuff in there.
+ */
 void GameManager::gameLoop() {
     if (!isInitialized()) {
 #ifdef DEBUG
@@ -152,6 +156,9 @@ void GameManager::gameLoop() {
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
     // -----------------------------------------------------------------------------------------------------------------
 
+    /*
+     * The actual loop is here
+     */
 
     // TODO: Change the condition lul
     while (glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(m_window)) {
