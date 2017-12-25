@@ -29,7 +29,7 @@ bool InputManager::addInputListener(InputListener* _listener) {
  */
 bool InputManager::removeInputListener(InputListener* _listener) {
     if (!_listener) {
-#ifdef DEBUG
+#if DEBUG
         fprintf(stderr, "Passed argument is NULL.");
 #endif
         return false;
@@ -65,7 +65,7 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
             il->onMousePressed(msClkMsg);
         }
         if (il->getUseController()) {
-#ifdef DEBUG
+#if DEBUG
             fprintf(stderr, "Controller support not implemented.");
 #endif
         }

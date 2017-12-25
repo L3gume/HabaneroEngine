@@ -20,7 +20,7 @@ void GameManager::init() {
  */
 void GameManager::gameLoop() {
     if (!isInitialized()) {
-#ifdef DEBUG
+#if DEBUG
         fprintf(stderr, "Game Manager is not initialized\n");
 #endif
         return;
@@ -29,7 +29,7 @@ void GameManager::gameLoop() {
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
     // -----------------------------------------------------------------------------------------------------------------
-#ifdef DEBUG
+#if DEBUG
     printf("DEBUG ENABLED\n");
 #endif
 
