@@ -11,13 +11,29 @@ if(NOT N EQUAL 0)
     set(ctest_test_args ${ctest_test_args} PARALLEL_LEVEL ${N})
 endif()
 
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+
+find_package(Qt5Widgets REQUIRED)
+
+set ( UIS logging/logger.ui )
+QT5_WRAP_CPP(logging/logger.h)
+QT5_WRAP_UI(UI_HEADERS ${UIS})
+
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h common/GameManager.cpp common/GameManager.h)
+add_executable(VapeEngine ${UIS} main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h common/GameManager.cpp common/GameManager.h logging/logger.cpp logging/logger.h)
 
 # Whenever a new directory is created, add it to the include path
 include_directories(common)
 include_directories(input)
+include_directories(logging)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_definitions(VapeEngine PUBLIC DEBUG=1)
@@ -44,3 +60,6 @@ target_link_libraries(VapeEngine ${GLFW_STATIC_LIBRARIES})
 find_package(glm REQUIRED)
 include_directories(${GLM_INCLUDE_DIR})
 target_link_libraries(VapeEngine ${GLM_LIBRARIES})
+
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+target_link_libraries(VapeEngine Qt5::Widgets)
