@@ -49,8 +49,10 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * standard library features are allowed, but make sure you know what you're doing
 * Surround debug statement, procedures with DEBUG preprocessor tag:
 
+*EDIT: I'm an idiot, you have to write `#if DEBUG`, `#ifdef` will always be true*
+
 ```C++
-#ifdef DEBUG
+#if DEBUG
     printf("Debug statement...\n");
 #endif
 ```

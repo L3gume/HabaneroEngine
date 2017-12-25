@@ -74,7 +74,7 @@ void CameraController::onMousePressed(const VapeInput::MouseClickedInputMessage&
 
 void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     if (!m_window) {
-#ifdef DEBUG
+#if DEBUG
         // TODO create a logging system that opens a console or something
         fprintf(stderr, "window is NULL.\n");
 #endif
@@ -139,7 +139,7 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     if (m_bPerspective && !m_bOrthogonal) {
         m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
     } else if (!m_bPerspective && m_bOrthogonal) {
-#ifdef DEBUG
+#if DEBUG
         fprintf(stderr, "Orthographic view not implemented yet.\n");
 #endif
         m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
