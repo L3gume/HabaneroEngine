@@ -8,10 +8,17 @@
 #define BUTTON_WIDTH 80
 #define BUTTON_HEIGHT 40
 
+#define SORT_TIME 0x01
+#define SORT_TAG 0x02
+#define SORT_OCC 0x04
+#define SORT_SEV 0x08
+#define SORT_TYPE 0x16
+
 #include <QWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
+#include <QtWidgets/QPlainTextEdit>
 
 namespace VapeLog {
 
@@ -20,11 +27,9 @@ namespace VapeLog {
 
     public:
         explicit Logger(QWidget* parent) : QWidget(parent) {
-
             /*
              * Hard-coded UI since it really won't change much and doing Qt outside of qtcreator is a pain in the butt.
              */
-
             this->setWindowTitle("VapeLog");
 
             m_sortTimeButton = new QPushButton("Sort by:\nTime", this);
@@ -58,17 +63,19 @@ namespace VapeLog {
             m_clearSearchButton->setGeometry(QRect(QPoint(9 * BUTTON_WIDTH, 0), QSize(BUTTON_WIDTH, BUTTON_HEIGHT)));
             connect(m_clearSearchButton, SIGNAL (released()), this, SLOT (handleClearSearchButton()));
 
-            m_logList = new QListView(this);
-            m_logList->setGeometry(QRect(QPoint(0 * BUTTON_WIDTH, BUTTON_HEIGHT), QSize(10 * BUTTON_WIDTH, 10 * BUTTON_HEIGHT)));
+            m_log = new QPlainTextEdit(this);
+            m_log->setGeometry(QRect(QPoint(0 * BUTTON_WIDTH, BUTTON_HEIGHT), QSize(10 * BUTTON_WIDTH, 10 * BUTTON_HEIGHT)));
+            m_log->setReadOnly(true);
 
             m_clearLogButton = new QPushButton("Clear\nLog", this);
             m_clearLogButton->setGeometry(QRect(QPoint(9 * BUTTON_WIDTH, 11 * BUTTON_HEIGHT), QSize(BUTTON_WIDTH, BUTTON_HEIGHT)));
             connect(m_clearLogButton, SIGNAL (released()), this, SLOT (handleClearLogButton()));
+
         }
 
         ~Logger() override {
             delete m_searchBox;
-            delete m_logList;
+            delete m_log;
             delete m_sortTimeButton;
             delete m_sortTagButton;
             delete m_sortOccurencesButton;
@@ -79,7 +86,8 @@ namespace VapeLog {
             delete m_clearLogButton;
         }
 
-        void printLog(); // TODO;
+    public slots:
+        void notify();
     private slots:
         void handleSortTimeButton();
         void handleSortTagButton();
@@ -91,7 +99,7 @@ namespace VapeLog {
         void handleClearLogButton();
     private:
         QLineEdit* m_searchBox;
-        QListView* m_logList;
+        QPlainTextEdit* m_log;
 
         QPushButton* m_sortTimeButton;
         QPushButton* m_sortTagButton;
@@ -102,9 +110,5 @@ namespace VapeLog {
         QPushButton* m_clearSearchButton;
         QPushButton* m_clearLogButton;
     };
-}
-
-namespace Ui {
-    class VapeLog::Logger;
 }
 #endif //VAPEENGINE_LOGGER_H

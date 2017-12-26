@@ -3,9 +3,11 @@
 //
 
 #include <cstdio>
+#include <GL/glew.h>
 #include "GameManager.h"
 #include "CameraController.h"
 #include "loadShaders.h"
+#include "LogManager.h"
 
 using namespace Vape;
 
@@ -162,6 +164,16 @@ void GameManager::gameLoop() {
 
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
+
+        if (glfwGetKey(m_window, GLFW_KEY_T) == GLFW_PRESS) {
+#if DEBUG
+            fprintf(stderr, "Message sent to logger\n");
+#endif
+            VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                    VapeLog::LogTag::COMMON, VapeLog::LogType::MESSAGE,
+                    VapeLog::LogSeverity::CRITICAL, "Testing the logging system."));
+        }
+
         m_fCurTime = static_cast<float>(glfwGetTime());
         float deltaTime = m_fCurTime - m_fLastTime;
         m_fLastTime = m_fCurTime;

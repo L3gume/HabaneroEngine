@@ -22,11 +22,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 find_package(Qt5Widgets REQUIRED)
 
-QT5_WRAP_CPP(logging/logger.h)
-
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h common/GameManager.cpp common/GameManager.h logging/logger.cpp logging/logger.h logging/logMessage.h logging/LogManager.cpp logging/LogManager.h)
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h common/CameraController.cpp common/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h common/GameManager.cpp common/GameManager.h logging/logger.cpp logging/logger.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h)
 
 # Whenever a new directory is created, add it to the include path
 include_directories(common)
