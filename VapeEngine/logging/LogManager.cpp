@@ -62,7 +62,7 @@ std::vector<VapeLog::LogMessage>* LogManager::getOutputMessages() {
             });
         } else if (m_sortFlags.m_flags.m_bSortOccurences) {
             std::sort(m_outputMessages.begin(), m_outputMessages.end(), [](const LogMessage& l1, const LogMessage& l2) {
-                return l1.m_occurences < l2.m_occurences;
+                return l1.m_occurences > l2.m_occurences;
             });
         } else if (m_sortFlags.m_flags.m_bSortSeverity) {
             std::sort(m_outputMessages.begin(), m_outputMessages.end(), [](const LogMessage& l1, const LogMessage& l2) {
