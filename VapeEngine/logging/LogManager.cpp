@@ -27,7 +27,7 @@ void LogManager::printMessage(LogMessage _message) {
 //}
 
 
-void LogManager::setSortFlags(unsigned short _flags) {
+void LogManager::setSortFlags(unsigned char _flags) {
     m_sortFlags.m_sFlags = _flags;
 
     emit notifyLogger();
@@ -60,7 +60,7 @@ std::vector<VapeLog::LogMessage>* LogManager::getOutputMessages() {
             std::sort(m_outputMessages.begin(), m_outputMessages.end(), [](const LogMessage& l1, const LogMessage& l2) {
                 return l1.m_tag < l2.m_tag;
             });
-        } else if (m_sortFlags.m_flags.m_bSortOccurences) {
+        } else if (m_sortFlags.m_flags.m_bSortOccurrences) {
             std::sort(m_outputMessages.begin(), m_outputMessages.end(), [](const LogMessage& l1, const LogMessage& l2) {
                 return l1.m_occurences > l2.m_occurences;
             });
