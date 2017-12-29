@@ -7,7 +7,7 @@
 
 #include <string>
 #include <sstream>
-#include <GLFW/glfw3.h>
+#include <common/GameManager.h>
 
 namespace VapeLog {
 
@@ -40,7 +40,7 @@ namespace VapeLog {
     struct LogMessage {
         LogMessage(LogTag _tag, LogType _type, LogSeverity _severity, std::string _str) :
                 m_tag(_tag), m_type(_type), m_severity(_severity), m_str(std::move(_str)), m_occurences(1) {
-            m_time = glfwGetTime();
+            m_time = Vape::GameManager::getCurTime();
         }
 
         // Compares their content

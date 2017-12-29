@@ -22,11 +22,6 @@ void LogManager::printMessage(LogMessage _message) {
     emit notifyLogger();
 }
 
-//void LogManager::notifyLogger() {
-//
-//}
-
-
 void LogManager::setSortFlags(unsigned char _flags) {
     m_sortFlags.m_sFlags = _flags;
 
@@ -43,7 +38,7 @@ std::vector<VapeLog::LogMessage>* LogManager::getOutputMessages() {
     if (!m_sRegex.empty()) {
         m_outputMessages.clear();
         for (const auto& it : m_messages) {
-            if (std::regex_match(it.m_str, std::regex(m_sRegex))) {
+            if (std::regex_search(it.m_str, std::regex(m_sRegex))) {
                 m_outputMessages.emplace_back(it); // matches, add it to output
             }
         }
