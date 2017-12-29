@@ -153,6 +153,7 @@ void GameManager::gameLoop() {
 
     CameraController cc = CameraController(m_window, glm::vec3(0, 0, 5), 3.14f, 0.f, 80.f);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
+    inputManager.init(m_window);
     inputManager.addInputListener(&cc);
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE

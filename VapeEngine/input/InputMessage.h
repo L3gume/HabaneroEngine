@@ -149,6 +149,11 @@ namespace VapeInput {
         bool MOUSE_BUTTON_RIGHT  : 1;
         bool MOUSE_BUTTON_MIDDLE : 1;
     };
+
+    struct MouseScrolledInputMessage {
+        double m_dXOffset = 0.0;
+        double m_dYOffset = 0.0;
+    };
 }
 
 #endif //VAPEENGINE_INPUTMESSAGE_H

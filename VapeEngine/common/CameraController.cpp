@@ -2,6 +2,7 @@
 // Created by notjustin on 12/19/17.
 //
 #include <cstdio>
+#include <logging/LogManager.h>
 #include "CameraController.h"
 
 glm::mat4 CameraController::getMVP(const float _deltaTime) {
@@ -72,11 +73,25 @@ void CameraController::onMousePressed(const VapeInput::MouseClickedInputMessage&
     }
 }
 
+void CameraController::onMouseScrolled(const VapeInput::MouseScrolledInputMessage& _msMsg) {
+    if (m_bRightClickHeld) {
+        m_fSpeed += _msMsg.m_dXOffset / 7.f;
+        if (m_fSpeed < 0.f) {
+            m_fSpeed = 1.f;
+        } else if (m_fSpeed > m_fMaxSpeed) {
+            m_fSpeed = m_fMaxSpeed;
+        }
+    } else {
+        m_pos += m_rot * (static_cast<float>(_msMsg.m_dXOffset) / 5.f);
+    }
+}
+
 void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     if (!m_window) {
 #if DEBUG
-        // TODO create a logging system that opens a console or something
-        fprintf(stderr, "window is NULL.\n");
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::COMMON, VapeLog::LogType::ISSUE,
+                VapeLog::LogSeverity::CRITICAL, "Passed window is NULL"));
 #endif
         return;
     }
@@ -88,11 +103,11 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     }
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
-    glm::vec3 direction(
+    m_rot = {
             glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
             glm::sin(m_fvAngle),
             glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
-    );
+    };
 
     // Right vector
     glm::vec3 right = glm::vec3(
@@ -101,18 +116,18 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
             glm::cos(m_fhAngle - 3.14f / 2.0f)
     );
 
-    // Up vector : perpendicular to both direction and right
-    glm::vec3 up = glm::cross(right, direction);
+    // Up vector : perpendicular to both m_rot and right
+    glm::vec3 up = glm::cross(right, m_rot);
 
     // only allow arrow key movement when right click is held
     if (m_bRightClickHeld) {
         // Move forward
         if (m_bMoveForward) {
-            m_pos += direction * _deltaTime * m_fSpeed;
+            m_pos += m_rot * _deltaTime * m_fSpeed;
         }
         // Move backward
         if (m_bMoveBack) {
-            m_pos -= direction * _deltaTime * m_fSpeed;
+            m_pos -= m_rot * _deltaTime * m_fSpeed;
         }
         // Strafe right
         if (m_bMoveRight) {
@@ -140,7 +155,9 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
         m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
     } else if (!m_bPerspective && m_bOrthogonal) {
 #if DEBUG
-        fprintf(stderr, "Orthographic view not implemented yet.\n");
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::RENDER, VapeLog::LogType::MESSAGE,
+                VapeLog::LogSeverity::LOW, "Orthographic view isn't implemented yet"));
 #endif
         m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
 //        m_projMat = glm::ortho(0.f, 1280.f, 0.f, 720.f, 0.1f, 100.f);
@@ -148,7 +165,7 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
 
     m_viewMat = glm::lookAt(
             m_pos,           // Camera is here
-            m_pos + direction, // and looks here : at the same pos, plus "direction"
+            m_pos + m_rot, // and looks here : at the same pos, plus "m_rot"
             up                  // Head is up (set to 0,-1,0 to look upside-down)
     );
 }
