@@ -3,9 +3,11 @@
 //
 
 #include <cstdio>
+#include <GL/glew.h>
 #include "GameManager.h"
 #include "CameraController.h"
 #include "loadShaders.h"
+#include "LogManager.h"
 
 using namespace Vape;
 
@@ -151,6 +153,7 @@ void GameManager::gameLoop() {
 
     CameraController cc = CameraController(m_window, glm::vec3(0, 0, 5), 3.14f, 0.f, 80.f);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
+    inputManager.init(m_window);
     inputManager.addInputListener(&cc);
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
@@ -160,8 +163,18 @@ void GameManager::gameLoop() {
      * The actual loop is here
      */
 
-    // TODO: Change the condition lul
-    while (glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(m_window)) {
+    // TODO: Change the condition lul, The key escape thing breaks the window
+    while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
+
+        if (glfwGetKey(m_window, GLFW_KEY_T) == GLFW_PRESS) {
+#if DEBUG
+            fprintf(stderr, "Message sent to logger\n");
+#endif
+            VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                    VapeLog::LogTag::COMMON, VapeLog::LogType::MESSAGE,
+                    VapeLog::LogSeverity::CRITICAL, "Testing the logging system."));
+        }
+
         m_fCurTime = static_cast<float>(glfwGetTime());
         float deltaTime = m_fCurTime - m_fLastTime;
         m_fLastTime = m_fCurTime;

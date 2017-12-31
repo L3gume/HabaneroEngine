@@ -23,10 +23,13 @@ namespace Vape {
         void gameLoop();
 
         inline bool isInitialized() const { return m_bInitialized; }
+        static inline double getCurTime() { return glfwGetTime(); }
+        GLFWwindow* getWindow() const { return m_window; }
+
     private:
         GameManager() = default;
 
-        GLFWwindow* m_window;
+        GLFWwindow* m_window; // Will most lilkely be removed at some point.
 
         float m_fCurTime = 0.f;
         float m_fLastTime = 0.f;
