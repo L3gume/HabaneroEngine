@@ -46,16 +46,16 @@ public:
     void onMouseMoved(const VapeInput::MouseMovedInputMessage& _msMsg) override;
     void onMousePressed(const VapeInput::MouseClickedInputMessage& _msMsg) override;
     void onMouseScrolled(const VapeInput::MouseScrolledInputMessage& _msMsg) override;
-    glm::mat4 getMVP(float _deltaTime);
+    glm::mat4 getMVP(float _deltaTime, glm::mat4 _modelMatrix);
 
 private:
     void computeMatricesFromInputs(float _deltaTime);
     glm::mat4 getProjectionMatrix();
     glm::mat4 getViewMatrix();
 
-    GLFWwindow *m_window;
-    glm::vec3 m_pos = glm::vec3(0, 0, 5); // Position of the camera
-    glm::vec3 m_rot = glm::vec3(0, 0, 0); // Rotation of the camera
+    GLFWwindow* m_window;
+    glm::vec3 m_pos = glm::vec3(0.f, 0.f, 5.f); // Position of the camera
+    glm::vec3 m_rot = glm::vec3(0.f, 0.f, 0.f); // Rotation of the camera
     float m_fhAngle = 3.14f; // horizontal angle
     float m_fvAngle = 0.0f; // vertical angle
     float m_fFov = 45.0f; // Field of view

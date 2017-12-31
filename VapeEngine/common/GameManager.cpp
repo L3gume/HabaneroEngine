@@ -71,7 +71,27 @@ void GameManager::gameLoop() {
     glEnable(GL_DEPTH_TEST);
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
-    glEnable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE);
+
+
+    // Plane at y = 0
+    static const GLfloat plane_vertex_buffer_data[] = {
+            -1.f, 0.f, -1.f,
+            1.f, 0.f, -1.f,
+            1.f, 0.f, 1.f,
+            -1.f, 0.f, -1.f,
+            1.f, 0.f, 1.f,
+            -1.f, 0.f, 1.f
+    };
+
+    static const GLfloat plane_color_buffer_data[] = {
+            0.583f,  0.771f,  0.014f,
+            0.609f,  0.115f,  0.436f,
+            0.327f,  0.483f,  0.844f,
+            0.822f,  0.569f,  0.201f,
+            0.435f,  0.602f,  0.223f,
+            0.310f,  0.747f,  0.185f,
+    };
 
     static const GLfloat g_vertex_buffer_data[] = {
             -1.0f,-1.0f,-1.0f, // triangle 1 : begin
@@ -151,7 +171,7 @@ void GameManager::gameLoop() {
             0.982f,  0.099f,  0.879f
     };
 
-    CameraController cc = CameraController(m_window, glm::vec3(0, 0, 5), 3.14f, 0.f, 80.f);
+    CameraController cc = CameraController(m_window, glm::vec3(0.f, 1.f, 5.f), 3.14f, 0.f, 80.f);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     inputManager.init(m_window);
     inputManager.addInputListener(&cc);
@@ -186,6 +206,11 @@ void GameManager::gameLoop() {
         // -------------------------------------------------------------------------------------------------------------
         // GHETTO RENDERING: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
         // -------------------------------------------------------------------------------------------------------------
+        /* Do the camera ting */
+        glm::mat4 MVP = cc.getMVP(deltaTime, glm::translate(glm::mat4(1.f), glm::vec3(0.f, 1.f, 0.f)));
+
+        glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
+        glEnable(GL_CULL_FACE);
         GLuint vertexArrayID;
         glGenVertexArrays(1, &vertexArrayID);
         glBindVertexArray(vertexArrayID);
@@ -213,14 +238,25 @@ void GameManager::gameLoop() {
 
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buf);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
         glDrawArrays(GL_TRIANGLES, 0, 12*3);
-        glDisableVertexAttribArray(0);
+//        glDisableVertexAttribArray(0);
 
         /* Do the camera ting */
-        glm::mat4 MVP = cc.getMVP(deltaTime);
+        MVP = cc.getMVP(deltaTime, glm::scale(glm::mat4(1.f), glm::vec3(10.f, 1.f, 10.f)) * glm::mat4(1.f));
 
         glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
+        glDisable(GL_CULL_FACE);
+        GLuint vertex_buf2; // identify the vertex buffer
+        glGenBuffers(1, &vertex_buf2); // generate 1 buffer
+        glBindBuffer(GL_ARRAY_BUFFER, vertex_buf);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(plane_vertex_buffer_data), plane_vertex_buffer_data, GL_STATIC_DRAW);
+
+//        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertex_buf);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glDrawArrays(GL_TRIANGLES, 0, 6*3);
+        glDisableVertexAttribArray(0);
 
         glfwSwapBuffers(m_window);
         glfwPollEvents();

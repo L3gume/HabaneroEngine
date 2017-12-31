@@ -5,12 +5,12 @@
 #include <logging/LogManager.h>
 #include "CameraController.h"
 
-glm::mat4 CameraController::getMVP(const float _deltaTime) {
+glm::mat4 CameraController::getMVP(const float _deltaTime, const glm::mat4 _modelMatrix) {
     computeMatricesFromInputs(_deltaTime);
     glm::mat4 ProjectionMatrix = getProjectionMatrix();
     glm::mat4 ViewMatrix = getViewMatrix();
-    glm::mat4 ModelMatrix = glm::mat4(1.0);
-    return ProjectionMatrix * ViewMatrix * ModelMatrix;
+//    glm::mat4 ModelMatrix = glm::mat4(1.0);
+    return ProjectionMatrix * ViewMatrix * _modelMatrix;
 }
 
 /*
