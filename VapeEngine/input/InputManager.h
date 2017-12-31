@@ -24,12 +24,17 @@ namespace VapeInput {
         InputManager(InputManager const &) = delete;
         void operator=(InputManager const &) = delete;
 
+        void init(GLFWwindow* _window);
+
         bool addInputListener(InputListener* _listener);
         bool removeInputListener(InputListener* _listener);
 
         void update(GLFWwindow* _window, float _deltaTime);
+        void updateScrollInput(double _x, double _y);
     private:
         InputManager() = default; // Constructor kept private since this is a singleton
+
+        MouseScrolledInputMessage m_scrolledInputMessage = {};
 
         KeyboardInputMessage getKeyboardInputs(GLFWwindow* _window);
         MouseMovedInputMessage getMouseCoordinates(GLFWwindow* _window);

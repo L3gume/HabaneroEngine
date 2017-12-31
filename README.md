@@ -14,6 +14,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * glew 2.1.0-1 (Available on Arch repos)
 * cmake 3.9 or higher
 * glm 0.9.8.5-1
+* Qt 5.10
 
 ## Code Style
 
@@ -49,8 +50,10 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * standard library features are allowed, but make sure you know what you're doing
 * Surround debug statement, procedures with DEBUG preprocessor tag:
 
+*EDIT: I'm an idiot, you have to write `#if DEBUG`, `#ifdef` will always be true*
+
 ```C++
-#ifdef DEBUG
+#if DEBUG
     printf("Debug statement...\n");
 #endif
 ```
@@ -61,9 +64,22 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 
 ## TODO
 
-* Camera Controller [Justin]
-* Encapsulate rendering in its own system
+* Encapsulate rendering in its own system [Evan]
     * Entities, hierarchies of entities (composite design pattern, anyone?)
-* Game loop
+* Game loop [Justin, on hold]
 * Physics (Collisions, etc.)
-* Logging system (that opens a console and stuff)
+* Logging system (that opens a console and stuff) [Justin]
+
+## NEXT MILESTONE
+
+For version 0.1:
+
+* Working Camera - **MOSTLY DONE**
+* Working Rendering system
+    * Simple shapes and volumes
+* Working Input system - **DONE**
+* Simple Physics engine
+    * Basic collsions
+    * Gravity
+    * Forces
+* Simple debug log system - **DONE**

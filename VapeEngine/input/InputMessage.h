@@ -150,11 +150,9 @@ namespace VapeInput {
         bool MOUSE_BUTTON_MIDDLE : 1;
     };
 
-    // This allows the InputMessage to be "polymorphic"
-    union InputMessage {
-        KeyboardInputMessage m_keyboardInputMessage;
-        MouseMovedInputMessage m_mouseMovedInputMessage;
-        MouseClickedInputMessage m_mouseClickedInputMessage;
+    struct MouseScrolledInputMessage {
+        double m_dXOffset = 0.0;
+        double m_dYOffset = 0.0;
     };
 }
 

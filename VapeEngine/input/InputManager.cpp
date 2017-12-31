@@ -4,9 +4,22 @@
 
 #include <algorithm>
 #include <cstdio>
+#include "LogManager.h"
 #include "InputManager.h"
 
 using namespace VapeInput;
+
+void InputManager::init(GLFWwindow* _window) {
+    // Not entirely sure about this part, will probably have to be refactored at some point
+    glfwSetScrollCallback(_window, [](GLFWwindow* _window, double _x, double _y) {
+#if DEBUG
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::INPUT, VapeLog::LogType::MESSAGE,
+                VapeLog::LogSeverity::CRITICAL, "Mouse wheel scrolled!"));
+#endif
+        InputManager::getInstance().updateScrollInput(_x, _y);
+    });
+}
 
 /*
  * Add a listener to the InputManager
@@ -14,7 +27,9 @@ using namespace VapeInput;
 bool InputManager::addInputListener(InputListener* _listener) {
     if (!_listener) {
 #ifdef DEBUG
-        fprintf(stderr, "Passed argument is NULL.");
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::INPUT, VapeLog::LogType::ISSUE,
+                VapeLog::LogSeverity::CRITICAL, "Passed input listener is NULL"));
 #endif
         return false;
     }
@@ -29,8 +44,10 @@ bool InputManager::addInputListener(InputListener* _listener) {
  */
 bool InputManager::removeInputListener(InputListener* _listener) {
     if (!_listener) {
-#ifdef DEBUG
-        fprintf(stderr, "Passed argument is NULL.");
+#if DEBUG
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::INPUT, VapeLog::LogType::ISSUE,
+                VapeLog::LogSeverity::CRITICAL, "Passed input listener is NULL"));
 #endif
         return false;
     }
@@ -52,6 +69,7 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
     KeyboardInputMessage kbdInMsg = getKeyboardInputs(_window);
     MouseMovedInputMessage msMvMsg = getMouseCoordinates(_window);
     MouseClickedInputMessage msClkMsg = getMouseInputs(_window);
+    MouseScrolledInputMessage msRlMsg = m_scrolledInputMessage;
 
     /* Observer Pattern anyone? :D */
     for (InputListener* il : m_listeners) {
@@ -64,12 +82,23 @@ void InputManager::update(GLFWwindow* _window, float _deltaTime) {
         if (il->getUseMouseButtons()) {
             il->onMousePressed(msClkMsg);
         }
+        if (il->getUseMouseWheel()) {
+            il->onMouseScrolled(msRlMsg);
+            updateScrollInput(0.0, 0.0);
+        }
         if (il->getUseController()) {
-#ifdef DEBUG
-            fprintf(stderr, "Controller support not implemented.");
+#if DEBUG
+            VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                    VapeLog::LogTag::INPUT, VapeLog::LogType::MESSAGE,
+                    VapeLog::LogSeverity::LOW, "Controller support is not implemented"));
 #endif
         }
     }
+}
+
+void InputManager::updateScrollInput(double _x, double _y) {
+    m_scrolledInputMessage.m_dXOffset = _x;
+    m_scrolledInputMessage.m_dXOffset = _y;
 }
 
 /*

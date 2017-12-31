@@ -16,13 +16,11 @@
 #include "InputMessage.h"
 
 /*
- * TODO: Make it possible to "drag" screen with scrollwheel click
- * TODO: Make it possible to change mouse speed with scrollwheel while right click is held
  * TODO: Make it possible to move back and forward with scrollwheel while right click is not held
  */
 class CameraController : public VapeInput::InputListener {
 public:
-    explicit CameraController(GLFWwindow *_window) : InputListener(true, true, true, true), m_window(_window),
+    explicit CameraController(GLFWwindow *_window) : InputListener(true, true, true, true, true), m_window(_window),
                                                      m_bMoveForward(false), m_bMoveBack(false), m_bMoveLeft(false),
                                                      m_bMoveRight(false), m_bMoveUp(false),
                                                      m_bMoveDown(false), m_bCaptureMoveMovement(false),
@@ -30,7 +28,7 @@ public:
                                                      m_bPerspective(true), m_bOrthogonal(false) { /* Default constructor */ }
 
     CameraController(GLFWwindow *_window, glm::vec3 _pos, float _h_angle, float _v_angle, float _fov)
-            : InputListener(true, true, true, false), m_window(_window), m_pos(_pos), m_fhAngle(_h_angle),
+            : InputListener(true, true, true, false, true), m_window(_window), m_pos(_pos), m_fhAngle(_h_angle),
               m_fvAngle(_v_angle), m_fFov(_fov), m_bMoveForward(false), m_bMoveBack(false), m_bMoveLeft(false),
               m_bMoveRight(false), m_bMoveUp(false), m_bMoveDown(false), m_bCaptureMoveMovement(false),
               m_bRightClickHeld(false), m_bMiddleClickHeld(false), m_bPerspective(true), m_bOrthogonal(false)
@@ -44,13 +42,14 @@ public:
     void setFov(float _fov) { m_fFov = _fov; }
     float getFov() const { return m_fFov; }
 
-    void onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) override;
-    void onMouseMoved(const VapeInput::MouseMovedInputMessage &_msMsg) override;
-    void onMousePressed(const VapeInput::MouseClickedInputMessage &_msMsg) override;
-    glm::mat4 render(const float _deltaTime);
+    void onKeyPressed(const VapeInput::KeyboardInputMessage& _kbdMsg) override;
+    void onMouseMoved(const VapeInput::MouseMovedInputMessage& _msMsg) override;
+    void onMousePressed(const VapeInput::MouseClickedInputMessage& _msMsg) override;
+    void onMouseScrolled(const VapeInput::MouseScrolledInputMessage& _msMsg) override;
+    glm::mat4 getMVP(float _deltaTime);
 
 private:
-    void computeMatricesFromInputs(const float _deltaTime);
+    void computeMatricesFromInputs(float _deltaTime);
     glm::mat4 getProjectionMatrix();
     glm::mat4 getViewMatrix();
 
@@ -61,6 +60,7 @@ private:
     float m_fvAngle = 0.0f; // vertical angle
     float m_fFov = 45.0f; // Field of view
     float m_fSpeed = 3.0f; // speed of camera, in units per second
+    float m_fMaxSpeed = 40.f;
     float m_fMouseSpeed = 0.055f; // Mouse sensitivity
     double m_dLastTime = 0.0; // used for delta_time computation
     glm::mat4 m_projMat; // Projection matrix
