@@ -25,6 +25,7 @@ namespace VapeLog {
         BUG,
         ISSUE,
         MESSAGE,
+        WARNING
         // Add stuff to this
     };
 

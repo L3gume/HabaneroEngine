@@ -62,7 +62,6 @@ private:
     float m_fSpeed = 3.0f; // speed of camera, in units per second
     float m_fMaxSpeed = 40.f;
     float m_fMouseSpeed = 0.055f; // Mouse sensitivity
-    double m_dLastTime = 0.0; // used for delta_time computation
     glm::mat4 m_projMat; // Projection matrix
     glm::mat4 m_viewMat; // View matrix
     glm::mat4 m_rotMat;
