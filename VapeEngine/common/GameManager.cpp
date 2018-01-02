@@ -9,6 +9,8 @@
 #include "loadShaders.h"
 #include "LogManager.h"
 
+#include "PrimitiveRenderer.h"
+
 using namespace Vape;
 
 void GameManager::init() {
@@ -211,11 +213,17 @@ void GameManager::gameLoop() {
 
         glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
         glEnable(GL_CULL_FACE);
+
         GLuint vertexArrayID;
         glGenVertexArrays(1, &vertexArrayID);
         glBindVertexArray(vertexArrayID);
 
-        GLuint colorbuffer;
+        auto cubeGO = new Core::GameObject(nullptr);
+
+        auto cube = new VapeRenderer::PrimitiveRenderer(cubeGO, VapeRenderer::CUBE);
+        cube->render();
+
+        /*GLuint colorbuffer;
         glGenBuffers(1, &colorbuffer);
         glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
@@ -239,7 +247,7 @@ void GameManager::gameLoop() {
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buf);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-        glDrawArrays(GL_TRIANGLES, 0, 12*3);
+        glDrawArrays(GL_TRIANGLES, 0, 12*3);*/
 //        glDisableVertexAttribArray(0);
 
         /* Do the camera ting */
@@ -247,7 +255,13 @@ void GameManager::gameLoop() {
 
         glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
         glDisable(GL_CULL_FACE);
-        GLuint vertex_buf2; // identify the vertex buffer
+
+        auto planeGO = new Core::GameObject(nullptr);
+
+        auto plane = new VapeRenderer::PrimitiveRenderer(planeGO, VapeRenderer::PLANE);
+        plane->render();
+
+        /*GLuint vertex_buf2; // identify the vertex buffer
         glGenBuffers(1, &vertex_buf2); // generate 1 buffer
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buf);
         glBufferData(GL_ARRAY_BUFFER, sizeof(plane_vertex_buffer_data), plane_vertex_buffer_data, GL_STATIC_DRAW);
@@ -256,7 +270,7 @@ void GameManager::gameLoop() {
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buf);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
         glDrawArrays(GL_TRIANGLES, 0, 6*3);
-        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(0);*/
 
         glfwSwapBuffers(m_window);
         glfwPollEvents();
