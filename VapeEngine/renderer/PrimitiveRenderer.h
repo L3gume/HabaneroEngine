@@ -9,13 +9,13 @@ namespace VapeRenderer {
     public:
         PrimitiveRenderer(Core::GameObject* _parent, PrimitiveShapes _shape);
 
-        void render() override;
+        void render(GLuint* vertex_buf) override;
 
     private:
         PrimitiveShapes m_shape;
 
-        void renderCube();
-        void renderPlane();
+        void renderCube(GLuint* vertex_buf);
+        void renderPlane(GLuint* vertex_buf);
     };
 }
 

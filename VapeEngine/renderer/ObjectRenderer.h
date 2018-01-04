@@ -14,7 +14,7 @@ namespace VapeRenderer {
             this->m_parent = _parent;
         }
 
-        virtual void render() = 0;
+        virtual void render(GLuint* vertex_buf) = 0;
 
     protected:
         Core::GameObject* m_parent;
