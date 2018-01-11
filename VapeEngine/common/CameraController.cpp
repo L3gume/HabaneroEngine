@@ -7,10 +7,10 @@
 
 glm::mat4 CameraController::getMVP(const float _deltaTime, const glm::mat4 _modelMatrix) {
     computeMatricesFromInputs(_deltaTime);
-    glm::mat4 ProjectionMatrix = getProjectionMatrix();
-    glm::mat4 ViewMatrix = getViewMatrix();
+//    glm::mat4 ProjectionMatrix = getProjectionMatrix();
+//    glm::mat4 ViewMatrix = getViewMatrix();
 //    glm::mat4 ModelMatrix = glm::mat4(1.0);
-    return ProjectionMatrix * ViewMatrix * _modelMatrix;
+    return m_camera->getMVP(_deltaTime, _modelMatrix);
 }
 
 /*
@@ -82,7 +82,7 @@ void CameraController::onMouseScrolled(const VapeInput::MouseScrolledInputMessag
             m_fSpeed = m_fMaxSpeed;
         }
     } else {
-        m_pos += m_rot * (static_cast<float>(_msMsg.m_dXOffset) / 5.f);
+        m_camera->getTransform()->position += m_camera->getTransform()->rotation * (static_cast<float>(_msMsg.m_dXOffset) / 5.f);
     }
 }
 
@@ -96,78 +96,95 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
         return;
     }
 
+    float hAngle = m_camera->gethAngle();
+    float vAngle = m_camera->getvAngle();
+
     // Compute new orientation
     if (m_dMouseXPos != -1 && m_dMouseYPos != -1 && m_bCaptureMoveMovement && m_bRightClickHeld) {
-        m_fhAngle += m_fMouseSpeed * _deltaTime * float(1280 / 2 - m_dMouseXPos);
-        m_fvAngle += m_fMouseSpeed * _deltaTime * float(720 / 2 - m_dMouseYPos);
+        hAngle += m_fMouseSpeed * _deltaTime * float(1280 / 2 - m_dMouseXPos);
+        vAngle += m_fMouseSpeed * _deltaTime * float(720 / 2 - m_dMouseYPos);
     }
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
-    m_rot = {
-            glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
-            glm::sin(m_fvAngle),
-            glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
+//    m_rot = {
+//            glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
+//            glm::sin(m_fvAngle),
+//            glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
+//    };
+
+    m_camera->getTransform()->rotation = {
+            glm::cos(vAngle) * glm::sin(hAngle),
+            glm::sin(vAngle),
+            glm::cos(vAngle) * glm::cos(hAngle)
     };
 
     // Right vector
     glm::vec3 right = glm::vec3(
-            glm::sin(m_fhAngle - 3.14f / 2.0f),
+            glm::sin(hAngle - 3.14f / 2.0f),
             0,
-            glm::cos(m_fhAngle - 3.14f / 2.0f)
+            glm::cos(hAngle - 3.14f / 2.0f)
     );
 
+    glm::vec3 camRot = m_camera->getTransform()->rotation;
+    glm::vec3 camPos = m_camera->getTransform()->position;
+
     // Up vector : perpendicular to both m_rot and right
-    glm::vec3 up = glm::cross(right, m_rot);
+    glm::vec3 up = glm::cross(right, camRot);
 
     // only allow arrow key movement when right click is held
     if (m_bRightClickHeld) {
         // Move forward
         if (m_bMoveForward) {
-            m_pos += m_rot * _deltaTime * m_fSpeed;
+            camPos += camRot * _deltaTime * m_fSpeed;
         }
         // Move backward
         if (m_bMoveBack) {
-            m_pos -= m_rot * _deltaTime * m_fSpeed;
+            camPos -= camRot * _deltaTime * m_fSpeed;
         }
         // Strafe right
         if (m_bMoveRight) {
-            m_pos += right * _deltaTime * m_fSpeed;
+            camPos += right * _deltaTime * m_fSpeed;
         }
         // Strafe left
         if (m_bMoveLeft) {
-            m_pos -= right * _deltaTime * m_fSpeed;
+            camPos -= right * _deltaTime * m_fSpeed;
         }
         // go up
         if (m_bMoveUp) {
-            m_pos += up * _deltaTime * m_fSpeed;
+            camPos += up * _deltaTime * m_fSpeed;
         }
         // go down
         if (m_bMoveDown) {
-            m_pos -= up * _deltaTime * m_fSpeed;
+            camPos -= up * _deltaTime * m_fSpeed;
         }
     } else if (m_bMiddleClickHeld) {
         // "drag" screen when holding middle click
-        m_pos -= up * 1.5f * m_fMouseSpeed * _deltaTime * ((720 / 2) - (float)m_dMouseYPos);
-        m_pos += right * 1.5f * m_fMouseSpeed * _deltaTime * ((1280 / 2) - (float)m_dMouseXPos);
+        camPos -= up * 1.5f * m_fMouseSpeed * _deltaTime * ((720 / 2) - (float)m_dMouseYPos);
+        camPos += right * 1.5f * m_fMouseSpeed * _deltaTime * ((1280 / 2) - (float)m_dMouseXPos);
     }
 
-    if (m_bPerspective && !m_bOrthogonal) {
-        m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
-    } else if (!m_bPerspective && m_bOrthogonal) {
-#if DEBUG
-        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                VapeLog::LogTag::RENDER, VapeLog::LogType::MESSAGE,
-                VapeLog::LogSeverity::LOW, "Orthographic view isn't implemented yet"));
-#endif
-        m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
-//        m_projMat = glm::ortho(0.f, 1280.f, 0.f, 720.f, 0.1f, 100.f);
-    }
+    m_camera->getTransform()->rotation = camRot;
+    m_camera->getTransform()->position = camPos;
+    m_camera->sethAngle(hAngle);
+    m_camera->setvAngle(vAngle);
 
-    m_viewMat = glm::lookAt(
-            m_pos,           // Camera is here
-            m_pos + m_rot, // and looks here : at the same pos, plus "m_rot"
-            up                  // Head is up (set to 0,-1,0 to look upside-down)
-    );
+//    if (m_bPerspective && !m_bOrthogonal) {
+//        m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
+//    } else if (!m_bPerspective && m_bOrthogonal) {
+//#if DEBUG
+//        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+//                VapeLog::LogTag::RENDER, VapeLog::LogType::MESSAGE,
+//                VapeLog::LogSeverity::LOW, "Orthographic view isn't implemented yet"));
+//#endif
+//        m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
+////        m_projMat = glm::ortho(0.f, 1280.f, 0.f, 720.f, 0.1f, 100.f);
+//    }
+//
+//    m_viewMat = glm::lookAt(
+//            m_pos,           // Camera is here
+//            m_pos + m_rot, // and looks here : at the same pos, plus "m_rot"
+//            up                  // Head is up (set to 0,-1,0 to look upside-down)
+//    );
 }
 
 glm::mat4 CameraController::getProjectionMatrix() {

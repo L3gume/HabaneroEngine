@@ -23,7 +23,7 @@ namespace Core {
 
         inline Transform* getTransform() { return &m_transform; } // returns a pointer to the transform in order
                                                                   // to make it easy to modify
-    private:
+    protected:
         Transform m_transform;
 
         int m_id;

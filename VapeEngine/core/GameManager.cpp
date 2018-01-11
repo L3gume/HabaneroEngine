@@ -3,11 +3,11 @@
 //
 
 #include <cstdio>
-#include <GL/glew.h>
 #include "GameManager.h"
 #include "CameraController.h"
 #include "loadShaders.h"
 #include "LogManager.h"
+#include "VapeGL.h"
 
 using namespace Vape;
 
@@ -171,7 +171,8 @@ void GameManager::gameLoop() {
             0.982f,  0.099f,  0.879f
     };
 
-    CameraController cc = CameraController(m_window, glm::vec3(0.f, 1.f, 5.f), 3.14f, 0.f, 80.f);
+    Camera c(nullptr, m_window, glm::vec3(0.f, 1.f, 4.f), 3.14f, 0.f, 45.f);
+    CameraController cc = CameraController(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     inputManager.init(m_window);
     inputManager.addInputListener(&cc);

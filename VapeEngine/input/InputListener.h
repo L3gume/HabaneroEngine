@@ -2,8 +2,8 @@
 // Created by notjustin on 12/22/17.
 //
 
-#ifndef TUTORIAL_INPUTLISTENER_H
-#define TUTORIAL_INPUTLISTENER_H
+#ifndef VAPEENGINE_INPUTLISTENER_H
+#define VAPEENGINE_INPUTLISTENER_H
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -50,4 +50,4 @@ namespace VapeInput {
     };
 }
 
-#endif //TUTORIAL_INPUTLISTENER_H
+#endif //VAPEENGINE_INPUTLISTENER_H
