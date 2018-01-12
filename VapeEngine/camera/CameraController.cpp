@@ -157,11 +157,3 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     m_camera->sethAngle(hAngle);
     m_camera->setvAngle(vAngle);
 }
-
-glm::mat4 CameraController::getProjectionMatrix() {
-    return m_projMat;
-}
-
-glm::mat4 CameraController::getViewMatrix() {
-    return m_viewMat;
-}
