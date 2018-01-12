@@ -4,7 +4,7 @@
 
 #include <cstdio>
 #include "GameManager.h"
-#include "CameraController.h"
+#include "camera/CameraController.h"
 #include "loadShaders.h"
 #include "LogManager.h"
 #include "VapeGL.h"
@@ -172,7 +172,7 @@ void GameManager::gameLoop() {
     };
 
     Camera c(nullptr, m_window, glm::vec3(0.f, 1.f, 4.f), 3.14f, 0.f, 45.f);
-    CameraController cc = CameraController(m_window, &c);
+    CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     inputManager.init(m_window);
     inputManager.addInputListener(&cc);
