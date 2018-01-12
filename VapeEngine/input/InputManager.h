@@ -2,8 +2,8 @@
 // Created by notjustin on 12/22/17.
 //
 
-#ifndef TUTORIAL_INPUTMANAGER_H
-#define TUTORIAL_INPUTMANAGER_H
+#ifndef VAPEENGINE_INPUTMANAGER_H
+#define VAPEENGINE_INPUTMANAGER_H
 
 #include <deque>
 #include "InputListener.h"

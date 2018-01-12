@@ -7,7 +7,7 @@
 
 #include <string>
 #include <sstream>
-#include <common/GameManager.h>
+#include <core/GameManager.h>
 
 namespace VapeLog {
 
@@ -25,6 +25,7 @@ namespace VapeLog {
         BUG,
         ISSUE,
         MESSAGE,
+        WARNING
         // Add stuff to this
     };
 
