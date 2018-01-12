@@ -7,9 +7,6 @@
 
 glm::mat4 CameraController::getMVP(const float _deltaTime, const glm::mat4 _modelMatrix) {
     computeMatricesFromInputs(_deltaTime);
-//    glm::mat4 ProjectionMatrix = getProjectionMatrix();
-//    glm::mat4 ViewMatrix = getViewMatrix();
-//    glm::mat4 ModelMatrix = glm::mat4(1.0);
     return m_camera->getMVP(_deltaTime, _modelMatrix);
 }
 
@@ -104,14 +101,6 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
         hAngle += m_fMouseSpeed * _deltaTime * float(1280 / 2 - m_dMouseXPos);
         vAngle += m_fMouseSpeed * _deltaTime * float(720 / 2 - m_dMouseYPos);
     }
-
-    // Direction : Spherical coordinates to Cartesian coordinates conversion
-//    m_rot = {
-//            glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
-//            glm::sin(m_fvAngle),
-//            glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
-//    };
-
     m_camera->getTransform()->rotation = {
             glm::cos(vAngle) * glm::sin(hAngle),
             glm::sin(vAngle),
@@ -167,24 +156,6 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
     m_camera->getTransform()->position = camPos;
     m_camera->sethAngle(hAngle);
     m_camera->setvAngle(vAngle);
-
-//    if (m_bPerspective && !m_bOrthogonal) {
-//        m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
-//    } else if (!m_bPerspective && m_bOrthogonal) {
-//#if DEBUG
-//        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-//                VapeLog::LogTag::RENDER, VapeLog::LogType::MESSAGE,
-//                VapeLog::LogSeverity::LOW, "Orthographic view isn't implemented yet"));
-//#endif
-//        m_projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
-////        m_projMat = glm::ortho(0.f, 1280.f, 0.f, 720.f, 0.1f, 100.f);
-//    }
-//
-//    m_viewMat = glm::lookAt(
-//            m_pos,           // Camera is here
-//            m_pos + m_rot, // and looks here : at the same pos, plus "m_rot"
-//            up                  // Head is up (set to 0,-1,0 to look upside-down)
-//    );
 }
 
 glm::mat4 CameraController::getProjectionMatrix() {

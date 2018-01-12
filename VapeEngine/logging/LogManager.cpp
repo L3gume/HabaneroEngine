@@ -37,9 +37,21 @@ void LogManager::setSearchString(const std::string& _regex) {
 std::vector<VapeLog::LogMessage>* LogManager::getOutputMessages() {
     if (!m_sRegex.empty()) {
         m_outputMessages.clear();
+        std::smatch match;
         for (const auto& it : m_messages) {
-            if (std::regex_search(it.m_str, std::regex(m_sRegex))) {
-                m_outputMessages.emplace_back(it); // matches, add it to output
+            /*
+             * I know I said no exception handling, but we have no choice here.
+             * I guess its acceptable on UI code.
+             */
+            try {
+                if (std::regex_search(it.m_str, std::regex(m_sRegex))) {
+                    m_outputMessages.emplace_back(it); // matches, add it to output
+                }
+            } catch (std::regex_error& e) {
+                // DO NOT PRINT TO LOG HERE, CAUSES INFINITE RECURSION AND SEGFAULT
+#if DEBUG
+                fprintf(stderr, "Regex syntax error.\n");
+#endif
             }
         }
     } else {

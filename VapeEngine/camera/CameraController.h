@@ -15,9 +15,6 @@
 #include "VapeGL.h"
 #include "Camera.h"
 
-/*
- * TODO: Make it possible to move back and forward with scrollwheel while right click is not held
- */
 class CameraController : public VapeInput::InputListener {
 public:
     explicit CameraController(GLFWwindow* _window) : InputListener(true, true, true, true, true), m_window(_window),
@@ -28,18 +25,12 @@ public:
                                                      m_bPerspective(true), m_bOrthogonal(false),
                                                      m_camera(nullptr) { /* Default constructor */ }
 
-//    CameraController(GLFWwindow *_window, Camera* _camera, glm::vec3 _pos, float _h_angle, float _v_angle, float _fov)
-//            : InputListener(true, true, true, false, true), m_window(_window), m_pos(_pos), m_fhAngle(_h_angle),
-//              m_fvAngle(_v_angle), m_fFov(_fov), m_bMoveForward(false), m_bMoveBack(false), m_bMoveLeft(false),
-//              m_bMoveRight(false), m_bMoveUp(false), m_bMoveDown(false), m_bCaptureMoveMovement(false),
-//              m_bRightClickHeld(false), m_bMiddleClickHeld(false), m_bPerspective(true),
-//              m_bOrthogonal(false) { /* constructor with data stuff */ }
-
     CameraController(GLFWwindow* _window, Camera* _camera)
             : InputListener(true, true, true, false, true), m_window(_window), m_camera(_camera), m_bMoveForward(false), m_bMoveBack(false), m_bMoveLeft(false),
               m_bMoveRight(false), m_bMoveUp(false), m_bMoveDown(false), m_bCaptureMoveMovement(false),
               m_bRightClickHeld(false), m_bMiddleClickHeld(false), m_bPerspective(true),
               m_bOrthogonal(false) { /* constructor with data stuff */ }
+
     /* Getters and Setters, implemented in .h file since its basically nothing */
     inline void setMoveSpeed(float _speed) { m_fSpeed = _speed; }
     inline float getMoveSpeed() const { return m_fSpeed; }
