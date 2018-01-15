@@ -28,7 +28,7 @@ public:
     Component* findComponentInChildren(); // will go through direct children
 
     template<typename T>
-    Component* findComponentInChildrenSlow(); // will go through the whole hierarchy, will be much slower.
+    Component* findComponentInChildrenSlow(); // will recursively go through the whole hierarchy, will be much slower.
 
 protected:
     Component* m_parent;

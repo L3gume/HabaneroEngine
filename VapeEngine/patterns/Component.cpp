@@ -10,7 +10,7 @@
  * all the grand children. Make sure to always have as little references to components as possible to avoid null ptrs.
  */
 Component::~Component() {
-    for (auto comp : m_children) {
+    for (Component* comp : m_children) {
         delete comp;
     }
 }
@@ -48,7 +48,7 @@ Component* Component::findComponentInChildren() {
             return comp;
         }
     }
-    return nullptr;
+    return ret;
 }
 
 /*
@@ -65,5 +65,5 @@ Component* Component::findComponentInChildrenSlow() {
         ret = comp->findComponentInChildrenSlow<T>();
         if (ret) return ret;
     }
-    return nullptr;
+    return ret;
 }
