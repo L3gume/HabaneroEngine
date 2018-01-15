@@ -23,11 +23,15 @@ namespace Core {
 
         inline Transform* getTransform() { return &m_transform; } // returns a pointer to the transform in order
                                                                   // to make it easy to modify
+        virtual void update() { /* Meant to be overriden */ }
+
+        inline int getID() const { return m_id; }
+        inline std::string getTag() const { return m_tag; }
     protected:
         Transform m_transform;
 
-        int m_id;
-        std::string m_tag; // name given to the object
+        int m_id = 0;
+        std::string m_tag = ""; // name given to the object
     };
 }
 #endif //VAPEENGINE_GAMEOBJECT_H
