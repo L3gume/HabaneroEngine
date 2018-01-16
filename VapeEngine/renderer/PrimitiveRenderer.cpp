@@ -3,8 +3,8 @@
 
 using namespace VapeRenderer;
 
-PrimitiveRenderer::PrimitiveRenderer(Core::GameObject *_parent, PrimitiveShapes _shape) :
-        ObjectRenderer(_parent), m_shape(_shape)  {
+PrimitiveRenderer::PrimitiveRenderer(PrimitiveShapes _shape) :
+        m_shape(_shape)  {
     //Constructor
 }
 
@@ -51,7 +51,6 @@ void PrimitiveRenderer::renderCube(GLuint* vertex_buf) {
     glBindBuffer(GL_ARRAY_BUFFER, *vertex_buf);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glDrawArrays(GL_TRIANGLES, 0, 12*3);
-    glDisableVertexAttribArray(0);
 }
 
 void PrimitiveRenderer::renderPlane(GLuint* vertex_buf) {
@@ -61,5 +60,4 @@ void PrimitiveRenderer::renderPlane(GLuint* vertex_buf) {
     glBindBuffer(GL_ARRAY_BUFFER, *vertex_buf);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glDrawArrays(GL_TRIANGLES, 0, 6*3);
-    glDisableVertexAttribArray(0);
 }

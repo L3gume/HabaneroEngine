@@ -1,7 +1,8 @@
 #ifndef VAPEENGINE_OBJECTRENDERER_H
 #define VAPEENGINE_OBJECTRENDERER_H
 
-#include "GameObject.h"
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 namespace VapeRenderer {
     //
@@ -9,15 +10,11 @@ namespace VapeRenderer {
     //
     class ObjectRenderer {
     public:
-        ObjectRenderer(Core::GameObject* _parent) {
+        ObjectRenderer() {
             //Constructor
-            this->m_parent = _parent;
         }
 
         virtual void render(GLuint* vertex_buf) = 0;
-
-    protected:
-        Core::GameObject* m_parent;
     };
 }
 
