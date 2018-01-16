@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <GL/glew.h>
 #include <renderer/RenderManager.h>
+#include <core/Scene.h>
+#include <renderer/PrimitiveRenderer.h>
 #include "GameManager.h"
 #include "CameraController.h"
 #include "loadShaders.h"
@@ -78,6 +80,19 @@ void GameManager::gameLoop() {
      * The actual loop is here
      */
 
+    Core::Scene* scene = new Core::Scene("Test");
+
+    Core::GameObject* cube = new Core::GameObject(nullptr, new VapeRenderer::PrimitiveRenderer(VapeRenderer::CUBE));
+    Core::Transform* cubeTF = cube->getTransform();
+    cubeTF->position = glm::vec3(0.f, 1.f, 0.f);
+
+    Core::GameObject* plane = new Core::GameObject(nullptr, new VapeRenderer::PrimitiveRenderer(VapeRenderer::PLANE));
+    Core::Transform* planeTF = plane->getTransform();
+    planeTF->scale = glm::vec3(5.f, 1.f, 10.f);
+
+    scene->addObject(cube);
+    scene->addObject(plane);
+
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
 
@@ -96,6 +111,6 @@ void GameManager::gameLoop() {
 
         inputManager.update(m_window, deltaTime);
         // TODO: Physics
-        renderManager.update(m_window, deltaTime, &cc);
+        renderManager.update(scene, m_window, deltaTime, &cc);
     }
 }

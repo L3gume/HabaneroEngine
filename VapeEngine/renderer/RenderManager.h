@@ -2,6 +2,7 @@
 #define VAPEENGINE_RENDERMANAGER_H
 
 #include <GLFW/glfw3.h>
+#include <core/Scene.h>
 #include <common/CameraController.h>
 
 namespace VapeRenderer {
@@ -16,7 +17,7 @@ namespace VapeRenderer {
 
         void init();
 
-        void update(GLFWwindow* _window, float _deltaTime, CameraController *cc);
+        void update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, CameraController *cc);
     private:
         RenderManager() = default;
 
