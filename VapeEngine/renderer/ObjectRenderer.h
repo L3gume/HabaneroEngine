@@ -3,16 +3,16 @@
 
 #include <GL/glew.h>
 #include <GL/gl.h>
+#include <patterns/Component.h>
 
 namespace VapeRenderer {
     //
     // Base render object. Abstract so only header file.
     //
-    class ObjectRenderer {
+    class ObjectRenderer : public Component {
     public:
-        ObjectRenderer() {
-            //Constructor
-        }
+        explicit ObjectRenderer(Component* _parent) : Component(_parent) {}
+        /* Uses the destructor from the Component class */
 
         virtual void render(GLuint* vertex_buf) = 0;
     };

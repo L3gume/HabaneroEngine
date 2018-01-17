@@ -3,8 +3,8 @@
 
 using namespace VapeRenderer;
 
-PrimitiveRenderer::PrimitiveRenderer(PrimitiveShapes _shape) :
-        m_shape(_shape)  {
+PrimitiveRenderer::PrimitiveRenderer(Component *_parent, PrimitiveShapes _shape) :
+        ObjectRenderer(_parent), m_shape(_shape) {
     //Constructor
 }
 
