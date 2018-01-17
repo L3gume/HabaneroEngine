@@ -4,13 +4,15 @@
 
 #include "Scene.h"
 
-void Core::Scene::addObject(Core::GameObject* _gameObject) {
+using namespace Core;
+
+void Scene::addObject(Core::GameObject* _gameObject) {
     if (_gameObject) {
         m_objects.emplace_back(_gameObject);
     }
 }
 
-void Core::Scene::removeObject(std::string _tag) {
+void Scene::removeObject(std::string _tag) {
     auto found = std::find_if(m_objects.begin(), m_objects.end(), [_tag] (const GameObject* _gameObject) {
         return _gameObject->getTag() == _tag;
     });
@@ -21,7 +23,7 @@ void Core::Scene::removeObject(std::string _tag) {
     }
 }
 
-void Core::Scene::removeObject(const int _id) {
+void Scene::removeObject(const int _id) {
     auto found = std::find_if(m_objects.begin(), m_objects.end(), [_id] (const GameObject* _gameObject) {
         return _gameObject->getID() == _id;
     });
@@ -32,7 +34,7 @@ void Core::Scene::removeObject(const int _id) {
     }
 }
 
-Core::GameObject *Core::Scene::findObjectByTag(std::string _tag) {
+Core::GameObject* Scene::findObjectByTag(std::string _tag) {
     auto found = std::find_if(m_objects.begin(), m_objects.end(), [_tag] (const GameObject* _gameObject) {
         return _gameObject->getTag() == _tag;
     });
@@ -40,7 +42,7 @@ Core::GameObject *Core::Scene::findObjectByTag(std::string _tag) {
     return found != m_objects.end() ? *found : nullptr;
 }
 
-Core::GameObject *Core::Scene::findObjectByID(int _id) {
+Core::GameObject* Scene::findObjectByID(int _id) {
     auto found = std::find_if(m_objects.begin(), m_objects.end(), [_id] (const GameObject* _gameObject) {
         return _gameObject->getID() == _id;
     });
@@ -48,8 +50,13 @@ Core::GameObject *Core::Scene::findObjectByID(int _id) {
     return found != m_objects.end() ? *found : nullptr;
 }
 
-void Core::Scene::update() {
-
+void Scene::update() {
+    // Update all of the GameObjects in the scene (include physics or not?)
+    for (const auto it : m_objects) {
+        it->update();
+    }
 }
+
+
 
 
