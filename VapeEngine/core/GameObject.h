@@ -23,7 +23,8 @@ namespace Core {
 
         inline Transform* getTransform() { return &m_transform; } // returns a pointer to the transform in order
                                                                   // to make it easy to modify
-        virtual void update() { /* Meant to be overriden */ }
+        virtual void init() { /* Meant to be overriden */ }
+        virtual void update(const float _deltaTime) { /* Meant to be overriden */ }
 
         inline int getID() const { return m_id; }
         inline std::string getTag() const { return m_tag; }

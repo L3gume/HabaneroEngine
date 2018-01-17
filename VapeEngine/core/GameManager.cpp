@@ -3,11 +3,13 @@
 //
 
 #include <cstdio>
+#include <glm/gtc/matrix_transform.hpp>
 #include "GameManager.h"
 #include "camera/CameraController.h"
 #include "loadShaders.h"
 #include "LogManager.h"
 #include "VapeGL.h"
+#include "SceneManager.h"
 
 using namespace Vape;
 
@@ -174,6 +176,7 @@ void GameManager::gameLoop() {
     Camera c(nullptr, m_window, glm::vec3(0.f, 1.f, 4.f), 3.14f, 0.f, 45.f);
     CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
+    Core::SceneManager& sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
     inputManager.addInputListener(&cc);
     // -----------------------------------------------------------------------------------------------------------------
@@ -201,6 +204,12 @@ void GameManager::gameLoop() {
         m_fLastTime = m_fCurTime;
 
         inputManager.update(m_window, deltaTime);
+
+        // C++ 17 :D
+        if (const auto activeScene = sceneManager.getActiveScene(); activeScene != nullptr) {
+            activeScene->update(deltaTime);
+        }
+
         // TODO: Physics
         // TODO: Render
 

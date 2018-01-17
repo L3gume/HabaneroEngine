@@ -32,6 +32,7 @@ include_directories(common)
 include_directories(input)
 include_directories(logging)
 include_directories(patterns)
+include_directories(camera)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_definitions(VapeEngine PUBLIC DEBUG=1)

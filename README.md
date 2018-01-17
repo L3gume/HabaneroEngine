@@ -9,7 +9,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 
 ## Dependencies
 
-* C++11 (May change to C++14 or even C++17)
+* C++17
 * glfw-x11 3.2.1-1 (Available on Arch repos) - Documentation found [here](http://www.glfw.org/docs/latest/)
 * glew 2.1.0-1 (Available on Arch repos)
 * cmake 3.9 or higher

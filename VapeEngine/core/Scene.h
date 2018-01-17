@@ -25,7 +25,7 @@ namespace Core {
         GameObject* findObjectByTag(std::string _tag); // returns nullptr if it fails
         GameObject* findObjectByID(int _id); // returns nullptr if it fails
 
-        void update(); // updates all of the objects stored in the scene
+        void update(float _deltaTime); // updates all of the objects stored in the scene
     private:
         std::string m_sName;
         std::vector<GameObject*> m_objects;

@@ -50,9 +50,14 @@ Core::GameObject* Scene::findObjectByID(int _id) {
     return found != m_objects.end() ? *found : nullptr;
 }
 
-void Scene::update() {
+void Scene::update(const float _deltaTime) {
     // Update all of the GameObjects in the scene (include physics or not?)
-    for (const auto it : m_objects) {
-        it->update(); // Not all objects will override the update function, but that's fine, the default implementation is empty
+    if (!m_objects.empty()) {
+        for (GameObject *it : m_objects) {
+            if (it) {
+                it->update(
+                        _deltaTime); // Not all objects will override the update function, but that's fine, the default implementation is empty
+            }
+        }
     }
 }
