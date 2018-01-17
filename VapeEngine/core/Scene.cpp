@@ -53,10 +53,6 @@ Core::GameObject* Scene::findObjectByID(int _id) {
 void Scene::update() {
     // Update all of the GameObjects in the scene (include physics or not?)
     for (const auto it : m_objects) {
-        it->update();
+        it->update(); // Not all objects will override the update function, but that's fine, the default implementation is empty
     }
 }
-
-
-
-
