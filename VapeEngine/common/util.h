@@ -12,7 +12,7 @@
  */
 template<typename Base, typename T>
 inline bool instanceOf(const T* ptr) {
-    return dynamic_cast<const Base*>(ptr) != nullptr;
+    return static_cast<const Base*>(ptr) != nullptr;
 }
 
 #endif //VAPEENGINE_UTIL_H

@@ -6,6 +6,7 @@
 #define VAPEENGINE_GAMEOBJECT_H
 
 #include <glm/vec3.hpp>
+#include <renderer/ObjectRenderer.h>
 #include "Component.h"
 
 namespace Core {

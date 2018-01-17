@@ -6,7 +6,7 @@
 
 using namespace Core;
 
-void Scene::addObject(Core::GameObject* _gameObject) {
+void Scene::addObject(GameObject* _gameObject) {
     if (_gameObject) {
         m_objects.emplace_back(_gameObject);
     }
