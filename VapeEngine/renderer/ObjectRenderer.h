@@ -14,7 +14,7 @@ namespace VapeRenderer {
         explicit ObjectRenderer(Component* _parent) : Component(_parent) {}
         /* Uses the destructor from the Component class */
 
-        virtual void render(GLuint* vertex_buf) = 0;
+        virtual void render(GLuint* vertex_buf) {}
     };
 }
 
