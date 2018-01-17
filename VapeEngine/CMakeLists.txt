@@ -24,7 +24,7 @@ find_package(Qt5Widgets REQUIRED)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h camera/CameraController.cpp camera/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h core/GameManager.cpp core/GameManager.h logging/logger.cpp logging/logger.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h camera/Camera.cpp camera/Camera.h core/GameObject.cpp core/GameObject.h patterns/Component.cpp patterns/Component.h common/util.h common/VapeGL.h core/Scene.cpp core/Scene.h core/SceneManager.cpp core/SceneManager.h)
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h camera/CameraController.cpp camera/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h core/GameManager.cpp core/GameManager.h logging/logger.cpp logging/logger.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h camera/Camera.cpp camera/Camera.h core/GameObject.cpp core/GameObject.h patterns/Component.cpp patterns/Component.h common/util.h common/VapeGL.h core/Scene.cpp core/Scene.h core/SceneManager.cpp core/SceneManager.h components/RigidBodyComponent.cpp components/RigidBodyComponent.h)
 
 # Whenever a new directory is created, add it to the include path
 include_directories(core)
@@ -33,6 +33,7 @@ include_directories(input)
 include_directories(logging)
 include_directories(patterns)
 include_directories(camera)
+include_directories(components)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_definitions(VapeEngine PUBLIC DEBUG=1)

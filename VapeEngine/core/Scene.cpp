@@ -55,8 +55,7 @@ void Scene::update(const float _deltaTime) {
     if (!m_objects.empty()) {
         for (GameObject *it : m_objects) {
             if (it) {
-                it->update(
-                        _deltaTime); // Not all objects will override the update function, but that's fine, the default implementation is empty
+                it->update(_deltaTime); // Not all objects will override the update function, but that's fine, the default implementation is empty
             }
         }
     }

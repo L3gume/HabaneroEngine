@@ -15,7 +15,12 @@ public:
     explicit Component(Component* _parent = nullptr) : m_parent(_parent) {};
     ~Component();
 
-    void addComponent(Component* _component) { m_children.emplace_back(_component); }
+    void addComponent(Component* _component) {
+        m_children.emplace_back(_component);
+        if (_component->m_parent != this) {
+            _component->setParent(this); // Just in case.
+        }
+    }
     std::vector<Component*>* getChildren() { return &m_children; }
     void setParent(Component* _parent) { m_parent = _parent; }  // Does not delete the old parent,
                                                                 // programmer is responsible for this

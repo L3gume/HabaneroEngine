@@ -3,7 +3,6 @@
 //
 
 #include <algorithm>
-#include <cstdio>
 #include "LogManager.h"
 #include "InputManager.h"
 
