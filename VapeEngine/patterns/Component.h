@@ -22,7 +22,7 @@ public:
     Component* getParent() { return m_parent; }
 
     template<typename T>
-    Component* findComponent(); // will NOT go through children, looks up on same level as current object
+    T* findComponent(); // will NOT go through children, looks up on same level as current object
 
     template<typename T>
     Component* findComponentInChildren(); // will go through direct children

@@ -46,7 +46,12 @@ void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _windo
         MVP = cc->getMVP(_deltaTime, translate * rotate * scale);
 
         glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
-        gameObject->getRenderer()->render(&vertex_buf);
+
+        auto renderer = gameObject->findComponent<ObjectRenderer>();
+
+        if (renderer != nullptr) {
+            renderer->render(&vertex_buf);
+        }
     }
 
     glDisable(GL_CULL_FACE);

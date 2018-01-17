@@ -22,12 +22,7 @@ namespace Core {
         explicit GameObject(Component* _parent) : Component(_parent) {}
         /* Uses the destructor from the Component class */
 
-        explicit GameObject(Component* _parent, VapeRenderer::ObjectRenderer* _renderer) : Component(_parent) {
-            m_renderer = _renderer;
-        }
-
         inline Transform* getTransform() { return &m_transform; } // returns a pointer to the transform in order
-        inline VapeRenderer::ObjectRenderer* getRenderer() { return m_renderer; }
         // to make it easy to modify
         virtual void update() { /* Meant to be overriden */ }
 
@@ -35,7 +30,6 @@ namespace Core {
         inline std::string getTag() const { return m_tag; }
     protected:
         Transform m_transform;
-        VapeRenderer::ObjectRenderer* m_renderer;
 
         int m_id = 0;
         std::string m_tag = ""; // name given to the object

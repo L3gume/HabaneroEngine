@@ -82,11 +82,13 @@ void GameManager::gameLoop() {
 
     Core::Scene* scene = new Core::Scene("Test");
 
-    Core::GameObject cube = Core::GameObject(nullptr, new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
+    Core::GameObject cube = Core::GameObject(nullptr);
+    cube.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
     Core::Transform* cubeTF = cube.getTransform();
     cubeTF->position = glm::vec3(0.f, 1.f, 0.f);
 
-    Core::GameObject plane = Core::GameObject(nullptr, new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PLANE));
+    Core::GameObject plane = Core::GameObject(nullptr);
+    plane.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PLANE));
     Core::Transform* planeTF = plane.getTransform();
     planeTF->scale = glm::vec3(5.f, 1.f, 10.f);
 

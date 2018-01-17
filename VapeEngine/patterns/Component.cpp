@@ -19,7 +19,7 @@ Component::~Component() {
  * looks up for a component on the same hierarchy level
  */
 template<typename T>
-Component* Component::findComponent() {
+T* Component::findComponent() {
     if (m_parent) {
         for (const auto comp : *(m_parent->getChildren())) {
             if (instanceOf<T>(comp)) {
