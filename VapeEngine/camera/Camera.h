@@ -28,6 +28,7 @@ public:
     inline void setFov(const float _fov) { m_fFov = _fov; }
     inline float getFov() { return m_fFov; }
 
+    void update(const float _deltaTime) override { /* TODO */ }
 
 private:
     glm::mat4 m_modelMat;
