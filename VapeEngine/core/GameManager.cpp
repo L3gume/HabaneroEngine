@@ -7,6 +7,7 @@
 #include <core/Scene.h>
 #include <renderer/PrimitiveRenderer.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <test_object/Player.h>
 #include "GameManager.h"
 #include "camera/CameraController.h"
 #include "loadShaders.h"
@@ -88,6 +89,13 @@ void GameManager::gameLoop() {
     cube.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
     Core::Transform* cubeTF = cube.getTransform();
     cubeTF->position = glm::vec3(0.f, 1.f, 0.f);
+
+    Player player = Player();
+    player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
+    player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
+    player.getTransform()->scale = glm::vec3(0.5f, 1.f, 0.5f);
+    inputManager.addInputListener(&player);
+    scene->addObject(&player);
 
     Core::GameObject plane = Core::GameObject(nullptr);
     plane.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PLANE));
