@@ -68,7 +68,7 @@ void GameManager::gameLoop() {
     VapeRenderer::RenderManager& renderManager = VapeRenderer::RenderManager::getInstance();
     renderManager.init();
 
-    Camera c(nullptr, m_window, glm::vec3(0.f, 1.f, 4.f), 3.14f, 0.f, 45.f);
+    Camera c(nullptr, m_window, glm::vec3(0.f, 4.f, 4.f), 3.14f, 0.f, 45.f);
     CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     Core::SceneManager& sceneManager = Core::SceneManager::getInstance();
@@ -97,6 +97,8 @@ void GameManager::gameLoop() {
     scene->addObject(&cube);
     scene->addObject(&plane);
 
+    Core::SceneManager::getInstance().setActiveScene(scene);
+
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
 
@@ -118,9 +120,8 @@ void GameManager::gameLoop() {
         // C++ 17 :D
         if (const auto activeScene = sceneManager.getActiveScene(); activeScene != nullptr) {
             activeScene->update(deltaTime);
+            renderManager.update(activeScene, m_window, deltaTime, &cc);
         }
 
-        // TODO: Physics
-        renderManager.update(scene, m_window, deltaTime, &cc);
     }
 }

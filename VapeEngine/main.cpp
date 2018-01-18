@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     // -----------------------------------------------------------------------------------------------------------------
     gm.init();
     std::thread game([&gm](){gm.gameLoop();});
-    game.detach();
+//    game.detach();
 
     QApplication a(argc, argv);
     VapeLog::Logger w(nullptr);
@@ -30,5 +30,7 @@ int main(int argc, char *argv[]) {
     w.show();
     a.exec();
 
+    // When program is closing, join thread
+    game.join();
     return 0;
 }
