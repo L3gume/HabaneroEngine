@@ -46,6 +46,9 @@ public:
     void onMousePressed(const VapeInput::MouseClickedInputMessage &_msMsg) override;
     void onMouseScrolled(const VapeInput::MouseScrolledInputMessage &_msMsg) override;
     glm::mat4 getMVP(float _deltaTime, glm::mat4 _modelMatrix);
+    void update(const float _deltaTime) {
+        computeMatricesFromInputs(_deltaTime);
+    }
 
 private:
     void computeMatricesFromInputs(float _deltaTime);

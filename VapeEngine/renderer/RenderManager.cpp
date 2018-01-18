@@ -19,7 +19,7 @@ void VapeRenderer::RenderManager::init() {
 
 }
 
-void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, CameraController *cc) {
+void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, Camera* cc) {
     //For every game object in gamescene, render them
 
     //Do the camera ting

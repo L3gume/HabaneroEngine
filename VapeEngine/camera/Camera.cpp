@@ -8,6 +8,12 @@
  * _deltaTime is not used, will probably have to be removed
  */
 glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
+    m_transform.rotation = {
+            glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
+            glm::sin(m_fvAngle),
+            glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
+    };
+
     glm::mat4 projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
     glm::mat4 viewMat = glm::lookAt(
             m_transform.position,                        // Camera is here

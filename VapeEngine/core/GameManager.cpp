@@ -68,7 +68,7 @@ void GameManager::gameLoop() {
     VapeRenderer::RenderManager& renderManager = VapeRenderer::RenderManager::getInstance();
     renderManager.init();
 
-    Camera c(nullptr, m_window, glm::vec3(0.f, 4.f, 4.f), 3.14f, 0.f, 45.f);
+    Camera c(nullptr, m_window, glm::vec3(0.f, 10.f, 7.f), 3.14f, -0.75f, 45.f);
     CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     Core::SceneManager& sceneManager = Core::SceneManager::getInstance();
@@ -116,11 +116,11 @@ void GameManager::gameLoop() {
         m_fLastTime = m_fCurTime;
 
         inputManager.update(m_window, deltaTime);
-
+        cc.update(deltaTime);
         // C++ 17 :D
         if (const auto activeScene = sceneManager.getActiveScene(); activeScene != nullptr) {
             activeScene->update(deltaTime);
-            renderManager.update(activeScene, m_window, deltaTime, &cc);
+            renderManager.update(activeScene, m_window, deltaTime, &c);
         }
 
     }
