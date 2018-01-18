@@ -1,11 +1,6 @@
-#include <iostream>
-#include <glm/matrix.hpp>
-#include <InputManager.h>
 #include <GameManager.h>
 #include <QtWidgets/QApplication>
 #include <thread>
-#include <GL/glew.h>
-#include "common/loadShaders.h"
 #include "logger.h"
 #include "LogManager.h"
 
