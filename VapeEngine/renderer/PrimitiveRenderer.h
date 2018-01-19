@@ -16,6 +16,10 @@ namespace VapeRenderer {
 
         void renderCube(GLuint* vertex_buf);
         void renderPlane(GLuint* vertex_buf);
+        void renderPyramid(GLuint* vertex_buf);
+        void renderOctahedron(GLuint* vertex_buf);
+        void renderCylinder(GLuint* vertex_buf);
+        void renderSphere(GLuint* vertex_buf);
     };
 }
 

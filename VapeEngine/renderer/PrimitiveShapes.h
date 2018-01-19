@@ -2,7 +2,7 @@
 #define VAPEENGINE_PRIMITIVESHAPES_H
 
 namespace VapeRenderer {
-    enum PrimitiveShapes {CUBE, PLANE, PYRAMID, OCTOHEDRAL, CYLINDER, SPHERE};
+    enum PrimitiveShapes {CUBE, PLANE, PYRAMID, OCTAHEDRON, CYLINDER, SPHERE};
 
     static const GLfloat cube_vertex_buffer_data[] = {
             -1.0f,-1.0f,-1.0f,
@@ -98,6 +98,36 @@ namespace VapeRenderer {
             0.822f,  0.569f,  0.201f,
             0.435f,  0.602f,  0.223f,
             0.310f,  0.747f,  0.185f,
+    };
+
+    static const GLfloat pyramid_vertex_buffer_data[]  {
+            0.f, 1.f, 0.f,
+            -1.f, -1.f, 1.f,
+            1.f, -1.f, 1.f,
+            0.f, 1.f, 0.f,
+            -1.f, -1.f, 1.f,
+            0.f, -1.f, -1.f,
+            0.f, 1.f, 0.f,
+            0.f, -1.f, -1.f,
+            1.f, -1.f, 1.f,
+            -1.f, -1.f, 1.f,
+            0.f, -1.f, -1.f,
+            1.f, -1.f, 1.f
+    };
+
+    static const GLfloat pyramid_color_buffer_data[] {
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f
     };
 
 }
