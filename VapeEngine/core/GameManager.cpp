@@ -69,7 +69,7 @@ void GameManager::gameLoop() {
     VapeRenderer::RenderManager& renderManager = VapeRenderer::RenderManager::getInstance();
     renderManager.init();
 
-    Camera c(nullptr, m_window, glm::vec3(0.f, 10.f, 7.f), 3.14f, -0.75f, 45.f);
+    Camera c(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
     CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     Core::SceneManager& sceneManager = Core::SceneManager::getInstance();
@@ -88,16 +88,21 @@ void GameManager::gameLoop() {
     Core::GameObject cube = Core::GameObject(nullptr);
     cube.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
     Core::Transform* cubeTF = cube.getTransform();
-    cubeTF->position = glm::vec3(0.f, 1.f, 0.f);
+    cubeTF->position = glm::vec3(3.f, 3.f, 0.f);
+    cubeTF->scale = glm::vec3(0.5f, 0.5f, 0.5f);
+    cube.m_tag = "Cube";
 
     Player player = Player();
+    player.m_tag = "Player";
     player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
+    player.addComponent(&cube);
     player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
     player.getTransform()->scale = glm::vec3(0.5f, 1.f, 0.5f);
     inputManager.addInputListener(&player);
     scene->addObject(&player);
 
     Core::GameObject plane = Core::GameObject(nullptr);
+    "Plane";
     plane.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PLANE));
     Core::Transform* planeTF = plane.getTransform();
     planeTF->scale = glm::vec3(5.f, 1.f, 10.f);
@@ -108,7 +113,7 @@ void GameManager::gameLoop() {
     Core::SceneManager::getInstance().setActiveScene(scene);
 
     // TODO: Change the condition lul, The key escape thing breaks the window
-    while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
+    while (!glfwWindowShouldClose(m_window)) {
 
         if (glfwGetKey(m_window, GLFW_KEY_T) == GLFW_PRESS) {
 #if DEBUG
@@ -130,6 +135,5 @@ void GameManager::gameLoop() {
             activeScene->update(deltaTime);
             renderManager.update(activeScene, m_window, deltaTime, &c);
         }
-
     }
 }

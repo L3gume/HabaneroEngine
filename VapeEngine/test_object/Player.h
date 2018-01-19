@@ -31,6 +31,8 @@ private:
     bool m_bMoveBack        : 1;
     bool m_bMoveLeft        : 1;
     bool m_bMoveRight       : 1;
+    bool m_bTurnLeft        : 1;
+    bool m_bTurnRight       : 1;
 };
 
 
