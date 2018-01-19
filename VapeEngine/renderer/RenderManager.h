@@ -17,7 +17,7 @@ namespace VapeRenderer {
 
         void init();
 
-        void update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, CameraController *cc);
+        void update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, Camera* cc);
     private:
         RenderManager() = default;
 

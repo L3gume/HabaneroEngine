@@ -3,6 +3,7 @@
 #include <core/GameObject.h>
 #include <core/Scene.h>
 #include "RenderManager.h"
+#include "quatUtils.h"
 
 void VapeRenderer::RenderManager::init() {
     // TODO: change the path when we are not in DEBUG
@@ -19,7 +20,7 @@ void VapeRenderer::RenderManager::init() {
 
 }
 
-void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, CameraController *cc) {
+void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _window, float _deltaTime, Camera* cc) {
     //For every game object in gamescene, render them
 
     //Do the camera ting
@@ -32,12 +33,15 @@ void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _windo
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 
-    for (auto &gameObject : _scene->getObjects()) {
-        Core::Transform* transform = gameObject->getTransform();
+    for (Core::GameObject* gameObject : _scene->getObjects()) {
 
-        glm::mat4 translate = glm::translate(glm::mat4(1.0f), transform->position);
-        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 90.0f, transform->rotation);
-        glm::mat4 scale = glm::scale(glm::mat4(1.0), transform->scale);
+        Core::Transform* transform = gameObject->getParent() != nullptr ?
+                                     gameObject->getAbsTransform() : gameObject->getTransform();
+
+        glm::mat4 translate = glm::translate(glm::mat4(1.f), transform->position);
+//        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 90.0f, transform->rotation);
+        glm::mat4 rotate = toMat4(quat(transform->rotation));
+        glm::mat4 scale = glm::scale(glm::mat4(1.f), transform->scale);
 
         if (transform->rotation == glm::vec3(0.f, 0.f, 0.f)) { //If no rotation, don't multiply by 0
             rotate = glm::mat4();

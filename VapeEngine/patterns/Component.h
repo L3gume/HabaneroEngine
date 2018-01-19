@@ -19,9 +19,9 @@ public:
      * all the grand children. Make sure to always have as little references to components as possible to avoid null ptrs.
      */
     ~Component() {
-        for (auto comp : m_children) {
-            delete comp;
-        }
+//        for (auto comp : m_children) {
+//            delete comp;
+//        }
     }
 
     void addComponent(Component* _component) {

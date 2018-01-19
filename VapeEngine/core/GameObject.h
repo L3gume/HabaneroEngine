@@ -21,22 +21,24 @@ namespace Core {
     public:
         explicit GameObject(Component* _parent) : Component(_parent) {}
         /* Uses the destructor from the Component class */
-
+        inline Transform* getAbsTransform() { return &m_absoluteTransform; }
         inline Transform* getTransform() { return &m_transform; } // returns a pointer to the transform in order
                                                                   // to make it easy to modify
+
         virtual void init() { /* Meant to be overriden */ }
-        virtual void update(const float _deltaTime) { /* Meant to be overriden */ }
+        virtual void update(const float _deltaTime);
         /*
          * TODO: the children's position, rotation and scale and offsets of the parent's.
          */
 
         inline int getID() const { return m_id; }
         inline std::string getTag() const { return m_tag; }
+
+        std::string m_tag = ""; // name given to the object
     protected:
         Transform m_transform;
-
+        Transform m_absoluteTransform;
         int m_id = 0;
-        std::string m_tag = ""; // name given to the object
     };
 }
 #endif //VAPEENGINE_GAMEOBJECT_H

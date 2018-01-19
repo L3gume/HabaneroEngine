@@ -7,6 +7,7 @@
 #include <core/Scene.h>
 #include <renderer/PrimitiveRenderer.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <test_object/Player.h>
 #include "GameManager.h"
 #include "camera/CameraController.h"
 #include "loadShaders.h"
@@ -68,12 +69,14 @@ void GameManager::gameLoop() {
     VapeRenderer::RenderManager& renderManager = VapeRenderer::RenderManager::getInstance();
     renderManager.init();
 
-    Camera c(nullptr, m_window, glm::vec3(0.f, 1.f, 4.f), 3.14f, 0.f, 45.f);
-    CameraController cc(m_window, &c);
+    Camera c(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
+    c.m_tag = "Camera";
+//    CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     Core::SceneManager& sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
-    inputManager.addInputListener(&cc);
+//    inputManager.addInputListener(&cc);
+
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
     // -----------------------------------------------------------------------------------------------------------------
@@ -87,9 +90,22 @@ void GameManager::gameLoop() {
     Core::GameObject cube = Core::GameObject(nullptr);
     cube.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
     Core::Transform* cubeTF = cube.getTransform();
-    cubeTF->position = glm::vec3(0.f, 1.f, 0.f);
+    cubeTF->position = glm::vec3(3.f, 3.f, 0.f);
+    cubeTF->scale = glm::vec3(0.5f, 0.5f, 0.5f);
+    cube.m_tag = "Cube";
+
+    Player player = Player();
+    player.m_tag = "Player";
+    player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
+    player.addComponent(&cube);
+    player.addComponent(&c);
+    player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
+    player.getTransform()->scale = glm::vec3(0.5f, 1.f, 0.5f);
+    inputManager.addInputListener(&player);
+    scene->addObject(&player);
 
     Core::GameObject plane = Core::GameObject(nullptr);
+    "Plane";
     plane.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PLANE));
     Core::Transform* planeTF = plane.getTransform();
     planeTF->scale = glm::vec3(5.f, 1.f, 10.f);
@@ -110,9 +126,12 @@ void GameManager::gameLoop() {
     scene->addObject(&plane);
     scene->addObject(&pyramid);
     scene->addObject(&sphere);
+    scene->addObject(&c);
+
+    Core::SceneManager::getInstance().setActiveScene(scene);
 
     // TODO: Change the condition lul, The key escape thing breaks the window
-    while (/*glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && */!glfwWindowShouldClose(m_window)) {
+    while (!glfwWindowShouldClose(m_window)) {
 
         if (glfwGetKey(m_window, GLFW_KEY_T) == GLFW_PRESS) {
 #if DEBUG
@@ -128,13 +147,12 @@ void GameManager::gameLoop() {
         m_fLastTime = m_fCurTime;
 
         inputManager.update(m_window, deltaTime);
+//        cc.update(deltaTime);
 
         // C++ 17 :D
         if (const auto activeScene = sceneManager.getActiveScene(); activeScene != nullptr) {
             activeScene->update(deltaTime);
+            renderManager.update(activeScene, m_window, deltaTime, &c);
         }
-
-        // TODO: Physics
-        renderManager.update(scene, m_window, deltaTime, &cc);
     }
 }
