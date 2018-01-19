@@ -15,9 +15,6 @@ namespace Core {
         glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
         glm::vec3 rotation = glm::vec3(0.f, 0.f, 0.f);
         glm::vec3 scale    = glm::vec3(1.f, 1.f, 1.f);
-
-        float h_angle = 3.14f;
-        float v_angle = 0.f;
     };
 
     class GameObject : public Component {

@@ -70,11 +70,13 @@ void GameManager::gameLoop() {
     renderManager.init();
 
     Camera c(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
-    CameraController cc(m_window, &c);
+    c.m_tag = "Camera";
+//    CameraController cc(m_window, &c);
     VapeInput::InputManager& inputManager = VapeInput::InputManager::getInstance();
     Core::SceneManager& sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
-    inputManager.addInputListener(&cc);
+//    inputManager.addInputListener(&cc);
+
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
     // -----------------------------------------------------------------------------------------------------------------
@@ -96,6 +98,7 @@ void GameManager::gameLoop() {
     player.m_tag = "Player";
     player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
     player.addComponent(&cube);
+    player.addComponent(&c);
     player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
     player.getTransform()->scale = glm::vec3(0.5f, 1.f, 0.5f);
     inputManager.addInputListener(&player);
@@ -109,6 +112,7 @@ void GameManager::gameLoop() {
 
     scene->addObject(&cube);
     scene->addObject(&plane);
+    scene->addObject(&c);
 
     Core::SceneManager::getInstance().setActiveScene(scene);
 
@@ -129,7 +133,8 @@ void GameManager::gameLoop() {
         m_fLastTime = m_fCurTime;
 
         inputManager.update(m_window, deltaTime);
-        cc.update(deltaTime);
+//        cc.update(deltaTime);
+
         // C++ 17 :D
         if (const auto activeScene = sceneManager.getActiveScene(); activeScene != nullptr) {
             activeScene->update(deltaTime);
