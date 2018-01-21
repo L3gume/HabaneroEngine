@@ -33,6 +33,14 @@ void Player::update(float _deltaTime) {
     if (m_bTurnRight) {
         m_transform.rotation -= glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
     }
+    // barrel roll Left
+    if (m_bTurnLeftSide) {
+        m_transform.rotation -= glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+    }
+    // barrel roll Right
+    if (m_bTurnRightSide) {
+        m_transform.rotation += glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+    }
 }
 
 void Player::onKeyPressed(const KeyboardInputMessage &_kbdMsg) {
@@ -42,4 +50,6 @@ void Player::onKeyPressed(const KeyboardInputMessage &_kbdMsg) {
     m_bMoveRight = _kbdMsg.KEY_L;
     m_bTurnLeft = _kbdMsg.KEY_U;
     m_bTurnRight = _kbdMsg.KEY_O;
+    m_bTurnLeftSide = _kbdMsg.KEY_N;
+    m_bTurnRightSide = _kbdMsg.KEY_M;
 }

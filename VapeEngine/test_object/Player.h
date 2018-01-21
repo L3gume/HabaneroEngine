@@ -15,12 +15,12 @@ using namespace VapeInput;
 class Player : public Core::GameObject, public VapeInput::InputListener {
 public:
     Player() : GameObject(nullptr), InputListener(true, false, false, false, false),
-               m_bMoveForward(false), m_bMoveBack(false), m_bMoveRight(false), m_bMoveLeft(false) {}
+               m_bMoveForward(false), m_bMoveBack(false), m_bMoveRight(false), m_bMoveLeft(false),
+               m_bTurnLeftSide(false), m_bTurnRightSide(false) {}
 
     float m_fSpeed = 5.f;
 
     void update(float _deltaTime) override;
-
     void onKeyPressed(const KeyboardInputMessage &_kbdMsg) override;
     void onMouseMoved(const MouseMovedInputMessage &_msMsg) {}
     void onMousePressed(const MouseClickedInputMessage &_msMsg) {}
@@ -33,6 +33,8 @@ private:
     bool m_bMoveRight       : 1;
     bool m_bTurnLeft        : 1;
     bool m_bTurnRight       : 1;
+    bool m_bTurnLeftSide    : 1;
+    bool m_bTurnRightSide   : 1;
 };
 
 
