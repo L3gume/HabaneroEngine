@@ -67,7 +67,7 @@ public:
     template<typename T>
     T* findComponentInChildrenSlow() {
         T* ret = nullptr;
-        for (const auto comp : m_children) {
+        for (Component* comp : m_children) {
             if (instanceOf<T>(comp)) {
                 return comp;
             }
