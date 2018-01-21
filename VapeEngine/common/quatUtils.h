@@ -13,7 +13,7 @@
 
 using namespace glm;
 
-quat RotationBetweenVectors(vec3 _start, vec3 _dest){
+quat rotationBetweenVectors(vec3 _start, vec3 _dest){
 	_start = normalize(_start);
 	_dest = normalize(_dest);
 
@@ -46,7 +46,7 @@ quat RotationBetweenVectors(vec3 _start, vec3 _dest){
 
 }
 
-quat LookAt(vec3 _direction, vec3 _desiredUp){
+quat lookAt(vec3 _direction, vec3 _desiredUp){
 
 	if (length2(_direction) < 0.0001f )
 		return quat();
@@ -58,11 +58,11 @@ quat LookAt(vec3 _direction, vec3 _desiredUp){
 
 	// Find the rotation between the front of the object (that we assume towards +Z,
 	// but this depends on your model) and the desired _direction
-	quat rot1 = RotationBetweenVectors(vec3(0.0f, 0.0f, 1.0f), _direction);
+	quat rot1 = rotationBetweenVectors(vec3(0.0f, 0.0f, 1.0f), _direction);
 	// Because of the 1rst rotation, the up is probably completely screwed up.
 	// Find the rotation between the "up" of the rotated object, and the desired up
 	vec3 newUp = rot1 * vec3(0.0f, 1.0f, 0.0f);
-	quat rot2 = RotationBetweenVectors(newUp, _desiredUp);
+	quat rot2 = rotationBetweenVectors(newUp, _desiredUp);
 
 	// Apply them
 	return rot2 * rot1; // remember, in reverse order.
@@ -72,7 +72,7 @@ quat LookAt(vec3 _direction, vec3 _desiredUp){
 
 // Like SLERP, but forbids rotation greater than maxAngle (in radians)
 // In conjunction to LookAt, can make your characters
-quat RotateTowards(quat _q1, quat _q2, float _maxAngle){
+quat rotateTowards(quat _q1, quat _q2, float _maxAngle){
 
 	if( _maxAngle < 0.001f ){
 		// No rotation allowed. Prevent dividing by 0 later.

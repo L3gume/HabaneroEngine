@@ -8,8 +8,8 @@
 
 #include <vector>
 #include <common/util.h>
-#include "LogMessage.h"
-#include "LogManager.h"
+#include <logging/LogMessage.h>
+#include <logging/LogManager.h>
 
 class Component {
 public:

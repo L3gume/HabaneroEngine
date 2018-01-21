@@ -2,6 +2,8 @@
 // Created by notjustin on 12/31/17.
 //
 #include "GameObject.h"
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 using namespace Core;
 
@@ -10,9 +12,10 @@ void GameObject::update(const float _deltaTime) {
         if (instanceOf<GameObject>(m_parent)) {
             // Update the current object's transform relative to the parent's transform.
             Transform* parentTransform = static_cast<GameObject*>(m_parent)->getTransform();
-            m_absoluteTransform.position = m_transform.position + parentTransform->position;
-            // TODO: Rotations are actually a lot more complicated.
-            m_absoluteTransform.rotation = m_transform.rotation + parentTransform->rotation;
+
+            m_absoluteTransform.rotation = parentTransform->rotation;
+            m_absoluteTransform.position = parentTransform->position +
+                    (glm::quat(m_absoluteTransform.rotation) * (m_transform.position)) ;
             m_absoluteTransform.scale = m_transform.scale + parentTransform->scale;
         }
     }
