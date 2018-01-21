@@ -3,7 +3,8 @@
 //
 
 #include "Camera.h"
-
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 /*
  * _deltaTime is not used, will probably have to be removed
  */
@@ -21,7 +22,7 @@ glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
     if (m_parent) {
         viewMat = glm::lookAt(
                 m_absoluteTransform.position,                        // Camera is here
-                m_absoluteTransform.position + m_transform.rotation, // and looks here : at the same pos, plus "rotation"
+                m_absoluteTransform.position + (glm::quat(m_absoluteTransform.rotation) * m_transform.rotation), // and looks here : at the same pos, plus "rotation"
                 glm::vec3(0, 1, 0)                     // Head is up (set to 0,-1,0 to look upside-down)
         );
     } else {
@@ -37,4 +38,13 @@ glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
 
 void Camera::update(const float _deltaTime) {
     GameObject::update(_deltaTime);
+
+//    if (m_parent) {
+//        m_fvAngle = m_absoluteTransform.rotation.y;
+//        m_transform.rotation = {
+//                glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
+//                glm::sin(m_fvAngle),
+//                glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
+//        };
+//    }
 }
