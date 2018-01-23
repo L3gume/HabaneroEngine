@@ -27,19 +27,19 @@ void Player::update(float _deltaTime) {
 
     // Rotate Left
     if (m_bTurnLeft) {
-        m_transform.rotation += glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
+        m_transform.euler_rotation += glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
     }
     // Rotate Right
     if (m_bTurnRight) {
-        m_transform.rotation -= glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
+        m_transform.euler_rotation -= glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
     }
     // barrel roll Left
     if (m_bTurnLeftSide) {
-        m_transform.rotation -= glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+        m_transform.euler_rotation -= glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
     }
     // barrel roll Right
     if (m_bTurnRightSide) {
-        m_transform.rotation += glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+        m_transform.euler_rotation += glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
     }
 }
 

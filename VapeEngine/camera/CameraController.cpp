@@ -79,7 +79,7 @@ void CameraController::onMouseScrolled(const VapeInput::MouseScrolledInputMessag
             m_fSpeed = m_fMaxSpeed;
         }
     } else {
-        m_camera->getTransform()->position += m_camera->getTransform()->rotation * (static_cast<float>(_msMsg.m_dXOffset) / 5.f);
+        m_camera->getTransform()->position += m_camera->getTransform()->euler_rotation * (static_cast<float>(_msMsg.m_dXOffset) / 5.f);
     }
 }
 
@@ -101,7 +101,7 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
         hAngle += m_fMouseSpeed * _deltaTime * float(1280 / 2 - m_dMouseXPos);
         vAngle += m_fMouseSpeed * _deltaTime * float(720 / 2 - m_dMouseYPos);
     }
-    m_camera->getTransform()->rotation = {
+    m_camera->getTransform()->euler_rotation = {
             glm::cos(vAngle) * glm::sin(hAngle),
             glm::sin(vAngle),
             glm::cos(vAngle) * glm::cos(hAngle)
@@ -114,7 +114,7 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
             glm::cos(hAngle - 3.14f / 2.0f)
     );
 
-    glm::vec3 camRot = m_camera->getTransform()->rotation;
+    glm::vec3 camRot = m_camera->getTransform()->euler_rotation;
     glm::vec3 camPos = m_camera->getTransform()->position;
 
     // Up vector : perpendicular to both m_rot and right
@@ -152,7 +152,7 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
         camPos += right * 1.5f * m_fMouseSpeed * _deltaTime * ((1280 / 2) - (float)m_dMouseXPos);
     }
 
-    m_camera->getTransform()->rotation = camRot;
+    m_camera->getTransform()->euler_rotation = camRot;
     m_camera->getTransform()->position = camPos;
     m_camera->sethAngle(hAngle);
     m_camera->setvAngle(vAngle);

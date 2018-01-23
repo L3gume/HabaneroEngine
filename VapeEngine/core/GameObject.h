@@ -7,14 +7,18 @@
 
 #include <glm/vec3.hpp>
 #include <renderer/ObjectRenderer.h>
-#include "Component.h"
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <patterns/Component.h>
 
 namespace Core {
 
     struct Transform {
         glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
-        glm::vec3 rotation = glm::vec3(0.f, 0.f, 0.f);
-        glm::vec3 scale    = glm::vec3(1.f, 1.f, 1.f);
+        glm::vec3 euler_rotation = glm::vec3(0.f, 0.f, 0.f);
+        glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
+
+        inline glm::quat getQuatRotation() { return glm::quat(euler_rotation); }
     };
 
     class GameObject : public Component {
