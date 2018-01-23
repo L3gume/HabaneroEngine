@@ -9,25 +9,33 @@
  * _deltaTime is not used, will probably have to be removed
  */
 glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
+    // Reset the camera's rotation in case the angles were updated
     m_transform.euler_rotation = {
             glm::cos(m_fvAngle) * glm::sin(m_fhAngle),
             glm::sin(m_fvAngle),
             glm::cos(m_fvAngle) * glm::cos(m_fhAngle)
     };
 
+    // corresponds to the positive X-axis relative to the camera
     glm::vec3 right = glm::vec3(
             glm::sin(m_fhAngle - 3.14f / 2.0f),
             0,
             glm::cos(m_fhAngle - 3.14f / 2.0f)
     );
 
+    // corresponds to the positive Y-axis relative to the camera
     glm::vec3 up = glm::cross(right, m_transform.euler_rotation);
 
+    // Projection matrix, uses the screen's aspect ratio and the desired FoV
     glm::mat4 projMat = glm::perspective(glm::radians(m_fFov), 16.0f / 9.0f, 0.1f, 100.0f);
 
+    // View matrix, generated using the camera's rotation and position
     glm::mat4 viewMat;
-
     if (m_parent) {
+        /*
+         * do things a bit differently if the camera is another object's child
+         * TODO: the transform and absoluteTransform probably aren't the best way of doing things.
+         */
         glm::mat4 rot = glm::toMat4(m_absoluteTransform.getQuatRotation());
         up = rot[1]; // y-axis, the new up
         viewMat = glm::lookAt(
@@ -43,6 +51,7 @@ glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
         );
     }
 
+    // return the MVP matrix
     return projMat * viewMat * _modelMat;
 }
 
