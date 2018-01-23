@@ -29,8 +29,7 @@ glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
 
     if (m_parent) {
         glm::mat4 rot = glm::toMat4(m_absoluteTransform.getQuatRotation());
-        up = rot[1]; // y-axis
-//        up = glm::cross(rot, right);
+        up = rot[1]; // y-axis, the new up
         viewMat = glm::lookAt(
                 m_absoluteTransform.position,                       // Camera is here
                 m_absoluteTransform.position + (m_absoluteTransform.getQuatRotation() * m_transform.euler_rotation), // and looks here : at the same pos, plus "rotation"
@@ -49,9 +48,4 @@ glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
 
 void Camera::update(const float _deltaTime) {
     GameObject::update(_deltaTime);
-
-//    if (m_parent) {
-//        m_fvAngle = m_absoluteTransform.rotation.x;
-//        m_fhAngle = m_absoluteTransform.rotation.y;
-//    }
 }
