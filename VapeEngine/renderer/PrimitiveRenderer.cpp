@@ -4,7 +4,7 @@
 
 using namespace VapeRenderer;
 
-PrimitiveRenderer::PrimitiveRenderer(Component *_parent, PrimitiveShapes _shape) :
+PrimitiveRenderer::PrimitiveRenderer(Core::GameObject *_parent, PrimitiveShapes _shape) :
         ObjectRenderer(_parent), m_shape(_shape) {
     //Constructor
 }

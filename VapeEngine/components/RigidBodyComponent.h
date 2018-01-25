@@ -9,7 +9,7 @@
 
 class RigidBodyComponent : public Component {
 public:
-    explicit RigidBodyComponent(Component* _parent) : Component(_parent), m_fGravityScale(1.f) {}
+    explicit RigidBodyComponent(Core::GameObject* _parent) : Component(_parent), m_fGravityScale(1.f) {}
 
     float m_fGravityScale;
 

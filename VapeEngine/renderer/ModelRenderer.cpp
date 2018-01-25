@@ -2,11 +2,11 @@
 #include <renderer/util/objloader.h>
 #include "ModelRenderer.h"
 
-VapeRenderer::ModelRenderer::ModelRenderer(Component *_parent) : ObjectRenderer(_parent) {
+VapeRenderer::ModelRenderer::ModelRenderer(Core::GameObject *_parent) : ObjectRenderer(_parent) {
 
 }
 
-VapeRenderer::ModelRenderer::ModelRenderer(Component *_parent, char* _modelPath, char* _texturePath) :
+VapeRenderer::ModelRenderer::ModelRenderer(Core::GameObject *_parent, char* _modelPath, char* _texturePath) :
         ObjectRenderer(_parent), m_modelPath(_modelPath), m_texturePath(_texturePath) {
 
 }

@@ -13,9 +13,9 @@
 
 class Camera : public Core::GameObject {
 public:
-    Camera(Component *_parent, GLFWwindow *_window) : GameObject(_parent), m_window(_window) {};
+    Camera(GameObject *_parent, GLFWwindow *_window) : GameObject(_parent), m_window(_window) {};
 
-    Camera(Component *_parent, GLFWwindow *_window, glm::vec3 _pos, float _h_angle, float _v_angle, float _fov)
+    Camera(GameObject *_parent, GLFWwindow *_window, glm::vec3 _pos, float _h_angle, float _v_angle, float _fov)
             : GameObject(_parent), m_fhAngle(_h_angle), m_fvAngle(_v_angle), m_fFov(_fov) {
         m_transform.position = _pos;
     }

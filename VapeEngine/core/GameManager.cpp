@@ -97,8 +97,8 @@ void GameManager::gameLoop() {
     Player player = Player();
     player.m_tag = "Player";
     player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
-    player.addComponent(&cube);
-    player.addComponent(&c);
+//    player.addComponent(&cube);
+    player.addChild(&c);
     player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
     player.getTransform()->scale = glm::vec3(0.5f, 1.f, 0.5f);
     inputManager.addInputListener(&player);

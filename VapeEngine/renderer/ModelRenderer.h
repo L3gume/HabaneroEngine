@@ -9,9 +9,9 @@
 namespace VapeRenderer {
     class ModelRenderer : public ObjectRenderer {
     public:
-        explicit ModelRenderer(Component *_parent);
+        explicit ModelRenderer(Core::GameObject *_parent);
 
-        explicit ModelRenderer(Component *_parent, char* _modelPath, char* _texturePath);
+        explicit ModelRenderer(Core::GameObject *_parent, char* _modelPath, char* _texturePath);
 
         void init(GLuint* _programID, GLuint* _textureID);
 
