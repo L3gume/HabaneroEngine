@@ -9,7 +9,6 @@
 #include <glm/vec3.hpp>
 #include <common/util.h>
 #include <logging/LogManager.h>
-#include <patterns/Component.h>
 
 class Component;
 
