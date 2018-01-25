@@ -8,23 +8,28 @@
 void Player::update(float _deltaTime) {
     GameObject::update(_deltaTime); // won't affect the player
 
+    glm::quat qRot = m_transform.getQuatRotation();
+    glm::mat4 rot = glm::toMat4(qRot);
+    glm::vec3 right = rot[0];
+    glm::vec3 up = rot[1];
+    glm::vec3 frwd = rot[2];
+
     // Move forward
     if (m_bMoveForward) {
-        m_transform.position -= glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+        m_transform.position -= frwd * _deltaTime * m_fSpeed;
     }
     // Move backward
     if (m_bMoveBack) {
-        m_transform.position += glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+        m_transform.position += frwd * _deltaTime * m_fSpeed;
     }
     // Strafe right
     if (m_bMoveRight) {
-        m_transform.position += glm::vec3(_deltaTime * m_fSpeed, 0.f, 0.f);
+        m_transform.position += right * _deltaTime * m_fSpeed;
     }
     // Strafe left
     if (m_bMoveLeft) {
-        m_transform.position -= glm::vec3(_deltaTime * m_fSpeed, 0.f, 0.f);
+        m_transform.position -= right * _deltaTime * m_fSpeed;
     }
-
     // Rotate Left
     if (m_bTurnLeft) {
         m_transform.euler_rotation += glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
@@ -36,10 +41,12 @@ void Player::update(float _deltaTime) {
     // barrel roll Left
     if (m_bTurnLeftSide) {
         m_transform.euler_rotation += glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+//        m_transform.euler_rotation += glm::eulerAngles(glm::quat(frwd) * _deltaTime * m_fSpeed) / 15.f;
     }
     // barrel roll Right
     if (m_bTurnRightSide) {
         m_transform.euler_rotation -= glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
+//        m_transform.euler_rotation -= glm::eulerAngles(glm::quat(frwd) * _deltaTime * m_fSpeed) / 15.f;
     }
 }
 
