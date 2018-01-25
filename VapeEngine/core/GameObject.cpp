@@ -15,8 +15,6 @@ void GameObject::update(const float _deltaTime) {
                                        (glm::quat(m_absoluteTransform.rotation) * (m_transform.position));
         m_absoluteTransform.scale = m_transform.scale + parentTransform->scale;
     }
-
-
     /* Add the rest here */
 }
 

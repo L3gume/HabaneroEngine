@@ -24,8 +24,7 @@ namespace Core {
     public:
         explicit GameObject(GameObject *_parent) { /* nothing special for now */ }
 
-        /* Uses the destructor from the Component class */
-        inline Transform *getAbsTransform() { return &m_absoluteTransform; }
+        inline Transform *getAbsTransform() { return &m_absoluteTransform; } // Describes the world position/rotation/scale
         inline Transform *getTransform() { return &m_transform; } // returns a pointer to the transform in order
         // to make it easy to modify
 
@@ -33,11 +32,11 @@ namespace Core {
         inline GameObject* getParent() const { return m_parent; }
 
         virtual void init() { /* Meant to be overriden */ }
-        virtual void update(const float _deltaTime);
+        virtual void update(float _deltaTime);
 
         void addChild(GameObject* _child);
-        GameObject* findChildByTag(const std::string _tag);
-        GameObject* findChildByID(const int _id);
+        GameObject* findChildByTag(std::string _tag);
+        GameObject* findChildByID(int _id);
         std::vector<GameObject*>* getChildren() { return &m_children; }
 
         void addComponent(Component *_component);
