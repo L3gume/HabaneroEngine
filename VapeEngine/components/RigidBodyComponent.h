@@ -5,7 +5,7 @@
 #ifndef VAPEENGINE_RIGIDBODYCOMPONENT_H
 #define VAPEENGINE_RIGIDBODYCOMPONENT_H
 
-#include <patterns/Component.h>
+#include <core/GameObject.h>
 
 class RigidBodyComponent : public Component {
 public:

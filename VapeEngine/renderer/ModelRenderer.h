@@ -1,8 +1,8 @@
 #ifndef VAPEENGINE_MODELRENDERER_H
 #define VAPEENGINE_MODELRENDERER_H
 
-#include <patterns/Component.h>
 #include <glm/vec3.hpp>
+#include <core/GameObject.h>
 #include "ObjectRenderer.h"
 #include "PrimitiveShapes.h"
 

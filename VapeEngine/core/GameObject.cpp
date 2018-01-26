@@ -59,22 +59,5 @@ void GameObject::addChild(GameObject *_child) {
     }
 }
 
-/*
- * Next two functions are meant to find children.
- */
-GameObject *GameObject::findChildByTag(const std::string _tag) {
-    const auto found = std::find_if(m_children.begin(), m_children.end(), [_tag](const GameObject *_obj) {
-        return _obj->getTag() == _tag;
-    });
-    return found != m_children.end() ? *found : nullptr;
-}
-
-GameObject *GameObject::findChildByID(const int _id) {
-    const auto found = std::find_if(m_children.begin(), m_children.end(), [_id](const GameObject *_obj) {
-        return _obj->getID() == _id;
-    });
-    return found != m_children.end() ? *found : nullptr;
-}
-
 
 // TODO

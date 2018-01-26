@@ -2,7 +2,7 @@
 #define VAPEENGINE_OBJECTRENDERER_H
 
 #include "VapeGL.h"
-#include <patterns/Component.h>
+#include <core/GameObject.h>
 
 namespace VapeRenderer {
     //

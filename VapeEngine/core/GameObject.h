@@ -35,9 +35,13 @@ namespace Core {
         virtual void update(float _deltaTime);
 
         void addChild(GameObject* _child);
-        GameObject* findChildByTag(std::string _tag);
-        GameObject* findChildByID(int _id);
         std::vector<GameObject*>* getChildren() { return &m_children; }
+
+        // Takes a comparison lambda so that you can use whatever you like to find the child.
+        GameObject* findChild(const bool _comp(const GameObject* _obj)) {
+            const auto found = std::find_if(m_children.begin(), m_children.end(), _comp);
+            return found != m_children.end() ? *found : nullptr;
+        }
 
         void addComponent(Component *_component);
         std::vector<Component *> *getComponents() { return &m_components; }
