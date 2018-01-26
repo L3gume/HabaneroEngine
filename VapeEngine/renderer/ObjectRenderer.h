@@ -2,7 +2,7 @@
 #define VAPEENGINE_OBJECTRENDERER_H
 
 #include "VapeGL.h"
-#include <patterns/Component.h>
+#include <core/GameObject.h>
 
 namespace VapeRenderer {
     //
@@ -10,7 +10,7 @@ namespace VapeRenderer {
     //
     class ObjectRenderer : public Component {
     public:
-        explicit ObjectRenderer(Component* _parent) : Component(_parent) {}
+        explicit ObjectRenderer(Core::GameObject* _parent) : Component(_parent) {}
         /* Uses the destructor from the Component class */
 
         virtual void render(GLuint* vertex_buf) {}

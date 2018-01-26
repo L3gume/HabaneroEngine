@@ -4,6 +4,7 @@
 #include <core/Scene.h>
 #include "RenderManager.h"
 #include "quatUtils.h"
+#include "ObjectRenderer.h"
 
 void VapeRenderer::RenderManager::init() {
     // TODO: change the path when we are not in DEBUG
