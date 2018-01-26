@@ -7,7 +7,7 @@
 namespace VapeRenderer {
     class PrimitiveRenderer : public ObjectRenderer {
     public:
-        PrimitiveRenderer(Component *_parent, PrimitiveShapes _shape);
+        PrimitiveRenderer(Core::GameObject *_parent, PrimitiveShapes _shape);
 
         void render(GLuint* vertex_buf) override;
 
