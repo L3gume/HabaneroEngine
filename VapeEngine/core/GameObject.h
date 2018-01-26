@@ -37,15 +37,22 @@ namespace Core {
         void addChild(GameObject* _child);
         std::vector<GameObject*>* getChildren() { return &m_children; }
 
+        void addComponent(Component *_component);
+        std::vector<Component *> *getComponents() { return &m_components; }
+
+        inline int getID() const { return m_id; }
+        inline std::string getTag() const { return m_tag; }
+        std::string m_tag = ""; // name given to the object
+
+        /*
+         * Templated member functions, those have to be declared and defined in the header.
+         */
         // Takes a comparison lambda so that you can use whatever you like to find the child.
         template<typename Func>
         GameObject* findChild(Func _f) {
             const auto found = std::find_if(m_children.begin(), m_children.end(), _f);
             return found != m_children.end() ? *found : nullptr;
         }
-
-        void addComponent(Component *_component);
-        std::vector<Component *> *getComponents() { return &m_components; }
 
         template<typename T>
         T *findComponentInParent() {
@@ -91,11 +98,6 @@ namespace Core {
             }
             return nullptr;
         } // will go through the whole hierarchy, will be much slower.
-
-
-        inline int getID() const { return m_id; }
-        inline std::string getTag() const { return m_tag; }
-        std::string m_tag = ""; // name given to the object
     protected:
         std::vector<Component *> m_components;
         std::vector<GameObject *> m_children;
@@ -114,7 +116,7 @@ public:
      * When deleting a component, delete all of its children. This is going to cause a "recursive" chain reaction of deleting
      * all the grand children. Make sure to always have as little references to components as possible to avoid null ptrs.
      */
-    ~Component() {}
+    ~Component() = default;
 
     void setParent(Core::GameObject* _parent) { m_parent = _parent; }  // Does not delete the old parent,
     // programmer is responsible for this
