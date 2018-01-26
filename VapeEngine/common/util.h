@@ -15,4 +15,9 @@ inline bool instanceOf(const T* ptr) {
     return static_cast<const Base*>(ptr) != nullptr;
 }
 
+static int ID = 0;
+static int generateUniqueID() {
+    return ++ID;
+}
+
 #endif //VAPEENGINE_UTIL_H

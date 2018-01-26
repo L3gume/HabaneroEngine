@@ -36,11 +36,13 @@ glm::mat4 Camera::getMVP(const float _deltaTime, const glm::mat4 _modelMat) {
          * do things a bit differently if the camera is another object's child
          * TODO: the transform and absoluteTransform probably aren't the best way of doing things.
          */
-        glm::mat4 rot = glm::toMat4(m_absoluteTransform.getQuatRotation());
+        const Core::Transform* parentTransform = m_parent->getTransform();
+        glm::mat4 rot = glm::toMat4(parentTransform->getQuatRotation());
         up = rot[1]; // y-axis, the new up
+        glm::vec3 pos = parentTransform->position + (parentTransform->getQuatRotation() * m_transform.position);
         viewMat = glm::lookAt(
-                m_absoluteTransform.position,                       // Camera is here
-                m_absoluteTransform.position + (m_absoluteTransform.getQuatRotation() * m_transform.euler_rotation), // and looks here : at the same pos, plus "rotation"
+                pos,                       // Camera is here
+                pos + (parentTransform->getQuatRotation() * m_transform.euler_rotation), // and looks here : at the same pos, plus "rotation"
                 up                    // Head is up (set to 0,-1,0 to look upside-down)
         );
     } else {

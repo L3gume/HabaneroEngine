@@ -13,7 +13,7 @@
 
 using namespace glm;
 
-quat rotationBetweenVectors(vec3 _start, vec3 _dest){
+static quat rotationBetweenVectors(vec3 _start, vec3 _dest){
 	_start = normalize(_start);
 	_dest = normalize(_dest);
 
@@ -46,7 +46,7 @@ quat rotationBetweenVectors(vec3 _start, vec3 _dest){
 
 }
 
-quat lookAt(vec3 _direction, vec3 _desiredUp){
+static quat lookAt(vec3 _direction, vec3 _desiredUp){
 
 	if (length2(_direction) < 0.0001f )
 		return quat();
@@ -72,7 +72,7 @@ quat lookAt(vec3 _direction, vec3 _desiredUp){
 
 // Like SLERP, but forbids rotation greater than maxAngle (in radians)
 // In conjunction to LookAt, can make your characters
-quat rotateTowards(quat _q1, quat _q2, float _maxAngle){
+static quat rotateTowards(quat _q1, quat _q2, float _maxAngle){
 
 	if( _maxAngle < 0.001f ){
 		// No rotation allowed. Prevent dividing by 0 later.

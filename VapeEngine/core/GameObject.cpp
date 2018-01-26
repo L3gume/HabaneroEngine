@@ -7,16 +7,7 @@
 
 using namespace Core;
 
-void GameObject::update(const float _deltaTime) {
-    if (m_parent) {
-        Transform *parentTransform = m_parent->getTransform();
-        m_absoluteTransform.euler_rotation = parentTransform->euler_rotation;
-        m_absoluteTransform.position = parentTransform->position +
-                                       m_absoluteTransform.getQuatRotation() * (m_transform.position));
-        m_absoluteTransform.scale = m_transform.scale + parentTransform->scale;
-    }
-    /* Add the rest here */
-}
+void GameObject::update(const float _deltaTime) {}
 
 void GameObject::addComponent(Component *_component) {
     m_components.emplace_back(_component);
@@ -31,7 +22,7 @@ void GameObject::addChild(GameObject *_child) {
      */
     bool _found = false;
     // C++14 lambda initialization capture :D
-    GameObject* found = findChild( [_id = _child->getID()] (const GameObject* _obj) {
+    GameObject* found = findChild([_id = _child->getID()] (const GameObject* _obj) {
         return _obj->getID() == _id;
     });
     _found = found != nullptr;

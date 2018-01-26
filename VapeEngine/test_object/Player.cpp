@@ -3,6 +3,9 @@
 //
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <common/quatUtils.h>
 #include "Player.h"
 
 void Player::update(float _deltaTime) {
@@ -32,21 +35,19 @@ void Player::update(float _deltaTime) {
     }
     // Rotate Left
     if (m_bTurnLeft) {
-        m_transform.euler_rotation += glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
+        m_transform.euler_rotation = glm::eulerAngles(glm::angleAxis(_deltaTime * m_fSpeed, up) * m_transform.getQuatRotation());
     }
     // Rotate Right
     if (m_bTurnRight) {
-        m_transform.euler_rotation -= glm::vec3(0.f, _deltaTime * m_fSpeed, 0.f);
+        m_transform.euler_rotation = glm::eulerAngles(glm::angleAxis(-(_deltaTime * m_fSpeed), up) * m_transform.getQuatRotation());
     }
     // barrel roll Left
     if (m_bTurnLeftSide) {
-        m_transform.euler_rotation += glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
-//        m_transform.euler_rotation += glm::eulerAngles(glm::quat(frwd) * _deltaTime * m_fSpeed) / 15.f;
+        m_transform.euler_rotation = glm::eulerAngles(glm::angleAxis(_deltaTime * m_fSpeed, frwd) * m_transform.getQuatRotation());
     }
     // barrel roll Right
     if (m_bTurnRightSide) {
-        m_transform.euler_rotation -= glm::vec3(0.f, 0.f, _deltaTime * m_fSpeed);
-//        m_transform.euler_rotation -= glm::eulerAngles(glm::quat(frwd) * _deltaTime * m_fSpeed) / 15.f;
+        m_transform.euler_rotation = glm::eulerAngles(glm::angleAxis(-(_deltaTime * m_fSpeed), frwd) * m_transform.getQuatRotation());
     }
 }
 

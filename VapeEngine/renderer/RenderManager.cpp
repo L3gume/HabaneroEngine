@@ -36,15 +36,24 @@ void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _windo
 
     for (Core::GameObject* gameObject : _scene->getObjects()) {
 
-        Core::Transform* transform = gameObject->getParent() != nullptr ?
-                                     gameObject->getAbsTransform() : gameObject->getTransform();
+        const Core::Transform* transform = gameObject->getTransform();
 
-        glm::mat4 translate = glm::translate(glm::mat4(1.f), transform->position);
-//        glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 90.0f, transform->rotation);
-        glm::mat4 rotate = toMat4(quat(transform->euler_rotation));
-        glm::mat4 scale = glm::scale(glm::mat4(1.f), transform->scale);
+        glm::mat4 translate;
+        glm::mat4 rotate;
+        glm::mat4 scale;
 
-        if (transform->euler_rotation == glm::vec3(0.f, 0.f, 0.f)) { //If no rotation, don't multiply by 0
+        if (gameObject->getParent() != nullptr) {
+            const Core::Transform* parentTransform = gameObject->getParent()->getTransform();
+            translate = glm::translate(glm::mat4(1.f), parentTransform->position +
+                                                       parentTransform->getQuatRotation() * transform->position);
+            rotate = toMat4(parentTransform->getQuatRotation());
+            scale = glm::scale(glm::mat4(1.f), transform->scale * parentTransform->scale);
+        } else {
+            translate = glm::translate(glm::mat4(1.f), transform->position);
+            rotate = toMat4(transform->getQuatRotation());
+            scale = glm::scale(glm::mat4(1.f), transform->scale);
+        }
+        if (transform->euler_rotation == glm::vec3(0.f, 0.f, 0.f) && !gameObject->getParent()) { //If no rotation, don't multiply by 0
             rotate = glm::mat4();
         }
 
