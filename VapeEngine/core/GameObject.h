@@ -22,7 +22,7 @@ namespace Core {
 
     class GameObject {
     public:
-        explicit GameObject(GameObject *_parent) { /* nothing special for now */ }
+        explicit GameObject(GameObject *_parent): m_parent(_parent) { /* nothing special for now */ }
 
         inline Transform *getAbsTransform() { return &m_absoluteTransform; } // Describes the world position/rotation/scale
         inline Transform *getTransform() { return &m_transform; } // returns a pointer to the transform in order
