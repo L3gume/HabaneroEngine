@@ -22,7 +22,7 @@ namespace Core {
 
     class GameObject {
     public:
-        explicit GameObject(GameObject *_parent): m_parent(_parent) { /* nothing special for now */ }
+        explicit GameObject(GameObject *_parent) : m_parent(_parent) {}
 
         inline Transform *getAbsTransform() { return &m_absoluteTransform; } // Describes the world position/rotation/scale
         inline Transform *getTransform() { return &m_transform; } // returns a pointer to the transform in order
@@ -38,8 +38,9 @@ namespace Core {
         std::vector<GameObject*>* getChildren() { return &m_children; }
 
         // Takes a comparison lambda so that you can use whatever you like to find the child.
-        GameObject* findChild(const bool _comp(const GameObject* _obj)) {
-            const auto found = std::find_if(m_children.begin(), m_children.end(), _comp);
+        template<typename Func>
+        GameObject* findChild(Func _f) {
+            const auto found = std::find_if(m_children.begin(), m_children.end(), _f);
             return found != m_children.end() ? *found : nullptr;
         }
 

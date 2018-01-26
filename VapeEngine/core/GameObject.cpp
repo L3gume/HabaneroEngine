@@ -30,18 +30,11 @@ void GameObject::addChild(GameObject *_child) {
      * Start by looking up the children list to make we don't add duplicate objects
      */
     bool _found = false;
-    if (!_child->getTag().empty()) {
-        if (const GameObject *found = findChildByTag(_child->getTag());
-        found != nullptr) {
-            _found = true;
-        }
-    } else if (!_child->getID()) { // equal to 0
-        if (const GameObject *found = findChildByID(_child->getID());
-        found != nullptr) {
-            _found = true;
-        }
-    }
-
+    // C++14 lambda initialization capture :D
+    GameObject* found = findChild( [_id = _child->getID()] (const GameObject* _obj) {
+        return _obj->getID() == _id;
+    });
+    _found = found != nullptr;
     /*
      * If it wasn't found, add it to children.
      */
@@ -58,6 +51,3 @@ void GameObject::addChild(GameObject *_child) {
 #endif
     }
 }
-
-
-// TODO
