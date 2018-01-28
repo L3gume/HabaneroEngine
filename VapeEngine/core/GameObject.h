@@ -20,8 +20,6 @@ namespace Core {
         glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
         glm::vec3 euler_rotation = glm::vec3(0.f, 0.f, 0.f);
         glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
-        glm::quat quat_rotation = glm::quat(0.f, 0.f, 0.f, 1.f);
-
         inline glm::quat getQuatRotation() const { return glm::quat(euler_rotation); }
     };
 
@@ -29,7 +27,6 @@ namespace Core {
     public:
         explicit GameObject(GameObject *_parent) : m_parent(_parent) { m_id = generateUniqueID(); }
 
-        inline Transform *getAbsTransform() { return &m_absoluteTransform; } // Describes the world position/rotation/scale
         inline Transform *getTransform() { return &m_transform; } // returns a pointer to the transform in order
         // to make it easy to modify
 
@@ -110,7 +107,6 @@ namespace Core {
         GameObject *m_parent;
 
         Transform m_transform;
-        Transform m_absoluteTransform;
         int m_id = 0;
     };
 }
