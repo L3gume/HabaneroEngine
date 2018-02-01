@@ -6,6 +6,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 
 * Justin Tremblay
 * Evan Laflamme
+* Micheal Vaquier
 
 ## Dependencies
 
@@ -37,6 +38,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
     * `unique_ptr` is allowed when creating a pointer only for the scope of a function, but pretty much useless
 * No exception handling (no try/catch blocks)
 * Use `nullptr` instead of `NULL`
+* Until we have a stack-based allocator, heap allocations are OK, but keep to a minimum (avoid calling `new`)
 * Whenever you can, use `const`
     * never return `const` from function, as that apparently leads to weird stuff
         * You can definitely cast the return to const though
@@ -68,7 +70,10 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
     * Entities, hierarchies of entities (composite design pattern, anyone?)
 * Game loop [Justin, on hold]
 * Game Objects [Justin]
-* Physics (Collisions, etc.)
+* Physics (Collisions, etc.) [optional for 0.1]
+* Simple Editor UI
+    * get rid of Qt5
+
 
 ## NEXT MILESTONE
 
@@ -79,7 +84,7 @@ For version 0.1:
     * Simple shapes and volumes
     * Very basic system
 * Working Input system - **DONE**
-* Simple Physics engine
+* Simple Physics engine (optional)
     * Basic collsions
     * Gravity
     * Forces
