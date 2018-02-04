@@ -1,7 +1,5 @@
 #include <GameManager.h>
-#include <QtWidgets/QApplication>
 #include <thread>
-#include "logger.h"
 #include "LogManager.h"
 
 //
@@ -16,14 +14,6 @@ int main(int argc, char *argv[]) {
     // The Game loop runs in a separate thread in order to be able to use the UI at the same time
     // -----------------------------------------------------------------------------------------------------------------
     gm.init();
-    std::thread game([&gm](){gm.gameLoop(true);});
-//    QApplication a(argc, argv);
-//    VapeLog::Logger w(nullptr);
-//    lm.setLogger(&w);
-//    w.show();
-//    a.exec();
-
-    // When program is closing, join thread
-    game.join();
+    gm.gameLoop(true);
     return 0;
 }

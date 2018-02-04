@@ -26,7 +26,7 @@ namespace Core {
         GameObject* findObjectByID(int _id); // returns nullptr if it fails
 
         void update(float _deltaTime); // updates all of the objects stored in the scene
-        inline std::vector<GameObject*> getObjects() { return m_objects; }
+        inline std::vector<GameObject*>* getObjects() { return &m_objects; }
 
         void update(); // updates all of the objects stored in the scene
     private:

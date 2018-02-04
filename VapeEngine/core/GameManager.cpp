@@ -15,13 +15,20 @@
 #include "LogManager.h"
 #include <common/VapeGL.h>
 #include "SceneManager.h"
-#include <imgui/imgui_impl_glfw_gl3.h>
+#include <editor/Editor.h>
+#include <zconf.h>
+#include <wait.h>
+#include <thread>
 
 using namespace Vape;
 
 void GameManager::init() {
     // TODO: figure out what the hell I want to do in here.
     m_bInitialized = true;
+    m_bShutdown = false;
+#if EDITOR
+    m_bRunGame = false;
+#endif
 }
 
 /**
@@ -35,6 +42,7 @@ void GameManager::gameLoop(const bool _editor) {
 #endif
         return;
     }
+    m_bRunGame = !_editor;
 
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
@@ -72,29 +80,13 @@ void GameManager::gameLoop(const bool _editor) {
     /*
      * Initialize Editor UI stuff
      */
+    VapeInput::InputManager &inputManager = VapeInput::InputManager::getInstance();
 #if EDITOR
-    ImGui_ImplGlfwGL3_Init(m_window, true);
-
-    bool show_demo_window = true;
-    bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    // Setup style
-//    ImGui::StyleColorsDark();
-    ImGui::StyleColorsClassic();
-    ImGuiIO &io = ImGui::GetIO();
-    io.DisplaySize.x = x_res;
-    io.DisplaySize.y = y_res;
-//    io.RenderDrawListsFn = nullptr;  // Setup a render function, or set to NULL and call GetDrawData() after Render() to access render data.
-    // TODO: Fill others settings of the io structure later.
-
-    // Load texture atlas (there is a default font so you don't need to care about choosing a font yet)
-    unsigned char *pixels;
-    int width, height;
-    io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
-    // TODO: At this points you've got the texture data and you need to upload that your your graphic system:
-//    MyTexture* texture = MyEngine::CreateTextureFromMemoryPixels(pixels, width, height, TEXTURE_TYPE_RGBA);
-    // TODO: Store your texture pointer/identifier (whatever your engine uses) in 'io.Fonts->TexID'. This will be passed back to your via the renderer.
-//    io.Fonts->TexID = (void*)texture;
+    VapeUI::Editor &editor = VapeUI::Editor::getInstance();
+    if (!m_bRunGame) {
+        editor.init(m_window);
+        inputManager.addInputListener(&editor);
+    }
 #endif
 
     VapeRenderer::RenderManager &renderManager = VapeRenderer::RenderManager::getInstance();
@@ -102,11 +94,17 @@ void GameManager::gameLoop(const bool _editor) {
 
     Camera c(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
     c.m_tag = "Camera";
-    CameraController cc(m_window, &c);
-    VapeInput::InputManager &inputManager = VapeInput::InputManager::getInstance();
+
+
     Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
-    inputManager.addInputListener(&cc);
+
+#if EDITOR
+    CameraController cc(m_window, &c);
+    if (!m_bRunGame) {
+        inputManager.addInputListener(&cc);
+    }
+#endif
 
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
@@ -136,18 +134,20 @@ void GameManager::gameLoop(const bool _editor) {
     scene->addObject(&player);
 
     Core::GameObject plane = Core::GameObject(nullptr);
-    "Plane";
+    plane.m_tag = "Plane";
     plane.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PLANE));
     Core::Transform *planeTF = plane.getTransform();
     planeTF->scale = glm::vec3(5.f, 1.f, 10.f);
 
     Core::GameObject pyramid = Core::GameObject(nullptr);
+    pyramid.m_tag = "pyramid";
     pyramid.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::PYRAMID));
     Core::Transform *pyramidTF = pyramid.getTransform();
     pyramidTF->position = glm::vec3(2.f, 2.f, 0.f);
     pyramidTF->scale = glm::vec3(1.f, 1.f, 2.f);
 
     Core::GameObject sphere = Core::GameObject(nullptr);
+    sphere.m_tag = "Sphere";
     sphere.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::SPHERE));
     Core::Transform *sphereTF = sphere.getTransform();
     sphereTF->position = glm::vec3(-2.f, 2.f, 0.f);
@@ -162,15 +162,17 @@ void GameManager::gameLoop(const bool _editor) {
     Core::SceneManager::getInstance().setActiveScene(scene);
 
     // TODO: Change the condition lul, The key escape thing breaks the window
-    while (!glfwWindowShouldClose(m_window)) {
+    while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
 
         if (glfwGetKey(m_window, GLFW_KEY_T) == GLFW_PRESS) {
 #if DEBUG
-            fprintf(stderr, "Message sent to logger\n");
-#endif
             VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
                     VapeLog::LogTag::COMMON, VapeLog::LogType::MESSAGE,
                     VapeLog::LogSeverity::CRITICAL, "Testing the logging system."));
+#endif
+#if EDITOR
+            signalRunGame();
+#endif
         }
 
         m_fCurTime = static_cast<float>(glfwGetTime());
@@ -180,7 +182,11 @@ void GameManager::gameLoop(const bool _editor) {
         glfwPollEvents();
 
         inputManager.update(m_window, deltaTime);
-        cc.update(deltaTime);
+#if EDITOR
+        if (!m_bRunGame) {
+            cc.update(deltaTime);
+        }
+#endif
 
         // C++ 17 :D
         if (const auto activeScene = sceneManager.getActiveScene();
@@ -189,61 +195,36 @@ void GameManager::gameLoop(const bool _editor) {
             activeScene->update(deltaTime);
             // other stuff
 #else
-            ImGui_ImplGlfwGL3_NewFrame();
-            // 1. Show a simple window.
-            // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
-            {
-                static float f = 0.0f;
-                static int counter = 0;
-                ImGui::Text(
-                        "Hello, world!");                           // Display some text (you can use a format string too)
-                ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-                ImGui::ColorEdit3("clear color", (float *) &clear_color); // Edit 3 floats representing a color
-
-                ImGui::Checkbox("Demo Window",
-                                &show_demo_window);      // Edit bools storing our windows open/close state
-                ImGui::Checkbox("Another Window", &show_another_window);
-
-                if (ImGui::Button(
-                        "Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
-                    counter++;
-                ImGui::SameLine();
-                ImGui::Text("counter = %d", counter);
-
-                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
-                            ImGui::GetIO().Framerate);
-            }
-
-            // 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
-            if (show_another_window) {
-                ImGui::Begin("Another Window", &show_another_window);
-                ImGui::Text("Hello from another window!");
-                if (ImGui::Button("Close Me"))
-                    show_another_window = false;
-                ImGui::End();
-            }
-
-            // 3. Show the ImGui demo window. Most of the sample code is in ImGui::ShowDemoWindow(). Read its code to learn more about Dear ImGui!
-            if (show_demo_window) {
-                ImGui::SetNextWindowPos(ImVec2(1280, 20),
-                                        ImGuiCond_Always); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
-                ImGui::ShowDemoWindow(&show_demo_window);
+            if (m_bRunGame) {
+                activeScene->update(deltaTime);
             }
 #endif
 
             renderManager.update(activeScene, m_window, deltaTime, &c);
 
 #if EDITOR
-            int display_w, display_h;
-            glfwGetFramebufferSize(m_window, &display_w, &display_h);
-            glViewport(0, 0, display_w, display_h);
-            glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-
-            ImGui::Render();
+            if (!m_bRunGame) {
+                editor.render();
+            }
 #endif
 
         }
         glfwSwapBuffers(m_window);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
+#if EDITOR
+    if (!m_bRunGame) {
+        editor.shutDown();
+    }
+#endif
+    glfwTerminate();
+}
+
+void GameManager::signalRunGame() {
+#if EDITOR
+//    GameManager gm2;
+//    gm2.init();
+//    std::thread t([&gm2](){ gm2.gameLoop(false); } );
+//    t.join();
+#endif
 }

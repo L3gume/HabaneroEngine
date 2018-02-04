@@ -18,20 +18,14 @@ void LogManager::printMessage(LogMessage _message) {
     } else {
         m_messages.emplace_back(_message);
     }
-
-    emit notifyLogger();
 }
 
 void LogManager::setSortFlags(unsigned char _flags) {
     m_sortFlags.m_sFlags = _flags;
-
-    emit notifyLogger();
 }
 
 void LogManager::setSearchString(const std::string& _regex) {
     m_sRegex = _regex;
-
-    emit notifyLogger();
 }
 
 std::vector<VapeLog::LogMessage>* LogManager::getOutputMessages() {

@@ -8,7 +8,6 @@
 #include <vector>
 #include <regex>
 #include "LogMessage.h"
-#include "logger.h"
 
 namespace VapeLog {
 
@@ -38,8 +37,7 @@ namespace VapeLog {
         Flags m_flags;
     };
 
-    class LogManager : public QObject {
-    Q_OBJECT
+    class LogManager {
 
     public:
         static LogManager &getInstance() {
@@ -50,8 +48,6 @@ namespace VapeLog {
         LogManager(LogManager const &) = delete;
         void operator=(LogManager const &) = delete;
 
-        void setLogger(Logger* _logger) { _logger->connect(this, &LogManager::notifyLogger, _logger, &Logger::notify); }
-
         void printMessage(LogMessage _message); // Called by the user, adds a message to the logging system
         void setSortFlags(unsigned char _flags);
         void setSearchString(const std::string &_regex); // Gets the messages the match the regex search
@@ -60,8 +56,6 @@ namespace VapeLog {
 
         std::vector<VapeLog::LogMessage>* getOutputMessages();
 
-    signals:
-        void notifyLogger();
     private:
         LogManager() = default;
 

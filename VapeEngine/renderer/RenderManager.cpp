@@ -35,7 +35,7 @@ void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _windo
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 
-    for (Core::GameObject* gameObject : _scene->getObjects()) {
+    for (Core::GameObject* gameObject : *(_scene->getObjects())) {
 
         const Core::Transform* transform = gameObject->getTransform();
 

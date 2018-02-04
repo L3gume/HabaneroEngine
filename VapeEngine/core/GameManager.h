@@ -21,6 +21,8 @@ namespace Vape {
 
         void init();
         void gameLoop(bool _editor);
+        void shutDown() { m_bShutdown = true; }
+        void signalRunGame();
 
         inline bool isInitialized() const { return m_bInitialized; }
         static inline double getCurTime() { return glfwGetTime(); }
@@ -35,6 +37,11 @@ namespace Vape {
         float m_fLastTime = 0.f;
 
         bool m_bInitialized : 1;
+        bool m_bShutdown    : 1;
+
+#if EDITOR
+        bool m_bRunGame      : 1;
+#endif
     };
 
 }
