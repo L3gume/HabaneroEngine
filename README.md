@@ -15,7 +15,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * glew 2.1.0-1 (Available on Arch repos)
 * cmake 3.9 or higher
 * glm 0.9.8.5-1
-* Qt 5.10
+* imgui + gl3w (included in the source code)
 
 ## Code Style
 
