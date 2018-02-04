@@ -20,7 +20,7 @@ namespace Vape {
         void operator=(GameManager const &) = delete;
 
         void init();
-        void gameLoop();
+        void gameLoop(bool _editor);
 
         inline bool isInitialized() const { return m_bInitialized; }
         static inline double getCurTime() { return glfwGetTime(); }
