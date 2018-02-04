@@ -40,7 +40,7 @@ void CameraController::onMouseMoved(const VapeInput::MouseMovedInputMessage& _ms
         // We only want to use the mouse movement when right click is held down
         m_dMouseXPos = _msMsg.m_dXPos;
         m_dMouseYPos = _msMsg.m_dYPos;
-        glfwSetCursorPos(m_window, 1280 / 2, 720 / 2);
+        glfwSetCursorPos(m_window, x_res / 2, y_res / 2);
     }
 }
 
@@ -98,8 +98,8 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
 
     // Compute new orientation
     if (m_dMouseXPos != -1 && m_dMouseYPos != -1 && m_bCaptureMoveMovement && m_bRightClickHeld) {
-        hAngle += m_fMouseSpeed * _deltaTime * float(1280 / 2 - m_dMouseXPos);
-        vAngle += m_fMouseSpeed * _deltaTime * float(720 / 2 - m_dMouseYPos);
+        hAngle += m_fMouseSpeed * _deltaTime * float(x_res / 2 - m_dMouseXPos);
+        vAngle += m_fMouseSpeed * _deltaTime * float(y_res / 2 - m_dMouseYPos);
     }
     m_camera->getTransform()->euler_rotation = {
             glm::cos(vAngle) * glm::sin(hAngle),
@@ -148,8 +148,8 @@ void CameraController::computeMatricesFromInputs(const float _deltaTime) {
         }
     } else if (m_bMiddleClickHeld) {
         // "drag" screen when holding middle click
-        camPos -= up * 1.5f * m_fMouseSpeed * _deltaTime * ((720 / 2) - (float)m_dMouseYPos);
-        camPos += right * 1.5f * m_fMouseSpeed * _deltaTime * ((1280 / 2) - (float)m_dMouseXPos);
+        camPos -= up * 1.5f * m_fMouseSpeed * _deltaTime * ((y_res / 2) - (float)m_dMouseYPos);
+        camPos += right * 1.5f * m_fMouseSpeed * _deltaTime * ((x_res / 2) - (float)m_dMouseXPos);
     }
 
     m_camera->getTransform()->euler_rotation = camRot;

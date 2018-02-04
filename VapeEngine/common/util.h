@@ -5,6 +5,9 @@
 #ifndef VAPEENGINE_UTIL_H
 #define VAPEENGINE_UTIL_H
 
+static float x_res = 1920.f;
+static float y_res = 1080.f;
+
 /*
  * This is Java now!
  *

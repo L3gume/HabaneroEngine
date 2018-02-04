@@ -1,7 +1,7 @@
 //
 // Created by notjustin on 12/18/17.
 //
-#include <GL/glew.h>
+#include <common/VapeGL.h>
 #include <fstream>
 #include <vector>
 

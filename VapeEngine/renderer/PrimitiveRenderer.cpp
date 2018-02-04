@@ -1,6 +1,7 @@
-#include <GL/glew.h>
+
 #include <glm/glm.hpp>
 #include "PrimitiveRenderer.h"
+#include <common/VapeGL.h>
 
 using namespace VapeRenderer;
 
@@ -161,10 +162,10 @@ void PrimitiveRenderer::renderSphere(GLuint *vertex_buf) {
     glBufferData(GL_VERTEX_ARRAY, sphereSize, &sphereVertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_VERTEX_ARRAY, *vertex_buf);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 7*4, nullptr);
-    glEnableClientState(GL_COLOR_ARRAY);
-    glColorPointer(4, GL_FLOAT, 7*4, (void*)(3*4));
+//    glEnableClientState(GL_VERTEX_ARRAY);
+//    glVertexPointer(3, GL_FLOAT, 7*4, nullptr);
+//    glEnableClientState(GL_COLOR_ARRAY);
+//    glColorPointer(4, GL_FLOAT, 7*4, (void*)(3*4));
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 3200);
 }

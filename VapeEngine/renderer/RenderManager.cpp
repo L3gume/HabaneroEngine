@@ -1,7 +1,8 @@
-#include <GL/glew.h>
+
 #include <common/loadShaders.h>
 #include <core/GameObject.h>
 #include <core/Scene.h>
+#include <imgui/imgui.h>
 #include "RenderManager.h"
 #include "quatUtils.h"
 #include "ObjectRenderer.h"
@@ -68,10 +69,7 @@ void VapeRenderer::RenderManager::update(Core::Scene* _scene, GLFWwindow* _windo
         }
     }
 
-    glDisable(GL_CULL_FACE);
-    glDisableVertexAttribArray(0);
-
-    glfwSwapBuffers(_window);
-    glfwPollEvents();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glfwSwapBuffers(_window);
+//    glDisable(GL_CULL_FACE);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

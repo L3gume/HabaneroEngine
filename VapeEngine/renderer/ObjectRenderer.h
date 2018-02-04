@@ -1,7 +1,7 @@
 #ifndef VAPEENGINE_OBJECTRENDERER_H
 #define VAPEENGINE_OBJECTRENDERER_H
 
-#include "VapeGL.h"
+#include <common/VapeGL.h>
 #include <core/GameObject.h>
 
 namespace VapeRenderer {
