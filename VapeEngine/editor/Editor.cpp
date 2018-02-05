@@ -3,7 +3,6 @@
 //
 
 
-#include <core/SceneManager.h>
 #include "Editor.h"
 
 /*
@@ -86,7 +85,7 @@ void Editor::showMainMenuBar() {
         if (ImGui::BeginMenu("Run")) {
             if (ImGui::MenuItem("Run Game", "CTRL+SHIFT+R")) {
                 // TODO, run the game
-//                Vape::GameManager::getInstance().signalRunGame();
+                Core::GameManager::getInstance().signalRunGame();
             }
             ImGui::EndMenu();
         }
@@ -150,7 +149,7 @@ void Editor::showMenuFile() {
     }
     if (ImGui::MenuItem("Checked", NULL, true)) {}
     if (ImGui::MenuItem("Quit", "Alt+F4")) {
-        Vape::GameManager::getInstance().shutDown();
+        Core::GameManager::getInstance().shutDown();
     }
 }
 
@@ -304,7 +303,7 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
     if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
         (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_R) {
         if (ctr4++ == 0) {
-//            Vape::GameManager::getInstance().signalRunGame();
+            Core::GameManager::getInstance().signalRunGame();
         }
     } else {
         ctr4 = 0;

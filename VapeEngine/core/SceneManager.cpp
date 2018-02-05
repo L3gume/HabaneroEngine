@@ -3,3 +3,13 @@
 //
 
 #include "SceneManager.h"
+
+using namespace Core;
+
+void SceneManager::backupActiveScene() {
+
+}
+
+void SceneManager::restorePreviousScene() {
+
+}

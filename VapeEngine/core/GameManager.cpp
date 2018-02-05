@@ -2,25 +2,9 @@
 // Created by notjustin on 12/24/17.
 //
 
-#include <cstdio>
-#include <renderer/RenderManager.h>
-#include <core/Scene.h>
-#include <renderer/PrimitiveRenderer.h>
-#include <glm/gtc/matrix_transform.hpp>
-#include <test_object/Player.h>
-#include <imgui/imgui.h>
-#include "GameManager.h"
-#include "camera/CameraController.h"
-#include "loadShaders.h"
-#include "LogManager.h"
-#include <common/VapeGL.h>
-#include "SceneManager.h"
-#include <editor/Editor.h>
-#include <zconf.h>
-#include <wait.h>
-#include <thread>
+#include <core/GameManager.h>
 
-using namespace Vape;
+using namespace Core;
 
 void GameManager::init() {
     // TODO: figure out what the hell I want to do in here.
@@ -68,11 +52,6 @@ void GameManager::gameLoop(const bool _editor) {
         return;
     }
     glfwMakeContextCurrent(m_window);
-//    glewExperimental = (GLboolean) true;
-//    if (glewInit() != GLEW_OK) {
-//        fprintf(stderr, "Failed to initialize GLEW\n");
-//        return;
-//    }
     gl3wInit();
 
     glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
@@ -93,7 +72,7 @@ void GameManager::gameLoop(const bool _editor) {
     renderManager.init();
 
     Camera c(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
-    c.m_tag = "Camera";
+    c.m_tag = "EditorCamera";
 
 
     Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
@@ -123,11 +102,14 @@ void GameManager::gameLoop(const bool _editor) {
     cubeTF->scale = glm::vec3(0.5f, 0.5f, 0.5f);
     cube.m_tag = "Cube";
 
+    Camera c2(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
+    c2.m_tag = "SceneCamera";
+
     Player player = Player();
     player.m_tag = "Player";
     player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
     player.addChild(&cube);
-    player.addChild(&c);
+    player.addChild(&c2);
     player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
     player.getTransform()->scale = glm::vec3(0.5f, 1.f, 0.5f);
     inputManager.addInputListener(&player);
@@ -157,23 +139,13 @@ void GameManager::gameLoop(const bool _editor) {
     scene->addObject(&plane);
     scene->addObject(&pyramid);
     scene->addObject(&sphere);
-    scene->addObject(&c);
+    scene->addObject(&c2);
+    scene->setCamera(&c2);
 
     Core::SceneManager::getInstance().setActiveScene(scene);
 
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
-
-        if (glfwGetKey(m_window, GLFW_KEY_T) == GLFW_PRESS) {
-#if DEBUG
-            VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                    VapeLog::LogTag::COMMON, VapeLog::LogType::MESSAGE,
-                    VapeLog::LogSeverity::CRITICAL, "Testing the logging system."));
-#endif
-#if EDITOR
-            signalRunGame();
-#endif
-        }
 
         m_fCurTime = static_cast<float>(glfwGetTime());
         float deltaTime = m_fCurTime - m_fLastTime;
@@ -188,23 +160,18 @@ void GameManager::gameLoop(const bool _editor) {
         }
 #endif
 
-        // C++ 17 :D
         if (const auto activeScene = sceneManager.getActiveScene();
         activeScene != nullptr) {
 #if !EDITOR
             activeScene->update(deltaTime);
-            // other stuff
+            renderManager.update(activeScene, m_window, deltaTime, activeScene->getCamera());
 #else
-            if (m_bRunGame) {
-                activeScene->update(deltaTime);
-            }
-#endif
-
-            renderManager.update(activeScene, m_window, deltaTime, &c);
-
-#if EDITOR
             if (!m_bRunGame) {
+                renderManager.update(activeScene, m_window, deltaTime, &c);
                 editor.render();
+            } else {
+                activeScene->update(deltaTime);
+                renderManager.update(activeScene, m_window, deltaTime, activeScene->getCamera());
             }
 #endif
 
@@ -213,18 +180,29 @@ void GameManager::gameLoop(const bool _editor) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 #if EDITOR
-    if (!m_bRunGame) {
-        editor.shutDown();
-    }
+    editor.shutDown();
 #endif
     glfwTerminate();
 }
 
 void GameManager::signalRunGame() {
 #if EDITOR
-//    GameManager gm2;
-//    gm2.init();
-//    std::thread t([&gm2](){ gm2.gameLoop(false); } );
-//    t.join();
+//    Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
+//    if (!m_bRunGame) {
+////        m_tempScene = new Scene(*(sceneManager.getActiveScene()));// Make a copy of the current active scene
+////        if (m_tempScene != nullptr) {
+////            delete m_tempScene;
+////            m_tempScene = nullptr;
+////        }
+//        m_tempScene = sceneManager.getActiveScene()->createBackup();
+////        sceneManager.backupActiveScene(); // Push the active onto the stack
+////        sceneManager.setActiveScene(m_tempScene); // Make active scene point to the copied version
+//    } else {
+////        delete sceneManager.getActiveScene();
+//        sceneManager.setActiveScene(m_tempScene);
+//        delete m_tempScene;
+////        sceneManager.restorePreviousScene();
+//    }
+    m_bRunGame = !m_bRunGame;
 #endif
 }

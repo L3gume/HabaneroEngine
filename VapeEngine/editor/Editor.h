@@ -14,6 +14,10 @@
 #include <core/GameObject.h>
 #include <logging/LogManager.h>
 #include <logging/LogMessage.h>
+#include <core/SceneManager.h>
+#include <input/InputListener.h>
+#include <core/GameManager.h>
+
 
 namespace VapeUI {
 

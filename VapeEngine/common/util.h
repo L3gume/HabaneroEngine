@@ -5,6 +5,8 @@
 #ifndef VAPEENGINE_UTIL_H
 #define VAPEENGINE_UTIL_H
 
+#include <memory>
+
 static float x_res = 1920.f;
 static float y_res = 1080.f;
 
@@ -16,6 +18,11 @@ static float y_res = 1080.f;
 template<typename Base, typename T>
 inline bool instanceOf(const T* ptr) {
     return static_cast<const Base*>(ptr) != nullptr;
+}
+
+template <typename T>
+T* clone(const T & obj) {
+    return new T(obj);
 }
 
 static int ID = 0;

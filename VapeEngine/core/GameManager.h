@@ -6,8 +6,14 @@
 #define VAPEENGINE_GAMEMANAGER_H
 
 #include "InputManager.h"
+#include "SceneManager.h"
+#include <cstdio>
+#include <renderer/RenderManager.h>
+#include <renderer/PrimitiveRenderer.h>
+#include <test_object/Player.h>
+#include <editor/Editor.h>
 
-namespace Vape {
+namespace Core {
 
     class GameManager {
     public:
