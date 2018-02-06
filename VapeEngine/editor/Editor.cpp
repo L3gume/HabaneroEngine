@@ -90,12 +90,13 @@ void Editor::showMainMenuBar() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Scene")) {
+            if (ImGui::MenuItem("New Scene", "CTRL+SHIFT+N")) {
+                // TODO - Editor controller to handle this.
+            }
             if (ImGui::MenuItem("Save Scene", "CTRL+SHIFT+S")) {
-//                showSaveDialog();
                 m_bShowSaveScene = true;
             }
             if (ImGui::MenuItem("Open Scene", "CTRL+SHIFT+O")) {
-//                showOpenDialog();
                 m_bShowOpenScene = true;
             }
             ImGui::EndMenu();
@@ -106,7 +107,7 @@ void Editor::showMainMenuBar() {
 }
 
 void Editor::showMenuFile() {
-    ImGui::MenuItem("(dummy menu)", NULL, false, false);
+    ImGui::MenuItem("(dummy menu)", nullptr, false, false);
     if (ImGui::MenuItem("New")) {}
     if (ImGui::MenuItem("Open", "Ctrl+O")) {}
     if (ImGui::BeginMenu("Open Recent")) {
@@ -458,35 +459,29 @@ void Editor::renderTransformInspector() {
 }
 
 void Editor::showOpenDialog() {
-    bool window_fileIO_visible = true;
-    if (window_fileIO_visible) {
-        std::string open_file;
-        if (fileIOWindow(open_file, window_recent_files, "Open", {"*.usr", "*.*"}, true)) {
-//            window_fileIO_visible = false;
-            m_bShowOpenScene = false;
-            if (!open_file.empty()) {
-                window_recent_files.push_back(open_file);
-//                readStuffFromFile(open_file);
-            }
+    std::string open_file;
+    if (fileIOWindow(open_file, m_sRecentFiles, "Open", {"*.usr", "*.*"}, true)) {
+        m_bShowOpenScene = false;
+        if (!open_file.empty()) {
+            m_sRecentFiles.push_back(open_file);
+            // TODO
         }
     }
 }
 
 void Editor::showSaveDialog() {
     std::string save_file;
-    bool window_fileIO_visible = true;
-    if (window_fileIO_visible) {
-        if (fileIOWindow(save_file, window_recent_files, "Save", {"*.usr", "*.*"})) {
-//            window_fileIO_visible = false;
-            m_bShowSaveScene = false;
-            if (!save_file.empty()) {
-                window_recent_files.push_back(save_file);
+    if (fileIOWindow(save_file, m_sRecentFiles, "Save", {"*.usr", "*.*"})) {
+        m_bShowSaveScene = false;
+        if (!save_file.empty()) {
+            m_sRecentFiles.push_back(save_file);
 
-                std::ofstream out_file;
-                out_file.open(save_file, std::ios_base::trunc);
-//                writeStuffToFile(out_file);
-                out_file.close();
-            }
+            std::ofstream out_file;
+            out_file.open(save_file, std::ios_base::trunc);
+
+            // TODO
+
+            out_file.close();
         }
     }
 }

@@ -61,7 +61,7 @@ namespace VapeUI {
         void showLogWindow();
         void showInspector();
         void showObjTree();
-        void showFileBrowser();
+        void showFileBrowser(); // maybe?
 
         void showOpenDialog();
         void showSaveDialog();
@@ -73,7 +73,7 @@ namespace VapeUI {
         Core::GameObject *m_selectedObject = nullptr;
         ImVec4 clear_color;
         std::vector<Core::GameObject *> m_treeNodes;
-        std::vector<std::string> window_recent_files;
+        std::vector<std::string> m_sRecentFiles;
 
         // stuff that is on by default:
         bool m_bShowMenuBar         : 1;
