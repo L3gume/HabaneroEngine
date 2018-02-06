@@ -124,6 +124,10 @@ public:
     // programmer is responsible for this
     Core::GameObject* getParent() { return m_parent; }
 
+#if EDITOR
+    virtual void renderInspectorSection() {}
+#endif
+
 protected:
     Core::GameObject* m_parent;
 };

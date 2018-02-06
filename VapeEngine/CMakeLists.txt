@@ -21,7 +21,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 #add_compile_options(-Wall -Wextra -Wpedantic)
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h camera/CameraController.cpp camera/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h core/GameManager.cpp core/GameManager.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h camera/Camera.cpp camera/Camera.h core/GameObject.cpp core/GameObject.h common/util.h common/VapeGL.h core/Scene.cpp core/Scene.h core/SceneManager.cpp core/SceneManager.h components/RigidBodyComponent.cpp components/RigidBodyComponent.h renderer/ObjectRenderer.h renderer/PrimitiveRenderer.cpp renderer/PrimitiveRenderer.h renderer/RenderManager.cpp renderer/RenderManager.h renderer/PrimitiveShapes.h test_object/Player.cpp test_object/Player.h common/quatUtils.h renderer/ModelRenderer.cpp renderer/ModelRenderer.h renderer/util/objloader.cpp renderer/util/objloader.h renderer/util/texture.cpp renderer/util/texture.h imgui/imconfig.h  imgui/imgui_demo.cpp  imgui/imgui.h imgui/stb_rect_pack.h imgui/stb_truetype.h imgui/imgui.cpp imgui/imgui_draw.cpp imgui/imgui_internal.h imgui/stb_textedit.h imgui/imgui_impl_glfw_gl3.cpp imgui/imgui_impl_glfw_gl3.h common/gl3w.c common/gl3w.h common/glcorearb.h editor/Editor.cpp editor/Editor.h)
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h camera/CameraController.cpp camera/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h core/GameManager.cpp core/GameManager.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h camera/Camera.cpp camera/Camera.h core/GameObject.cpp core/GameObject.h common/util.h common/VapeGL.h core/Scene.cpp core/Scene.h core/SceneManager.cpp core/SceneManager.h components/RigidBodyComponent.cpp components/RigidBodyComponent.h renderer/ObjectRenderer.h renderer/PrimitiveRenderer.cpp renderer/PrimitiveRenderer.h renderer/RenderManager.cpp renderer/RenderManager.h renderer/PrimitiveShapes.h test_object/Player.cpp test_object/Player.h common/quatUtils.h renderer/ModelRenderer.cpp renderer/ModelRenderer.h renderer/util/objloader.cpp renderer/util/objloader.h renderer/util/texture.cpp renderer/util/texture.h imgui/imconfig.h  imgui/imgui_demo.cpp  imgui/imgui.h imgui/stb_rect_pack.h imgui/stb_truetype.h imgui/imgui.cpp imgui/imgui_draw.cpp imgui/imgui_internal.h imgui/stb_textedit.h imgui/imgui_impl_glfw_gl3.cpp imgui/imgui_impl_glfw_gl3.h common/gl3w.c common/gl3w.h common/glcorearb.h editor/Editor.cpp editor/Editor.h editor/EditorController.cpp editor/EditorController.h imgui/ImguiWindowsFileIO.cpp imgui/ImguiWindowsFileIO.hpp)
 
 # Whenever a new directory is created, add it to the include path
 include_directories(core)
@@ -34,6 +34,7 @@ include_directories(components)
 include_directories(renderer)
 include_directories(imgui)
 include_directories(editor)
+include_directories(imgui/minizip)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_definitions(VapeEngine PUBLIC DEBUG=1)

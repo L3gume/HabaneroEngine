@@ -17,6 +17,9 @@
 #include <core/SceneManager.h>
 #include <input/InputListener.h>
 #include <core/GameManager.h>
+#include "EditorController.h"
+#include <imgui/ImguiWindowsFileIO.hpp>
+#include <fstream>
 
 
 namespace VapeUI {
@@ -48,6 +51,8 @@ namespace VapeUI {
             m_bShowLogWindow = true;
             m_bShowInspector = true;
             m_bShowObjTree = true;
+            m_bShowSaveScene = false;
+            m_bShowOpenScene = false;
             m_selectedObject = nullptr;
         };
 
@@ -56,14 +61,19 @@ namespace VapeUI {
         void showLogWindow();
         void showInspector();
         void showObjTree();
+        void showFileBrowser();
+
+        void showOpenDialog();
+        void showSaveDialog();
 
         void addObjTreeNode(Core::GameObject* obj);
         void renderTransformInspector();
 
-        GLFWwindow *m_window;
-        Core::GameObject *m_selectedObject;
+        GLFWwindow *m_window = nullptr;
+        Core::GameObject *m_selectedObject = nullptr;
         ImVec4 clear_color;
-        std::vector<Core::GameObject *> treenodes;
+        std::vector<Core::GameObject *> m_treeNodes;
+        std::vector<std::string> window_recent_files;
 
         // stuff that is on by default:
         bool m_bShowMenuBar         : 1;
@@ -71,6 +81,8 @@ namespace VapeUI {
         bool m_bShowInspector       : 1;
         bool m_bShowObjTree         : 1;
         // Stuff that isn't
+        bool m_bShowSaveScene       : 1;
+        bool m_bShowOpenScene       : 1;
         /* TODO */
     };
 

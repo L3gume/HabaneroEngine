@@ -2,7 +2,6 @@
 // Created by l3gume on 04/02/18.
 //
 
-
 #include "Editor.h"
 
 /*
@@ -42,11 +41,12 @@ void Editor::init(GLFWwindow *_window) {
 void Editor::render() {
     ImGui_ImplGlfwGL3_NewFrame();
 
-
     if (m_bShowMenuBar) showMainMenuBar();
     if (m_bShowLogWindow) showLogWindow();
     if (m_bShowObjTree) showObjTree();
     if (m_bShowInspector) showInspector();
+    if (m_bShowOpenScene) showOpenDialog();
+    if (m_bShowSaveScene) showSaveDialog();
 
     int display_w, display_h;
     glfwGetFramebufferSize(m_window, &display_w, &display_h);
@@ -86,6 +86,17 @@ void Editor::showMainMenuBar() {
             if (ImGui::MenuItem("Run Game", "CTRL+SHIFT+R")) {
                 // TODO, run the game
                 Core::GameManager::getInstance().signalRunGame();
+            }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Scene")) {
+            if (ImGui::MenuItem("Save Scene", "CTRL+SHIFT+S")) {
+//                showSaveDialog();
+                m_bShowSaveScene = true;
+            }
+            if (ImGui::MenuItem("Open Scene", "CTRL+SHIFT+O")) {
+//                showOpenDialog();
+                m_bShowOpenScene = true;
             }
             ImGui::EndMenu();
         }
@@ -234,7 +245,10 @@ struct LogWindow {
         ImGui::SameLine();
         Filter.Draw("", -100.0f);
         ImGui::SameLine();
-        if (ImGui::Button("Clear")) Clear();
+        if (ImGui::Button("Clear")) {
+            Clear();
+            VapeLog::LogManager::getInstance().clearLog();
+        }
         ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
         if (copy) ImGui::LogToClipboard();
 
@@ -270,6 +284,7 @@ void Editor::showLogWindow() {
 
     bool open = true;
     log.Draw("VapeLog", &open);
+    m_bShowLogWindow = open;
 }
 
 void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
@@ -323,7 +338,7 @@ void Editor::showObjTree() {
     Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
     Core::Scene *activeScene = sceneManager.getActiveScene();
 
-    treenodes.clear();
+    m_treeNodes.clear();
 
     std::vector<Core::GameObject *> *objects = activeScene->getObjects();
     bool open = true;
@@ -341,15 +356,16 @@ void Editor::showObjTree() {
         }
     }
     ImGui::End();
+    m_bShowObjTree = open;
 }
 
 void Editor::addObjTreeNode(Core::GameObject *obj) {
     const char *tag = strlen(obj->m_tag.c_str()) > 0 ? obj->m_tag.c_str() : "no name";
-    auto found = std::find_if(treenodes.begin(), treenodes.end(), [obj](Core::GameObject *_obj) {
+    auto found = std::find_if(m_treeNodes.begin(), m_treeNodes.end(), [obj](Core::GameObject *_obj) {
         return _obj->getID() == obj->getID();
     });
-    if (found == treenodes.end()) {
-        treenodes.emplace_back(obj);
+    if (found == m_treeNodes.end()) {
+        m_treeNodes.emplace_back(obj);
         if (ImGui::TreeNode(tag)) {
             if (ImGui::IsItemClicked()) {
 #if DEBUG
@@ -388,13 +404,15 @@ void Editor::showInspector() {
 
         ImGui::Separator();
         renderTransformInspector();
-
+        ImGui::Separator();
         for (Component *comp : *m_selectedObject->getComponents()) {
             // TODO: Render a section for each component
+            comp->renderInspectorSection();
         }
 
     }
     ImGui::End();
+    m_bShowInspector = open;
 }
 
 void Editor::renderTransformInspector() {
@@ -403,39 +421,74 @@ void Editor::renderTransformInspector() {
      */
     ImGui::Text("Transform:");
     ImGui::Text(" ");
-    Core::Transform *t = m_selectedObject->getTransform();
-    glm::vec3 pos = t->position;
-    glm::vec3 rot = t->euler_rotation;
-    glm::vec3 scl = t->scale;
+    if (m_selectedObject) {
+        Core::Transform *t = m_selectedObject->getTransform();
+        glm::vec3 pos = t->position;
+        glm::vec3 rot = t->euler_rotation;
+        glm::vec3 scl = t->scale;
 
-    ImGui::PushItemWidth(40);
-    ImGui::Text("Position: ");
-    ImGui::SameLine();
-    ImGui::InputFloat("xpos", &(pos.x), 0.f, 0.f, 2);
-    ImGui::SameLine();
-    ImGui::InputFloat("ypos", &(pos.y), 0.f, 0.f, 2);
-    ImGui::SameLine();
-    ImGui::InputFloat("zpos", &(pos.z), 0.f, 0.f, 2);
-    ImGui::Text("Rotation: ");
-    ImGui::SameLine();
-    ImGui::InputFloat("xrot", &(rot.x), 0.f, 0.f, 2);
-    ImGui::SameLine();
-    ImGui::InputFloat("yrot", &(rot.y), 0.f, 0.f, 2);
-    ImGui::SameLine();
-    ImGui::InputFloat("zrot", &(rot.z), 0.f, 0.f, 2);
-    ImGui::Text("Scale:    ");
-    ImGui::SameLine();
-    ImGui::InputFloat("xscl", &(scl.x), 0.f, 0.f, 2);
-    ImGui::SameLine();
-    ImGui::InputFloat("yscl", &(scl.y), 0.f, 0.f, 2);
-    ImGui::SameLine();
-    ImGui::InputFloat("zscl", &(scl.z), 0.f, 0.f, 2);
-    ImGui::PopItemWidth();
+        ImGui::PushItemWidth(40);
+        ImGui::Text("Position: ");
+        ImGui::SameLine();
+        ImGui::InputFloat("xpos", &(pos.x), 0.f, 0.f, 2);
+        ImGui::SameLine();
+        ImGui::InputFloat("ypos", &(pos.y), 0.f, 0.f, 2);
+        ImGui::SameLine();
+        ImGui::InputFloat("zpos", &(pos.z), 0.f, 0.f, 2);
+        ImGui::Text("Rotation: ");
+        ImGui::SameLine();
+        ImGui::InputFloat("xrot", &(rot.x), 0.f, 0.f, 2);
+        ImGui::SameLine();
+        ImGui::InputFloat("yrot", &(rot.y), 0.f, 0.f, 2);
+        ImGui::SameLine();
+        ImGui::InputFloat("zrot", &(rot.z), 0.f, 0.f, 2);
+        ImGui::Text("Scale:    ");
+        ImGui::SameLine();
+        ImGui::InputFloat("xscl", &(scl.x), 0.f, 0.f, 2);
+        ImGui::SameLine();
+        ImGui::InputFloat("yscl", &(scl.y), 0.f, 0.f, 2);
+        ImGui::SameLine();
+        ImGui::InputFloat("zscl", &(scl.z), 0.f, 0.f, 2);
+        ImGui::PopItemWidth();
 
-    t->position = pos;
-    t->euler_rotation = rot;
-    t->scale = scl;
+        t->position = pos;
+        t->euler_rotation = rot;
+        t->scale = scl;
+    }
+}
 
+void Editor::showOpenDialog() {
+    bool window_fileIO_visible = true;
+    if (window_fileIO_visible) {
+        std::string open_file;
+        if (fileIOWindow(open_file, window_recent_files, "Open", {"*.usr", "*.*"}, true)) {
+//            window_fileIO_visible = false;
+            m_bShowOpenScene = false;
+            if (!open_file.empty()) {
+                window_recent_files.push_back(open_file);
+//                readStuffFromFile(open_file);
+            }
+        }
+    }
+}
+
+void Editor::showSaveDialog() {
+    std::string save_file;
+    bool window_fileIO_visible = true;
+    if (window_fileIO_visible) {
+        if (fileIOWindow(save_file, window_recent_files, "Save", {"*.usr", "*.*"})) {
+//            window_fileIO_visible = false;
+            m_bShowSaveScene = false;
+            if (!save_file.empty()) {
+                window_recent_files.push_back(save_file);
+
+                std::ofstream out_file;
+                out_file.open(save_file, std::ios_base::trunc);
+//                writeStuffToFile(out_file);
+                out_file.close();
+            }
+        }
+    }
 }
 
 #endif

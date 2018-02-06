@@ -3,6 +3,7 @@
 //
 
 #include <core/GameManager.h>
+#include <components/RigidBodyComponent.h>
 
 using namespace Core;
 
@@ -108,6 +109,7 @@ void GameManager::gameLoop(const bool _editor) {
     Player player = Player();
     player.m_tag = "Player";
     player.addComponent(new VapeRenderer::PrimitiveRenderer(nullptr, VapeRenderer::CUBE));
+    player.addComponent(new RigidBodyComponent(&player));
     player.addChild(&cube);
     player.addChild(&c2);
     player.getTransform()->position = glm::vec3(2.f, 1.f, 0.f);
