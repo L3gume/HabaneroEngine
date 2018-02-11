@@ -69,9 +69,6 @@ void Engine::gameLoop(const bool _editor) {
     }
 #endif
 
-//    VapeRenderer::RenderManager &renderManager = VapeRenderer::RenderManager::getInstance();
-//    renderManager.init();
-
     Camera c(nullptr, m_window, glm::vec3(0.f, 15.f, 15.f), 3.14f, -0.75f, 45.f);
     c.m_tag = "EditorCamera";
 
@@ -80,12 +77,12 @@ void Engine::gameLoop(const bool _editor) {
     Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
 
-//#if EDITOR
-//    CameraController cc(m_window, &c);
-//    if (!m_bRunGame) {
-//        inputManager.addInputListener(&cc);
-//    }
-//#endif
+#if EDITOR
+    CameraController cc(m_window, &c);
+    if (!m_bRunGame) {
+        inputManager.addInputListener(&cc);
+    }
+#endif
 
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
@@ -159,7 +156,12 @@ void Engine::gameLoop(const bool _editor) {
         glfwPollEvents();
 
         m_systemManager.preUpdate(deltaTime); // Call preUpdate on all systems
+        //----------------------------------------
+        inputManager.update(m_window, deltaTime);
+        cc.update(deltaTime);
+        //----------------------------------------
         m_systemManager.update(deltaTime); // Call update on all systems
+        editor.render();
         glfwSwapBuffers(m_window);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_systemManager.postUpdate(deltaTime); // Is called after rendering

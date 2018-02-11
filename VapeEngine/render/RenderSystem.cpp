@@ -24,7 +24,7 @@ RenderSystem::RenderSystem(GLFWwindow *_window, Camera *_cam) : System(), m_wind
 }
 
 void RenderSystem::preUpdate(float _deltaTime) {
-    m_renderableEntities = Core::Engine::getInstance().getComponentManager().getEntitiesByGroup(
+    m_renderableEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
             getComponentTypeID<RenderableComponent>());
     // Update entity list for the update() call.
 }

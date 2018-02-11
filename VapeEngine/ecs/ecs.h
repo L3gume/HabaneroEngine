@@ -89,6 +89,8 @@ namespace ECS {
         std::string m_sName;
         uint64_t m_iId;
     public:
+        inline std::string getName() { return m_sName; }
+        inline uint64_t getID() { return m_iId; }
 
         /*
          * Check if the entity already has an instance of component T
@@ -199,6 +201,8 @@ namespace ECS {
         std::vector<Entity *> &getEntitiesByGroup(Group _group) {
             return m_groupedEntities[_group];
         }
+
+        std::vector<std::unique_ptr<Entity>> &getEntities() { return m_entities; }
 
     };
 

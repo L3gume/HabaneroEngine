@@ -36,7 +36,7 @@ namespace Core {
         static inline double getCurTime() { return glfwGetTime(); }
         inline GLFWwindow* getWindow() const { return m_window; }
 
-        inline ECS::EntityManager& getComponentManager() { return m_entityManager; }
+        inline ECS::EntityManager& getEntityManager() { return m_entityManager; }
         inline ECS::SystemManager& getSystemManager() { return m_systemManager; }
     private:
         Engine() = default;

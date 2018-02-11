@@ -53,7 +53,7 @@ namespace VapeUI {
             m_bShowObjTree = true;
             m_bShowSaveScene = false;
             m_bShowOpenScene = false;
-            m_selectedObject = nullptr;
+//            m_selectedEntity = nullptr;
         };
 
         void showMainMenuBar();
@@ -66,13 +66,13 @@ namespace VapeUI {
         void showOpenDialog();
         void showSaveDialog();
 
-        void addObjTreeNode(Core::GameObject* obj);
+//        void addObjTreeNode(std::unique_ptr<ECS::Entity> &obj);
         void renderTransformInspector();
 
         GLFWwindow *m_window = nullptr;
-        Core::GameObject *m_selectedObject = nullptr;
+//        ECS::Entity *m_selectedEntity = nullptr;
         ImVec4 clear_color;
-        std::vector<Core::GameObject *> m_treeNodes;
+//        std::vector<std::unique_ptr<ECS::Entity> &> m_treeNodes;
         std::vector<std::string> m_sRecentFiles;
 
         // stuff that is on by default:
