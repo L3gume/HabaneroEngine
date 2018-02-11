@@ -7,7 +7,7 @@
 
 #include <string>
 #include <sstream>
-//#include <core/GameManager.h>
+//#include <core/Engine.h>
 #include <common/VapeGL.h>
 namespace VapeLog {
 

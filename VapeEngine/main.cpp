@@ -1,4 +1,4 @@
-#include <GameManager.h>
+#include <Engine.h>
 #include <thread>
 #include "LogManager.h"
 
@@ -8,7 +8,7 @@
 //
 int main(int argc, char *argv[]) {
 
-    Core::GameManager& gm = Core::GameManager::getInstance();
+    Core::Engine& gm = Core::Engine::getInstance();
     VapeLog::LogManager& lm = VapeLog::LogManager::getInstance();
     // -----------------------------------------------------------------------------------------------------------------
     // The Game loop runs in a separate thread in order to be able to use the UI at the same time

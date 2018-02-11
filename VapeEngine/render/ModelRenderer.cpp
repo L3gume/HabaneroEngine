@@ -1,5 +1,5 @@
-#include <renderer/util/texture.h>
-#include <renderer/util/objloader.h>
+#include <render/util/texture.h>
+#include <render/util/objloader.h>
 #include "ModelRenderer.h"
 
 VapeRenderer::ModelRenderer::ModelRenderer(Core::GameObject *_parent) : ObjectRenderer(_parent) {

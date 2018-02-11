@@ -1,0 +1,313 @@
+//
+// Created by notjustin on 2/8/18.
+//
+
+/*
+ * TODO: implement allocators
+ */
+
+#ifndef ECS_ECS_H
+#define ECS_ECS_H
+
+#include <vector>
+#include <memory>
+#include <bitset>
+#include <cassert>
+#include <algorithm>
+#include <common/util.h>
+
+namespace ECS {
+    /*
+     * Forward delarations
+     */
+    struct Component; // This one is a struct because it has no logic to begin with.
+    class Entity;
+
+    class EntityManager;
+
+//    template<typename T>
+    class System; // just in case I guess
+
+    class SystemManager;
+
+    /*
+     * Constexpr and typedef
+     */
+    constexpr std::size_t MAX_COMPS{32};
+    constexpr std::size_t MAX_GROUPS{32};
+//    constexpr std::size_t MAX_SYS{32};
+
+//    constexpr std::size_t maxComponents{MAX_COMPS};
+    using ComponentBitset = std::bitset<MAX_COMPS>;
+    using ComponentArray = std::array<Component *, MAX_COMPS>;
+    using ComponentID = std::size_t;
+    using Group = std::size_t;
+    using GroupBitset = std::bitset<MAX_GROUPS>;
+
+    /*
+     * Stuff
+     */
+
+    inline ComponentID getUniqueComponentID() noexcept {
+        static ComponentID lastID{0u};
+        return lastID++;
+    }
+
+    // Template Magic, have fun trying to figure it out!
+    template<typename T>
+    inline ComponentID getComponentTypeID() noexcept {
+        static ComponentID typeID{getUniqueComponentID()};
+        return typeID;
+    }
+
+    /*
+     * Component Implementation
+     *
+     * A component is a logic-less data object. it only contains data that will be handled by a system.
+     */
+    struct Component {
+        Entity *m_entity{nullptr};
+
+        // ... stuff ...
+        bool m_bEnabled;
+
+        virtual ~Component() {}
+    };
+
+    class Entity {
+        friend class EntityManager;
+    private:
+        EntityManager* m_manager;
+        /*
+         * Unique_ptrs make it so we don't leak any memory
+         */
+        std::vector<std::unique_ptr<Component>> m_components;
+        ComponentBitset m_componentBitset;
+        ComponentArray m_componentArray;
+        GroupBitset m_groupBitset;
+
+        std::string m_sName;
+        uint64_t m_iId;
+    public:
+
+        /*
+         * Check if the entity already has an instance of component T
+         */
+        template<typename T>
+        bool hasComponent() const {
+            return m_componentBitset[getComponentTypeID<T>()];
+        }
+
+        /*
+         * Check if entity belongs to a group
+         */
+        bool hasGroup(Group _group) const noexcept {
+            return m_groupBitset[_group];
+        }
+
+        /*
+         * Add entity to group
+         */
+        void addGroup(Group _group) noexcept;
+
+        /*
+         * Remove entity from group, the manager will automatically get rid of it
+         */
+        void deleteFromGroup(Group _group) noexcept {
+            m_groupBitset[_group] = false;
+        }
+
+        /*
+         * Add a component to the entity
+         */
+        template<typename T, typename... TArgs>
+        T &addComponent(TArgs &&... _args) {
+            assert(!hasComponent<T>()); // Make sure the entity doesn't already have this type of component.
+
+            T *c(new T(std::forward<TArgs>(_args)...));
+            c->m_entity = this;
+            std::unique_ptr<Component> uPtr(std::move(c));
+            m_components.emplace_back(std::move(uPtr));
+
+            ComponentID id = getComponentTypeID<T>();
+            m_componentArray[id] = c;
+            m_componentBitset[id] = true;
+
+            this->addGroup(id);
+//            c->init(); TODO
+            c->m_bEnabled = true;
+
+            return *c;
+        }
+
+        /*
+         * Get the entity's component T, if it has one.
+         */
+        template<typename T>
+        T &getComponent() const {
+            assert(hasComponent<T>()); // will throw an error
+            auto ptr(m_componentArray[getComponentTypeID<T>()]);
+            return *static_cast<T *>(ptr);
+        }
+    };
+
+    class EntityManager {
+    private:
+        std::vector<std::unique_ptr<Entity>> m_entities;
+        std::array<std::vector<Entity *>, MAX_GROUPS> m_groupedEntities;
+    public:
+        /* Add a function to remove entities that have to be removed */
+        void refresh() {
+            /*
+             * Remove entites that don't belong to groups anymore
+             */
+            for (auto i{0u}; i < MAX_GROUPS; i++) {
+                auto &v{m_groupedEntities[i]};
+                v.erase(std::remove_if(std::begin(v), std::end(v),
+                                       [i](Entity *_ent) {
+                                           return !_ent->hasGroup(i);
+                                       }), std::end(v));
+            }
+        }
+
+
+        /*
+         * Add an entity to the manager.
+         */
+        Entity &addEntity(std::string _name) {
+            Entity *e{new Entity{}};
+
+            e->m_manager = this;
+            e->m_sName = _name;
+            e->m_iId = generateUniqueID();
+
+            std::unique_ptr<Entity> uPtr(e);
+            m_entities.emplace_back(std::move(uPtr));
+            return *e;
+        }
+
+        /*
+         * Add an Entity to a group
+         */
+        void addToGroup(Entity *_ent, Group _group) {
+            m_groupedEntities[_group].emplace_back(_ent);
+        }
+
+        /*
+         * Get a group of entities, this will be handy for separating entites by the components they have.
+         */
+        std::vector<Entity *> &getEntitiesByGroup(Group _group) {
+            return m_groupedEntities[_group];
+        }
+
+    };
+
+    /*
+     * System class, templated to only handle one type of component, only the manager can construct one
+     */
+//    template<typename T>
+    class System {
+        friend class SystemManager;
+
+    public:
+        virtual ~System() {}
+
+        virtual void preUpdate(float _deltaTime) {}
+        virtual void update(float _deltaTime) {}
+        virtual void postUpdate(float _deltaTime) {}
+
+        inline void enable() noexcept { m_enabled = true; }
+        inline void disable() noexcept { m_enabled = false; }
+    protected:
+        System() : /*typeID(getComponentTypeID<T>()),*/ m_enabled(true) {} // = default?
+
+        ComponentID typeID;
+        bool m_enabled;
+        uint8_t m_priority;
+    private:
+        SystemManager *systemManager; // hold ref to sys manager
+    };
+
+    /*
+     * SystemManager class, handles the various systems
+     */
+    class SystemManager {
+    private:
+        std::vector<System*> m_systems;
+    public:
+        SystemManager() = default;
+        ~SystemManager() = default;
+
+        template<typename T, typename... TArgs>
+        T &addSystem(TArgs&&... _args) {
+//            ComponentID _typeID = getComponentTypeID<T>();
+//            if (auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
+//                                           [_typeID](System* _sys) { return _sys->typeID == _typeID; });
+//            found != std::end(m_systems)) {
+//                // System already exists.
+//                assert(false);
+//            }
+
+            auto system = new T(std::forward<TArgs>(_args)...);
+            system->systemManager = this;
+            system->typeID = getComponentTypeID<T>();
+//            std::unique_ptr<System> uPtr(std::move(system));
+            m_systems.emplace_back(system);
+
+            // Sort the systems by priority
+            std::sort(std::begin(m_systems), std::end(m_systems), [](System* _s1, System* _s2){
+                return _s1->m_priority > _s2->m_priority;
+            });
+
+            return *system;
+        };
+
+        template<typename T>
+        T* getSystem() const
+        {
+            ComponentID _typeID = getComponentTypeID<T>();
+            auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
+                                       [_typeID](System* _sys) { return _sys->typeID == _typeID; });
+            return found != this->m_systems.end() ? static_cast<T*>(*found) : nullptr;
+        }
+
+        template<typename T>
+        void setSystemPriority(uint8_t _priority) {
+            ComponentID _typeID = getComponentTypeID<T>();
+            if (auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
+                                           [_typeID](System* _sys) { return _sys->typeID == _typeID; });
+            found != std::end(m_systems)) {
+                // System already exists.
+                *found->m_priority = _priority;
+            } else {
+                // system isn't in there.
+                assert(false);
+                return;
+            }
+
+            // Sort the systems by priority
+            std::sort(std::begin(m_systems), std::end(m_systems), [](System* _s1, System* _s2){
+                return _s1->m_priority > _s2->m_priority;
+            });
+        }
+
+        void preUpdate(const float _deltaTime) {
+            for (auto& sys : m_systems) {
+                sys->preUpdate(_deltaTime);
+            }
+        }
+
+        void update(const float _deltaTime) {
+            for (auto& sys : m_systems) {
+                sys->update(_deltaTime);
+            }
+        }
+
+        void postUpdate(const float _deltaTime) {
+            for (auto& sys : m_systems) {
+                sys->postUpdate(_deltaTime);
+            }
+        }
+    };
+}
+#endif //ECS_ECS_H

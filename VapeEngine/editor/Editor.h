@@ -16,7 +16,7 @@
 #include <logging/LogMessage.h>
 #include <core/SceneManager.h>
 #include <input/InputListener.h>
-#include <core/GameManager.h>
+#include <core/Engine.h>
 #include "EditorController.h"
 #include <imgui/ImguiWindowsFileIO.hpp>
 #include <fstream>

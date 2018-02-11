@@ -8,34 +8,41 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include <cstdio>
-#include <renderer/RenderManager.h>
-#include <renderer/PrimitiveRenderer.h>
+#include <render/RenderManager.h>
+#include <render/PrimitiveRenderer.h>
 #include <test_object/Player.h>
 #include <editor/Editor.h>
+#include <ecs/ecs.h>
 
 namespace Core {
 
-    class GameManager {
+    class Engine {
     public:
-        static GameManager &getInstance() {
-            static GameManager instance; // Guaranteed to be destroyed.
+        static Engine &getInstance() {
+            static Engine instance; // Guaranteed to be destroyed.
             return instance;
         }
 
-        GameManager(GameManager const &) = delete;
-        void operator=(GameManager const &) = delete;
+        Engine(Engine const &) = delete;
+        void operator=(Engine const &) = delete;
 
-        void init();
+        void init(); // will involve starting the systems in the right order
         void gameLoop(bool _editor);
         void shutDown() { m_bShutdown = true; }
+
         void signalRunGame();
 
         inline bool isInitialized() const { return m_bInitialized; }
         static inline double getCurTime() { return glfwGetTime(); }
-        GLFWwindow* getWindow() const { return m_window; }
+        inline GLFWwindow* getWindow() const { return m_window; }
 
+        inline ECS::EntityManager& getComponentManager() { return m_entityManager; }
+        inline ECS::SystemManager& getSystemManager() { return m_systemManager; }
     private:
-        GameManager() = default;
+        Engine() = default;
+
+        ECS::EntityManager m_entityManager;
+        ECS::SystemManager m_systemManager;
 
         GLFWwindow* m_window; // Will most lilkely be removed at some point.
 

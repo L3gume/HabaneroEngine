@@ -25,8 +25,8 @@ T* clone(const T & obj) {
     return new T(obj);
 }
 
-static int ID = 0;
-static int generateUniqueID() {
+static uint64_t ID = 0;
+static uint64_t generateUniqueID() {
     return ++ID;
 }
 

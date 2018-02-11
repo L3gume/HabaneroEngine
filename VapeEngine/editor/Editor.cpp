@@ -85,7 +85,7 @@ void Editor::showMainMenuBar() {
         if (ImGui::BeginMenu("Run")) {
             if (ImGui::MenuItem("Run Game", "CTRL+SHIFT+R")) {
                 // TODO, run the game
-                Core::GameManager::getInstance().signalRunGame();
+                Core::Engine::getInstance().signalRunGame();
             }
             ImGui::EndMenu();
         }
@@ -161,7 +161,7 @@ void Editor::showMenuFile() {
     }
     if (ImGui::MenuItem("Checked", NULL, true)) {}
     if (ImGui::MenuItem("Quit", "Alt+F4")) {
-        Core::GameManager::getInstance().shutDown();
+        Core::Engine::getInstance().shutDown();
     }
 }
 
@@ -319,7 +319,7 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
     if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
         (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_R) {
         if (ctr4++ == 0) {
-            Core::GameManager::getInstance().signalRunGame();
+            Core::Engine::getInstance().signalRunGame();
         }
     } else {
         ctr4 = 0;

@@ -29,15 +29,22 @@ include_directories(logging)
 include_directories(patterns)
 include_directories(camera)
 include_directories(components)
-include_directories(renderer)
+include_directories(render)
 include_directories(imgui)
 include_directories(editor)
 include_directories(imgui/minizip)
+include_directories(ecs)
 
 file(GLOB_RECURSE CEREAL_DIR
             "cereal/**/*.hpp"
         )
-add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h camera/CameraController.cpp camera/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h core/GameManager.cpp core/GameManager.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h camera/Camera.cpp camera/Camera.h core/GameObject.cpp core/GameObject.h common/util.h common/VapeGL.h core/Scene.cpp core/Scene.h core/SceneManager.cpp core/SceneManager.h components/RigidBodyComponent.cpp components/RigidBodyComponent.h renderer/ObjectRenderer.h renderer/PrimitiveRenderer.cpp renderer/PrimitiveRenderer.h renderer/RenderManager.cpp renderer/RenderManager.h renderer/PrimitiveShapes.h test_object/Player.cpp test_object/Player.h common/quatUtils.h renderer/ModelRenderer.cpp renderer/ModelRenderer.h renderer/util/objloader.cpp renderer/util/objloader.h renderer/util/texture.cpp renderer/util/texture.h imgui/imconfig.h  imgui/imgui_demo.cpp  imgui/imgui.h imgui/stb_rect_pack.h imgui/stb_truetype.h imgui/imgui.cpp imgui/imgui_draw.cpp imgui/imgui_internal.h imgui/stb_textedit.h imgui/imgui_impl_glfw_gl3.cpp imgui/imgui_impl_glfw_gl3.h common/gl3w.c common/gl3w.h common/glcorearb.h editor/Editor.cpp editor/Editor.h editor/EditorController.cpp editor/EditorController.h imgui/ImguiWindowsFileIO.cpp imgui/ImguiWindowsFileIO.hpp ${CEREAL_DIR} persistence/PersistenceManager.cpp persistence/PersistenceManager.h)
+
+file(GLOB_RECURSE ECS_DIR
+            "ecs/*.h"
+            "ecs/*.cpp"
+        )
+
+add_executable(VapeEngine main.cpp common/loadShaders.cpp common/loadShaders.h camera/CameraController.cpp camera/CameraController.h input/InputManager.cpp input/InputManager.h input/InputListener.h input/InputMessage.h core/Engine.cpp core/Engine.h logging/LogMessage.h logging/LogManager.cpp logging/LogManager.h camera/Camera.cpp camera/Camera.h core/GameObject.cpp core/GameObject.h common/util.h common/VapeGL.h core/Scene.cpp core/Scene.h core/SceneManager.cpp core/SceneManager.h render/ObjectRenderer.h render/PrimitiveRenderer.cpp render/PrimitiveRenderer.h render/RenderManager.cpp render/RenderManager.h render/PrimitiveShapes.h test_object/Player.cpp test_object/Player.h common/quatUtils.h render/ModelRenderer.cpp render/ModelRenderer.h render/util/objloader.cpp render/util/objloader.h render/util/texture.cpp render/util/texture.h imgui/imconfig.h  imgui/imgui_demo.cpp  imgui/imgui.h imgui/stb_rect_pack.h imgui/stb_truetype.h imgui/imgui.cpp imgui/imgui_draw.cpp imgui/imgui_internal.h imgui/stb_textedit.h imgui/imgui_impl_glfw_gl3.cpp imgui/imgui_impl_glfw_gl3.h common/gl3w.c common/gl3w.h common/glcorearb.h editor/Editor.cpp editor/Editor.h editor/EditorController.cpp editor/EditorController.h imgui/ImguiWindowsFileIO.cpp imgui/ImguiWindowsFileIO.hpp ${CEREAL_DIR} persistence/PersistenceManager.cpp persistence/PersistenceManager.h ${ECS_DIR} components/RenderableComponent.h render/RenderSystem.cpp render/RenderSystem.h components/TransformComponent.h)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_definitions(VapeEngine PUBLIC DEBUG=1)
