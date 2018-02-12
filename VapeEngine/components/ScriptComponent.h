@@ -32,7 +32,7 @@ protected:
 struct ScriptComponent : ECS::Component {
     ScriptComponent(Script* _script) {
         std::unique_ptr<Script> uPtr{_script};
-        m_script = std::move(_script);
+        m_script = std::move(uPtr);
     }
     std::unique_ptr<Script> m_script;
     bool initialized = false;
