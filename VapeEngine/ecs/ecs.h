@@ -88,10 +88,20 @@ namespace ECS {
 
         std::string m_sName;
         uint64_t m_iId;
+//        int32_t m_iSceneGraphIndex; // When entity belongs to a scene, we give it an index.
+//        int32_t m_iParentIndex = -1;  // index of parent, -1 means its a root object.
+
+        bool m_bDestroyed = false; // entity will be removed from manager when this is true. Components are unique_ptr
+                                   // so no need to worry about them
     public:
         inline std::string getName() { return m_sName; }
         inline uint64_t getID() { return m_iId; }
+        void setID(uint64_t _id) { m_iId = _id; }
 
+//        inline int32_t getSceneGraphIndex() { return m_iSceneGraphIndex; }
+//        inline void setSceneGraphIndex(int32_t _index) { m_iSceneGraphIndex = _index; }
+
+        inline void destroy() { m_bDestroyed = true; }
         /*
          * Check if the entity already has an instance of component T
          */
@@ -160,14 +170,16 @@ namespace ECS {
     public:
         /* Add a function to remove entities that have to be removed */
         void refresh() {
+
+
             /*
-             * Remove entites that don't belong to groups anymore
+             * Remove entites that don't belong to groups anymore and those that have been destroyed.
              */
             for (auto i{0u}; i < MAX_GROUPS; i++) {
                 auto &v{m_groupedEntities[i]};
                 v.erase(std::remove_if(std::begin(v), std::end(v),
                                        [i](Entity *_ent) {
-                                           return !_ent->hasGroup(i);
+                                           return !_ent->hasGroup(i) || _ent->m_bDestroyed;
                                        }), std::end(v));
             }
         }

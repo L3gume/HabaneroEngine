@@ -6,6 +6,9 @@
 #include <render/RenderSystem.h>
 #include <camera/CameraSystem.h>
 #include <components/CameraComponent.h>
+#include <components/ScriptComponent.h>
+#include <script/PlayerMovementScript.h>
+#include <script/ScriptSystem.h>
 
 using namespace Core;
 
@@ -73,6 +76,8 @@ void Engine::gameLoop(const bool _editor) {
 
     m_systemManager.addSystem<RenderSystem>(m_window);
     m_systemManager.addSystem<CameraSystem>();
+    m_systemManager.addSystem<ScriptSystem>();
+    m_systemManager.setSystemPriority<ScriptSystem>(100);
 
     Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
@@ -95,6 +100,8 @@ void Engine::gameLoop(const bool _editor) {
     Entity& cube = m_entityManager.addEntity("TestCube");
     cube.addComponent<TransformComponent>(glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
     cube.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
+    Script *p = new PlayerMovementScript();
+    cube.addComponent<ScriptComponent>(p);
 
     Entity& camera = m_entityManager.addEntity("Camera");
     camera.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, -15.f), glm::vec3(glm::radians(-45.f), 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
