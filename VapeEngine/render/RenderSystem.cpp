@@ -5,8 +5,8 @@
 
 #include "RenderSystem.h"
 
-RenderSystem::RenderSystem(GLFWwindow *_window, Camera *_cam) : System(), m_window(_window), m_camera(_cam) {
-    assert(m_camera != nullptr && m_window != nullptr); // Throw compile time error
+RenderSystem::RenderSystem(GLFWwindow *_window/*, Camera *_cam*/) : System(), m_window(_window)/*, m_camera(_cam)*/{
+    assert(/*m_camera != nullptr && */m_window != nullptr); // Throw compile time error
 
     m_priority = 0;
 
@@ -66,7 +66,10 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
 
     if (transform.rotation == glm::vec3(0.f)) rotate = glm::mat4(); // failsafe
 
-    MVP = m_camera->getMVP(_deltaTime, translate * rotate * scale);
+//    MVP = m_camera->getMVP(_deltaTime, translate * rotate * scale);
+    MVP = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getMVPFromActiveCamera(
+            translate * rotate * scale);
+
     glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
 
     GLuint colorbuffer;

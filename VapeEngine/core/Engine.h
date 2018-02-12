@@ -8,8 +8,6 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include <cstdio>
-#include <render/RenderManager.h>
-#include <render/PrimitiveRenderer.h>
 #include <test_object/Player.h>
 #include <editor/Editor.h>
 #include <ecs/ecs.h>

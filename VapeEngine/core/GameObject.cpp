@@ -9,7 +9,7 @@ using namespace Core;
 
 void GameObject::update(const float _deltaTime) {}
 
-void GameObject::addComponent(Component *_component) {
+void GameObject::addComponent(deprecatedComponent *_component) {
     m_components.emplace_back(_component);
     if (_component->getParent() != this) {
         _component->setParent(this); // Just in case

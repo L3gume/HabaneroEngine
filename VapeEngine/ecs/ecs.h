@@ -180,7 +180,7 @@ namespace ECS {
             Entity *e{new Entity{}};
 
             e->m_manager = this;
-            e->m_sName = _name;
+            e->m_sName = std::move(_name); // since we're passing by copy and only copying once.
             e->m_iId = generateUniqueID();
 
             std::unique_ptr<Entity> uPtr(e);
@@ -216,10 +216,6 @@ namespace ECS {
     public:
         virtual ~System() {}
 
-        virtual void preUpdate(float _deltaTime) {}
-        virtual void update(float _deltaTime) {}
-        virtual void postUpdate(float _deltaTime) {}
-
         inline void enable() noexcept { m_enabled = true; }
         inline void disable() noexcept { m_enabled = false; }
     protected:
@@ -230,6 +226,10 @@ namespace ECS {
         uint8_t m_priority;
     private:
         SystemManager *systemManager; // hold ref to sys manager
+
+        virtual void preUpdate(float _deltaTime) {}
+        virtual void update(float _deltaTime) {}
+        virtual void postUpdate(float _deltaTime) {}
     };
 
     /*
@@ -244,13 +244,13 @@ namespace ECS {
 
         template<typename T, typename... TArgs>
         T &addSystem(TArgs&&... _args) {
-//            ComponentID _typeID = getComponentTypeID<T>();
-//            if (auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
-//                                           [_typeID](System* _sys) { return _sys->typeID == _typeID; });
-//            found != std::end(m_systems)) {
-//                // System already exists.
-//                assert(false);
-//            }
+            ComponentID _typeID = getComponentTypeID<T>();
+            if (auto found = std::find_if(std::begin(m_systems), std::end(m_systems),
+                                           [_typeID](System* _sys) { return _sys->typeID == _typeID; });
+            found != std::end(m_systems)) {
+                // System already exists.
+                assert(false);
+            }
 
             auto system = new T(std::forward<TArgs>(_args)...);
             system->systemManager = this;
@@ -270,7 +270,7 @@ namespace ECS {
         T* getSystem() const
         {
             ComponentID _typeID = getComponentTypeID<T>();
-            auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
+            auto found = std::find_if(std::begin(m_systems), std::end(m_systems),
                                        [_typeID](System* _sys) { return _sys->typeID == _typeID; });
             return found != this->m_systems.end() ? static_cast<T*>(*found) : nullptr;
         }
@@ -278,11 +278,11 @@ namespace ECS {
         template<typename T>
         void setSystemPriority(uint8_t _priority) {
             ComponentID _typeID = getComponentTypeID<T>();
-            if (auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
+            if (auto found = std::find_if(std::begin(m_systems), std::end(m_systems),
                                            [_typeID](System* _sys) { return _sys->typeID == _typeID; });
             found != std::end(m_systems)) {
                 // System already exists.
-                *found->m_priority = _priority;
+                (*found)->m_priority = _priority;
             } else {
                 // system isn't in there.
                 assert(false);

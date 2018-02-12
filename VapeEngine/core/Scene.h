@@ -5,7 +5,6 @@
 #ifndef VAPEENGINE_SCENE_H
 #define VAPEENGINE_SCENE_H
 
-#include <camera/Camera.h>
 #include "GameObject.h"
 
 namespace Core {
@@ -29,14 +28,14 @@ namespace Core {
         void update(float _deltaTime); // updates all of the objects stored in the scene
         inline std::vector<GameObject*>* getObjects() { return &m_objects; }
 
-        inline void setCamera(Camera *_camera) { m_camera = _camera; }
-        inline Camera* getCamera() { return m_camera; }
+//        inline void setCamera(Camera *_camera) { m_camera = _camera; }
+//        inline Camera* getCamera() { return m_camera; }
 
         void update(); // updates all of the objects stored in the scene
     private:
         std::string m_sName;
         std::vector<GameObject*> m_objects;
-        Camera* m_camera = nullptr;
+//        Camera* m_camera = nullptr;
     };
 
 }

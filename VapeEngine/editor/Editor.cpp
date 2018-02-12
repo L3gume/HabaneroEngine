@@ -404,7 +404,7 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
 //        ImGui::Separator();
 //        renderTransformInspector();
 //        ImGui::Separator();
-//        for (Component *comp : *m_selectedEntity->getComponents()) {
+//        for (deprecatedComponent *comp : *m_selectedEntity->getComponents()) {
 //            // TODO: Render a section for each component
 //            comp->renderInspectorSection();
 //        }
