@@ -3,7 +3,6 @@
 //
 
 
-#include <glm/gtc/matrix_transform.hpp>
 #include "CameraSystem.h"
 
 inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
@@ -36,8 +35,9 @@ void CameraSystem::preUpdate(float _deltaTime) {
 
     /*
      * The lookAt function likes cartesian coordinates so we do a bunch of conversions.
+     *
+     * We do this in preUpdate as we only want to do it once per frame.
      */
-
     cartesianRot = {
             glm::cos(transform.rotation.x) * glm::sin(transform.rotation.y),
             glm::sin(transform.rotation.x),

@@ -10,6 +10,7 @@
 #include <components/CameraComponent.h>
 #include <components/TransformComponent.h>
 #include <core/Engine.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace ECS;
 
@@ -19,7 +20,8 @@ class CameraSystem : public System {
 public:
     CameraSystem() : System() {}
 
-    inline void setActiveCamera(Entity *_cam) noexcept;
+    inline void setActiveCamera(Entity *_cam) noexcept; // This essentially forces the system to use a specific camera,
+                                                        // usually you'd have only one anyway.
     glm::mat4 getMVPFromActiveCamera(glm::mat4 _modelMat);
 
 private:
@@ -34,6 +36,5 @@ private:
     glm::mat4 viewMat;
     glm::mat4 projMat;
 };
-
 
 #endif //VAPEENGINE_CAMERASYSTEM_H

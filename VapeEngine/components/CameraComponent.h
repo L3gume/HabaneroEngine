@@ -9,7 +9,7 @@
 #include <glm/matrix.hpp>
 
 /*
- * IMPORTANT INFO, rotation = {0, 0, 0} means that the camera is pointing towards negative z axis.
+ * IMPORTANT INFO, rotation = {0.f, 0.f, 0.f} means that the camera is pointing towards negative z axis.
  */
 struct CameraComponent : ECS::Component {
     CameraComponent(float _fov, float _hRes, float _vRes, float _zNear, float _zFar)
