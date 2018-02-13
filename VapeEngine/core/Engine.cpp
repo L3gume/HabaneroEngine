@@ -118,6 +118,16 @@ void Engine::gameLoop(const bool _editor) {
         float deltaTime = m_fCurTime - m_fLastTime;
         m_fLastTime = m_fCurTime;
 
+        float fps = 1 / deltaTime;
+        std::stringstream s;
+        s << fps << "    " << deltaTime;
+
+#if DEBUG
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
+                VapeLog::LogSeverity::LOW, s.str()));
+#endif
+
         glfwPollEvents();
 
         m_systemManager.preUpdate(deltaTime); // Call preUpdate on all systems

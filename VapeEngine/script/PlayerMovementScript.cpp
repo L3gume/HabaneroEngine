@@ -29,19 +29,19 @@ void PlayerMovementScript::update(float _deltaTime) {
 
     // Move forward
     if (m_bMoveForward) {
-        transform->position -= frwd * _deltaTime * m_fSpeed;
+        transform->position += frwd * _deltaTime * m_fSpeed;
     }
     // Move backward
     if (m_bMoveBack) {
-        transform->position += frwd * _deltaTime * m_fSpeed;
+        transform->position -= frwd * _deltaTime * m_fSpeed;
     }
     // Strafe right
     if (m_bMoveRight) {
-        transform->position += right * _deltaTime * m_fSpeed;
+        transform->position -= right * _deltaTime * m_fSpeed;
     }
     // Strafe left
     if (m_bMoveLeft) {
-        transform->position -= right * _deltaTime * m_fSpeed;
+        transform->position += right * _deltaTime * m_fSpeed;
     }
     // Rotate Left
     if (m_bTurnLeft) {

@@ -22,12 +22,8 @@ namespace ECS {
      */
     struct Component; // This one is a struct because it has no logic to begin with.
     class Entity;
-
     class EntityManager;
-
-//    template<typename T>
     class System; // just in case I guess
-
     class SystemManager;
 
     /*
@@ -35,9 +31,7 @@ namespace ECS {
      */
     constexpr std::size_t MAX_COMPS{32};
     constexpr std::size_t MAX_GROUPS{32};
-//    constexpr std::size_t MAX_SYS{32};
 
-//    constexpr std::size_t maxComponents{MAX_COMPS};
     using ComponentBitset = std::bitset<MAX_COMPS>;
     using ComponentArray = std::array<Component *, MAX_COMPS>;
     using ComponentID = std::size_t;
@@ -96,7 +90,6 @@ namespace ECS {
     public:
         inline std::string getName() { return m_sName; }
         inline uint64_t getID() { return m_iId; }
-        void setID(uint64_t _id) { m_iId = _id; }
 
 //        inline int32_t getSceneGraphIndex() { return m_iSceneGraphIndex; }
 //        inline void setSceneGraphIndex(int32_t _index) { m_iSceneGraphIndex = _index; }
@@ -193,7 +186,7 @@ namespace ECS {
 
             e->m_manager = this;
             e->m_sName = std::move(_name); // since we're passing by copy and only copying once.
-            e->m_iId = generateUniqueID();
+            e->m_iId = generateUniqueID(); // may be useful
 
             std::unique_ptr<Entity> uPtr(e);
             m_entities.emplace_back(std::move(uPtr));
