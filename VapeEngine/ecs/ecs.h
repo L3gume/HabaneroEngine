@@ -15,6 +15,9 @@
 #include <cassert>
 #include <algorithm>
 #include <common/util.h>
+#include <fstream>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace ECS {
     /*
@@ -70,6 +73,7 @@ namespace ECS {
 
     class Entity {
         friend class EntityManager;
+        friend class EntityConstructor;
     private:
         EntityManager* m_manager;
         /*
@@ -163,8 +167,6 @@ namespace ECS {
     public:
         /* Add a function to remove entities that have to be removed */
         void refresh() {
-
-
             /*
              * Remove entites that don't belong to groups anymore and those that have been destroyed.
              */
@@ -176,7 +178,6 @@ namespace ECS {
                                        }), std::end(v));
             }
         }
-
 
         /*
          * Add an entity to the manager.
@@ -194,6 +195,17 @@ namespace ECS {
         }
 
         /*
+         * Add by copying a pre-constructed entity, don't use this; its for loading from file.
+         */
+        void addEntity(Entity* _ent) {
+            _ent->m_manager = this;
+            _ent->m_iId = generateUniqueID(); // may be useful
+
+            std::unique_ptr<Entity> uPtr(_ent);
+            m_entities.emplace_back(std::move(uPtr));
+        }
+
+        /*
          * Add an Entity to a group
          */
         void addToGroup(Entity *_ent, Group _group) {
@@ -208,6 +220,18 @@ namespace ECS {
         }
 
         std::vector<std::unique_ptr<Entity>> &getEntities() { return m_entities; }
+
+//        void saveEntity(Entity *_ent);
+        void loadEntity(std::string _path);
+
+    };
+
+    class EntityLoader {
+    public:
+        EntityLoader() = default;
+        Entity* constructEntity(std::vector<std::string> _args);
+        std::vector<std::string> loadFile(std::ifstream _ifs);
+    private:
 
     };
 

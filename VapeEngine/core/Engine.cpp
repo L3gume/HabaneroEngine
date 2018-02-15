@@ -107,9 +107,11 @@ void Engine::gameLoop(const bool _editor) {
     camera.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, -15.f), glm::vec3(glm::radians(-45.f), 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
     camera.addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
 
-    Entity& plane = m_entityManager.addEntity("Plane");
-    plane.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(100.f, 100.f, 100.f));
-    plane.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
+//    Entity& plane = m_entityManager.addEntity("Plane");
+//    plane.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(100.f, 100.f, 100.f));
+//    plane.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
+
+    m_entityManager.loadEntity("plane.ent");
 
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
@@ -118,15 +120,15 @@ void Engine::gameLoop(const bool _editor) {
         float deltaTime = m_fCurTime - m_fLastTime;
         m_fLastTime = m_fCurTime;
 
-        float fps = 1 / deltaTime;
-        std::stringstream s;
-        s << fps << "    " << deltaTime;
-
-#if DEBUG
-        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
-                VapeLog::LogSeverity::LOW, s.str()));
-#endif
+//        float fps = 1 / deltaTime;
+////        std::stringstream s;
+////        s << fps << "    " << deltaTime;
+////
+////#if DEBUG
+////        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+////                VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
+////                VapeLog::LogSeverity::LOW, s.str()));
+////#endif
 
         glfwPollEvents();
 

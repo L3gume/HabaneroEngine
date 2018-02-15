@@ -3,6 +3,7 @@
 //
 
 #include <ecs.h>
+#include "EntityConstructor.h"
 
 using namespace ECS;
 
@@ -10,5 +11,13 @@ using namespace ECS;
 void Entity::addGroup(Group _group) noexcept {
     m_groupBitset[_group] = true;
     m_manager->addToGroup(this, _group);
+}
+
+void EntityManager::loadEntity(std::string _path) {
+    EntityConstructor constructor;
+    std::ifstream ifs(_path);
+    std::vector<std::string> args = constructor.loadFile(ifs);
+    constructor.constructEntity(args);
+//    addEntity(newEnt);
 }
 
