@@ -30,7 +30,7 @@ protected:
  * Heavily inspired from Unity's scripting system.
  */
 struct ScriptComponent : ECS::Component {
-    ScriptComponent(Script* _script) {
+    explicit ScriptComponent(Script* _script) {
         std::unique_ptr<Script> uPtr{_script};
         m_script = std::move(uPtr);
     }
