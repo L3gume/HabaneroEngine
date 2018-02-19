@@ -97,21 +97,9 @@ void Engine::gameLoop(const bool _editor) {
      * The actual loop is here
      */
 
-//    Entity& cube = m_entityManager.addEntity("TestCube");
-//    cube.addComponent<TransformComponent>(glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
-//    cube.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
-//    Script *p = new PlayerMovementScript();
-//    cube.addComponent<ScriptComponent>(p);
     m_entityManager.loadEntity("cube.ent");
 
-//    Entity& camera = m_entityManager.addEntity("Camera");
-//    camera.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, -15.f), glm::vec3(glm::radians(-45.f), 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
-//    camera.addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
     m_entityManager.loadEntity("camera.ent");
-
-//    Entity& plane = m_entityManager.addEntity("Plane");
-//    plane.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(100.f, 100.f, 100.f));
-//    plane.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
 
     m_entityManager.loadEntity("plane.ent");
 
