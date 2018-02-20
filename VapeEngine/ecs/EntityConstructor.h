@@ -21,7 +21,8 @@ namespace ECS {
         void constructEntity(std::vector<std::string> _args, /*const std::shared_ptr<Entity>&*/ Entity* _parent) noexcept;
         std::vector<std::string> loadFile(std::ifstream& _ifs);
 
-        void saveEntity(Entity& _ent, std::string _filename);
+        void saveEntityFile(Entity& _ent, std::string _filename);
+        void saveEntity(Entity& _ent, std::ofstream* _of, std::ostringstream* _oss);
     private:
 //        void constructTransformComponent();
     };

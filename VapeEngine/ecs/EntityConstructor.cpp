@@ -79,17 +79,30 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, /*const std::
     }
 }
 
-void EntityConstructor::saveEntity(Entity &_ent, std::string _filename) {
+void EntityConstructor::saveEntityFile(Entity& _ent, std::string _filename) {
     std::ofstream of(_filename);
     std::ostringstream oss;
 
-    oss << "ENTITY:" << _ent.m_sName << "\n{\n";
-    saveTransformComponent(_ent, oss);
-    saveRenderableComponent(_ent, oss);
-    saveCameraComponent(_ent, oss);
-    saveScriptComponent(_ent, oss);
-    oss << "\n}\n";
+    saveEntity(_ent, &of, &oss);
 
     of << oss.str() << "\n";
     of.close();
+}
+
+void EntityConstructor::saveEntity(Entity &_ent, std::ofstream* _of, std::ostringstream* _oss) {
+//    std::ofstream of(_filename);
+//    std::ostringstream oss;
+
+    *_oss << "ENTITY:" << _ent.m_sName << "\n{\n";
+    saveTransformComponent(_ent, *_oss);
+    saveRenderableComponent(_ent, *_oss);
+    saveCameraComponent(_ent, *_oss);
+    saveScriptComponent(_ent, *_oss);
+    for (auto& child : _ent.m_children) {
+        saveEntity(*child, _of, _oss);
+    }
+    *_oss << "}\n";
+
+
+//    (*_of).close();
 }

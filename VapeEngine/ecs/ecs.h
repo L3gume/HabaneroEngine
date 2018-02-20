@@ -194,17 +194,6 @@ namespace ECS {
             return *e;
         }
 
-//        /*
-//         * Add by copying a pre-constructed entity, don't use this; its for loading from file.
-//         */
-//        void addEntity(Entity* _ent) {
-//            _ent->m_manager = this;
-//            _ent->m_iId = generateUniqueID(); // may be useful
-//
-//            std::unique_ptr<Entity> uPtr(_ent);
-//            m_entities.emplace_back(std::move(uPtr));
-//        }
-
         /*
          * Add an Entity to a group
          */
@@ -223,15 +212,6 @@ namespace ECS {
 
 //        void saveEntity(Entity *_ent);
         void loadEntity(std::string _path);
-
-    };
-
-    class EntityLoader {
-    public:
-        EntityLoader() = default;
-        Entity* constructEntity(std::vector<std::string> _args);
-        std::vector<std::string> loadFile(std::ifstream _ifs);
-    private:
 
     };
 
