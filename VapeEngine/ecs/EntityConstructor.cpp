@@ -83,13 +83,13 @@ void EntityConstructor::saveEntityFile(Entity& _ent, std::string _filename) {
     std::ofstream of(_filename);
     std::ostringstream oss;
 
-    saveEntity(_ent, &of, &oss);
+    saveEntity(_ent, &oss);
 
     of << oss.str() << "\n";
     of.close();
 }
 
-void EntityConstructor::saveEntity(Entity &_ent, std::ofstream* _of, std::ostringstream* _oss) {
+void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream* _oss) {
 //    std::ofstream of(_filename);
 //    std::ostringstream oss;
 
@@ -99,7 +99,7 @@ void EntityConstructor::saveEntity(Entity &_ent, std::ofstream* _of, std::ostrin
     saveCameraComponent(_ent, *_oss);
     saveScriptComponent(_ent, *_oss);
     for (auto& child : _ent.m_children) {
-        saveEntity(*child, _of, _oss);
+        saveEntity(*child, _oss);
     }
     *_oss << "}\n";
 

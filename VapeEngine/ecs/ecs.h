@@ -97,7 +97,7 @@ namespace ECS {
         inline uint64_t getID() { return m_iId; }
 //        inline const std::shared_ptr<Entity>& getParent() const { return m_parent; }
         inline const Entity* getParent() const { return m_parent; }
-
+        inline const std::vector<Entity*>& getChildren() const { return m_children; };
         inline void destroy() { m_bDestroyed = true; }
         /*
          * Check if the entity already has an instance of component T
@@ -232,6 +232,9 @@ namespace ECS {
 
         ComponentID typeID;
         bool m_enabled;
+#if EDITOR
+        bool m_enabledInEditorMode;
+#endif
         uint8_t m_priority;
     private:
         SystemManager *systemManager; // hold ref to sys manager

@@ -18,7 +18,11 @@ class CameraSystem : public System {
     friend class SystemManger;
 
 public:
-    CameraSystem() : System() {}
+    CameraSystem() : System() {
+#if EDITOR
+        m_enabledInEditorMode = true;
+#endif
+    }
 
     inline void setActiveCamera(Entity *_cam) noexcept; // This essentially forces the system to use a specific camera,
                                                         // usually you'd have only one anyway.

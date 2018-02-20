@@ -21,6 +21,10 @@ RenderSystem::RenderSystem(GLFWwindow *_window/*, Camera *_cam*/) : System(), m_
     glEnable(GL_DEPTH_TEST);
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
+
+#if EDITOR
+    m_enabledInEditorMode = true;
+#endif
 }
 
 void RenderSystem::preUpdate(float _deltaTime) {

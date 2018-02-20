@@ -22,7 +22,7 @@ namespace ECS {
         std::vector<std::string> loadFile(std::ifstream& _ifs);
 
         void saveEntityFile(Entity& _ent, std::string _filename);
-        void saveEntity(Entity& _ent, std::ofstream* _of, std::ostringstream* _oss);
+        void saveEntity(Entity& _ent, std::ostringstream* _oss);
     private:
 //        void constructTransformComponent();
     };

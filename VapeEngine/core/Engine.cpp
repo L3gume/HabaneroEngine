@@ -11,11 +11,13 @@
 #include <systems/ScriptSystem.h>
 #include <ecs/EntityConstructor.h>
 #include <systems/TransformSystem.h>
+#include "SceneManager.h"
 
 using namespace Core;
 
 void Engine::init() {
     // TODO: figure out what the hell I want to do in here.
+    // TODO: Configs (file paths)
     m_bInitialized = true;
     m_bShutdown = false;
 #if EDITOR
@@ -101,9 +103,9 @@ void Engine::gameLoop(const bool _editor) {
      */
 
 //    m_entityManager.loadEntity("cube.ent");
-    m_entityManager.loadEntity("camera.ent");
+//    m_entityManager.loadEntity("camera.ent");
 //    m_entityManager.loadEntity("plane.ent");
-    m_entityManager.loadEntity("testparent.ent");
+//    m_entityManager.loadEntity("testparent.ent");
 //    Entity& test = m_entityManager.addEntity("testPlane");
 //    test.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(glm::radians(90.f), 0.f, 0.f), glm::vec3(10.f, 10.f, 10.f));
 //    test.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
@@ -111,7 +113,9 @@ void Engine::gameLoop(const bool _editor) {
 //    c.saveEntity(test, "test.ent");
 
 //    m_entityManager.loadEntity("test.ent");
-
+    SceneManager& scnMan = SceneManager::getInstance();
+//    scnMan.saveScene("testScene");
+    scnMan.loadScene("testScene.scn");
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
 
@@ -120,14 +124,14 @@ void Engine::gameLoop(const bool _editor) {
         m_fLastTime = m_fCurTime;
 
 //        float fps = 1 / deltaTime;
-////        std::stringstream s;
-////        s << fps << "    " << deltaTime;
-////
-////#if DEBUG
-////        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-////                VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
-////                VapeLog::LogSeverity::LOW, s.str()));
-////#endif
+//        std::stringstream s;
+//        s << fps << "    " << deltaTime;
+//
+//#if DEBUG
+//        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+//                VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
+//                VapeLog::LogSeverity::LOW, s.str()));
+//#endif
 
         glfwPollEvents();
 

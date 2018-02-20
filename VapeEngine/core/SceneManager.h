@@ -26,8 +26,8 @@ public:
     //                                      Scene functions
     // -----------------------------------------------------------------------------------------------------------------
 
-    void saveScene(); // Saves the currently loaded scene.
-    void loadScene(std::string _path, bool _saveCurrent); // Loads a file and puts everything in the entityManager
+    void saveScene(std::string _name); // Saves the currently loaded scene.
+    void loadScene(const std::string& _path); // Loads a file and puts everything in the entityManager
 
     void backupScene(); // Backs up the active scene and keeps the path in mem
     void restoreScene(); // Reloads the backed up scene.
@@ -44,6 +44,7 @@ private:
      * When we switch between play and editor mode, we will save the scene, enter play mode, do our stuff, exit play mode,
      * and reload the scene from the file, we will keep the path of the file in memory.
      */
+    std::string m_sActiveScene = "";
     std::string m_sBackedUpScene;
 };
 

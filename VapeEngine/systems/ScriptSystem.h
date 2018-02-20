@@ -14,7 +14,11 @@ using namespace ECS;
 class ScriptSystem : public System {
 friend class SystemManager;
 public:
-    ScriptSystem() = default;
+    ScriptSystem() {
+#if EDITOR
+        m_enabledInEditorMode = false;
+#endif
+    }
 
 private:
     void preUpdate(float _deltaTime) override;

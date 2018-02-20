@@ -43,8 +43,8 @@ void Editor::render() {
 
     if (m_bShowMenuBar) showMainMenuBar();
     if (m_bShowLogWindow) showLogWindow();
-//    if (m_bShowObjTree) showObjTree();
-//    if (m_bShowInspector) showInspector();
+    if (m_bShowObjTree) showObjTree();
+    if (m_bShowInspector) showInspector();
     if (m_bShowOpenScene) showOpenDialog();
     if (m_bShowSaveScene) showSaveDialog();
 
@@ -188,8 +188,9 @@ struct LogWindow {
         ScrollToBottom = true;
     }
 
-    void Draw(const char *title, bool *p_open = NULL) {
+    void Draw(const char *title, bool *p_open = nullptr) {
         ImGui::SetNextWindowSize(ImVec2(1200, 300), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 750), ImGuiCond_Once);
         ImGui::Begin(title, p_open);
         if (ImGui::Button("Sort by: Time")) {
             Clear();
@@ -335,84 +336,81 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
  *
  * Inspector constains separated sections for each of the object's components
  */
-//void Editor::showObjTree() {
-////    Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
-////    Core::Scene *activeScene = sceneManager.getActiveScene();
-//
-//    m_treeNodes.clear();
-//
-//    std::vector<std::unique_ptr<ECS::Entity>>& entities = Core::Engine::getInstance().getEntityManager().getEntities();
-//    bool open = true;
-//    ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
-//    ImGui::SetNextWindowPos(ImVec2(x_res - 600, 15), ImGuiCond_Once);
-//    if (!ImGui::Begin("Scene", &open)) {
-//        // Early out if the window is collapsed, as an optimization.
-//        ImGui::End();
-//        return;
-//    }
-//    for (auto& ent : entities) {
-//            // Show top level objects only, children are going to be recursively shown.
-//            addObjTreeNode(ent);
-//    }
-//    ImGui::End();
-//    m_bShowObjTree = open;
-//}
-//
-//void Editor::addObjTreeNode(std::unique_ptr<ECS::Entity>& obj) {
-//    const char *tag = strlen(obj->getName().c_str()) > 0 ? obj->getName().c_str() : "no name";
-//    auto found = std::find_if(m_treeNodes.begin(), m_treeNodes.end(), [obj](std::unique_ptr<ECS::Entity>& _obj) {
-//        return _obj->getID() == obj->getID();
-//    });
-//    if (found == m_treeNodes.end()) {
-//        m_treeNodes.emplace_back(obj);
-//        if (ImGui::TreeNode(tag)) {
-//            if (ImGui::IsItemClicked()) {
-//#if DEBUG
-//                VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-//                        VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
-//                        VapeLog::LogSeverity::LOW, "Tree item clicked. " + obj->m_tag));
-//#endif
-//                // TODO
-//                m_selectedEntity = obj;
-//            }
-//            for (Core::GameObject *_child : *(obj->getChildren())) {
-//                addObjTreeNode(_child);
-//            }
-//            ImGui::TreePop();
-//        }
-//    }
-//}
-//
-//void Editor::showInspector() {
-//    bool open = true;
-//    ImGui::SetNextWindowSize(ImVec2(350, 680), ImGuiCond_Once);
-//    ImGui::SetNextWindowPos(ImVec2(x_res - 350, 15), ImGuiCond_Once);
-//    if (!ImGui::Begin("Inspector", &open)) {
-//        ImGui::End();
-//    }
-//    if (m_selectedEntity) {
-//        // do stuff
-//        ImGui::Text("Tag:");
-//        ImGui::SameLine();
-//        ImGui::Text(m_selectedEntity->m_tag.c_str());
-//        ImGui::Text("ID:");
-//        std::string s = std::to_string(m_selectedEntity->getID());
-//        char const *pchar = s.c_str();
-//        ImGui::SameLine();
-//        ImGui::Text(pchar);
-//
-//        ImGui::Separator();
+void Editor::showObjTree() {
+    m_treeNodes.clear();
+
+    auto& entities = Core::Engine::getInstance().getEntityManager().getEntities();
+    bool open = true;
+    ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(x_res - 600, 15), ImGuiCond_Once);
+    if (!ImGui::Begin("Scene", &open)) {
+        // Early out if the window is collapsed, as an optimization.
+        ImGui::End();
+        return;
+    }
+    for (auto& ent : entities) {
+            // Show top level objects only, children are going to be recursively shown.
+        if (!ent->getParent())
+            addObjTreeNode(ent.get()); // pass the raw pointer
+    }
+    ImGui::End();
+    m_bShowObjTree = open;
+}
+
+void Editor::addObjTreeNode(ECS::Entity* obj) {
+    const char *tag = strlen(obj->getName().c_str()) > 0 ? obj->getName().c_str() : "no name";
+    auto found = std::find_if(m_treeNodes.begin(), m_treeNodes.end(), [obj](ECS::Entity* _obj) {
+        return _obj->getID() == obj->getID();
+    });
+    if (found == m_treeNodes.end()) {
+        m_treeNodes.emplace_back(obj);
+        if (ImGui::TreeNode(tag)) {
+            if (ImGui::IsItemClicked()) {
+#if DEBUG
+                VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                        VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
+                        VapeLog::LogSeverity::LOW, "Tree item clicked. " + obj->getName()));
+#endif
+                // TODO
+                m_selectedEntity = obj;
+            }
+            for (auto& _child : obj->getChildren()) {
+                addObjTreeNode(_child);
+            }
+            ImGui::TreePop();
+        }
+    }
+}
+
+void Editor::showInspector() {
+    bool open = true;
+    ImGui::SetNextWindowSize(ImVec2(350, 680), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(x_res - 350, 15), ImGuiCond_Once);
+    if (!ImGui::Begin("Inspector", &open)) {
+        ImGui::End();
+    }
+    if (m_selectedEntity) {
+        // do stuff
+        ImGui::Text("Tag:");
+        ImGui::SameLine();
+        ImGui::Text(m_selectedEntity->getName().c_str());
+        ImGui::Text("ID:");
+        std::string s = std::to_string(m_selectedEntity->getID());
+        char const *pchar = s.c_str();
+        ImGui::SameLine();
+        ImGui::Text(pchar);
+
+        ImGui::Separator();
 //        renderTransformInspector();
-//        ImGui::Separator();
-//        for (deprecatedComponent *comp : *m_selectedEntity->getComponents()) {
+        ImGui::Separator();
+//        for (deprecatedComponent *comp : *m_selectedEntity->) {
 //            // TODO: Render a section for each component
 //            comp->renderInspectorSection();
 //        }
-//
-//    }
-//    ImGui::End();
-//    m_bShowInspector = open;
-//}
+    }
+    ImGui::End();
+    m_bShowInspector = open;
+}
 //
 //void Editor::renderTransformInspector() {
 //    /*

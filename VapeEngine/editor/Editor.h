@@ -16,9 +16,9 @@
 #include <logging/LogMessage.h>
 #include <input/InputListener.h>
 #include <core/Engine.h>
-#include "EditorController.h"
 #include <imgui/ImguiWindowsFileIO.hpp>
 #include <fstream>
+#include <ecs/ecs.h>
 
 
 namespace VapeUI {
@@ -65,13 +65,13 @@ namespace VapeUI {
         void showOpenDialog();
         void showSaveDialog();
 
-//        void addObjTreeNode(std::unique_ptr<ECS::Entity> &obj);
+        void addObjTreeNode(ECS::Entity* obj);
         void renderTransformInspector();
 
         GLFWwindow *m_window = nullptr;
-//        ECS::Entity *m_selectedEntity = nullptr;
+        ECS::Entity* m_selectedEntity = nullptr;
         ImVec4 clear_color;
-//        std::vector<std::unique_ptr<ECS::Entity> &> m_treeNodes;
+        std::vector<ECS::Entity*> m_treeNodes;
         std::vector<std::string> m_sRecentFiles;
 
         // stuff that is on by default:
