@@ -12,6 +12,7 @@ void ScriptSystem::preUpdate(float _deltaTime) {
     for (auto& ent : m_scriptedEntities) {
         auto& comp = ent->getComponent<ScriptComponent>();
         if (!comp.initialized) {
+            assert(comp.m_script != nullptr);
             comp.m_script->m_entity = ent;
             comp.m_script->init();
         }

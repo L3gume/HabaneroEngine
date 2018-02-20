@@ -14,6 +14,7 @@
 
 struct RenderableComponent : ECS::Component {
     explicit RenderableComponent(VapeRenderer::PrimitiveShapes _shape) {
+        m_shape = _shape;
         switch (_shape) {
             case VapeRenderer::PrimitiveShapes::CUBE:
                 std::copy(std::begin(VapeRenderer::cube_vertex_buffer_data), std::end(VapeRenderer::cube_vertex_buffer_data), std::begin(m_vBuf));
@@ -37,6 +38,7 @@ struct RenderableComponent : ECS::Component {
     }
     GLfloat m_vBuf[1000];
     GLfloat m_cBuf[1000];
+    VapeRenderer::PrimitiveShapes m_shape;
 };
 
 #endif //VAPEENGINE_RENDERABLECOMPONENT_H

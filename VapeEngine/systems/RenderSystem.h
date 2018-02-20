@@ -11,7 +11,7 @@
 #include <core/Engine.h>
 #include <common/loadShaders.h>
 #include <components/TransformComponent.h>
-#include <camera/CameraSystem.h>
+#include <systems/CameraSystem.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 

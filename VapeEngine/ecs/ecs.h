@@ -84,19 +84,19 @@ namespace ECS {
         ComponentArray m_componentArray;
         GroupBitset m_groupBitset;
 
+        std::vector<Entity*> m_children;
+        Entity* m_parent;
+
         std::string m_sName;
         uint64_t m_iId;
-//        int32_t m_iSceneGraphIndex; // When entity belongs to a scene, we give it an index.
-//        int32_t m_iParentIndex = -1;  // index of parent, -1 means its a root object.
 
         bool m_bDestroyed = false; // entity will be removed from manager when this is true. Components are unique_ptr
                                    // so no need to worry about them
     public:
         inline std::string getName() { return m_sName; }
         inline uint64_t getID() { return m_iId; }
-
-//        inline int32_t getSceneGraphIndex() { return m_iSceneGraphIndex; }
-//        inline void setSceneGraphIndex(int32_t _index) { m_iSceneGraphIndex = _index; }
+//        inline const std::shared_ptr<Entity>& getParent() const { return m_parent; }
+        inline const Entity* getParent() const { return m_parent; }
 
         inline void destroy() { m_bDestroyed = true; }
         /*
@@ -162,7 +162,7 @@ namespace ECS {
 
     class EntityManager {
     private:
-        std::vector<std::unique_ptr<Entity>> m_entities;
+        std::vector<std::shared_ptr<Entity>> m_entities;
         std::array<std::vector<Entity *>, MAX_GROUPS> m_groupedEntities;
     public:
         /* Add a function to remove entities that have to be removed */
@@ -189,21 +189,21 @@ namespace ECS {
             e->m_sName = std::move(_name); // since we're passing by copy and only copying once.
             e->m_iId = generateUniqueID(); // may be useful
 
-            std::unique_ptr<Entity> uPtr(e);
-            m_entities.emplace_back(std::move(uPtr));
+            std::shared_ptr<Entity> sPtr(e);
+            m_entities.emplace_back(std::move(sPtr));
             return *e;
         }
 
-        /*
-         * Add by copying a pre-constructed entity, don't use this; its for loading from file.
-         */
-        void addEntity(Entity* _ent) {
-            _ent->m_manager = this;
-            _ent->m_iId = generateUniqueID(); // may be useful
-
-            std::unique_ptr<Entity> uPtr(_ent);
-            m_entities.emplace_back(std::move(uPtr));
-        }
+//        /*
+//         * Add by copying a pre-constructed entity, don't use this; its for loading from file.
+//         */
+//        void addEntity(Entity* _ent) {
+//            _ent->m_manager = this;
+//            _ent->m_iId = generateUniqueID(); // may be useful
+//
+//            std::unique_ptr<Entity> uPtr(_ent);
+//            m_entities.emplace_back(std::move(uPtr));
+//        }
 
         /*
          * Add an Entity to a group
@@ -219,7 +219,7 @@ namespace ECS {
             return m_groupedEntities[_group];
         }
 
-        std::vector<std::unique_ptr<Entity>> &getEntities() { return m_entities; }
+        std::vector<std::shared_ptr<Entity>> &getEntities() { return m_entities; }
 
 //        void saveEntity(Entity *_ent);
         void loadEntity(std::string _path);

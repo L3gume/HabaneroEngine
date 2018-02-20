@@ -3,12 +3,14 @@
 //
 
 #include <core/Engine.h>
-#include <render/RenderSystem.h>
-#include <camera/CameraSystem.h>
+#include <systems/RenderSystem.h>
+#include <systems/CameraSystem.h>
 #include <components/CameraComponent.h>
 #include <components/ScriptComponent.h>
 #include <script/PlayerMovementScript.h>
-#include <script/ScriptSystem.h>
+#include <systems/ScriptSystem.h>
+#include <ecs/EntityConstructor.h>
+#include <systems/TransformSystem.h>
 
 using namespace Core;
 
@@ -78,8 +80,9 @@ void Engine::gameLoop(const bool _editor) {
     m_systemManager.addSystem<CameraSystem>();
     m_systemManager.addSystem<ScriptSystem>();
     m_systemManager.setSystemPriority<ScriptSystem>(100);
+    m_systemManager.addSystem<TransformSystem>();
+    m_systemManager.setSystemPriority<TransformSystem>(90);
 
-    Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
     inputManager.init(m_window);
 
 #if EDITOR
@@ -97,11 +100,17 @@ void Engine::gameLoop(const bool _editor) {
      * The actual loop is here
      */
 
-    m_entityManager.loadEntity("cube.ent");
-
+//    m_entityManager.loadEntity("cube.ent");
     m_entityManager.loadEntity("camera.ent");
+//    m_entityManager.loadEntity("plane.ent");
+    m_entityManager.loadEntity("testparent.ent");
+//    Entity& test = m_entityManager.addEntity("testPlane");
+//    test.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(glm::radians(90.f), 0.f, 0.f), glm::vec3(10.f, 10.f, 10.f));
+//    test.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
+//    EntityConstructor c;
+//    c.saveEntity(test, "test.ent");
 
-    m_entityManager.loadEntity("plane.ent");
+//    m_entityManager.loadEntity("test.ent");
 
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {

@@ -6,13 +6,22 @@
 #define VAPEENGINE_ENTITYCONSTRUCTOR_H
 
 #include "ecs.h"
+#include <components/TransformComponent.h>
+#include <components/RenderableComponent.h>
+#include <core/Engine.h>
+#include <components/CameraComponent.h>
+#include <components/ScriptComponent.h>
+#include <script/PlayerMovementScript.h>
+#include "EntityConstructor.h"
 
 namespace ECS {
     class EntityConstructor {
     public:
         EntityConstructor() = default;
-        void constructEntity(std::vector<std::string> _args) noexcept;
+        void constructEntity(std::vector<std::string> _args, /*const std::shared_ptr<Entity>&*/ Entity* _parent) noexcept;
         std::vector<std::string> loadFile(std::ifstream& _ifs);
+
+        void saveEntity(Entity& _ent, std::string _filename);
     private:
 //        void constructTransformComponent();
     };

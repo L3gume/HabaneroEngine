@@ -16,6 +16,7 @@ using namespace VapeInput;
 class PlayerMovementScript : public Script, public InputListener {
 public:
     PlayerMovementScript() : InputListener(true, false, false, false, false) {
+        m_sName = "PlayerMovementScript";
         m_bMoveForward = false;
         m_bMoveBack = false;
         m_bMoveLeft = false;

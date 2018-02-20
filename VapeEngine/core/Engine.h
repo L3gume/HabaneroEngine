@@ -6,7 +6,6 @@
 #define VAPEENGINE_GAMEMANAGER_H
 
 #include "InputManager.h"
-#include "SceneManager.h"
 #include <cstdio>
 #include <test_object/Player.h>
 #include <editor/Editor.h>

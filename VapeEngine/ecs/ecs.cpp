@@ -17,7 +17,6 @@ void EntityManager::loadEntity(std::string _path) {
     EntityConstructor constructor;
     std::ifstream ifs(_path);
     std::vector<std::string> args = constructor.loadFile(ifs);
-    constructor.constructEntity(args);
-//    addEntity(newEnt);
+    constructor.constructEntity(args, nullptr);
 }
 
