@@ -17,6 +17,10 @@
 
 using namespace ECS;
 
+/*
+ * The point of this file is to add components here so they can be saved/loaded
+ */
+
 void constructTransformComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructRenderableComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructCameraComponent(Entity& _ent, std::vector<std::string>& _args);

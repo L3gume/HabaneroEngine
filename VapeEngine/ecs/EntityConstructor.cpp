@@ -14,7 +14,7 @@
 using namespace ECS;
 
 /*
- * TODO: make this useable lul
+ * TODO: make this useable and safer lul
  */
 
 std::vector<std::string> EntityConstructor::loadFile(std::ifstream &_ifs) {
