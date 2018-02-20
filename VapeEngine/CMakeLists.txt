@@ -35,10 +35,6 @@ include_directories(editor)
 include_directories(imgui/minizip)
 include_directories(ecs)
 
-file(GLOB_RECURSE CEREAL_DIR
-            "cereal/**/*.hpp"
-        )
-
 file(GLOB_RECURSE ECS_DIR
             "ecs/*.h"
             "ecs/*.cpp"

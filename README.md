@@ -15,6 +15,7 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 * glew 2.1.0-1 (Available on Arch repos)
 * cmake 3.9 or higher
 * glm 0.9.8.5-1
+* Boost (available on every distro)
 * imgui + gl3w (included in the source code)
 
 ## Code Style
@@ -36,6 +37,8 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 
 * Don't use smart pointers, use raw pointers instead
     * `unique_ptr` is allowed when creating a pointer only for the scope of a function, but pretty much useless
+        * Ignore this, use unique_ptr when possible
+    * `share_ptr` is also allowed in cases where memory management would be a nightmare
 * No exception handling (no try/catch blocks)
 * Use `nullptr` instead of `NULL`
 * Until we have a stack-based allocator, heap allocations are OK, but keep to a minimum (avoid calling `new`)
@@ -67,25 +70,22 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 ## TODO
 
 * Encapsulate rendering in its own system [Evan]
-    * Entities, hierarchies of entities (composite design pattern, anyone?)
-* Game loop [Justin, on hold]
-* Game Objects [Justin]
 * Physics (Collisions, etc.) [optional for 0.1]
-* Simple Editor UI
-    * get rid of Qt5
-
+* Simple Editor UI [Justin]
+    * Scene graph window
+    * Inspector window
+    * Save/Load dialog
+    * File Browser
 
 ## NEXT MILESTONE
 
 For version 0.1:
 
-* Working Camera - **MOSTLY DONE**
-* Working Rendering system - **I'D SAY THIS IS DONE**
+* Working Rendering system
     * Simple shapes and volumes
-    * Very basic system
-* Working Input system - **DONE**
+    * Very basic system (done right)
 * Simple Physics engine (optional)
     * Basic collsions
     * Gravity
     * Forces
-* Simple debug log system - **DONE**
+* Save/Load + basic editor
