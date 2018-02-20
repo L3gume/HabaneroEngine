@@ -5,8 +5,7 @@
 #ifndef VAPEENGINE_INPUTLISTENER_H
 #define VAPEENGINE_INPUTLISTENER_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <common/VapeGL.h>
 #include "InputMessage.h"
 
 namespace VapeInput {

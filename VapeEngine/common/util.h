@@ -5,6 +5,11 @@
 #ifndef VAPEENGINE_UTIL_H
 #define VAPEENGINE_UTIL_H
 
+#include <memory>
+
+static float x_res = 1920.f;
+static float y_res = 1080.f;
+
 /*
  * This is Java now!
  *
@@ -15,8 +20,13 @@ inline bool instanceOf(const T* ptr) {
     return static_cast<const Base*>(ptr) != nullptr;
 }
 
-static int ID = 0;
-static int generateUniqueID() {
+template <typename T>
+T* clone(const T & obj) {
+    return new T(obj);
+}
+
+static uint64_t ID = 0;
+static uint64_t generateUniqueID() {
     return ++ID;
 }
 

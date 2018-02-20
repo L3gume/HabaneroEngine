@@ -12,7 +12,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-class Component;
+class deprecatedComponent;
 
 namespace Core {
 
@@ -39,8 +39,8 @@ namespace Core {
         void addChild(GameObject* _child);
         std::vector<GameObject*>* getChildren() { return &m_children; }
 
-        void addComponent(Component *_component);
-        std::vector<Component *> *getComponents() { return &m_components; }
+        void addComponent(deprecatedComponent *_component);
+        std::vector<deprecatedComponent *> *getComponents() { return &m_components; }
 
         inline int getID() const { return m_id; }
         inline std::string getTag() const { return m_tag; }
@@ -60,7 +60,7 @@ namespace Core {
         template<typename T>
         T *findComponentInParent() {
             if (m_parent) {
-                for (Component *comp : *(m_parent->getComponents())) {
+                for (deprecatedComponent *comp : *(m_parent->getComponents())) {
                     if (instanceOf<T>(comp)) {
                         return static_cast<T *>(comp);
                     }
@@ -78,7 +78,7 @@ namespace Core {
 
         template<typename T>
         T *findComponent() {
-            for (Component *comp : m_components) {
+            for (deprecatedComponent *comp : m_components) {
                 if (instanceOf<T>(comp)) {
                     return static_cast<T *>(comp);
                 }
@@ -90,7 +90,7 @@ namespace Core {
         T *findComponentInChildren() {
             T *ret = nullptr;
             for (GameObject *go : m_children) {
-                for (Component *comp : *(go->getComponents())) {
+                for (deprecatedComponent *comp : *(go->getComponents())) {
                     if (instanceOf<T>(comp)) {
                         return comp;
                     }
@@ -102,7 +102,7 @@ namespace Core {
             return nullptr;
         } // will go through the whole hierarchy, will be much slower.
     protected:
-        std::vector<Component *> m_components;
+        std::vector<deprecatedComponent *> m_components;
         std::vector<GameObject *> m_children;
         GameObject *m_parent;
 
@@ -111,18 +111,22 @@ namespace Core {
     };
 }
 
-class Component {
+class deprecatedComponent {
 public:
-    explicit Component(Core::GameObject* _parent = nullptr) : m_parent(_parent) {};
+    explicit deprecatedComponent(Core::GameObject* _parent = nullptr) : m_parent(_parent) {};
     /*
      * When deleting a component, delete all of its children. This is going to cause a "recursive" chain reaction of deleting
      * all the grand children. Make sure to always have as little references to components as possible to avoid null ptrs.
      */
-    ~Component() = default;
+    ~deprecatedComponent() = default;
 
     void setParent(Core::GameObject* _parent) { m_parent = _parent; }  // Does not delete the old parent,
     // programmer is responsible for this
     Core::GameObject* getParent() { return m_parent; }
+
+#if EDITOR
+    virtual void renderInspectorSection() {}
+#endif
 
 protected:
     Core::GameObject* m_parent;
