@@ -36,8 +36,8 @@ struct RenderableComponent : ECS::Component {
                 break;
         }
     }
-    GLfloat m_vBuf[1000];
-    GLfloat m_cBuf[1000];
+    GLfloat m_vBuf[150];
+    GLfloat m_cBuf[150];
     VapeRenderer::PrimitiveShapes m_shape;
 };
 

@@ -2,6 +2,7 @@
 // Created by l3gume on 04/02/18.
 //
 
+#include <components/TransformComponent.h>
 #include "Editor.h"
 
 /*
@@ -190,7 +191,7 @@ struct LogWindow {
 
     void Draw(const char *title, bool *p_open = nullptr) {
         ImGui::SetNextWindowSize(ImVec2(1200, 300), ImGuiCond_Once);
-        ImGui::SetNextWindowPos(ImVec2(0, 750), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 715), ImGuiCond_Once);
         ImGui::Begin(title, p_open);
         if (ImGui::Button("Sort by: Time")) {
             Clear();
@@ -401,7 +402,7 @@ void Editor::showInspector() {
         ImGui::Text(pchar);
 
         ImGui::Separator();
-//        renderTransformInspector();
+        renderTransformInspector();
         ImGui::Separator();
 //        for (deprecatedComponent *comp : *m_selectedEntity->) {
 //            // TODO: Render a section for each component
@@ -411,48 +412,27 @@ void Editor::showInspector() {
     ImGui::End();
     m_bShowInspector = open;
 }
-//
-//void Editor::renderTransformInspector() {
-//    /*
-//     * Transform
-//     */
-//    ImGui::Text("Transform:");
-//    ImGui::Text(" ");
-//    if (m_selectedEntity) {
-//        Core::Transform *t = m_selectedEntity->getTransform();
-//        glm::vec3 pos = t->position;
-//        glm::vec3 rot = t->euler_rotation;
-//        glm::vec3 scl = t->scale;
-//
-//        ImGui::PushItemWidth(40);
-//        ImGui::Text("Position: ");
-//        ImGui::SameLine();
-//        ImGui::InputFloat("xpos", &(pos.x), 0.f, 0.f, 2);
-//        ImGui::SameLine();
-//        ImGui::InputFloat("ypos", &(pos.y), 0.f, 0.f, 2);
-//        ImGui::SameLine();
-//        ImGui::InputFloat("zpos", &(pos.z), 0.f, 0.f, 2);
-//        ImGui::Text("Rotation: ");
-//        ImGui::SameLine();
-//        ImGui::InputFloat("xrot", &(rot.x), 0.f, 0.f, 2);
-//        ImGui::SameLine();
-//        ImGui::InputFloat("yrot", &(rot.y), 0.f, 0.f, 2);
-//        ImGui::SameLine();
-//        ImGui::InputFloat("zrot", &(rot.z), 0.f, 0.f, 2);
-//        ImGui::Text("Scale:    ");
-//        ImGui::SameLine();
-//        ImGui::InputFloat("xscl", &(scl.x), 0.f, 0.f, 2);
-//        ImGui::SameLine();
-//        ImGui::InputFloat("yscl", &(scl.y), 0.f, 0.f, 2);
-//        ImGui::SameLine();
-//        ImGui::InputFloat("zscl", &(scl.z), 0.f, 0.f, 2);
-//        ImGui::PopItemWidth();
-//
-//        t->position = pos;
-//        t->euler_rotation = rot;
-//        t->scale = scl;
-//    }
-//}
+
+void Editor::renderTransformInspector() {
+    /*
+     * Transform
+     */
+    ImGui::Text("Transform:");
+    ImGui::Text(" ");
+    if (m_selectedEntity) {
+        float pos[3], rot[3], scl[3];
+        auto& t = m_selectedEntity->getComponent<TransformComponent>();
+        pos[0] = t.position.x; pos[1] = t.position.y; pos[2] = t.position.z;
+        rot[0] = glm::degrees(t.rotation.x); rot[1] = glm::degrees(t.rotation.y); rot[2] = glm::degrees(t.rotation.z);
+        scl[0] = t.scale.x; scl[1] = t.scale.y; scl[2] = t.scale.z;
+        ImGui::InputFloat3("Position", pos, 3);
+        ImGui::InputFloat3("Rotation", rot, 3);
+        ImGui::InputFloat3("Scale", scl, 3);
+        t.position.x = pos[0]; t.position.y = pos[1]; t.position.z = pos[2];
+        t.rotation.x = glm::radians(rot[0]); t.rotation.y = glm::radians(rot[1]); t.rotation.z = glm::radians(rot[2]);
+        t.scale.x = scl[0]; t.scale.y = scl[1]; t.scale.z = scl[2];
+    }
+}
 
 void Editor::showOpenDialog() {
     std::string open_file;

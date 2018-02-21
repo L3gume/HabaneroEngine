@@ -116,6 +116,7 @@ void Engine::gameLoop(const bool _editor) {
     SceneManager& scnMan = SceneManager::getInstance();
 //    scnMan.saveScene("testScene");
     scnMan.loadScene("testScene.scn");
+//    scnMan.loadScene("testPlaneScene.scn");
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
 
