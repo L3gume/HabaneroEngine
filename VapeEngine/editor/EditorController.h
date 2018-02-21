@@ -7,7 +7,20 @@
 
 
 class EditorController {
+public:
+    static EditorController &getInstance() {
+        static EditorController instance; // Guaranteed to be destroyed.
+        return instance;
+    }
 
+    EditorController(EditorController const &) = delete;
+    void operator=(EditorController const &) = delete;
+
+    void addNewEntity(std::string _name);
+    void createNewScene();
+
+private:
+    EditorController() = default;
 };
 
 

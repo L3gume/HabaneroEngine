@@ -15,7 +15,7 @@ class Script {
     friend class ScriptSystem;
 public:
     Script() = default;
-
+    virtual ~Script() {}
     // member functions that are meant to be overridden
     virtual void init();
     virtual void preUpdate(float _deltaTime) {}

@@ -26,7 +26,9 @@ namespace Core {
         void init(); // will involve starting the systems in the right order
         void gameLoop(bool _editor);
         void shutDown() { m_bShutdown = true; }
+        void reset();
 
+        void switchMode();
         void signalRunGame();
 
         inline bool isInitialized() const { return m_bInitialized; }
@@ -48,6 +50,7 @@ namespace Core {
 
         bool m_bInitialized : 1;
         bool m_bShutdown    : 1;
+        bool m_bSwitchMode  : 1;
 
 #if EDITOR
         bool m_bRunGame      : 1;

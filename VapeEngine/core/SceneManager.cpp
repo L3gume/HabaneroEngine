@@ -10,11 +10,12 @@ void SceneManager::saveScene(std::string _name) {
     std::sort(std::begin(entities), std::end(entities), [](std::shared_ptr<ECS::Entity>& A, std::shared_ptr<ECS::Entity>& B){
         return A->getParent() == nullptr && B->getParent() != nullptr;
     });
-
-    std::ofstream os(_name + ".scn"); // TODO: validation of the file name
+    size_t lastindex = _name.find_last_of(".");
+    std::string rawname = _name.substr(0, lastindex);
+    std::ofstream os(_name); // TODO: validation of the file name
     std::ostringstream oss;
     ECS::EntityConstructor ec;
-    oss << "SCENE:" << _name << "\n{\n";
+    oss << "SCENE:" << rawname << "\n{\n";
     for (auto& e : entities) {
         if (!e->getParent())
             ec.saveEntity(*e, &oss);
@@ -25,6 +26,9 @@ void SceneManager::saveScene(std::string _name) {
 }
 
 void SceneManager::loadScene(const std::string& _path) {
+//    Core::Engine::getInstance().getEntityManager().getEntities().clear();
+//    Core::Engine::getInstance().getEntityManager().refresh();
+    Core::Engine::getInstance().getEntityManager().clearEntities();
     ECS::EntityConstructor ec;
     std::ifstream ifs(_path);
     std::string line;
@@ -57,4 +61,15 @@ void SceneManager::loadScene(const std::string& _path) {
             ec.constructEntity(entityArgs, nullptr);
         }
     }
+}
+
+void SceneManager::backupScene() {
+    std::string filename(m_sActiveScene);
+    m_sBackedUpScene = filename;
+    saveScene(filename);
+}
+
+void SceneManager::restoreScene() {
+    loadScene(m_sBackedUpScene);
+    m_sBackedUpScene = "";
 }

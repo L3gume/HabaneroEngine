@@ -5,13 +5,15 @@
 
 #include "CameraSystem.h"
 
-inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
-    assert(_cam->hasComponent<CameraComponent>() &&
-           _cam->hasComponent<TransformComponent>()); // throw an error if its not the case.
-    // A camera entity needs both a camera component, which holds the data for the projection matrix,
-    // and a transform component, which contains the info about the camera's position and orientation.
-    ComponentID typeID = getComponentTypeID<CameraComponent>();
-    if (!_cam->hasGroup(typeID)) _cam->addGroup(typeID); // Just in case.
+void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
+    if (_cam) {
+        assert(_cam->hasComponent<CameraComponent>() &&
+               _cam->hasComponent<TransformComponent>()); // throw an error if its not the case.
+        // A camera entity needs both a camera component, which holds the data for the projection matrix,
+        // and a transform component, which contains the info about the camera's position and orientation.
+        ComponentID typeID = getComponentTypeID<CameraComponent>();
+        if (!_cam->hasGroup(typeID)) _cam->addGroup(typeID); // Just in case.
+    }
     m_activeCamera = _cam;
 }
 

@@ -22,6 +22,7 @@ void Engine::init() {
     m_bShutdown = false;
 #if EDITOR
     m_bRunGame = false;
+    m_bSwitchMode = false;
 #endif
 }
 
@@ -117,6 +118,7 @@ void Engine::gameLoop(const bool _editor) {
 //    scnMan.saveScene("testScene");
     scnMan.loadScene("testScene.scn");
 //    scnMan.loadScene("testPlaneScene.scn");
+    m_systemManager.switchMode(false);
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
 
@@ -139,13 +141,17 @@ void Engine::gameLoop(const bool _editor) {
         m_systemManager.preUpdate(deltaTime); // Call preUpdate on all systems
         //----------------------------------------
         inputManager.update(m_window, deltaTime);
+//        if (glfwGetKey(m_window, GLFW_KEY_0)) m_bSwitchMode = true;
         //----------------------------------------
         m_systemManager.update(deltaTime); // Call update on all systems
-        editor.render();
+#if EDITOR
+        if (!m_bRunGame) editor.render();
+#endif
         glfwSwapBuffers(m_window);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_systemManager.postUpdate(deltaTime); // Is called after rendering
 
+        if (m_bSwitchMode) switchMode();
     }
 #if EDITOR
     editor.shutDown();
@@ -153,24 +159,49 @@ void Engine::gameLoop(const bool _editor) {
     glfwTerminate();
 }
 
-void Engine::signalRunGame() {
+void Engine::switchMode() {
 #if EDITOR
-//    Core::SceneManager &sceneManager = Core::SceneManager::getInstance();
-//    if (!m_bRunGame) {
-////        m_tempScene = new Scene(*(sceneManager.getActiveScene()));// Make a copy of the current active scene
-////        if (m_tempScene != nullptr) {
-////            delete m_tempScene;
-////            m_tempScene = nullptr;
-////        }
-//        m_tempScene = sceneManager.getActiveScene()->createBackup();
-////        sceneManager.backupActiveScene(); // Push the active onto the stack
-////        sceneManager.setActiveScene(m_tempScene); // Make active scene point to the copied version
-//    } else {
-////        delete sceneManager.getActiveScene();
-//        sceneManager.setActiveScene(m_tempScene);
-//        delete m_tempScene;
-////        sceneManager.restorePreviousScene();
-//    }
-    m_bRunGame = !m_bRunGame;
+    SceneManager& sm = SceneManager::getInstance();
+    if (!m_bRunGame) {
+        sm.backupScene();
+//        sm.saveScene("testScene.scn");
+        m_systemManager.switchMode(!m_bRunGame);
+#if DEBUG
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::GAME, VapeLog::LogType::MESSAGE,
+                VapeLog::LogSeverity::LOW, "Switched to Game Mode!"));
 #endif
+    } else {
+//        m_systemManager.disableAllSystems();
+//        m_systemManager.getSystem<CameraSystem>()->setActiveCamera(nullptr);
+        reset();
+        VapeUI::Editor::getInstance().reset();
+        sm.restoreScene();
+//        sm.loadScene("testScene.scn");
+        m_systemManager.switchMode(!m_bRunGame);
+#if DEBUG
+        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                VapeLog::LogTag::GAME, VapeLog::LogType::MESSAGE,
+                VapeLog::LogSeverity::LOW, "Switched to Editor Mode!"));
+#endif
+    }
+    m_bRunGame = !m_bRunGame;
+//    m_systemManager.switchMode(m_bRunGame);
+    m_bSwitchMode = false;
+#endif
+}
+
+void Engine::signalRunGame() {
+    m_bSwitchMode = true;
+}
+
+void Engine::reset() {
+    m_systemManager = ECS::SystemManager();
+    m_systemManager.addSystem<RenderSystem>(m_window);
+    m_systemManager.addSystem<CameraSystem>();
+    m_systemManager.addSystem<ScriptSystem>();
+    m_systemManager.setSystemPriority<ScriptSystem>(100);
+    m_systemManager.addSystem<TransformSystem>();
+    m_systemManager.setSystemPriority<TransformSystem>(90);
+    m_entityManager = ECS::EntityManager(); // reset manager
 }

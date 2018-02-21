@@ -177,6 +177,14 @@ namespace ECS {
                                            return !_ent->hasGroup(i) || _ent->m_bDestroyed;
                                        }), std::end(v));
             }
+            m_entities.erase(std::remove_if(std::begin(m_entities), std::end(m_entities), [](std::shared_ptr<Entity> _ent) {
+                return _ent->m_bDestroyed;
+            }), std::end(m_entities));
+        }
+
+        void clearEntities() {
+            m_entities = std::vector<std::shared_ptr<Entity>>(); // reset
+            m_groupedEntities = std::array<std::vector<Entity*>, MAX_GROUPS>(); // reset
         }
 
         /*
@@ -307,21 +315,33 @@ namespace ECS {
             });
         }
 
+        void disableAllSystems() {
+            for (auto& sys : m_systems) {
+                sys->m_enabled = false;
+            }
+        }
+
+        void switchMode(bool _gameMode) {
+            for (auto& sys : m_systems) {
+                sys->m_enabled = _gameMode ? true : sys->m_enabledInEditorMode;
+            }
+        }
+
         void preUpdate(const float _deltaTime) {
             for (auto& sys : m_systems) {
-                sys->preUpdate(_deltaTime);
+                if (sys->m_enabled) sys->preUpdate(_deltaTime);
             }
         }
 
         void update(const float _deltaTime) {
             for (auto& sys : m_systems) {
-                sys->update(_deltaTime);
+                if (sys->m_enabled) sys->update(_deltaTime);
             }
         }
 
         void postUpdate(const float _deltaTime) {
             for (auto& sys : m_systems) {
-                sys->postUpdate(_deltaTime);
+                if (sys->m_enabled) sys->postUpdate(_deltaTime);
             }
         }
     };

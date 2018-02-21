@@ -39,6 +39,7 @@ namespace VapeUI {
         void init(GLFWwindow *_window);
         void render(); // Renders the UI, called every frame.
         void shutDown();
+        void reset() { m_selectedEntity = nullptr; }
 
         void onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) override;
         void onMouseMoved(const VapeInput::MouseMovedInputMessage &_msMsg) {}
@@ -52,7 +53,7 @@ namespace VapeUI {
             m_bShowObjTree = true;
             m_bShowSaveScene = false;
             m_bShowOpenScene = false;
-//            m_selectedEntity = nullptr;
+            m_selectedEntity = nullptr;
         };
 
         void showMainMenuBar();
@@ -61,12 +62,15 @@ namespace VapeUI {
         void showInspector();
         void showObjTree();
         void showFileBrowser(); // maybe?
+        void showNewEntWindow();
+        void showAddComponentWindow();
 
         void showOpenDialog();
         void showSaveDialog();
 
         void addObjTreeNode(ECS::Entity* obj);
         void renderTransformInspector();
+        void renderRenderableInspector();
 
         GLFWwindow *m_window = nullptr;
         ECS::Entity* m_selectedEntity = nullptr;
@@ -82,7 +86,11 @@ namespace VapeUI {
         // Stuff that isn't
         bool m_bShowSaveScene       : 1;
         bool m_bShowOpenScene       : 1;
+        bool m_bShowNewEntWindow    : 1;
+        bool m_bShowAddComponent    : 1;
         /* TODO */
+
+        char buf[50];
     };
 
 }

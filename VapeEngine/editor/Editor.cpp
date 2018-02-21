@@ -3,7 +3,9 @@
 //
 
 #include <components/TransformComponent.h>
+#include <core/SceneManager.h>
 #include "Editor.h"
+#include "EditorController.h"
 
 /*
  * All of this code will only be compiled if in Editor mode.
@@ -48,6 +50,8 @@ void Editor::render() {
     if (m_bShowInspector) showInspector();
     if (m_bShowOpenScene) showOpenDialog();
     if (m_bShowSaveScene) showSaveDialog();
+    if (m_bShowNewEntWindow) showNewEntWindow();
+    if (m_bShowAddComponent) showAddComponentWindow();
 
     int display_w, display_h;
     glfwGetFramebufferSize(m_window, &display_w, &display_h);
@@ -86,13 +90,14 @@ void Editor::showMainMenuBar() {
         if (ImGui::BeginMenu("Run")) {
             if (ImGui::MenuItem("Run Game", "CTRL+SHIFT+R")) {
                 // TODO, run the game
-                Core::Engine::getInstance().signalRunGame();
+                Core::Engine::getInstance().switchMode();
             }
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Scene")) {
             if (ImGui::MenuItem("New Scene", "CTRL+SHIFT+N")) {
                 // TODO - Editor controller to handle this.
+                EditorController::getInstance().createNewScene();
             }
             if (ImGui::MenuItem("Save Scene", "CTRL+SHIFT+S")) {
                 m_bShowSaveScene = true;
@@ -191,7 +196,7 @@ struct LogWindow {
 
     void Draw(const char *title, bool *p_open = nullptr) {
         ImGui::SetNextWindowSize(ImVec2(1200, 300), ImGuiCond_Once);
-        ImGui::SetNextWindowPos(ImVec2(0, 715), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(0, 750), ImGuiCond_Once);
         ImGui::Begin(title, p_open);
         if (ImGui::Button("Sort by: Time")) {
             Clear();
@@ -292,39 +297,28 @@ void Editor::showLogWindow() {
 
 void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
     static unsigned int ctr = 0;
-    static unsigned int ctr2 = 0;
-    static unsigned int ctr3 = 0;
-    static unsigned int ctr4 = 0;
-
-
+//    static unsigned int ctr2 = 0;
+//    static unsigned int ctr3 = 0;
+//    static unsigned int ctr4 = 0;
     if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) && _kbdMsg.KEY_L) {
         if (ctr++ == 0) {
             m_bShowLogWindow = !m_bShowLogWindow;
         }
-    } else {
-        ctr = 0;
-    }
-    if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) && _kbdMsg.KEY_T) {
-        if (ctr2++ == 0) {
+    } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) && _kbdMsg.KEY_T) {
+        if (ctr++ == 0) {
             m_bShowObjTree = !m_bShowObjTree;
         }
-    } else {
-        ctr2 = 0;
-    }
-    if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) && _kbdMsg.KEY_I) {
-        if (ctr3++ == 0) {
+    } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) && _kbdMsg.KEY_I) {
+        if (ctr++ == 0) {
             m_bShowInspector = !m_bShowInspector;
         }
-    } else {
-        ctr3 = 0;
-    }
-    if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
+    } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
         (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_R) {
-        if (ctr4++ == 0) {
+        if (ctr++ == 0) {
             Core::Engine::getInstance().signalRunGame();
         }
     } else {
-        ctr4 = 0;
+        ctr = 0;
     }
 
 }
@@ -348,6 +342,9 @@ void Editor::showObjTree() {
         // Early out if the window is collapsed, as an optimization.
         ImGui::End();
         return;
+    }
+    if (ImGui::Button("New Entity")) {
+        m_bShowNewEntWindow = true;
     }
     for (auto& ent : entities) {
             // Show top level objects only, children are going to be recursively shown.
@@ -403,11 +400,19 @@ void Editor::showInspector() {
 
         ImGui::Separator();
         renderTransformInspector();
+        if (m_selectedEntity->hasComponent<RenderableComponent>()) {
+            ImGui::Separator();
+            renderRenderableInspector();
+        }
         ImGui::Separator();
-//        for (deprecatedComponent *comp : *m_selectedEntity->) {
-//            // TODO: Render a section for each component
-//            comp->renderInspectorSection();
-//        }
+        if (ImGui::Button("Add Component")) {
+            m_bShowAddComponent = true;
+        }
+        if (ImGui::Button("Delete")) {
+            m_selectedEntity->destroy();
+            m_selectedEntity = nullptr;
+            Core::Engine::getInstance().getEntityManager().refresh();
+        }
     }
     ImGui::End();
     m_bShowInspector = open;
@@ -419,7 +424,10 @@ void Editor::renderTransformInspector() {
      */
     ImGui::Text("Transform:");
     ImGui::Text(" ");
-    if (m_selectedEntity) {
+    if (m_selectedEntity && m_selectedEntity->hasComponent<TransformComponent>()) {
+        /*
+         * If the representation of the rotation seems, weird, it is perfectly normal, euler angles are represented that way.
+         */
         float pos[3], rot[3], scl[3];
         auto& t = m_selectedEntity->getComponent<TransformComponent>();
         pos[0] = t.position.x; pos[1] = t.position.y; pos[2] = t.position.z;
@@ -434,32 +442,72 @@ void Editor::renderTransformInspector() {
     }
 }
 
+void Editor::renderRenderableInspector() {
+    ImGui::Text("RenderableComponent");
+    ImGui::Text(" ");
+    int shape = m_selectedEntity->getComponent<RenderableComponent>().m_shape;
+    ImGui::InputInt("Shape", &shape);
+}
+
 void Editor::showOpenDialog() {
     std::string open_file;
-    if (fileIOWindow(open_file, m_sRecentFiles, "Open", {"*.usr", "*.*"}, true)) {
+    if (fileIOWindow(open_file, m_sRecentFiles, "Open", {"*.scn"}, true)) {
         m_bShowOpenScene = false;
         if (!open_file.empty()) {
             m_sRecentFiles.push_back(open_file);
-            // TODO
+            Core::Engine::getInstance().reset();
+            SceneManager::getInstance().loadScene(open_file);
         }
     }
 }
 
 void Editor::showSaveDialog() {
     std::string save_file;
-    if (fileIOWindow(save_file, m_sRecentFiles, "Save", {"*.usr", "*.*"})) {
+    if (fileIOWindow(save_file, m_sRecentFiles, "Save", {"*.scn"})) {
         m_bShowSaveScene = false;
         if (!save_file.empty()) {
             m_sRecentFiles.push_back(save_file);
 
-            std::ofstream out_file;
-            out_file.open(save_file, std::ios_base::trunc);
-
-            // TODO
-
-            out_file.close();
+            SceneManager::getInstance().saveScene(save_file);
         }
     }
+}
+
+void Editor::showNewEntWindow() {
+    ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(x_res - 600, 20), ImGuiCond_Once);
+//    m_bShowNewEntWindow = true;
+    bool open = m_bShowNewEntWindow;
+    ImGui::Begin("New Entity", &open);
+    std::string name;
+    ImGui::InputText("Name", buf, IM_ARRAYSIZE(buf));
+    if (ImGui::Button("Confirm")) {
+        name = std::string(buf);
+        if (!name.empty()) EditorController::getInstance().addNewEntity(name);
+        open = false;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("cancel")) open = false;
+    ImGui::End();
+    m_bShowNewEntWindow = open;
+}
+
+void Editor::showAddComponentWindow() {
+    ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(x_res - 300, 20), ImGuiCond_Once);
+    bool open = m_bShowAddComponent;
+    ImGui::Begin("Add Component", &open);
+
+    // Renderable
+    if (ImGui::Button("RenderableComponent")) {
+        if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
+            m_selectedEntity->addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
+            open = false;
+        }
+    }
+    // Script
+    ImGui::End();
+    m_bShowAddComponent = open;
 }
 
 #endif
