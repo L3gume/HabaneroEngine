@@ -404,6 +404,10 @@ void Editor::showInspector() {
             ImGui::Separator();
             renderRenderableInspector();
         }
+        if (m_selectedEntity->hasComponent<ScriptComponent>()) {
+            ImGui::Separator();
+            renderScriptInspector();
+        }
         ImGui::Separator();
         if (ImGui::Button("Add Component")) {
             m_bShowAddComponent = true;
@@ -447,6 +451,12 @@ void Editor::renderRenderableInspector() {
     ImGui::Text(" ");
     int shape = m_selectedEntity->getComponent<RenderableComponent>().m_shape;
     ImGui::InputInt("Shape", &shape);
+}
+
+void Editor::renderScriptInspector() {
+    ImGui::Text("ScriptComponent");
+    ImGui::Text(" ");
+    ImGui::InputText("Script", m_selectedEntity->getComponent<ScriptComponent>().m_script->m_sName, 20);
 }
 
 void Editor::showOpenDialog() {
@@ -499,9 +509,27 @@ void Editor::showAddComponentWindow() {
     ImGui::Begin("Add Component", &open);
 
     // Renderable
-    if (ImGui::Button("RenderableComponent")) {
+    if (ImGui::Button("RenderableComponent(CUBE)")) {
         if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
             m_selectedEntity->addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
+            open = false;
+        }
+    }
+    if (ImGui::Button("RenderableComponent(PLANE)")) {
+        if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
+            m_selectedEntity->addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
+            open = false;
+        }
+    }
+    if (ImGui::Button("RenderableComponent(PYRAMID)")) {
+        if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
+            m_selectedEntity->addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PYRAMID);
+            open = false;
+        }
+    }
+    if (ImGui::Button("ScriptComponent(PlayerMovement)")) {
+        if (!m_selectedEntity->hasComponent<ScriptComponent>()) {
+            m_selectedEntity->addComponent<ScriptComponent>(new PlayerMovementScript());
             open = false;
         }
     }

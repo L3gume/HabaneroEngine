@@ -5,6 +5,7 @@
 #ifndef VAPEENGINE_EDITORCONTROLLER_H
 #define VAPEENGINE_EDITORCONTROLLER_H
 
+#if EDITOR
 
 class EditorController {
 public:
@@ -23,5 +24,6 @@ private:
     EditorController() = default;
 };
 
+#endif
 
 #endif //VAPEENGINE_EDITORCONTROLLER_H

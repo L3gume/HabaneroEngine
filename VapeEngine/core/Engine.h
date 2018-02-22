@@ -10,6 +10,7 @@
 #include <test_object/Player.h>
 #include <editor/Editor.h>
 #include <ecs/ecs.h>
+#include <editor/EditorCamera.h>
 
 namespace Core {
 
@@ -37,9 +38,17 @@ namespace Core {
 
         inline ECS::EntityManager& getEntityManager() { return m_entityManager; }
         inline ECS::SystemManager& getSystemManager() { return m_systemManager; }
-    private:
-        Engine() = default;
 
+#if EDITOR
+        inline bool gameRunning() { return m_bRunGame; }
+        inline EditorCamera& getEditorCam() { return m_freeCam; }
+#endif
+#if EDITOR
+    private:
+        Engine() : m_freeCam(EditorCamera(nullptr)) {}
+#else
+        Engine() = default;
+#endif
         ECS::EntityManager m_entityManager;
         ECS::SystemManager m_systemManager;
 
@@ -54,6 +63,8 @@ namespace Core {
 
 #if EDITOR
         bool m_bRunGame      : 1;
+
+        EditorCamera m_freeCam;
 #endif
     };
 

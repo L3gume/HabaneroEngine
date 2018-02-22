@@ -73,6 +73,8 @@ void Engine::gameLoop(const bool _editor) {
     VapeInput::InputManager &inputManager = VapeInput::InputManager::getInstance();
 #if EDITOR
     VapeUI::Editor &editor = VapeUI::Editor::getInstance();
+    m_freeCam = EditorCamera(m_window);
+    inputManager.addInputListener(&m_freeCam);
     if (!m_bRunGame) {
         editor.init(m_window);
         inputManager.addInputListener(&editor);

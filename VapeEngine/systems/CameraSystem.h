@@ -20,7 +20,7 @@ class CameraSystem : public System {
 public:
     CameraSystem() : System() {
 #if EDITOR
-        m_enabledInEditorMode = true;
+        m_enabledInEditorMode = false;
 #endif
     }
 

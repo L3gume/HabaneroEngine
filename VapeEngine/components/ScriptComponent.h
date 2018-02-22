@@ -22,7 +22,7 @@ public:
     virtual void update(float _deltaTime) {}
     virtual void postUpdate(float _deltaTime) {}
 
-    std::string m_sName;
+    char* m_sName;
 protected:
     ECS::Entity* m_entity = nullptr;
 };

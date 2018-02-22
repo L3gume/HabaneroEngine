@@ -71,6 +71,7 @@ namespace VapeUI {
         void addObjTreeNode(ECS::Entity* obj);
         void renderTransformInspector();
         void renderRenderableInspector();
+        void renderScriptInspector();
 
         GLFWwindow *m_window = nullptr;
         ECS::Entity* m_selectedEntity = nullptr;

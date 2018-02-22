@@ -77,8 +77,15 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
     if (transform.rotation == glm::vec3(0.f) && !_ent->getParent()) rotate = glm::mat4(); // failsafe
 
 //    MVP = m_camera->getMVP(_deltaTime, translate * rotate * scale);
+#if !EDITOR
     MVP = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getMVPFromActiveCamera(
             translate * rotate * scale);
+#else
+    MVP = Core::Engine::getInstance().gameRunning() ?
+          Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getMVPFromActiveCamera(
+                    translate * rotate * scale) :
+          Core::Engine::getInstance().getEditorCam().getMVP(_deltaTime, translate * rotate * scale);
+#endif
 
     glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
 
