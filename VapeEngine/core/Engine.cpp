@@ -37,8 +37,9 @@ void Engine::gameLoop(const bool _editor) {
 #endif
         return;
     }
+#if EDITOR
     m_bRunGame = !_editor;
-
+#endif
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
     // -----------------------------------------------------------------------------------------------------------------
@@ -120,7 +121,9 @@ void Engine::gameLoop(const bool _editor) {
 //    scnMan.saveScene("testScene");
     scnMan.loadScene("testScene.scn");
 //    scnMan.loadScene("testPlaneScene.scn");
+#if EDITOR
     m_systemManager.switchMode(false);
+#endif
     // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
 

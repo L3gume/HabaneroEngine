@@ -2,6 +2,8 @@
 // Created by l3gume on 22/02/18.
 //
 
+#if EDITOR
+
 #include "EditorCamera.h"
 #include <cstdio>
 #include <logging/LogManager.h>
@@ -159,3 +161,5 @@ void EditorCamera::computeMatricesFromInputs(const float _deltaTime) {
             up
     );
 }
+
+#endif

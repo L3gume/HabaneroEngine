@@ -320,13 +320,13 @@ namespace ECS {
                 sys->m_enabled = false;
             }
         }
-
+#if EDITOR
         void switchMode(bool _gameMode) {
             for (auto& sys : m_systems) {
                 sys->m_enabled = _gameMode ? true : sys->m_enabledInEditorMode;
             }
         }
-
+#endif
         void preUpdate(const float _deltaTime) {
             for (auto& sys : m_systems) {
                 if (sys->m_enabled) sys->preUpdate(_deltaTime);
