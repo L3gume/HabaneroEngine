@@ -71,7 +71,7 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, /*const std::
         } else if (boost::starts_with(_args[i], "ENTITY:")) {
             std::vector<std::string> args;
             args.emplace_back(_args[i]); // don't forget that part.
-            while (_args[++i] != "}") {
+            while (_args[++i] != ")") {
                 args.emplace_back(_args[i]);
             }
             constructEntity(args, &newEnt);
@@ -101,7 +101,8 @@ void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream* _oss) {
     for (auto& child : _ent.m_children) {
         saveEntity(*child, _oss);
     }
-    *_oss << "}\n";
+    if (_ent.getParent()) *_oss << ")\n";
+    else *_oss << "}\n";
 
 
 //    (*_of).close();

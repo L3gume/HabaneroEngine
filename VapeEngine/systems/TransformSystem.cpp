@@ -4,6 +4,7 @@
 
 #include <core/Engine.h>
 #include <components/TransformComponent.h>
+#include <components/CameraComponent.h>
 #include "TransformSystem.h"
 
 void TransformSystem::update(float _deltaTime) {
@@ -24,7 +25,12 @@ void TransformSystem::update(float _deltaTime) {
             auto& parent_transform = e->getParent()->getComponent<TransformComponent>();
 
             transform.abs_position = parent_transform.position + glm::quat(parent_transform.rotation) * transform.position;
-            transform.abs_rotation = glm::quat(parent_transform.rotation) * transform.rotation;
+            if (e->hasComponent<CameraComponent>()) {
+                transform.abs_rotation = glm::quat(parent_transform.rotation) * transform.rotation;
+            } else {
+                transform.abs_rotation = glm::eulerAngles(
+                        glm::quat(parent_transform.rotation) * glm::quat(transform.rotation));
+            }
             transform.abs_scale = transform.scale * parent_transform.scale;
         }
     }

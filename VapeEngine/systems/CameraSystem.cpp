@@ -67,7 +67,6 @@ void CameraSystem::preUpdate(float _deltaTime) {
     viewMat = glm::lookAt(
             transform.abs_position,
             transform.abs_position + pLookAt,
-//            defaultUpVector()
             cartesianUp
     );
 
