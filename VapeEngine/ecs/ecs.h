@@ -96,8 +96,9 @@ namespace ECS {
         inline std::string getName() { return m_sName; }
         inline uint64_t getID() { return m_iId; }
 //        inline const std::shared_ptr<Entity>& getParent() const { return m_parent; }
-        inline const Entity* getParent() const { return m_parent; }
-        inline const std::vector<Entity*>& getChildren() const { return m_children; };
+        inline Entity* getParent() const { return m_parent; }
+        inline void setParent(Entity* _parent) { m_parent = _parent; }
+        inline std::vector<Entity*>& getChildren() { return m_children; }
         inline void destroy() { m_bDestroyed = true; }
         /*
          * Check if the entity already has an instance of component T
@@ -160,6 +161,10 @@ namespace ECS {
 
         const std::vector<std::unique_ptr<Component>>& getComponents() const {
             return m_components;
+        }
+
+        void addChild(Entity* _child) {
+            if (_child) m_children.emplace_back(_child);
         }
 
     };

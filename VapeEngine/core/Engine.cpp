@@ -174,6 +174,8 @@ void Engine::reset() {
     m_systemManager.addSystem<TransformSystem>();
     m_systemManager.setSystemPriority<TransformSystem>(90);
     m_entityManager = ECS::EntityManager(); // reset manager
+#if EDITOR
     m_systemManager.switchMode(m_bRunGame);
     InputManager::getInstance().switchMode(m_bRunGame);
+#endif
 }

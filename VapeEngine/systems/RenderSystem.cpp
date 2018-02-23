@@ -41,6 +41,10 @@ void RenderSystem::update(float _deltaTime) {
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 
+#if EDITOR
+//    glViewport(0, 0.25*y_res, x_res /1.5, y_res/1.5);
+//    glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
+#endif
     for (auto &ent : m_renderableEntities) {
         if (ent->hasComponent<RenderableComponent>()) {
             renderEntity(vertex_buf, ent, _deltaTime);

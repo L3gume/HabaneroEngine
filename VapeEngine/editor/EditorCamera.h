@@ -54,7 +54,7 @@ private:
     float m_fhAngle = 3.14f; // horizontal angle
     float m_fvAngle = 0.0f; // vertical angle
     float m_fFov = 90.0f; // Field of view
-    float m_fSpeed = 3.0f; // speed of camera, in units per second
+    float m_fSpeed = 2.0f; // speed of camera, in units per second
     float m_fMaxSpeed = 40.f;
     float m_fMouseSpeed = 0.055f; // Mouse sensitivity
     glm::mat4 m_projMat; // Projection matrix

@@ -56,7 +56,7 @@ void Editor::render() {
     int display_w, display_h;
     glfwGetFramebufferSize(m_window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
-    glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+    glClearColor(0,0,0,0);
 
     ImGui::Render();
 }
@@ -437,6 +437,12 @@ void Editor::showInspector() {
             m_bShowAddComponent = true;
         }
         if (ImGui::Button("Delete")) {
+            if (auto p = m_selectedEntity->getParent(); p) {
+                auto& v = p->getChildren();
+                v.erase(std::remove_if(std::begin(v), std::end(v), [this] (ECS::Entity* _ent) {
+                    return m_selectedEntity->getID() == _ent->getID();
+                }), std::end(v));
+            }
             m_selectedEntity->destroy();
             m_selectedEntity = nullptr;
             Core::Engine::getInstance().getEntityManager().refresh();
@@ -509,22 +515,35 @@ void Editor::showSaveDialog() {
 }
 
 void Editor::showNewEntWindow() {
-    ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(x_res - 600, 20), ImGuiCond_Once);
 //    m_bShowNewEntWindow = true;
     bool open = m_bShowNewEntWindow;
     ImGui::Begin("New Entity", &open);
     std::string name;
     ImGui::InputText("Name", buf, IM_ARRAYSIZE(buf));
+    ImGui::Text(m_newEntParent ? m_newEntParent->getName().c_str() : "None");
+    bool scrolldown = m_bScrollDownParent;
+    if (ImGui::CollapsingHeader("Parent")) {
+        if (ImGui::Button("None", ImVec2(ImGui::GetContentRegionAvailWidth() * 0.99f, 20.f)))m_newEntParent = nullptr;
+        for (auto& e : Core::Engine::getInstance().getEntityManager().getEntities()) {
+            if (ImGui::Button(e->getName().c_str(), ImVec2(ImGui::GetContentRegionAvailWidth() * 0.99f, 20.f))) {
+                m_newEntParent = e.get();
+                scrolldown = false;
+            }
+        }
+    }
     if (ImGui::Button("Confirm")) {
         name = std::string(buf);
-        if (!name.empty()) EditorController::getInstance().addNewEntity(name);
+        if (!name.empty()) EditorController::getInstance().addNewEntity(name, m_newEntParent);
         open = false;
     }
     ImGui::SameLine();
     if (ImGui::Button("cancel")) open = false;
     ImGui::End();
     m_bShowNewEntWindow = open;
+    m_bScrollDownParent = scrolldown;
+    if (!m_bShowNewEntWindow) m_newEntParent = nullptr;
 }
 
 void Editor::showAddComponentWindow() {
