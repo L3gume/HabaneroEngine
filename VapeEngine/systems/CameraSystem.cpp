@@ -57,10 +57,10 @@ void CameraSystem::preUpdate(float _deltaTime) {
     glm::vec3 pLookAt;
     if (auto parent = m_activeCamera->getParent(); parent != nullptr) {
         glm::vec3 parentrot = parent->getComponent<TransformComponent>().rotation;
-        pLookAt = glm::quat(parentrot) * cartesianRot;
-        glm::mat4 rot = glm::toMat4(glm::quat(parent->getComponent<TransformComponent>().rotation));
-        cartesianUp = rot[1];
+        pLookAt = transform.forward(); // GOOD!
+        cartesianUp = transform.up();
     } else {
+        // TODO: might be able to remove this
         pLookAt = cartesianRot;
     }
 
