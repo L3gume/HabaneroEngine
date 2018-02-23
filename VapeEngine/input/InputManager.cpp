@@ -253,3 +253,11 @@ MouseClickedInputMessage InputManager::getMouseInputs(GLFWwindow* _window) {
 
     return msMsg;
 }
+
+#if EDITOR
+void InputManager::switchMode(bool _gameMode) {
+    for (auto& il : m_listeners) {
+        il->m_enabled = il->m_enabledInEditorMode ? true : _gameMode;
+    }
+}
+#endif

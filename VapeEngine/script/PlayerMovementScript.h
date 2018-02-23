@@ -29,7 +29,7 @@ public:
         InputManager::getInstance().removeInputListener(this);
     }
 
-    float m_fSpeed = 5.f;
+    float m_fSpeed = 10.f;
     TransformComponent *transform = nullptr;
 
     void init() override;

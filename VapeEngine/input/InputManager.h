@@ -31,6 +31,10 @@ namespace VapeInput {
 
         void update(GLFWwindow* _window, float _deltaTime);
         void updateScrollInput(double _x, double _y);
+
+#if EDITOR
+        void switchMode(bool _gameMode);
+#endif
     private:
         InputManager() = default; // Constructor kept private since this is a singleton
 

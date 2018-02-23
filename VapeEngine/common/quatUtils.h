@@ -72,7 +72,7 @@ static quat lookAt(vec3 _direction, vec3 _desiredUp){
 
 // Like SLERP, but forbids rotation greater than maxAngle (in radians)
 // In conjunction to LookAt, can make your characters
-static quat rotateTowards(quat _q1, quat _q2, float _maxAngle){
+static quat rotateTowards(quat _q1, quat _q2, float _maxAngle) {
 
 	if( _maxAngle < 0.001f ){
 		// No rotation allowed. Prevent dividing by 0 later.

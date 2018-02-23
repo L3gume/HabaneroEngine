@@ -14,6 +14,7 @@ namespace VapeInput {
     // Since it is abstract and has no method implementation, its header-only
     //
     class InputListener {
+        friend class InputManager;
     public:
         InputListener(bool _useKeyboard, bool _useMouseMov, bool _useMouseButtons, bool _useController,
                       bool _useMouseWheel) :
@@ -41,6 +42,8 @@ namespace VapeInput {
         virtual void onMouseScrolled(const MouseScrolledInputMessage &_msMsg) = 0;
 
     protected:
+        bool m_enabled              : 1;
+        bool m_enabledInEditorMode  : 1;
         bool m_bUseKeyboard         : 1;
         bool m_bUseMouseMovement    : 1;
         bool m_bUseMouseButtons     : 1;

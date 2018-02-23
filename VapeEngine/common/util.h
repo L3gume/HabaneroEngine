@@ -6,6 +6,7 @@
 #define VAPEENGINE_UTIL_H
 
 #include <memory>
+#include <glm/vec3.hpp>
 
 static float x_res = 1920.f;
 static float y_res = 1080.f;
@@ -30,4 +31,6 @@ static uint64_t generateUniqueID() {
     return ++ID;
 }
 
+static glm::vec3 defaultUpVector() { return glm::vec3(0, 1, 0); }
+static glm::vec3 defaultForwardVector() { return glm::vec3(0, 0, -1); }
 #endif //VAPEENGINE_UTIL_H

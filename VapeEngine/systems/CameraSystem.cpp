@@ -41,25 +41,36 @@ void CameraSystem::preUpdate(float _deltaTime) {
      * We do this in preUpdate as we only want to do it once per frame.
      */
     cartesianRot = {
-            glm::cos(transform.rotation.x) * glm::sin(transform.rotation.y),
-            glm::sin(transform.rotation.x),
-            glm::cos(transform.rotation.x) * glm::cos(transform.rotation.y)
+            glm::cos(transform.abs_rotation.x) * glm::sin(transform.abs_rotation.y),
+            glm::sin(transform.abs_rotation.x),
+            glm::cos(transform.abs_rotation.x) * glm::cos(transform.abs_rotation.y)
     };
 
     cartesianRight = {
-            glm::sin(transform.rotation.y - 3.14f / 2.0f),
+            glm::sin(transform.abs_rotation.y - 3.14f / 2.0f),
             0,
-            glm::cos(transform.rotation.y - 3.14f / 2.0f)
+            glm::cos(transform.abs_rotation.y - 3.14f / 2.0f)
     };
 
     cartesianUp = glm::cross(cartesianRight, cartesianRot);
 
+    glm::vec3 pLookAt;
+    if (auto parent = m_activeCamera->getParent(); parent != nullptr) {
+        glm::vec3 parentrot = parent->getComponent<TransformComponent>().rotation;
+        pLookAt = glm::quat(parentrot) * cartesianRot;
+        glm::mat4 rot = glm::toMat4(glm::quat(parent->getComponent<TransformComponent>().rotation));
+        cartesianUp = rot[1];
+    } else {
+        pLookAt = cartesianRot;
+    }
+
     viewMat = glm::lookAt(
-            transform.position,
-            transform.position + cartesianRot,
+            transform.abs_position,
+            transform.abs_position + pLookAt,
+//            defaultUpVector()
             cartesianUp
     );
 
     projMat = glm::perspective(glm::radians(camera.m_fov), camera.m_hRes / camera.m_vRes, camera.m_zNear,
-                                         camera.m_zFar);
+                               camera.m_zFar);
 }

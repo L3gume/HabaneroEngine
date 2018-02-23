@@ -91,13 +91,6 @@ void Engine::gameLoop(const bool _editor) {
 
     inputManager.init(m_window);
 
-#if EDITOR
-//    CameraController cc(m_window, &c);
-    if (!m_bRunGame) {
-//        inputManager.addInputListener(&cc);
-    }
-#endif
-
     // -----------------------------------------------------------------------------------------------------------------
     // GHETTO INITIALIZATION: REMOVE THIS WHEN RENDERING SYSTEM IS DONE
     // -----------------------------------------------------------------------------------------------------------------
@@ -106,51 +99,26 @@ void Engine::gameLoop(const bool _editor) {
      * The actual loop is here
      */
 
-//    m_entityManager.loadEntity("cube.ent");
-//    m_entityManager.loadEntity("camera.ent");
-//    m_entityManager.loadEntity("plane.ent");
-//    m_entityManager.loadEntity("testparent.ent");
-//    Entity& test = m_entityManager.addEntity("testPlane");
-//    test.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(glm::radians(90.f), 0.f, 0.f), glm::vec3(10.f, 10.f, 10.f));
-//    test.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::PLANE);
-//    EntityConstructor c;
-//    c.saveEntity(test, "test.ent");
-
-//    m_entityManager.loadEntity("test.ent");
     SceneManager& scnMan = SceneManager::getInstance();
-//    scnMan.saveScene("testScene");
-    scnMan.loadScene("testScene.scn");
-//    scnMan.loadScene("testPlaneScene.scn");
+    scnMan.loadScene("bugFree.scn");
 #if EDITOR
     m_systemManager.switchMode(false);
 #endif
-    // TODO: Change the condition lul, The key escape thing breaks the window
     while (!glfwWindowShouldClose(m_window) && !m_bShutdown) {
 
         m_fCurTime = static_cast<float>(glfwGetTime());
         float deltaTime = m_fCurTime - m_fLastTime;
         m_fLastTime = m_fCurTime;
 
-//        float fps = 1 / deltaTime;
-//        std::stringstream s;
-//        s << fps << "    " << deltaTime;
-//
-//#if DEBUG
-//        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-//                VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
-//                VapeLog::LogSeverity::LOW, s.str()));
-//#endif
-
         glfwPollEvents();
 
         m_systemManager.preUpdate(deltaTime); // Call preUpdate on all systems
         //----------------------------------------
-        inputManager.update(m_window, deltaTime);
-//        if (glfwGetKey(m_window, GLFW_KEY_0)) m_bSwitchMode = true;
+        inputManager.update(m_window, deltaTime); // get inputs.
         //----------------------------------------
         m_systemManager.update(deltaTime); // Call update on all systems
 #if EDITOR
-        if (!m_bRunGame) editor.render();
+        if (!m_bRunGame) editor.render(); // Editor stuff
 #endif
         glfwSwapBuffers(m_window);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -169,21 +137,19 @@ void Engine::switchMode() {
     SceneManager& sm = SceneManager::getInstance();
     if (!m_bRunGame) {
         sm.backupScene();
-//        sm.saveScene("testScene.scn");
         m_systemManager.switchMode(!m_bRunGame);
+        InputManager::getInstance().switchMode(!m_bRunGame);
 #if DEBUG
         VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
                 VapeLog::LogTag::GAME, VapeLog::LogType::MESSAGE,
                 VapeLog::LogSeverity::LOW, "Switched to Game Mode!"));
 #endif
     } else {
-//        m_systemManager.disableAllSystems();
-//        m_systemManager.getSystem<CameraSystem>()->setActiveCamera(nullptr);
         reset();
         VapeUI::Editor::getInstance().reset();
         sm.restoreScene();
-//        sm.loadScene("testScene.scn");
         m_systemManager.switchMode(!m_bRunGame);
+        InputManager::getInstance().switchMode(!m_bRunGame);
 #if DEBUG
         VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
                 VapeLog::LogTag::GAME, VapeLog::LogType::MESSAGE,
@@ -191,7 +157,6 @@ void Engine::switchMode() {
 #endif
     }
     m_bRunGame = !m_bRunGame;
-//    m_systemManager.switchMode(m_bRunGame);
     m_bSwitchMode = false;
 #endif
 }
@@ -209,4 +174,6 @@ void Engine::reset() {
     m_systemManager.addSystem<TransformSystem>();
     m_systemManager.setSystemPriority<TransformSystem>(90);
     m_entityManager = ECS::EntityManager(); // reset manager
+    m_systemManager.switchMode(m_bRunGame);
+    InputManager::getInstance().switchMode(m_bRunGame);
 }

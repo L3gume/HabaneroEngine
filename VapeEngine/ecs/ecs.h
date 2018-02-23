@@ -143,7 +143,6 @@ namespace ECS {
             m_componentBitset[id] = true;
 
             this->addGroup(id);
-//            c->init(); TODO
             c->m_bEnabled = true;
 
             return *c;
@@ -158,6 +157,11 @@ namespace ECS {
             auto ptr(m_componentArray[getComponentTypeID<T>()]);
             return *static_cast<T *>(ptr);
         }
+
+        const std::vector<std::unique_ptr<Component>>& getComponents() const {
+            return m_components;
+        }
+
     };
 
     class EntityManager {

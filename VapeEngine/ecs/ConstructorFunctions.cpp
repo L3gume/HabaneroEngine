@@ -3,6 +3,7 @@
 //
 #include <VapeGL.h>
 #include <ConstructorFunctions.h>
+#include <script/LookAtScript.h>
 
 void constructTransformComponent(Entity &_ent, std::vector<std::string> &_args) {
     std::string substr;
@@ -65,6 +66,7 @@ void constructScriptComponent(Entity &_ent, std::vector<std::string> &_args) {
         if (boost::starts_with(s, "script=")) {
             scriptName = s.substr(7);
             if (scriptName == "PlayerMovementScript") p = new PlayerMovementScript();
+            if (scriptName == "LookAtScript") p = new LookAtScript();
             // else if (scriptName == "SomeOtherScript") p = new SomeOtherScript();
         }
     }

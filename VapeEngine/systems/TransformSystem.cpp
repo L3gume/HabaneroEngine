@@ -13,15 +13,18 @@ void TransformSystem::update(float _deltaTime) {
         return A->getParent() != nullptr && B->getParent() == nullptr;
     });
     for (auto& e : entities) {
+        auto& transform = e->getComponent<TransformComponent>();
         if (!e->getParent()) {
+            transform.abs_position = transform.position;
+            transform.abs_rotation = transform.rotation;
+            transform.abs_scale = transform.scale;
             continue;
         } else {
             assert(e->getParent()->hasComponent<TransformComponent>());
             auto& parent_transform = e->getParent()->getComponent<TransformComponent>();
-            auto& transform = e->getComponent<TransformComponent>();
 
             transform.abs_position = parent_transform.position + glm::quat(parent_transform.rotation) * transform.position;
-            transform.abs_rotation = glm::eulerAngles(glm::quat(parent_transform.rotation) * glm::quat(transform.rotation));
+            transform.abs_rotation = glm::quat(parent_transform.rotation) * transform.rotation;
             transform.abs_scale = transform.scale * parent_transform.scale;
         }
     }

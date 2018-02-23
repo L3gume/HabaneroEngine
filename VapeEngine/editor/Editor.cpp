@@ -317,6 +317,21 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
         if (ctr++ == 0) {
             Core::Engine::getInstance().signalRunGame();
         }
+    } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
+        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_O) {
+        if (ctr++ == 0) {
+            m_bShowOpenScene = true;
+        }
+    } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
+        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_S) {
+        if (ctr++ == 0) {
+            m_bShowSaveScene = true;
+        }
+    } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
+        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_N) {
+        if (ctr++ == 0) {
+            EditorController::getInstance().createNewScene();
+        }
     } else {
         ctr = 0;
     }
@@ -408,6 +423,15 @@ void Editor::showInspector() {
             ImGui::Separator();
             renderScriptInspector();
         }
+//        for (auto& c : m_selectedEntity->getComponents()) {
+//            if (instanceOf<RenderableComponent>(c.get())) {
+//                ImGui::Separator();
+//                renderRenderableInspector();
+//            } else if (instanceOf<ScriptComponent>(c.get())) {
+//                ImGui::Separator();
+//                renderScriptInspector();
+//            }
+//        }
         ImGui::Separator();
         if (ImGui::Button("Add Component")) {
             m_bShowAddComponent = true;
@@ -466,6 +490,7 @@ void Editor::showOpenDialog() {
         if (!open_file.empty()) {
             m_sRecentFiles.push_back(open_file);
             Core::Engine::getInstance().reset();
+
             SceneManager::getInstance().loadScene(open_file);
         }
     }

@@ -45,12 +45,12 @@ void PlayerMovementScript::update(float _deltaTime) {
     }
     // Rotate Left
     if (m_bTurnLeft) {
-        transform->rotation = glm::eulerAngles(glm::angleAxis(_deltaTime * m_fSpeed, up) * glm::quat(transform->rotation));
+        transform->rotation = glm::eulerAngles(glm::angleAxis(_deltaTime * m_fSpeed / 2.f, up) * glm::quat(transform->rotation));
 //        transform->rotation += glm::vec3(0.f, m_fSpeed * _deltaTime, 0.f);
     }
     // Rotate Right
     if (m_bTurnRight) {
-        transform->rotation = glm::eulerAngles(glm::angleAxis(-(_deltaTime * m_fSpeed), up) * glm::quat(transform->rotation));
+        transform->rotation = glm::eulerAngles(glm::angleAxis(-(_deltaTime * m_fSpeed / 2.f), up) * glm::quat(transform->rotation));
 //        transform->rotation -= glm::vec3(0.f, m_fSpeed * _deltaTime, 0.f);
     }
 //    if (transform->rotation.y > glm::radians(360.f)) {
