@@ -64,7 +64,7 @@ void SceneManager::loadScene(const std::string& _path) {
 }
 
 void SceneManager::backupScene() {
-    std::string filename(m_sActiveScene);
+    std::string filename(m_sActiveScene + ".scn");
     m_sBackedUpScene = filename;
     saveScene(filename);
 }
