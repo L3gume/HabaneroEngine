@@ -8,9 +8,14 @@
 #include <components/CameraComponent.h>
 #include "EditorController.h"
 
-void EditorController::addNewEntity(std::string _name) {
+void EditorController::addNewEntity(std::string _name, ECS::Entity* _parent) {
     auto& ent = Core::Engine::getInstance().getEntityManager().addEntity(_name);
     ent.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+
+    if (_parent) {
+        ent.setParent(_parent);
+        _parent->addChild(&ent);
+    }
 }
 
 void EditorController::createNewScene() {

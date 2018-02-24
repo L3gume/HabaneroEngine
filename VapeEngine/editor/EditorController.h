@@ -17,7 +17,7 @@ public:
     EditorController(EditorController const &) = delete;
     void operator=(EditorController const &) = delete;
 
-    void addNewEntity(std::string _name);
+    void addNewEntity(std::string _name, ECS::Entity* _parent);
     void createNewScene();
 
 private:

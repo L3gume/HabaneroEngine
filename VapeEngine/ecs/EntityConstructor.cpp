@@ -27,7 +27,7 @@ std::vector<std::string> EntityConstructor::loadFile(std::ifstream &_ifs) {
 }
 
 void
-EntityConstructor::constructEntity(std::vector<std::string> _args, /*const std::shared_ptr<Entity> &*/ Entity* _parent) noexcept {
+EntityConstructor::constructEntity(std::vector<std::string> _args, Entity* _parent) noexcept {
     assert(!_args.empty());
     Entity &newEnt = Core::Engine::getInstance().getEntityManager().addEntity("");
     newEnt.m_parent = _parent; // May be nullptr, but that's intended!
