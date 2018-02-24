@@ -423,15 +423,10 @@ void Editor::showInspector() {
             ImGui::Separator();
             renderScriptInspector();
         }
-//        for (auto& c : m_selectedEntity->getComponents()) {
-//            if (instanceOf<RenderableComponent>(c.get())) {
-//                ImGui::Separator();
-//                renderRenderableInspector();
-//            } else if (instanceOf<ScriptComponent>(c.get())) {
-//                ImGui::Separator();
-//                renderScriptInspector();
-//            }
-//        }
+        if (m_selectedEntity->hasComponent<CameraComponent>()) {
+            ImGui::Separator();
+            renderCameraInspector();
+        }
         ImGui::Separator();
         if (ImGui::Button("Add Component")) {
             m_bShowAddComponent = true;
@@ -487,6 +482,29 @@ void Editor::renderScriptInspector() {
     ImGui::Text("ScriptComponent");
     ImGui::Text(" ");
     ImGui::InputText("Script", m_selectedEntity->getComponent<ScriptComponent>().m_script->m_sName, 20);
+}
+
+void Editor::renderCameraInspector() {
+    ImGui::Text("CameraComponent");
+    ImGui::Text(" ");
+    auto& cam = m_selectedEntity->getComponent<CameraComponent>();
+    float fov = cam.m_fov;
+    float hRes = cam.m_hRes;
+    float vRes = cam.m_vRes;
+    float zNear = cam.m_zNear;
+    float zFar = cam.m_zFar;
+
+    ImGui::InputFloat("FoV", &fov, 0, 0, 3);
+    ImGui::InputFloat("hRes", &hRes, 0, 0, 3);
+    ImGui::InputFloat("vRes", &vRes, 0, 0, 3);
+    ImGui::InputFloat("zNear", &zNear, 0, 0, 3);
+    ImGui::InputFloat("zFar", &zFar, 0, 0, 3);
+
+    cam.m_fov = fov;
+    cam.m_hRes = hRes;
+    cam.m_vRes = vRes;
+    cam.m_zNear = zNear;
+    cam.m_zFar = zFar;
 }
 
 void Editor::showOpenDialog() {
@@ -574,6 +592,12 @@ void Editor::showAddComponentWindow() {
     if (ImGui::Button("ScriptComponent(PlayerMovement)")) {
         if (!m_selectedEntity->hasComponent<ScriptComponent>()) {
             m_selectedEntity->addComponent<ScriptComponent>(new PlayerMovementScript());
+            open = false;
+        }
+    }
+    if (ImGui::Button("CameraComponent")) {
+        if (!m_selectedEntity->hasComponent<CameraComponent>()) {
+            m_selectedEntity->addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
             open = false;
         }
     }
