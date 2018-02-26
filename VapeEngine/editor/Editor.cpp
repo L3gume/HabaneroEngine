@@ -12,7 +12,6 @@
  */
 #if EDITOR
 
-
 #define SORT_TIME 0x01
 #define SORT_TAG 0x02
 #define SORT_OCC 0x04
