@@ -8,27 +8,58 @@ void CollisionSystem::update(float _deltaTime) {
     auto &entities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
             getComponentTypeID<BoxColliderComponent>());
 
+    // Yo dawg, I heard you liked nested statements, so I got you an if in an if in an if in a for in a for in an if statement.
     if (!entities.empty()) {
         for (auto &e1 : entities) {
             for (auto &e2 : entities) {
                 if (e1 != e2) {
                     if (Collision col{}; testAABBCollision(e1, e2, col)) {
                         if (col.e1_isTrigger || col.e2_isTrigger) {
-                            // no position adjustment}
+                            // no position adjustment
                         } else {
                             // position adjustment
                             if (!col.e1_isStatic) {
                                 auto &transform = e1->getComponent<TransformComponent>();
                                 if (!e1->getParent()) {
-                                    transform.position -= col.e1_AABB.velocity * 2.f * _deltaTime;
-                                    transform.abs_position -= col.e1_AABB.velocity * 2.f * _deltaTime;
+                                    if (col.intersectX > col.intersectY && col.intersectX > col.intersectZ) {
+                                        if (col.dx < 0.f) {
+                                            transform.position =
+                                                    transform.position + glm::vec3(col.intersectX, 0.f, 0.f);
+                                            transform.abs_position =
+                                                    transform.abs_position + glm::vec3(col.intersectX, 0.f, 0.f);
+                                        } else {
+                                             transform.position =
+                                                    transform.position + glm::vec3(-col.intersectX, 0.f, 0.f);
+                                            transform.abs_position =
+                                                    transform.abs_position + glm::vec3(-col.intersectX, 0.f, 0.f);
+                                        }
+                                    } else if (col.intersectY > col.intersectX && col.intersectY > col.intersectZ) {
+                                        if (col.dy < 0.f) {
+                                            transform.position =
+                                                    transform.position + glm::vec3(0.f, col.intersectY, 0.f);
+                                            transform.abs_position =
+                                                    transform.abs_position + glm::vec3(0.f, col.intersectY, 0.f);
+                                        } else {
+                                             transform.position =
+                                                    transform.position + glm::vec3(0.f, -col.intersectY, 0.f);
+                                            transform.abs_position =
+                                                    transform.abs_position + glm::vec3(0.f, -col.intersectY, 0.f);
+                                        }
+                                    } else {
+                                        if (col.dz < 0.f) {
+                                            transform.position =
+                                                    transform.position + glm::vec3(0.f, 0.f, col.intersectZ);
+                                            transform.abs_position =
+                                                    transform.abs_position + glm::vec3(0.f, 0.f, col.intersectZ);
+                                        } else {
+                                              transform.position =
+                                                    transform.position + glm::vec3(0.f, 0.f, -col.intersectZ);
+                                            transform.abs_position =
+                                                    transform.abs_position + glm::vec3(0.f, 0.f, -col.intersectZ);
+                                        }
+                                    }
                                 }
                             }
-//                            if (!col.e2_isStatic) {
-//                                auto &transform = e2->getComponent<TransformComponent>();
-//                                if (!e2->getParent())
-//                                    transform.position -= col.e2_AABB.velocity * _deltaTime;
-//                            }
                         }
                     }
                 }
@@ -43,18 +74,29 @@ bool CollisionSystem::testAABBCollision(Entity *e1, Entity *e2, Collision &col) 
     if (!(c1.m_bEnabled && c2.m_bEnabled)) return false;
     auto &a = c1.collider;
     auto &b = c2.collider;
-    bool x = std::fabs(a.c[0] - b.c[0]) <= (a.r[0] + b.r[0]);
-    bool y = std::fabs(a.c[1] - b.c[1]) <= (a.r[1] + b.r[1]);
-    bool z = std::fabs(a.c[2] - b.c[2]) <= (a.r[2] + b.r[2]);
+    float dx = a.c[0] - b.c[0];
+    float dy = a.c[1] - b.c[1];
+    float dz = a.c[2] - b.c[2];
+    float x = std::fabs(dx) - (a.r[0] + b.r[0]);
+    float y = std::fabs(dy) - (a.r[1] + b.r[1]);
+    float z = std::fabs(dz) - (a.r[2] + b.r[2]);
 
-    bool collision = x && y && z;
+    bool collision = x < 0.f && y < 0.f && z < 0.f;
     if (collision) {
         col.e1 = e1;
         col.e2 = e2;
         col.e1_isTrigger = c1.isTrigger;
         col.e2_isTrigger = c2.isTrigger;
+        col.e1_isStatic = c1.isStatic;
+        col.e2_isStatic = c2.isStatic;
         col.e1_AABB = a;
         col.e2_AABB = b;
+        col.intersectX = x;
+        col.intersectY = y;
+        col.intersectZ = z;
+        col.dx = dx;
+        col.dy = dy;
+        col.dz = dz;
     }
     return collision;
 }

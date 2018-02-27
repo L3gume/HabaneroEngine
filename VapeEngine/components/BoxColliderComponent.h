@@ -13,6 +13,11 @@ struct BoxColliderComponent : Component {
     BoxColliderComponent(const glm::vec3& _center, const glm::vec3& _halfWidths) {
         collider = AABB(_center, _halfWidths);
     }
+    BoxColliderComponent(const glm::vec3& _center, const glm::vec3& _halfWidths, const bool _trig, const bool _static) {
+        collider = AABB(_center, _halfWidths);
+        isTrigger = _trig;
+        isStatic = _static;
+    }
 
     AABB collider; 
     bool isTrigger = false;

@@ -26,6 +26,12 @@ struct Collision {
     bool e2_isTrigger;
     bool e1_isStatic;
     bool e2_isStatic;
+    float intersectX;
+    float intersectY;
+    float intersectZ;
+    float dx;
+    float dy;
+    float dz;
 };
 
 /*

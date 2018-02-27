@@ -121,7 +121,7 @@ void Engine::gameLoop(const bool _editor) {
     box.isStatic = true;
 
     auto& cam = m_entityManager.addEntity("cam");
-    cam.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, -10.f), glm::vec3(45.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+    cam.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, 7.f), glm::vec3(90.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
     cam.addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
 #if EDITOR
     m_systemManager.switchMode(false);

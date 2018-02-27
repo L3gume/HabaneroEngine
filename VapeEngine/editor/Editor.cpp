@@ -4,6 +4,7 @@
 
 #include <components/TransformComponent.h>
 #include <core/SceneManager.h>
+#include <components/BoxColliderComponent.h>
 #include "Editor.h"
 #include "EditorController.h"
 
@@ -27,8 +28,9 @@ void Editor::init(GLFWwindow *_window) {
 
     clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     // Setup style
-//    ImGui::StyleColorsDark();
-    ImGui::StyleColorsClassic();
+    ImGui::StyleColorsDark();
+//    ImGui::StyleColorsClassic();
+//    ImGui::StyleColorsLight();
     ImGuiIO &io = ImGui::GetIO();
     io.DisplaySize.x = x_res;
     io.DisplaySize.y = y_res;
@@ -426,6 +428,10 @@ void Editor::showInspector() {
             ImGui::Separator();
             renderCameraInspector();
         }
+        if (m_selectedEntity->hasComponent<BoxColliderComponent>()) {
+            ImGui::Separator();
+            renderBoxColliderInspector();
+        }
         ImGui::Separator();
         if (ImGui::Button("Add Component")) {
             m_bShowAddComponent = true;
@@ -504,6 +510,30 @@ void Editor::renderCameraInspector() {
     cam.m_vRes = vRes;
     cam.m_zNear = zNear;
     cam.m_zFar = zFar;
+}
+
+void Editor::renderBoxColliderInspector() {
+    ImGui::Text("BoxColliderComponent");
+    ImGui::Text(" ");
+    auto& col = m_selectedEntity->getComponent<BoxColliderComponent>();
+    auto& aabb = col.collider;
+
+    float c[3] = {aabb.c.x, aabb.c.y, aabb.c.z};
+    float h[3] = {aabb.r.x, aabb.r.y, aabb.r.z};
+
+    bool t = col.isTrigger;
+    bool s = col.isStatic;
+
+    ImGui::InputFloat3("Center", c, 3);
+    ImGui::InputFloat3("HalfWidths", h, 3);
+    ImGui::Checkbox("isTrigger", &t);
+    ImGui::Checkbox("isStatic", &s);
+
+    col.isTrigger = t;
+    col.isStatic = s;
+
+    aabb.c.x = c[0]; aabb.c.y = c[1]; aabb.c.z = c[2];
+    aabb.r.x = h[0]; aabb.r.y = h[1]; aabb.r.z = h[2];
 }
 
 void Editor::showOpenDialog() {
@@ -604,5 +634,6 @@ void Editor::showAddComponentWindow() {
     ImGui::End();
     m_bShowAddComponent = open;
 }
+
 
 #endif
