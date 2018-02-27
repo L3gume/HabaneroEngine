@@ -297,9 +297,6 @@ void Editor::showLogWindow() {
 
 void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
     static unsigned int ctr = 0;
-//    static unsigned int ctr2 = 0;
-//    static unsigned int ctr3 = 0;
-//    static unsigned int ctr4 = 0;
     if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) && _kbdMsg.KEY_L) {
         if (ctr++ == 0) {
             m_bShowLogWindow = !m_bShowLogWindow;
@@ -401,54 +398,46 @@ void Editor::showInspector() {
     ImGui::SetNextWindowPos(ImVec2(x_res - 350, 15), ImGuiCond_Once);
     if (!ImGui::Begin("Inspector", &open)) {
         ImGui::End();
-    }
-    if (m_selectedEntity) {
-        // do stuff
-        ImGui::Text("Tag:");
-        ImGui::SameLine();
-        ImGui::Text(m_selectedEntity->getName().c_str());
-        ImGui::Text("ID:");
-        std::string s = std::to_string(m_selectedEntity->getID());
-        char const *pchar = s.c_str();
-        ImGui::SameLine();
-        ImGui::Text(pchar);
+    } else {
+        if (m_selectedEntity) {
+            // do stuff
+            ImGui::Text("Tag:");
+            ImGui::SameLine();
+            ImGui::Text(m_selectedEntity->getName().c_str());
+            ImGui::Text("ID:");
+            std::string s = std::to_string(m_selectedEntity->getID());
+            char const *pchar = s.c_str();
+            ImGui::SameLine();
+            ImGui::Text(pchar);
 
-        ImGui::Separator();
-        renderTransformInspector();
-        if (m_selectedEntity->hasComponent<RenderableComponent>()) {
             ImGui::Separator();
-            renderRenderableInspector();
-        }
-        if (m_selectedEntity->hasComponent<ScriptComponent>()) {
-            ImGui::Separator();
-            renderScriptInspector();
-        }
-//        for (auto& c : m_selectedEntity->getComponents()) {
-//            if (instanceOf<RenderableComponent>(c.get())) {
-//                ImGui::Separator();
-//                renderRenderableInspector();
-//            } else if (instanceOf<ScriptComponent>(c.get())) {
-//                ImGui::Separator();
-//                renderScriptInspector();
-//            }
-//        }
-        ImGui::Separator();
-        if (ImGui::Button("Add Component")) {
-            m_bShowAddComponent = true;
-        }
-        if (ImGui::Button("Delete")) {
-            if (auto p = m_selectedEntity->getParent(); p) {
-                auto& v = p->getChildren();
-                v.erase(std::remove_if(std::begin(v), std::end(v), [this] (ECS::Entity* _ent) {
-                    return m_selectedEntity->getID() == _ent->getID();
-                }), std::end(v));
+            renderTransformInspector();
+            if (m_selectedEntity->hasComponent<RenderableComponent>()) {
+                ImGui::Separator();
+                renderRenderableInspector();
             }
-            m_selectedEntity->destroy();
-            m_selectedEntity = nullptr;
-            Core::Engine::getInstance().getEntityManager().refresh();
+            if (m_selectedEntity->hasComponent<ScriptComponent>()) {
+                ImGui::Separator();
+                renderScriptInspector();
+            }
+            ImGui::Separator();
+            if (ImGui::Button("Add Component")) {
+                m_bShowAddComponent = true;
+            }
+            if (ImGui::Button("Delete")) {
+                if (auto p = m_selectedEntity->getParent(); p) {
+                    auto &v = p->getChildren();
+                    v.erase(std::remove_if(std::begin(v), std::end(v), [this](ECS::Entity *_ent) {
+                        return m_selectedEntity->getID() == _ent->getID();
+                    }), std::end(v));
+                }
+                m_selectedEntity->destroy();
+                m_selectedEntity = nullptr;
+                Core::Engine::getInstance().getEntityManager().refresh();
+            }
         }
+        ImGui::End();
     }
-    ImGui::End();
     m_bShowInspector = open;
 }
 
