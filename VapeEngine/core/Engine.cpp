@@ -11,6 +11,8 @@
 #include <systems/ScriptSystem.h>
 #include <ecs/EntityConstructor.h>
 #include <systems/TransformSystem.h>
+#include <components/BoxColliderComponent.h>
+#include <systems/CollisionSystem.h>
 #include "SceneManager.h"
 
 using namespace Core;
@@ -88,6 +90,8 @@ void Engine::gameLoop(const bool _editor) {
     m_systemManager.setSystemPriority<ScriptSystem>(100);
     m_systemManager.addSystem<TransformSystem>();
     m_systemManager.setSystemPriority<TransformSystem>(90);
+    m_systemManager.addSystem<CollisionSystem>();
+    m_systemManager.setSystemPriority<CollisionSystem>(80);
 
     inputManager.init(m_window);
 
@@ -100,7 +104,25 @@ void Engine::gameLoop(const bool _editor) {
      */
 
     SceneManager& scnMan = SceneManager::getInstance();
-    scnMan.loadScene("bugFree.scn");
+//    scnMan.loadScene("bugFree.scn");
+
+    auto& player = m_entityManager.addEntity("Player");
+    player.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+    player.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
+    player.addComponent<ScriptComponent>(new PlayerMovementScript());
+    auto& transform = player.getComponent<TransformComponent>();
+    player.addComponent<BoxColliderComponent>(transform.position, transform.scale);
+
+    auto& wall = m_entityManager.addEntity("wall");
+    wall.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 5.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(5.f, 3.f, 1.f));
+    wall.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
+    auto& transform2 = wall.getComponent<TransformComponent>();
+    auto& box = wall.addComponent<BoxColliderComponent>(transform2.position, transform2.scale);
+    box.isStatic = true;
+
+    auto& cam = m_entityManager.addEntity("cam");
+    cam.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, 7.f), glm::vec3(90.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+    cam.addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
 #if EDITOR
     m_systemManager.switchMode(false);
 #endif
@@ -173,6 +195,8 @@ void Engine::reset() {
     m_systemManager.setSystemPriority<ScriptSystem>(100);
     m_systemManager.addSystem<TransformSystem>();
     m_systemManager.setSystemPriority<TransformSystem>(90);
+    m_systemManager.addSystem<CollisionSystem>();
+    m_systemManager.setSystemPriority<CollisionSystem>(80);
     m_entityManager = ECS::EntityManager(); // reset manager
 #if EDITOR
     m_systemManager.switchMode(m_bRunGame);

@@ -4,6 +4,7 @@
 #include <VapeGL.h>
 #include <ConstructorFunctions.h>
 #include <script/LookAtScript.h>
+#include <components/BoxColliderComponent.h>
 
 void constructTransformComponent(Entity &_ent, std::vector<std::string> &_args) {
     std::string substr;
@@ -73,6 +74,31 @@ void constructScriptComponent(Entity &_ent, std::vector<std::string> &_args) {
     _ent.addComponent<ScriptComponent>(p);
 }
 
+void constructBoxColliderComponent(Entity &_ent, std::vector<std::string> &_args) {
+    std::string substr;
+    float cx = 0.f, cy = 0.f, cz = 0.f;
+    float hx = 1.f, hy = 1.f, hz = 1.f;
+    bool isTrigger = false, isStatic = false;
+    for (auto& s : _args) {
+        if (boost::starts_with(s, "center=")) {
+            substr = s.substr(7);
+            std::istringstream fss(substr);
+            if (!(fss >> cx >> cy >> cz)) {/* error */}
+        } else if (boost::starts_with(s, "halfwidths=")) {
+            substr = s.substr(11);
+            std::istringstream fss(substr);
+            if (!(fss >> hx >> hy >> hz)) {/* error */}
+        } else if (boost::starts_with(s, "istrigger=")) {
+            substr = s.substr(10);
+            isTrigger = (substr == "true");
+        } else if (boost::starts_with(s, "isstatic=")) {
+            substr = s.substr(9);
+            isStatic = (substr == "true");
+        }
+    }
+    _ent.addComponent<BoxColliderComponent>(glm::vec3(cx, cy, cz), glm::vec3(hx, hy, hz), isTrigger, isStatic);
+}
+
 void saveTransformComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<TransformComponent>()) {
         auto &comp = _ent.getComponent<TransformComponent>();
@@ -115,3 +141,18 @@ void saveScriptComponent(Entity &_ent, std::ostringstream &_oss) {
         _oss << "[/ScriptComponent]" << "\n";
     }
 }
+
+void saveBoxColliderComponent(Entity &_ent, std::ostringstream &_oss) {
+    if (_ent.hasComponent<BoxColliderComponent>()) {
+        auto& comp = _ent.getComponent<BoxColliderComponent>();
+        auto& aabb = comp.collider;
+        _oss << "[BoxColliderComponent]" << "\n";
+        _oss << "center=" << aabb.c.x << " " << aabb.c.y << " " << aabb.c.z << "\n";
+        _oss << "halfwidths=" << aabb.r.x << " " << aabb.r.y << " " << aabb.r.z << "\n";
+        _oss << "istrigger=" << (comp.isTrigger ? "true" : "false") << "\n";
+        _oss << "isstatic=" << (comp.isStatic ? "true" : "false") << "\n";
+        _oss << "[/BoxColliderComponent]" << "\n";
+    }
+
+}
+

@@ -4,6 +4,7 @@
 
 #include <components/TransformComponent.h>
 #include <core/SceneManager.h>
+#include <components/BoxColliderComponent.h>
 #include "Editor.h"
 #include "EditorController.h"
 
@@ -11,7 +12,6 @@
  * All of this code will only be compiled if in Editor mode.
  */
 #if EDITOR
-
 
 #define SORT_TIME 0x01
 #define SORT_TAG 0x02
@@ -28,8 +28,9 @@ void Editor::init(GLFWwindow *_window) {
 
     clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     // Setup style
-//    ImGui::StyleColorsDark();
-    ImGui::StyleColorsClassic();
+    ImGui::StyleColorsDark();
+//    ImGui::StyleColorsClassic();
+//    ImGui::StyleColorsLight();
     ImGuiIO &io = ImGui::GetIO();
     io.DisplaySize.x = x_res;
     io.DisplaySize.y = y_res;
@@ -56,7 +57,7 @@ void Editor::render() {
     int display_w, display_h;
     glfwGetFramebufferSize(m_window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
-    glClearColor(0,0,0,0);
+    glClearColor(0, 0, 0, 0);
 
     ImGui::Render();
 }
@@ -310,22 +311,22 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
             m_bShowInspector = !m_bShowInspector;
         }
     } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
-        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_R) {
+               (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_R) {
         if (ctr++ == 0) {
             Core::Engine::getInstance().signalRunGame();
         }
     } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
-        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_O) {
+               (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_O) {
         if (ctr++ == 0) {
             m_bShowOpenScene = true;
         }
     } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
-        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_S) {
+               (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_S) {
         if (ctr++ == 0) {
             m_bShowSaveScene = true;
         }
     } else if ((_kbdMsg.KEY_LEFT_CONTROL || _kbdMsg.KEY_RIGHT_CONTROL) &&
-        (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_N) {
+               (_kbdMsg.KEY_LEFT_SHIFT || _kbdMsg.KEY_RIGHT_SHIFT) && _kbdMsg.KEY_N) {
         if (ctr++ == 0) {
             EditorController::getInstance().createNewScene();
         }
@@ -346,7 +347,7 @@ void Editor::onKeyPressed(const VapeInput::KeyboardInputMessage &_kbdMsg) {
 void Editor::showObjTree() {
     m_treeNodes.clear();
 
-    auto& entities = Core::Engine::getInstance().getEntityManager().getEntities();
+    auto &entities = Core::Engine::getInstance().getEntityManager().getEntities();
     bool open = true;
     ImGui::SetNextWindowSize(ImVec2(250, 680), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(x_res - 600, 15), ImGuiCond_Once);
@@ -358,8 +359,8 @@ void Editor::showObjTree() {
     if (ImGui::Button("New Entity")) {
         m_bShowNewEntWindow = true;
     }
-    for (auto& ent : entities) {
-            // Show top level objects only, children are going to be recursively shown.
+    for (auto &ent : entities) {
+        // Show top level objects only, children are going to be recursively shown.
         if (!ent->getParent())
             addObjTreeNode(ent.get()); // pass the raw pointer
     }
@@ -367,9 +368,9 @@ void Editor::showObjTree() {
     m_bShowObjTree = open;
 }
 
-void Editor::addObjTreeNode(ECS::Entity* obj) {
+void Editor::addObjTreeNode(ECS::Entity *obj) {
     const char *tag = strlen(obj->getName().c_str()) > 0 ? obj->getName().c_str() : "no name";
-    auto found = std::find_if(m_treeNodes.begin(), m_treeNodes.end(), [obj](ECS::Entity* _obj) {
+    auto found = std::find_if(m_treeNodes.begin(), m_treeNodes.end(), [obj](ECS::Entity *_obj) {
         return _obj->getID() == obj->getID();
     });
     if (found == m_treeNodes.end()) {
@@ -384,7 +385,7 @@ void Editor::addObjTreeNode(ECS::Entity* obj) {
                 // TODO
                 m_selectedEntity = obj;
             }
-            for (auto& _child : obj->getChildren()) {
+            for (auto &_child : obj->getChildren()) {
                 addObjTreeNode(_child);
             }
             ImGui::TreePop();
@@ -420,6 +421,14 @@ void Editor::showInspector() {
                 ImGui::Separator();
                 renderScriptInspector();
             }
+            if (m_selectedEntity->hasComponent<CameraComponent>()) {
+                ImGui::Separator();
+                renderCameraInspector();
+            }
+            if (m_selectedEntity->hasComponent<BoxColliderComponent>()) {
+                ImGui::Separator();
+                renderBoxColliderInspector();
+            }
             ImGui::Separator();
             if (ImGui::Button("Add Component")) {
                 m_bShowAddComponent = true;
@@ -431,9 +440,6 @@ void Editor::showInspector() {
                         return m_selectedEntity->getID() == _ent->getID();
                     }), std::end(v));
                 }
-                m_selectedEntity->destroy();
-                m_selectedEntity = nullptr;
-                Core::Engine::getInstance().getEntityManager().refresh();
             }
         }
         ImGui::End();
@@ -452,16 +458,28 @@ void Editor::renderTransformInspector() {
          * If the representation of the rotation seems, weird, it is perfectly normal, euler angles are represented that way.
          */
         float pos[3], rot[3], scl[3];
-        auto& t = m_selectedEntity->getComponent<TransformComponent>();
-        pos[0] = t.position.x; pos[1] = t.position.y; pos[2] = t.position.z;
-        rot[0] = glm::degrees(t.rotation.x); rot[1] = glm::degrees(t.rotation.y); rot[2] = glm::degrees(t.rotation.z);
-        scl[0] = t.scale.x; scl[1] = t.scale.y; scl[2] = t.scale.z;
+        auto &t = m_selectedEntity->getComponent<TransformComponent>();
+        pos[0] = t.position.x;
+        pos[1] = t.position.y;
+        pos[2] = t.position.z;
+        rot[0] = glm::degrees(t.rotation.x);
+        rot[1] = glm::degrees(t.rotation.y);
+        rot[2] = glm::degrees(t.rotation.z);
+        scl[0] = t.scale.x;
+        scl[1] = t.scale.y;
+        scl[2] = t.scale.z;
         ImGui::InputFloat3("Position", pos, 3);
         ImGui::InputFloat3("Rotation", rot, 3);
         ImGui::InputFloat3("Scale", scl, 3);
-        t.position.x = pos[0]; t.position.y = pos[1]; t.position.z = pos[2];
-        t.rotation.x = glm::radians(rot[0]); t.rotation.y = glm::radians(rot[1]); t.rotation.z = glm::radians(rot[2]);
-        t.scale.x = scl[0]; t.scale.y = scl[1]; t.scale.z = scl[2];
+        t.position.x = pos[0];
+        t.position.y = pos[1];
+        t.position.z = pos[2];
+        t.rotation.x = glm::radians(rot[0]);
+        t.rotation.y = glm::radians(rot[1]);
+        t.rotation.z = glm::radians(rot[2]);
+        t.scale.x = scl[0];
+        t.scale.y = scl[1];
+        t.scale.z = scl[2];
     }
 }
 
@@ -476,6 +494,57 @@ void Editor::renderScriptInspector() {
     ImGui::Text("ScriptComponent");
     ImGui::Text(" ");
     ImGui::InputText("Script", m_selectedEntity->getComponent<ScriptComponent>().m_script->m_sName, 20);
+}
+
+void Editor::renderCameraInspector() {
+    ImGui::Text("CameraComponent");
+    ImGui::Text(" ");
+    auto &cam = m_selectedEntity->getComponent<CameraComponent>();
+    float fov = cam.m_fov;
+    float hRes = cam.m_hRes;
+    float vRes = cam.m_vRes;
+    float zNear = cam.m_zNear;
+    float zFar = cam.m_zFar;
+
+    ImGui::InputFloat("FoV", &fov, 0, 0, 3);
+    ImGui::InputFloat("hRes", &hRes, 0, 0, 3);
+    ImGui::InputFloat("vRes", &vRes, 0, 0, 3);
+    ImGui::InputFloat("zNear", &zNear, 0, 0, 3);
+    ImGui::InputFloat("zFar", &zFar, 0, 0, 3);
+
+    cam.m_fov = fov;
+    cam.m_hRes = hRes;
+    cam.m_vRes = vRes;
+    cam.m_zNear = zNear;
+    cam.m_zFar = zFar;
+}
+
+void Editor::renderBoxColliderInspector() {
+    ImGui::Text("BoxColliderComponent");
+    ImGui::Text(" ");
+    auto &col = m_selectedEntity->getComponent<BoxColliderComponent>();
+    auto &aabb = col.collider;
+
+    float c[3] = {aabb.c.x, aabb.c.y, aabb.c.z};
+    float h[3] = {aabb.r.x, aabb.r.y, aabb.r.z};
+
+    bool t = col.isTrigger;
+    bool s = col.isStatic;
+
+    ImGui::InputFloat3("Center", c, 3);
+    ImGui::InputFloat3("HalfWidths", h, 3);
+    ImGui::Checkbox("isTrigger", &t);
+    ImGui::Checkbox("isStatic", &s);
+
+    col.isTrigger = t;
+    col.isStatic = s;
+
+    aabb.c.x = c[0];
+    aabb.c.y = c[1];
+    aabb.c.z = c[2];
+    aabb.r.x = h[0];
+    aabb.r.y = h[1];
+    aabb.r.z = h[2];
 }
 
 void Editor::showOpenDialog() {
@@ -515,7 +584,7 @@ void Editor::showNewEntWindow() {
     bool scrolldown = m_bScrollDownParent;
     if (ImGui::CollapsingHeader("Parent")) {
         if (ImGui::Button("None", ImVec2(ImGui::GetContentRegionAvailWidth() * 0.99f, 20.f)))m_newEntParent = nullptr;
-        for (auto& e : Core::Engine::getInstance().getEntityManager().getEntities()) {
+        for (auto &e : Core::Engine::getInstance().getEntityManager().getEntities()) {
             if (ImGui::Button(e->getName().c_str(), ImVec2(ImGui::GetContentRegionAvailWidth() * 0.99f, 20.f))) {
                 m_newEntParent = e.get();
                 scrolldown = false;
@@ -566,9 +635,16 @@ void Editor::showAddComponentWindow() {
             open = false;
         }
     }
+    if (ImGui::Button("CameraComponent")) {
+        if (!m_selectedEntity->hasComponent<CameraComponent>()) {
+            m_selectedEntity->addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
+            open = false;
+        }
+    }
     // Script
     ImGui::End();
     m_bShowAddComponent = open;
 }
+
 
 #endif

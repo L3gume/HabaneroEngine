@@ -27,7 +27,7 @@ std::vector<std::string> EntityConstructor::loadFile(std::ifstream &_ifs) {
 }
 
 void
-EntityConstructor::constructEntity(std::vector<std::string> _args, Entity* _parent) noexcept {
+EntityConstructor::constructEntity(std::vector<std::string> _args, Entity *_parent) noexcept {
     assert(!_args.empty());
     Entity &newEnt = Core::Engine::getInstance().getEntityManager().addEntity("");
     newEnt.m_parent = _parent; // May be nullptr, but that's intended!
@@ -68,6 +68,12 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, Entity* _pare
                 args.emplace_back(_args[i]);
             }
             constructScriptComponent(newEnt, args);
+        } else if (_args[i] == "[BoxColliderComponent]") {
+            std::vector<std::string> args;
+            while (_args[++i] != "[/BoxColliderComponent]") {
+                args.emplace_back(_args[i]);
+            }
+            constructBoxColliderComponent(newEnt, args);
         } else if (boost::starts_with(_args[i], "ENTITY:")) {
             std::vector<std::string> args;
             args.emplace_back(_args[i]); // don't forget that part.
@@ -79,7 +85,8 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, Entity* _pare
     }
 }
 
-void EntityConstructor::saveEntityFile(Entity& _ent, std::string _filename) {
+
+void EntityConstructor::saveEntityFile(Entity &_ent, std::string _filename) {
     std::ofstream of(_filename);
     std::ostringstream oss;
 
@@ -89,7 +96,7 @@ void EntityConstructor::saveEntityFile(Entity& _ent, std::string _filename) {
     of.close();
 }
 
-void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream* _oss) {
+void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream *_oss) {
 //    std::ofstream of(_filename);
 //    std::ostringstream oss;
 
@@ -98,7 +105,8 @@ void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream* _oss) {
     saveRenderableComponent(_ent, *_oss);
     saveCameraComponent(_ent, *_oss);
     saveScriptComponent(_ent, *_oss);
-    for (auto& child : _ent.m_children) {
+    saveBoxColliderComponent(_ent, *_oss);
+    for (auto &child : _ent.m_children) {
         saveEntity(*child, _oss);
     }
     if (_ent.getParent()) *_oss << ")\n";

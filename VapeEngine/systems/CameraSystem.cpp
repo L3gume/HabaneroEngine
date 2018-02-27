@@ -54,20 +54,20 @@ void CameraSystem::preUpdate(float _deltaTime) {
 
     cartesianUp = glm::cross(cartesianRight, cartesianRot);
 
-    glm::vec3 pLookAt;
-    if (auto parent = m_activeCamera->getParent(); parent != nullptr) {
-        glm::vec3 parentrot = parent->getComponent<TransformComponent>().rotation;
-        pLookAt = transform.forward(); // GOOD!
-        cartesianUp = transform.up();
-    } else {
-        // TODO: might be able to remove this
-        pLookAt = cartesianRot;
-    }
+//    glm::vec3 pLookAt;
+//    if (auto parent = m_activeCamera->getParent(); parent != nullptr) {
+//        glm::vec3 parentrot = parent->getComponent<TransformComponent>().rotation;
+//        pLookAt = transform.forward(); // GOOD!
+//        cartesianUp = transform.up();
+//    } else {
+//        // TODO: might be able to remove this
+//        pLookAt = cartesianRot;
+//    }
 
     viewMat = glm::lookAt(
             transform.abs_position,
-            transform.abs_position + pLookAt,
-            cartesianUp
+            transform.abs_position + transform.forward(),
+            /* cartesianUp */ transform.up()
     );
 
     projMat = glm::perspective(glm::radians(camera.m_fov), camera.m_hRes / camera.m_vRes, camera.m_zNear,
