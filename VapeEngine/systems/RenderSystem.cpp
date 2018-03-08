@@ -42,8 +42,6 @@ void RenderSystem::update(float _deltaTime) {
     glBindVertexArray(vertexArrayID);
 
 #if EDITOR
-//    glViewport(0, 0.25*y_res, x_res /1.5, y_res/1.5);
-//    glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
 #endif
     for (auto &ent : m_renderableEntities) {
         if (ent->hasComponent<RenderableComponent>()) {
@@ -74,7 +72,6 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
 
     if (transform.rotation == glm::vec3(0.f) && !_ent->getParent()) rotate = glm::mat4(); // failsafe
 
-//    MVP = m_camera->getMVP(_deltaTime, translate * rotate * scale);
 #if !EDITOR
     MVP = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getMVPFromActiveCamera(
             translate * rotate * scale);

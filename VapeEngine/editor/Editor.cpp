@@ -641,6 +641,12 @@ void Editor::showAddComponentWindow() {
             open = false;
         }
     }
+    if (ImGui::Button("ColliderComponent(AABB)")) {
+        if (!m_selectedEntity->hasComponent<BoxColliderComponent>()) {
+            m_selectedEntity->addComponent<BoxColliderComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f));
+            open = false;
+        }
+    }
     // Script
     ImGui::End();
     m_bShowAddComponent = open;

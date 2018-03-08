@@ -6,6 +6,7 @@
 #define VAPEENGINE_COLLISIONHANDLERCOMPONENT_H
 
 #include <ecs/ecs.h>
+#include <physics/Sphere.h>
 
 using namespace ECS;
 
@@ -17,9 +18,11 @@ struct Collision {
     Entity* e1;
     Entity* e2;
 
-    // quick access to the AABBs
+    // quick access to the AABBs or spheres
     AABB e1_AABB;
     AABB e2_AABB;
+    Sphere e1_Sphere;
+    Sphere e2_Sphere;
 
     // we have to know if they're triggers or not.
     bool e1_isTrigger;

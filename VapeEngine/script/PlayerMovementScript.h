@@ -25,6 +25,7 @@ public:
         m_bTurnRight = false;
         InputManager::getInstance().addInputListener(this);
     }
+    
     ~PlayerMovementScript() override {
         InputManager::getInstance().removeInputListener(this);
     }

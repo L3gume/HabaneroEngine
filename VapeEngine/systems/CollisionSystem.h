@@ -25,6 +25,7 @@ public:
 private:
     void update(float _deltaTime) override;
     bool testAABBCollision(Entity* e1, Entity* e2, Collision& col);
+    void resolveCollision(Collision &col);
 };
 
 

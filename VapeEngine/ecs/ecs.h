@@ -68,7 +68,7 @@ namespace ECS {
         // ... stuff ...
         bool m_bEnabled;
 
-        virtual ~Component() {}
+        virtual ~Component() = default;
     };
 
     class Entity {
@@ -158,6 +158,13 @@ namespace ECS {
             auto ptr(m_componentArray[getComponentTypeID<T>()]);
             return *static_cast<T *>(ptr);
         }
+
+//        // TODO
+//        template<typename T>
+//        void removeComponent() {
+//            assert(hasComponent<T>());
+//            delete m_componentArray[getComponentTypeID<
+//        }
 
         const std::vector<std::unique_ptr<Component>>& getComponents() const {
             return m_components;
