@@ -24,8 +24,10 @@ public:
 
 private:
     void update(float _deltaTime) override;
-    bool testAABBCollision(Entity* e1, Entity* e2, Collision& col);
-    void resolveCollision(Collision &col);
+    bool testCollision(Entity *e1, Entity *e2, Collision &col);
+    void resolveAABBCollision(Collision &col);
+    void resolveSphereCollision(Collision &col);
+    void resolveAABBSphereCollision(Collision &col);
 };
 
 

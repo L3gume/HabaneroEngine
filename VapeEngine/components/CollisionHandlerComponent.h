@@ -10,10 +10,18 @@
 
 using namespace ECS;
 
+enum CollisionType {
+    BOX_TO_BOX,
+    SPHERE_TO_SPHERE,
+    BOX_TO_SPHERE
+};
+
 /*
  * data object to pass the info of a collision
  */
 struct Collision {
+    CollisionType type;
+
     // Pointers to the entities that are involved
     Entity* e1;
     Entity* e2;

@@ -9,7 +9,6 @@
 
 struct AABB {
     AABB() : c(), r() {}
-
     AABB(const glm::vec3 &_center, const glm::vec3 &_halfWidths)
             : c(_center), r(_halfWidths) {}
 
