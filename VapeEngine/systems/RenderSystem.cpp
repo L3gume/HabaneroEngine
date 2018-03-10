@@ -1,8 +1,9 @@
-//
-// Created by l3gume on 11/02/18.
-//
+//TODO: Why does it crash immediately lol
 
 
+#include <render/util/texture.h>
+#include <render/util/objloader.h>
+#include <render/util/vboindexer.h>
 #include "RenderSystem.h"
 
 RenderSystem::RenderSystem(GLFWwindow *_window/*, Camera *_cam*/) : System(), m_window(_window)/*, m_camera(_cam)*/{
@@ -11,11 +12,28 @@ RenderSystem::RenderSystem(GLFWwindow *_window/*, Camera *_cam*/) : System(), m_
     m_priority = 0;
 
     // TODO: change the path when we are not in DEBUG
-    GLuint programID = loadShaders("../shaders/vertex_shader.glsl", "../shaders/fragment_shader.glsl");
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glUseProgram(programID);
+    this->programID = loadShaders("../shaders/model_vertex_shader.glsl", "../shaders/model_fragment_shader.glsl");
 
-    this->matID = glGetUniformLocation(programID, "MVP");
+    this->matID = glGetUniformLocation(this->programID, "MVP");
+    this->viewID = glGetUniformLocation(this->programID, "V");
+    this->modID = glGetUniformLocation(this->programID, "M");
+
+    this->textureID = glGetUniformLocation(this->programID, "myTextureSampler");
+
+    glGenBuffers(1, &this->vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
+
+    glGenBuffers(1, &this->uvBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, this->uvBuffer);
+
+    glGenBuffers(1, &this->normalBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, this->normalBuffer);
+
+    glGenBuffers(1, &this->elementBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBuffer);
+
+    glUseProgram(this->programID);
+    this->lightID = glGetUniformLocation(this->programID, "LightPosition_worldspace");
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -34,6 +52,8 @@ void RenderSystem::preUpdate(float _deltaTime) {
 }
 
 void RenderSystem::update(float _deltaTime) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     GLuint vertex_buf; // identify the vertex buffer
     glGenBuffers(1, &vertex_buf); // generate 1 buffer
 
@@ -56,14 +76,17 @@ void RenderSystem::update(float _deltaTime) {
 }
 
 void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _deltaTime) {
+    glUseProgram(programID);
+
     assert(_ent->hasComponent<TransformComponent>());
-    const RenderableComponent &comp = _ent->getComponent<RenderableComponent>();
+    RenderableComponent &comp = _ent->getComponent<RenderableComponent>();
     const TransformComponent &transform = _ent->getComponent<TransformComponent>();
     glm::mat4 translate;
     glm::mat4 rotate;
     glm::mat4 scale;
     glm::mat4 MVP; //MVP matrix
 
+    //Render relative to parent if one exists
     if (!_ent->getParent()) {
         translate = glm::translate(glm::mat4(1.f), transform.position);
         rotate = glm::toMat4(glm::quat(transform.rotation));
@@ -87,29 +110,110 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
           Core::Engine::getInstance().getEditorCam().getMVP(_deltaTime, translate * rotate * scale);
 #endif
 
-    glUniformMatrix4fv(matID, 1, GL_FALSE, &MVP[0][0]);
+    if (!comp.getLoaded()) { //Only load texture once
+        GLuint texture = loadDDS(reinterpret_cast<const char *>(comp.getTexturePath()));
+        m_textures.push_back(texture);
+        comp.setTextureID(m_textures.size() - 1);
+        comp.setLoaded(true);
+    }
 
-    GLuint colorbuffer;
-    glGenBuffers(1, &colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(comp.m_cBuf), comp.m_cBuf, GL_STATIC_DRAW);
+    // Read our .obj file
+    std::vector<glm::vec3> vertices;
+    std::vector<glm::vec2> uvs;
+    std::vector<glm::vec3> normals;
+    bool res = loadOBJ(reinterpret_cast<const char *>(comp.getModelPath()), vertices, uvs, normals);
 
-    glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+    std::vector<unsigned short> indices;
+    std::vector<glm::vec3> indexed_vertices;
+    std::vector<glm::vec2> indexed_uvs;
+    std::vector<glm::vec3> indexed_normals;
+    indexVBO(vertices, uvs, normals, indices, indexed_vertices, indexed_uvs, indexed_normals);
+
+    glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, indexed_vertices.size() * sizeof(glm::vec3), &indexed_vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, this->uvBuffer);
+    glBufferData(GL_ARRAY_BUFFER, indexed_uvs.size() * sizeof(glm::vec2), &indexed_uvs[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, this->normalBuffer);
+    glBufferData(GL_ARRAY_BUFFER, indexed_normals.size() * sizeof(glm::vec3), &indexed_normals[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned short), &indices[0], GL_STATIC_DRAW);
+
+
+    // Send our transformation to the currently bound shader,
+    // in the "MVP" uniform
+    glm::mat4 modelMatrix = glm::mat4(1.0);
+
+    glUniformMatrix4fv(this->matID, 1, GL_FALSE, &MVP[0][0]);
+    glUniformMatrix4fv(this->modID, 1, GL_FALSE, &modelMatrix[0][0]);
+
+
+    // Bind our texture in Texture Unit 0
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, this->m_textures[comp.getTextureID()]);
+    // Set our "myTextureSampler" sampler to use Texture Unit 0
+    glUniform1i(this->textureID, 0);
+
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
     glVertexAttribPointer(
-            1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
+            0,                  // attribute
+            3,                  // size
+            GL_FLOAT,           // type
+            GL_FALSE,           // normalized?
+            0,                  // stride
+            (void*)0            // array buffer offset
+    );
+
+    // 2nd attribute buffer : UVs
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, this->uvBuffer);
+    glVertexAttribPointer(
+            1,                                // attribute
+            2,                                // size
+            GL_FLOAT,                         // type
+            GL_FALSE,                         // normalized?
+            0,                                // stride
+            (void*)0                          // array buffer offset
+    );
+
+    // 3rd attribute buffer : normals
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, this->normalBuffer);
+    glVertexAttribPointer(
+            2,                                // attribute
             3,                                // size
             GL_FLOAT,                         // type
             GL_FALSE,                         // normalized?
             0,                                // stride
-            nullptr                          // array buffer offset
+            (void*)0                          // array buffer offset
     );
 
-    glBindBuffer(GL_ARRAY_BUFFER, v_buf);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(comp.m_vBuf), comp.m_vBuf, GL_STATIC_DRAW);
+    // Index buffer
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBuffer);
 
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, v_buf);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+    // Draw the triangles !
+    glDrawElements(
+            GL_TRIANGLES,      // mode
+            indices.size(),    // count
+            GL_UNSIGNED_SHORT,   // type
+            (void*)0           // element array buffer offset
+    );
+
+}
+
+void RenderSystem::close() {
+    // Cleanup VBO and shader
+    glDeleteBuffers(1, &this->vertexBuffer);
+    glDeleteBuffers(1, &this->uvBuffer);
+    glDeleteBuffers(1, &this->normalBuffer);
+    glDeleteBuffers(1, &this->elementBuffer);
+    glDeleteProgram(programID);
+
+    for (const GLuint texture : this->m_textures) {
+        glDeleteTextures(1, &texture);
+    }
 }

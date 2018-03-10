@@ -1,7 +1,3 @@
-//
-// Created by l3gume on 11/02/18.
-//
-
 #ifndef VAPEENGINE_RENDERSYSTEM_H
 #define VAPEENGINE_RENDERSYSTEM_H
 
@@ -25,11 +21,28 @@ private:
     void renderEntity(GLuint& v_buf, const Entity* _ent, float _deltaTime);
     void preUpdate(float _deltaTime) override;
     void update(float _deltaTime) override;
+    void close();
 
     std::vector<Entity*> m_renderableEntities;
     GLFWwindow* m_window = nullptr;
 //    Camera* m_camera;
+
+    GLuint programID; //Program id
+
     GLint matID;
+    GLint viewID; //View matrix id
+    GLint modID; //Model matrix id
+
+    GLint textureID; //Texture sampler id
+
+    GLuint vertexBuffer;
+    GLuint uvBuffer;
+    GLuint normalBuffer;
+    GLuint elementBuffer;
+
+    GLint lightID; //Light id
+
+    std::vector<GLuint> m_textures = {};
 };
 
 

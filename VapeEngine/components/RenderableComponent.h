@@ -17,28 +17,57 @@ struct RenderableComponent : ECS::Component {
         m_shape = _shape;
         switch (_shape) {
             case VapeRenderer::PrimitiveShapes::CUBE:
-                std::copy(std::begin(VapeRenderer::cube_vertex_buffer_data), std::end(VapeRenderer::cube_vertex_buffer_data), std::begin(m_vBuf));
-                std::copy(std::begin(VapeRenderer::cube_color_buffer_data), std::end(VapeRenderer::cube_color_buffer_data), std::begin(m_cBuf));
+                m_modelPath = (std::string *) "../render/assets/cube/cube.obj";
+                m_texturePath = (std::string *) "../render/assets/cube/uvmap.DDS";
                 break;
             case VapeRenderer::PrimitiveShapes::CYLINDER:
                 break;
             case VapeRenderer::PrimitiveShapes::OCTAHEDRON:
                 break;
             case VapeRenderer::PrimitiveShapes::PLANE:
-                std::copy(std::begin(VapeRenderer::plane_vertex_buffer_data), std::end(VapeRenderer::plane_vertex_buffer_data), std::begin(m_vBuf));
-                std::copy(std::begin(VapeRenderer::plane_color_buffer_data), std::end(VapeRenderer::plane_color_buffer_data), std::begin(m_cBuf));
                 break;
             case VapeRenderer::PrimitiveShapes::PYRAMID:
-                std::copy(std::begin(VapeRenderer::pyramid_vertex_buffer_data), std::end(VapeRenderer::pyramid_vertex_buffer_data), std::begin(m_vBuf));
-                std::copy(std::begin(VapeRenderer::pyramid_color_buffer_data), std::end(VapeRenderer::pyramid_color_buffer_data), std::begin(m_cBuf));
                 break;
             case VapeRenderer::PrimitiveShapes::SPHERE:
                 break;
+            default:
+                m_modelPath = (std::string *) "";
+                m_texturePath = (std::string *) "";
         }
     }
-    GLfloat m_vBuf[150];
-    GLfloat m_cBuf[150];
+
     VapeRenderer::PrimitiveShapes m_shape;
+
+public:
+    int getTextureID() {
+        return textureID;
+    }
+
+    void setTextureID(int i) {
+        textureID = i;
+    }
+
+    bool getLoaded() {
+        return loaded;
+    }
+
+    void setLoaded(bool b) {
+        loaded = b;
+    }
+
+    const std::string * getModelPath() {
+        return m_modelPath;
+    }
+
+    const std::string *getTexturePath() {
+        return m_texturePath;
+    }
+
+private:
+    int textureID = -1;
+    bool loaded = false;
+    const std::string *m_modelPath = nullptr;
+    const std::string *m_texturePath = nullptr;
 };
 
 #endif //VAPEENGINE_RENDERABLECOMPONENT_H
