@@ -28,6 +28,9 @@ private:
     void resolveAABBCollision(Collision &col);
     void resolveSphereCollision(Collision &col);
     void resolveAABBSphereCollision(Collision &col);
+
+    glm::vec3 closestPointOnAABB(const glm::vec3 &_p, const AABB &_aabb);
+    float squaredDistPointAABB(const glm::vec3 &_p, const AABB &_aabb);
 };
 
 

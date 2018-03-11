@@ -5,6 +5,7 @@
 #include <components/TransformComponent.h>
 #include <core/SceneManager.h>
 #include <components/BoxColliderComponent.h>
+#include <components/ColliderComponent.h>
 #include "Editor.h"
 #include "EditorController.h"
 
@@ -425,9 +426,9 @@ void Editor::showInspector() {
                 ImGui::Separator();
                 renderCameraInspector();
             }
-            if (m_selectedEntity->hasComponent<BoxColliderComponent>()) {
+            if (m_selectedEntity->hasComponent<ColliderComponent>()) {
                 ImGui::Separator();
-                renderBoxColliderInspector();
+                renderColliderInspector();
             }
             ImGui::Separator();
             if (ImGui::Button("Add Component")) {
@@ -519,32 +520,47 @@ void Editor::renderCameraInspector() {
     cam.m_zFar = zFar;
 }
 
-void Editor::renderBoxColliderInspector() {
-    ImGui::Text("BoxColliderComponent");
+void Editor::renderColliderInspector() {
+    ImGui::Text("ColliderComponent");
     ImGui::Text(" ");
-    auto &col = m_selectedEntity->getComponent<BoxColliderComponent>();
-    auto &aabb = col.collider;
-
-    float c[3] = {aabb.c.x, aabb.c.y, aabb.c.z};
-    float h[3] = {aabb.r.x, aabb.r.y, aabb.r.z};
-
-    bool t = col.isTrigger;
-    bool s = col.isStatic;
-
-    ImGui::InputFloat3("Center", c, 3);
-    ImGui::InputFloat3("HalfWidths", h, 3);
-    ImGui::Checkbox("isTrigger", &t);
-    ImGui::Checkbox("isStatic", &s);
-
-    col.isTrigger = t;
-    col.isStatic = s;
-
-    aabb.c.x = c[0];
-    aabb.c.y = c[1];
-    aabb.c.z = c[2];
-    aabb.r.x = h[0];
-    aabb.r.y = h[1];
-    aabb.r.z = h[2];
+    auto &col = m_selectedEntity->getComponent<ColliderComponent>();
+    if (col.type == BOX) {
+        ImGui::Text("Type: BOX");
+        auto &aabb = col.collider.boxCollider;
+        float c[3] = {aabb.c.x, aabb.c.y, aabb.c.z};
+        float h[3] = {aabb.r.x, aabb.r.y, aabb.r.z};
+        bool t = col.isTrigger;
+        bool s = col.isStatic;
+        ImGui::InputFloat3("Center", c, 3);
+        ImGui::InputFloat3("HalfWidths", h, 3);
+        ImGui::Checkbox("isTrigger", &t);
+        ImGui::Checkbox("isStatic", &s);
+        col.isTrigger = t;
+        col.isStatic = s;
+        aabb.c.x = c[0];
+        aabb.c.y = c[1];
+        aabb.c.z = c[2];
+        aabb.r.x = h[0];
+        aabb.r.y = h[1];
+        aabb.r.z = h[2];
+    } else if (col.type == SPHERE) {
+        ImGui::Text("Type: SPHERE");
+        auto& sphere = col.collider.sphereCollider;
+        float c[3] = {sphere.c.x, sphere.c.y, sphere.c.z};
+        float rad = sphere.r;
+        bool t = col.isTrigger;
+        bool s = col.isStatic;
+        ImGui::InputFloat3("Center", c, 3);
+        ImGui::InputFloat("Radius", &rad, 3);
+        ImGui::Checkbox("isTrigger", &t);
+        ImGui::Checkbox("isStatic", &s);
+        sphere.c.x = c[0];
+        sphere.c.y = c[1];
+        sphere.c.z = c[2];
+        sphere.r = rad;
+        col.isTrigger = t;
+        col.isStatic = s;
+    }
 }
 
 void Editor::showOpenDialog() {

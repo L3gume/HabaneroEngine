@@ -6,6 +6,7 @@
 #include <components/TransformComponent.h>
 #include <components/CameraComponent.h>
 #include <components/BoxColliderComponent.h>
+#include <components/ColliderComponent.h>
 #include "TransformSystem.h"
 
 void TransformSystem::update(float _deltaTime) {
@@ -30,26 +31,33 @@ void TransformSystem::update(float _deltaTime) {
                     glm::quat(parent_transform.rotation) * glm::quat(transform.rotation));
             transform.abs_scale = transform.scale * parent_transform.scale;
         }
-        if (e->hasComponent<BoxColliderComponent>()) {
-            auto &box = e->getComponent<BoxColliderComponent>();
-            if (!box.isStatic) {
-//                box.collider.velocity.x = (transform.abs_position.x - box.collider.c.x) / _deltaTime;
-//                box.collider.velocity.y = (transform.abs_position.y - box.collider.c.y) / _deltaTime;
-//                box.collider.velocity.z = (transform.abs_position.z - box.collider.c.z) / _deltaTime;
-
-                float dx = transform.abs_position.x - box.collider.c.x;
-                float dy = transform.abs_position.y - box.collider.c.y;
-                float dz = transform.abs_position.z - box.collider.c.z;
-
-                float d = glm::sqrt(dx * dx + dy * dy + dz * dz);
-                float s = d / _deltaTime;
-
-                box.collider.velocity = glm::vec3((dx/d)*s,(dy/d)*s,(dz/d)*s);
-
-//                box.collider.velocity = (transform.abs_position - box.collider.c) / _deltaTime;
-
-                box.collider.c = transform.abs_position;
+        if (e->hasComponent<ColliderComponent>()) {
+            auto &collider = e->getComponent<ColliderComponent>();
+            if (!collider.isStatic) {
+                if (collider.type == colType::BOX) collider.collider.boxCollider.c = transform.abs_position;
+                else if (collider.type == colType::SPHERE) collider.collider.sphereCollider.c = transform.abs_position;
             }
         }
+//        if (e->hasComponent<BoxColliderComponent>()) {
+//            auto &box = e->getComponent<BoxColliderComponent>();
+//            if (!box.isStatic) {
+////                box.collider.velocity.x = (transform.abs_position.x - box.collider.c.x) / _deltaTime;
+////                box.collider.velocity.y = (transform.abs_position.y - box.collider.c.y) / _deltaTime;
+////                box.collider.velocity.z = (transform.abs_position.z - box.collider.c.z) / _deltaTime;
+//
+//                float dx = transform.abs_position.x - box.collider.c.x;
+//                float dy = transform.abs_position.y - box.collider.c.y;
+//                float dz = transform.abs_position.z - box.collider.c.z;
+//
+//                float d = glm::sqrt(dx * dx + dy * dy + dz * dz);
+//                float s = d / _deltaTime;
+//
+//                box.collider.velocity = glm::vec3((dx/d)*s,(dy/d)*s,(dz/d)*s);
+//
+////                box.collider.velocity = (transform.abs_position - box.collider.c) / _deltaTime;
+//
+//                box.collider.c = transform.abs_position;
+//            }
+//        }
     }
 }

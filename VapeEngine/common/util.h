@@ -31,6 +31,14 @@ static uint64_t generateUniqueID() {
     return ++ID;
 }
 
+static float sqrMagnitude(glm::vec3 _v) {
+    float mag = 0.f;
+    mag += _v.x * + _v.x;
+    mag += _v.y * + _v.y;
+    mag += _v.z * + _v.z;
+    return mag;
+}
+
 static glm::vec3 defaultUpVector() { return glm::vec3(0, 1, 0); }
 static glm::vec3 defaultForwardVector() { return glm::vec3(0, 0, -1); }
 #endif //VAPEENGINE_UTIL_H

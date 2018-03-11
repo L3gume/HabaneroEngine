@@ -7,6 +7,7 @@
 
 #include <ecs/ecs.h>
 #include <physics/Sphere.h>
+#include "ColliderComponent.h"
 
 using namespace ECS;
 
@@ -21,7 +22,8 @@ enum CollisionType {
  */
 struct Collision {
     CollisionType type;
-
+    colType e1_type;
+    colType e2_type;
     // Pointers to the entities that are involved
     Entity* e1;
     Entity* e2;
@@ -43,6 +45,10 @@ struct Collision {
     float dx;
     float dy;
     float dz;
+
+    // for spheres
+    float sqDist;
+    glm::vec3 normal;
 };
 
 /*

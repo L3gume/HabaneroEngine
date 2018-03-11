@@ -13,6 +13,7 @@
 #include <systems/TransformSystem.h>
 #include <components/BoxColliderComponent.h>
 #include <systems/CollisionSystem.h>
+#include <components/ColliderComponent.h>
 #include "SceneManager.h"
 
 using namespace Core;
@@ -111,17 +112,20 @@ void Engine::gameLoop(const bool _editor) {
     player.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
     player.addComponent<ScriptComponent>(new PlayerMovementScript());
     auto& transform = player.getComponent<TransformComponent>();
-    player.addComponent<BoxColliderComponent>(transform.position, transform.scale);
+//    player.addComponent<BoxColliderComponent>(transform.position, transform.scale);
+//    player.addComponent<ColliderComponent>(transform.position, transform.scale, false, false);
+    player.addComponent<ColliderComponent>(transform.position, 2.f, false, false);
 
     auto& wall = m_entityManager.addEntity("wall");
     wall.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 5.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(5.f, 3.f, 1.f));
     wall.addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CUBE);
     auto& transform2 = wall.getComponent<TransformComponent>();
-    auto& box = wall.addComponent<BoxColliderComponent>(transform2.position, transform2.scale);
-    box.isStatic = true;
+//    auto& box = wall.addComponent<BoxColliderComponent>(transform2.position, transform2.scale);
+    auto& box = wall.addComponent<ColliderComponent>(transform2.position, transform2.scale, false, false);
+//    box.isStatic = true;
 
     auto& cam = m_entityManager.addEntity("cam");
-    cam.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, 7.f), glm::vec3(90.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+    cam.addComponent<TransformComponent>(glm::vec3(0.f, 15.f, 5.f), glm::vec3(90.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
     cam.addComponent<CameraComponent>(90.f, 16.f, 9.f, 0.1f, 100.f);
 #if EDITOR
     m_systemManager.switchMode(false);

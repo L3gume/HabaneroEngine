@@ -8,6 +8,7 @@
 #include <ecs/ecs.h>
 #include <physics/Sphere.h>
 #include <physics/AABB.h>
+#include <variant>
 
 using namespace ECS;
 
@@ -19,11 +20,20 @@ enum colType {
     SPHERE
 };
 
+/*
+ * Collider, declared as a union of the existing collider shapes.
+ */
 union Collider {
     AABB boxCollider;
     Sphere sphereCollider;
+
+    // Since the types in the union don't have trivial constructors, we need to provide a constructor for the union.
+    Collider() { memset(this, 0, sizeof(Collider)); }
 };
 
+/*
+ * TODO: add some form of validation that the passed type is a type of collider.
+ */
 struct ColliderComponent : Component {
     /*
      * Box Collider constructor
