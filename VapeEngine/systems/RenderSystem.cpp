@@ -111,7 +111,7 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
 #endif
 
     if (!comp.getLoaded()) { //Only load texture once
-        GLuint texture = loadDDS(reinterpret_cast<const char *>(comp.getTexturePath()));
+        GLuint texture = loadDDS(comp.getTexturePath());
         m_textures.push_back(texture);
         comp.setTextureID(m_textures.size() - 1);
         comp.setLoaded(true);
@@ -121,7 +121,7 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
     std::vector<glm::vec3> normals;
-    bool res = loadOBJ(reinterpret_cast<const char *>(comp.getModelPath()), vertices, uvs, normals);
+    bool res = loadOBJ(comp.getModelPath(), vertices, uvs, normals);
 
     std::vector<unsigned short> indices;
     std::vector<glm::vec3> indexed_vertices;

@@ -17,22 +17,24 @@ struct RenderableComponent : ECS::Component {
         m_shape = _shape;
         switch (_shape) {
             case VapeRenderer::PrimitiveShapes::CUBE:
-                m_modelPath = (std::string *) "../render/assets/cube/cube.obj";
-                m_texturePath = (std::string *) "../render/assets/cube/uvmap.DDS";
+                m_modelPath = "../render/assets/cube/cube.obj";
+                m_texturePath = "../render/assets/cube/cube.dds";
                 break;
             case VapeRenderer::PrimitiveShapes::CYLINDER:
                 break;
             case VapeRenderer::PrimitiveShapes::OCTAHEDRON:
                 break;
             case VapeRenderer::PrimitiveShapes::PLANE:
+                m_modelPath = "../render/assets/plane/plane.obj";
+                m_texturePath = "../render/assets/plane/plane.dds";
                 break;
             case VapeRenderer::PrimitiveShapes::PYRAMID:
                 break;
             case VapeRenderer::PrimitiveShapes::SPHERE:
                 break;
             default:
-                m_modelPath = (std::string *) "";
-                m_texturePath = (std::string *) "";
+                m_modelPath = "";
+                m_texturePath = "";
         }
     }
 
@@ -55,19 +57,19 @@ public:
         loaded = b;
     }
 
-    const std::string * getModelPath() {
+    const char* getModelPath() {
         return m_modelPath;
     }
 
-    const std::string *getTexturePath() {
+    const char *getTexturePath() {
         return m_texturePath;
     }
 
 private:
     int textureID = -1;
     bool loaded = false;
-    const std::string *m_modelPath = nullptr;
-    const std::string *m_texturePath = nullptr;
+    const char *m_modelPath = nullptr;
+    const char *m_texturePath = nullptr;
 };
 
 #endif //VAPEENGINE_RENDERABLECOMPONENT_H
