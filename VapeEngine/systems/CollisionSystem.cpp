@@ -101,6 +101,11 @@ bool CollisionSystem::testCollision(Entity *e1, Entity *e2, Collision &col) {
             col.normal = normal != glm::vec3(0.f) ? glm::normalize(normal) : defaultUpVector();
         }
         return collision;
+    } else if (c1.type == colType::SPHERE && c2.type == colType::SPHERE) {
+        glm::vec3 temp = c1.collider.sphereCollider.c - c2.collider.sphereCollider.c; 
+        float distSqr = dot(temp, temp);
+        
+        bool collision = (glm::sqrt(distSqr) <= c1.collider.sphereCollier.r + c2.collider.sphereCollier.r);
     }
 }
 

@@ -5,6 +5,9 @@
 #include <ConstructorFunctions.h>
 #include <script/LookAtScript.h>
 #include <components/BoxColliderComponent.h>
+#include <components/ColliderComponent.h>
+#include <physics/AABB.h>
+#include <physics/Sphere.h>
 
 void constructTransformComponent(Entity &_ent, std::vector<std::string> &_args) {
     std::string substr;
@@ -99,6 +102,47 @@ void constructBoxColliderComponent(Entity &_ent, std::vector<std::string> &_args
     _ent.addComponent<BoxColliderComponent>(glm::vec3(cx, cy, cz), glm::vec3(hx, hy, hz), isTrigger, isStatic);
 }
 
+void constructColliderComponent(Entity& _ent, std::vector<std::string>& _args) {
+    std::string substr;
+    glm::vec3 c(0.f, 0.f, 0.f);
+    glm::vec3 h(0.f, 0.f, 0.f);
+    float r = 0.f;
+    colType type;
+    bool isTrigger = false, isStatic = false;
+    
+    for (auto& s : _args) {
+        if (boost::starts_with(s, "type=")) {
+            substr = s.substr(5);
+            if (substr == "BOX") {
+                type = BOX;    
+            } else if (substr == "SPHERE") {
+                type = SPHERE;
+            }
+        } else if (boost::starts_with(s, "center=")) {
+            substr = s.substr(7);
+            std::istringstream fss(substr);
+            if (!(fss >> c.x >> c.y >> c.z)) {}
+        } else if (boost::starts_with(s, "halfwidths=") && type == BOX) {
+            substr = s.substr(11);
+            std::istringstream fss(substr);
+            if (!(fss >> h.x >> h.y >> h.z)) {/* error */}
+        } else if (boost::starts_with(s, "radius=") && type == SPHERE) {
+            r = boost::lexical_cast<float>(s.substr(7));
+        } else if (boost::starts_with(s, "istrigger=")) {
+            substr = s.substr(10);
+            isTrigger = (substr == "true");
+        } else if (boost::starts_with(s, "isstatic=")) {
+            substr = s.substr(9);
+            isStatic = (substr == "true");
+        }
+    } 
+    if (type == BOX) {
+        _ent.addComponent<ColliderComponent>(c, h, isTrigger, isStatic);
+    } else if (type = SPHERE) {
+        _ent.addComponent<ColliderComponent>(c, r, isTrigger, isStatic);
+    }
+}
+
 void saveTransformComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<TransformComponent>()) {
         auto &comp = _ent.getComponent<TransformComponent>();
@@ -156,3 +200,30 @@ void saveBoxColliderComponent(Entity &_ent, std::ostringstream &_oss) {
 
 }
 
+void saveColliderComponent(Entity &_ent, std::ostringstream &_oss) {
+    if (_ent.hasComponent<ColliderComponent>()) {
+        auto& comp = _ent.getComponent<ColliderComponent>();
+        std::string type; 
+        AABB aabb;
+        Sphere sphere;
+        if (comp.type == BOX) {
+            aabb = comp.collider.boxCollider; 
+            type = "BOX";
+        } else if (comp.type == SPHERE) {
+            sphere = comp.collider.sphereCollider;
+            type = "SPHERE";
+        }
+        _oss << "[ColliderComponent]" << "\n";
+        _oss << "type=" << type << "\n";
+        if (comp.type == BOX) {
+            _oss << "center=" << aabb.c.x << " " << aabb.c.y << " " << aabb.c.z << "\n";
+            _oss << "halfwidths=" << aabb.r.x << " " << aabb.r.y << " " << aabb.r.z << "\n";
+        } else if (comp.type == SPHERE) {
+            _oss << "center=" << sphere.c.x << " " << sphere.c.y << " " << sphere.c.z << "\n";
+            _oss << "radius=" << sphere.r << "\n";
+        }
+        _oss << "istrigger=" << (comp.isTrigger ? "true" : "false") << "\n";
+        _oss << "isstatic=" << (comp.isStatic ? "true" : "false") << "\n";
+        _oss << "[/ColliderComponent]" << "\n";
+    } 
+} 

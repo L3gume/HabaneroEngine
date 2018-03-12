@@ -68,12 +68,12 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, Entity *_pare
                 args.emplace_back(_args[i]);
             }
             constructScriptComponent(newEnt, args);
-        } else if (_args[i] == "[BoxColliderComponent]") {
+        }  else if (_args[i] == "[ColliderComponent]") {
             std::vector<std::string> args;
-            while (_args[++i] != "[/BoxColliderComponent]") {
+            while (_args[++i] != "[/ColliderComponent]") {
                 args.emplace_back(_args[i]);
             }
-            constructBoxColliderComponent(newEnt, args);
+            constructColliderComponent(newEnt, args);
         } else if (boost::starts_with(_args[i], "ENTITY:")) {
             std::vector<std::string> args;
             args.emplace_back(_args[i]); // don't forget that part.
@@ -97,21 +97,15 @@ void EntityConstructor::saveEntityFile(Entity &_ent, std::string _filename) {
 }
 
 void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream *_oss) {
-//    std::ofstream of(_filename);
-//    std::ostringstream oss;
-
     *_oss << "ENTITY:" << _ent.m_sName << "\n{\n";
     saveTransformComponent(_ent, *_oss);
     saveRenderableComponent(_ent, *_oss);
     saveCameraComponent(_ent, *_oss);
     saveScriptComponent(_ent, *_oss);
-    saveBoxColliderComponent(_ent, *_oss);
+    saveColliderComponent(_ent, *_oss);
     for (auto &child : _ent.m_children) {
         saveEntity(*child, _oss);
     }
     if (_ent.getParent()) *_oss << ")\n";
     else *_oss << "}\n";
-
-
-//    (*_of).close();
 }

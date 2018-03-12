@@ -440,7 +440,10 @@ void Editor::showInspector() {
                     v.erase(std::remove_if(std::begin(v), std::end(v), [this](ECS::Entity *_ent) {
                         return m_selectedEntity->getID() == _ent->getID();
                     }), std::end(v));
-                }
+                }  
+                m_selectedEntity->destroy();
+                Core::Engine::getInstance().getEntityManager().refresh();
+                m_selectedEntity = nullptr;
             }
         }
         ImGui::End();
@@ -658,11 +661,17 @@ void Editor::showAddComponentWindow() {
         }
     }
     if (ImGui::Button("ColliderComponent(AABB)")) {
-        if (!m_selectedEntity->hasComponent<BoxColliderComponent>()) {
-            m_selectedEntity->addComponent<BoxColliderComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f));
+        if (!m_selectedEntity->hasComponent<ColliderComponent>()) {
+            m_selectedEntity->addComponent<ColliderComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f));
             open = false;
         }
     }
+    if (ImGui::Button("ColliderComponent(SPHERE)")) {
+        if (!m_selectedEntity->hasComponent<ColliderComponent>()) {
+            m_selectedEntity->addComponent<ColliderComponent>(glm::vec3(0.f, 0.f, 0.f), 0.f);
+            open = false;
+        }
+    } 
     // Script
     ImGui::End();
     m_bShowAddComponent = open;
