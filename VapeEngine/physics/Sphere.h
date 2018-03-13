@@ -12,8 +12,6 @@ struct Sphere {
     
     glm::vec3 c;
     float r;
-
-    glm::vec3 velocity;
 };
 
 #endif

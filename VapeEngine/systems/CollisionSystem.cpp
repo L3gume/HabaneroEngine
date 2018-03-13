@@ -22,12 +22,12 @@ void CollisionSystem::update(float _deltaTime) {
                                 resolveAABBCollision(col);
                                 break;
                             case CollisionType::SPHERE_TO_SPHERE:
+                                resolveSphereCollision(col);
                                 break;
                             case CollisionType::BOX_TO_SPHERE:
                                 resolveAABBSphereCollision(col);
                                 break;
                         }
-//                        resolveAABBCollision(col);
                     }
                 }
             }
@@ -102,10 +102,24 @@ bool CollisionSystem::testCollision(Entity *e1, Entity *e2, Collision &col) {
         }
         return collision;
     } else if (c1.type == colType::SPHERE && c2.type == colType::SPHERE) {
-        glm::vec3 temp = c1.collider.sphereCollider.c - c2.collider.sphereCollider.c; 
-        float distSqr = dot(temp, temp);
-        
-        bool collision = (glm::sqrt(distSqr) <= c1.collider.sphereCollier.r + c2.collider.sphereCollier.r);
+        glm::vec3 normal = c1.collider.sphereCollider.c - c2.collider.sphereCollider.c; 
+        float distSqr = dot(normal, normal);
+        bool collision = (glm::sqrt(distSqr) <= c1.collider.sphereCollider.r + c2.collider.sphereCollider.r);
+        if (collision) {
+            col.type = CollisionType::SPHERE_TO_SPHERE;
+            col.e1 = e1;
+            col.e2 = e2;
+            col.e1_isTrigger = c1.isTrigger;
+            col.e2_isTrigger = c2.isTrigger;
+            col.e1_isStatic = c1.isStatic;
+            col.e2_isStatic = c2.isStatic;
+            col.e1_Sphere = c1.collider.sphereCollider; col.e1_AABB = c1.collider.boxCollider;
+            col.e2_Sphere = c2.collider.sphereCollider;
+            col.e2_AABB = c2.collider.boxCollider;
+            col.normal = normal != glm::vec3(0.f) ? glm::normalize(normal) : defaultUpVector();
+            col.sqDist = distSqr;
+        }
+        return collision;
     }
 }
 
@@ -160,7 +174,16 @@ void CollisionSystem::resolveAABBCollision(Collision &col) {
 }
 
 void CollisionSystem::resolveSphereCollision(Collision &col) {
-
+    if (col.e1_isTrigger || col.e2_isTrigger) {
+        // things (handler functions to call)
+    } else {
+        if (!col.e1_isStatic) {
+            auto &transform = col.e1->getComponent<TransformComponent>();
+            if (!col.e1->getParent()) {
+                transform.position += col.normal * ((col.e1_Sphere.r + col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+            }
+        }
+    }
 }
 
 void CollisionSystem::resolveAABBSphereCollision(Collision &col) {

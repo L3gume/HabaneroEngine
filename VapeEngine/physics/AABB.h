@@ -14,8 +14,6 @@ struct AABB {
 
     glm::vec3 c; // Center point
     glm::vec3 r; // halfwidths
-
-    glm::vec3 velocity;
 };
 
 #endif //VAPEENGINE_AABB_H

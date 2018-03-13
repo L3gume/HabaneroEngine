@@ -105,7 +105,7 @@ void Engine::gameLoop(const bool _editor) {
      */
 
     SceneManager& scnMan = SceneManager::getInstance();
-    scnMan.loadScene("newColliders.scn");
+    scnMan.loadScene("../testScenes/newColliders.scn");
 /*
     auto& player = m_entityManager.addEntity("Player");
     player.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));

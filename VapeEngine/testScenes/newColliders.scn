@@ -1,4 +1,4 @@
-SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/cmake-build-debug/newColliders
+SCENE:/home/l3gume/Programming/OpenGL/VapeEngine/VapeEngine/testScenes/newColliders
 {
 ENTITY:Player
 {
@@ -54,22 +54,22 @@ zNear=0.1
 zFar=100
 [/CameraComponent]
 }
-ENTITY:wall2
+ENTITY:otherSphere
 {
 [TransformComponent]
-position=5 0 0
+position=5 0 -4
 rotation=0 0 0
-scale=1 3 5
+scale=1 1 1
 [/TransformComponent]
 [RenderableComponent]
 shape=0
 [/RenderableComponent]
 [ColliderComponent]
-type=BOX
-center=5 0 0
-halfwidths=1 3 5
+type=SPHERE
+center=5 0 -4
+radius=3
 istrigger=false
-isstatic=true
+isstatic=false
 [/ColliderComponent]
 }
 }
