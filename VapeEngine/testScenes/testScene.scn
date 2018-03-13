@@ -1,0 +1,54 @@
+SCENE:testScene
+{
+ENTITY:Camera
+{
+[TransformComponent]
+position=0 15 -15
+rotation=-45 0 0
+scale=1 1 1
+[/TransformComponent]
+[CameraComponent]
+fov=90
+hRes=16
+vRes=9
+zNear=0.1
+zFar=100
+[/CameraComponent]
+}
+ENTITY:Plane
+{
+[TransformComponent]
+position=0 0 0
+rotation=0 0 0
+scale=100 100 100
+[/TransformComponent]
+[RenderableComponent]
+shape=1
+[/RenderableComponent]
+}
+ENTITY:testParent
+{
+[TransformComponent]
+position=0 1 0
+rotation=0 0 0
+scale=1 1 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ScriptComponent]
+script=PlayerMovementScript
+[/ScriptComponent]
+ENTITY:testChild
+{
+[TransformComponent]
+position=0 2 -1
+rotation=45 0 0
+scale=0.5 0.5 0.5
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+}
+}
+}
