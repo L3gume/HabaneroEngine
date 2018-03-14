@@ -5,6 +5,7 @@
 #include "CollisionSystem.h"
 #include <components/CollisionHandlerComponent.h>
 #include <components/ColliderComponent.h>
+#include <components/RigidBodyComponent.h>
 
 void CollisionSystem::update(float _deltaTime) {
 //    auto &entities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
@@ -180,7 +181,14 @@ void CollisionSystem::resolveSphereCollision(Collision &col) {
         if (!col.e1_isStatic) {
             auto &transform = col.e1->getComponent<TransformComponent>();
             if (!col.e1->getParent()) {
-                transform.position += col.normal * ((col.e1_Sphere.r + col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                glm::vec3 n = col.normal;
+                if (col.e1->hasComponent<RigidBodyComponent>()) {
+                    auto &rb = col.e1->getComponent<RigidBodyComponent>();
+                    if (rb.lockPos_x) n.x = 0.f;
+                    if (rb.lockPos_y) n.y = 0.f;
+                    if (rb.lockPos_z) n.z = 0.f;
+                }
+                transform.position += n * ((col.e1_Sphere.r + col.e2_Sphere.r) - glm::sqrt(col.sqDist));
             }
         }
     }
@@ -193,10 +201,17 @@ void CollisionSystem::resolveAABBSphereCollision(Collision &col) {
         if (!col.e1_isStatic) {
             auto &transform = col.e1->getComponent<TransformComponent>();
             if (!col.e1->getParent()) {
+                glm::vec3 n = col.normal;
+                if (col.e1->hasComponent<RigidBodyComponent>()) {
+                    auto &rb = col.e1->getComponent<RigidBodyComponent>();
+                    if (rb.lockPos_x) n.x = 0.f;
+                    if (rb.lockPos_y) n.y = 0.f;
+                    if (rb.lockPos_z) n.z = 0.f;
+                }
                 if (col.e1_type == SPHERE)
-                    transform.position += col.normal * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position += n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
                 else if (col.e1_type == BOX)
-                    transform.position -= col.normal * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position -= n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
             }
         }
     }

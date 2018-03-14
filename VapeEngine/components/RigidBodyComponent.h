@@ -41,7 +41,7 @@ struct RigidBodyComponent : Component {
     
     float gravityScale  = 1.f;
     float mass          = 1.f;
-    float friction      = 1.f;
+    float friction      = 1.f; // Not exactly friction in the proper sense
     
     glm::vec3 velocity;
 
@@ -52,6 +52,6 @@ struct RigidBodyComponent : Component {
     bool lockRot_y      : 1;
     bool lockRot_z      : 1;
     bool isKinematic    : 1;
-}
+};
 
 #endif
