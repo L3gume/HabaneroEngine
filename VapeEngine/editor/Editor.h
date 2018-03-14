@@ -75,6 +75,7 @@ namespace VapeUI {
         void renderScriptInspector();
         void renderCameraInspector();
         void renderColliderInspector();
+        void renderRigidBodyInspector();
 
         GLFWwindow *m_window = nullptr;
         ECS::Entity* m_selectedEntity = nullptr;

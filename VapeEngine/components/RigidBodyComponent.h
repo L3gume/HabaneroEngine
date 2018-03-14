@@ -26,7 +26,8 @@ struct RigidBodyComponent : Component {
      */
     RigidBodyComponent(float _gravScl, float _mass, float _friction, 
                         bool _lckPosx, bool _lckPosy, bool _lckPosz, 
-                        bool _lckRotx, bool _lckRoty, bool _lckRotz) {
+                        bool _lckRotx, bool _lckRoty, bool _lckRotz,
+                        bool _kinematic) {
         gravityScale = _gravScl;
         mass = _mass;
         friction = _friction;
@@ -37,6 +38,7 @@ struct RigidBodyComponent : Component {
         lockRot_x = _lckRotx;
         lockRot_y = _lckRoty;
         lockRot_z = _lckRotz;
+        isKinematic = _kinematic;
     }
     
     float gravityScale  = 1.f;
