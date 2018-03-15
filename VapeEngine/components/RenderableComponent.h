@@ -10,8 +10,6 @@
 #include <render/PrimitiveShapes.h>
 #include "TransformComponent.h"
 
-// TODO: THIS IS A PLACEHOLDER, FIX WHEN NEW RENDERSYSTEM IS DONE
-
 struct RenderableComponent : ECS::Component {
     explicit RenderableComponent(VapeRenderer::PrimitiveShapes _shape) {
         m_shape = _shape;
@@ -21,22 +19,28 @@ struct RenderableComponent : ECS::Component {
                 m_texturePath = "../render/assets/cube/cube.dds";
                 break;
             case VapeRenderer::PrimitiveShapes::CYLINDER:
-                break;
-            case VapeRenderer::PrimitiveShapes::OCTAHEDRON:
+                m_modelPath = "../render/assets/cylinder/cylinder.obj";
+                m_texturePath = "../render/assets/cylinder/cylinder.dds";
                 break;
             case VapeRenderer::PrimitiveShapes::PLANE:
                 m_modelPath = "../render/assets/plane/plane.obj";
                 m_texturePath = "../render/assets/plane/plane.dds";
                 break;
             case VapeRenderer::PrimitiveShapes::PYRAMID:
+                m_modelPath = "../render/assets/pyramid/pyramid.obj";
+                m_texturePath = "../render/assets/pyramid/pyramid.dds";
                 break;
             case VapeRenderer::PrimitiveShapes::SPHERE:
+                m_modelPath = "../render/assets/sphere/sphere.obj";
+                m_texturePath = "../render/assets/sphere/sphere.dds";
                 break;
-            default:
-                m_modelPath = "";
-                m_texturePath = "";
         }
     }
+
+    explicit RenderableComponent(const char *_modelPath, const char *_texturePath) {
+        m_modelPath = _modelPath;
+        m_texturePath = _texturePath;
+    };
 
     VapeRenderer::PrimitiveShapes m_shape;
 

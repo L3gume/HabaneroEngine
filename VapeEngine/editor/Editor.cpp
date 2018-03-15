@@ -552,6 +552,24 @@ void Editor::showAddComponentWindow() {
             open = false;
         }
     }
+    if (ImGui::Button("RenderableComponent(CYLINDER)")) {
+        if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
+            m_selectedEntity->addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::CYLINDER);
+            open = false;
+        }
+    }
+    if (ImGui::Button("RenderableComponent(SPHERE)")) {
+        if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
+            m_selectedEntity->addComponent<RenderableComponent>(VapeRenderer::PrimitiveShapes::SPHERE);
+            open = false;
+        }
+    }
+    if (ImGui::Button("RenderableComponent(CUSTOM)")) {
+        if (!m_selectedEntity->hasComponent<RenderableComponent>()) {
+            m_selectedEntity->addComponent<RenderableComponent>("../../Test/custom_model.obj", "../../Test/custom_model.dds");
+            open = false;
+        }
+    }
     if (ImGui::Button("ScriptComponent(PlayerMovement)")) {
         if (!m_selectedEntity->hasComponent<ScriptComponent>()) {
             m_selectedEntity->addComponent<ScriptComponent>(new PlayerMovementScript());

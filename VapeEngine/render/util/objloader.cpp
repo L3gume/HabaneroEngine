@@ -1,9 +1,12 @@
 #include <vector>
-#include <stdio.h>
-#include <string>
+#include <cstdio>
+#include <iostream>
+#include <fstream>
 #include <cstring>
 
 #include <glm/glm.hpp>
+#include <GL/glcorearb.h>
+#include <sstream>
 
 #include "objloader.h"
 
