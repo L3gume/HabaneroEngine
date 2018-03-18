@@ -6,6 +6,7 @@
 #include <core/SceneManager.h>
 #include <components/BoxColliderComponent.h>
 #include <components/ColliderComponent.h>
+#include <components/RigidBodyComponent.h>
 #include "Editor.h"
 #include "EditorController.h"
 
@@ -430,6 +431,10 @@ void Editor::showInspector() {
                 ImGui::Separator();
                 renderColliderInspector();
             }
+            if (m_selectedEntity->hasComponent<RigidBodyComponent>()) {
+                ImGui::Separator();
+                renderRigidBodyInspector();
+            }
             ImGui::Separator();
             if (ImGui::Button("Add Component")) {
                 m_bShowAddComponent = true;
@@ -566,6 +571,48 @@ void Editor::renderColliderInspector() {
     }
 }
 
+void Editor::renderRigidBodyInspector() {
+    ImGui::Text("RigidBodyComponent");
+    ImGui::Text(" ");
+    auto &rb = m_selectedEntity->getComponent<RigidBodyComponent>();
+    float grav_scl = rb.gravityScale;
+    float ms = rb.mass;
+    float fric = rb.friction;
+    bool lckPosx = rb.lockPos_x;
+    bool lckPosy = rb.lockPos_y;
+    bool lckPosz = rb.lockPos_z;
+    bool lckRotx = rb.lockRot_x;
+    bool lckRoty = rb.lockRot_y;
+    bool lckRotz = rb.lockRot_z;
+    bool kin = rb.isKinematic;
+    ImGui::InputFloat("Gravity Scale", &grav_scl, 3);
+    ImGui::InputFloat("Mass", &ms, 3);
+    ImGui::InputFloat("Friction", &fric, 3);
+    ImGui::Text("Lock Position:");
+    ImGui::Checkbox("x", &lckPosx);
+    ImGui::SameLine();
+    ImGui::Checkbox("y", &lckPosy);
+    ImGui::SameLine();
+    ImGui::Checkbox("z", &lckPosz);
+    ImGui::Text("Lock Rotation:");
+    ImGui::Checkbox("x", &lckRotx);
+    ImGui::SameLine();
+    ImGui::Checkbox("y", &lckRoty);
+    ImGui::SameLine();
+    ImGui::Checkbox("z", &lckRotz);
+    ImGui::Checkbox("IsKinematic", &kin);
+    rb.gravityScale = grav_scl;
+    rb.mass = ms;
+    rb.friction = fric;
+    rb.lockPos_x = lckPosx;
+    rb.lockPos_y = lckPosy;
+    rb.lockPos_z = lckPosz;
+    rb.lockRot_x = lckRotx;
+    rb.lockRot_y = lckRoty;
+    rb.lockRot_z = lckRotz;
+    rb.isKinematic = kin;
+}
+
 void Editor::showOpenDialog() {
     std::string open_file;
     if (fileIOWindow(open_file, m_sRecentFiles, "Open", {"*.scn"}, true)) {
@@ -573,7 +620,6 @@ void Editor::showOpenDialog() {
         if (!open_file.empty()) {
             m_sRecentFiles.push_back(open_file);
             Core::Engine::getInstance().reset();
-
             SceneManager::getInstance().loadScene(open_file);
         }
     }
@@ -669,6 +715,12 @@ void Editor::showAddComponentWindow() {
     if (ImGui::Button("ColliderComponent(SPHERE)")) {
         if (!m_selectedEntity->hasComponent<ColliderComponent>()) {
             m_selectedEntity->addComponent<ColliderComponent>(glm::vec3(0.f, 0.f, 0.f), 0.f);
+            open = false;
+        }
+    } 
+    if (ImGui::Button("RigidBodyComponent")) {
+        if (!m_selectedEntity->hasComponent<RigidBodyComponent>()) {
+            m_selectedEntity->addComponent<RigidBodyComponent>();
             open = false;
         }
     } 

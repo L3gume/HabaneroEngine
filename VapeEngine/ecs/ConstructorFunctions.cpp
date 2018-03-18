@@ -6,6 +6,7 @@
 #include <script/LookAtScript.h>
 #include <components/BoxColliderComponent.h>
 #include <components/ColliderComponent.h>
+#include <components/RigidBodyComponent.h>
 #include <physics/AABB.h>
 #include <physics/Sphere.h>
 
@@ -77,31 +78,6 @@ void constructScriptComponent(Entity &_ent, std::vector<std::string> &_args) {
     _ent.addComponent<ScriptComponent>(p);
 }
 
-void constructBoxColliderComponent(Entity &_ent, std::vector<std::string> &_args) {
-    std::string substr;
-    float cx = 0.f, cy = 0.f, cz = 0.f;
-    float hx = 1.f, hy = 1.f, hz = 1.f;
-    bool isTrigger = false, isStatic = false;
-    for (auto& s : _args) {
-        if (boost::starts_with(s, "center=")) {
-            substr = s.substr(7);
-            std::istringstream fss(substr);
-            if (!(fss >> cx >> cy >> cz)) {/* error */}
-        } else if (boost::starts_with(s, "halfwidths=")) {
-            substr = s.substr(11);
-            std::istringstream fss(substr);
-            if (!(fss >> hx >> hy >> hz)) {/* error */}
-        } else if (boost::starts_with(s, "istrigger=")) {
-            substr = s.substr(10);
-            isTrigger = (substr == "true");
-        } else if (boost::starts_with(s, "isstatic=")) {
-            substr = s.substr(9);
-            isStatic = (substr == "true");
-        }
-    }
-    _ent.addComponent<BoxColliderComponent>(glm::vec3(cx, cy, cz), glm::vec3(hx, hy, hz), isTrigger, isStatic);
-}
-
 void constructColliderComponent(Entity& _ent, std::vector<std::string>& _args) {
     std::string substr;
     glm::vec3 c(0.f, 0.f, 0.f);
@@ -143,6 +119,44 @@ void constructColliderComponent(Entity& _ent, std::vector<std::string>& _args) {
     }
 }
 
+void constructRigidBodyComponent(Entity& _ent, std::vector<std::string>& _args) {
+    std::string substr;
+    float grav, mass, fric;
+    bool lckpx, lckpy, lckpz, lckrx, lckry, lckrz, kin;
+    
+    for (auto &s : _args) {
+        if (boost::starts_with(s, "gravityScale=")) {
+            grav = boost::lexical_cast<float>(s.substr(13));
+        } else if (boost::starts_with(s, "mass=")) {
+            mass = boost::lexical_cast<float>(s.substr(5));
+        } else if (boost::starts_with(s, "friction=")) {
+            fric = boost::lexical_cast<float>(s.substr(9));
+        } else if (boost::starts_with(s, "lockPos_x=")) {
+            substr = s.substr(10);
+            lckpx = (substr == "true");
+        } else if (boost::starts_with(s, "lockPos_y=")) {
+            substr = s.substr(10);
+            lckpy = (substr == "true");
+        } else if (boost::starts_with(s, "lockPos_z=")) {
+            substr = s.substr(10);
+            lckpz = (substr == "true");
+        } else if (boost::starts_with(s, "lockRot_x=")) {
+            substr = s.substr(10);
+            lckrx = (substr == "true");
+        } else if (boost::starts_with(s, "lockRot_y=")) {
+            substr = s.substr(10);
+            lckry = (substr == "true");
+        } else if (boost::starts_with(s, "lockRot_z=")) {
+            substr = s.substr(10);
+            lckrz = (substr == "true");
+        } else if (boost::starts_with(s, "isKinematic=")) {
+            substr = s.substr(12);
+            kin = (substr == "true");
+        }
+    }
+    _ent.addComponent<RigidBodyComponent>(grav, mass, fric, lckpx, lckpy, lckpz, lckrx, lckry, lckrz, kin);
+}
+
 void saveTransformComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<TransformComponent>()) {
         auto &comp = _ent.getComponent<TransformComponent>();
@@ -159,7 +173,7 @@ void saveRenderableComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<RenderableComponent>()) {
         auto &comp = _ent.getComponent<RenderableComponent>();
         _oss << "[RenderableComponent]" << "\n";
-        _oss << "shape=" << (int) comp.m_shape << "\n";
+        _oss << "shape=" << static_cast<int>(comp.m_shape) << "\n";
         _oss << "[/RenderableComponent]" << "\n";
     }
 }
@@ -167,8 +181,7 @@ void saveRenderableComponent(Entity &_ent, std::ostringstream &_oss) {
 void saveCameraComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<CameraComponent>()) {
         auto &comp = _ent.getComponent<CameraComponent>();
-        _oss << "[CameraComponent]" << "\n";
-        _oss << "fov=" << comp.m_fov << "\n";
+        _oss << "[CameraComponent]" << "\n"; _oss << "fov=" << comp.m_fov << "\n";
         _oss << "hRes=" << comp.m_hRes << "\n";
         _oss << "vRes=" << comp.m_vRes << "\n";
         _oss << "zNear=" << comp.m_zNear << "\n";
@@ -184,20 +197,6 @@ void saveScriptComponent(Entity &_ent, std::ostringstream &_oss) {
         _oss << "script=" << comp.m_script->m_sName << "\n";
         _oss << "[/ScriptComponent]" << "\n";
     }
-}
-
-void saveBoxColliderComponent(Entity &_ent, std::ostringstream &_oss) {
-    if (_ent.hasComponent<BoxColliderComponent>()) {
-        auto& comp = _ent.getComponent<BoxColliderComponent>();
-        auto& aabb = comp.collider;
-        _oss << "[BoxColliderComponent]" << "\n";
-        _oss << "center=" << aabb.c.x << " " << aabb.c.y << " " << aabb.c.z << "\n";
-        _oss << "halfwidths=" << aabb.r.x << " " << aabb.r.y << " " << aabb.r.z << "\n";
-        _oss << "istrigger=" << (comp.isTrigger ? "true" : "false") << "\n";
-        _oss << "isstatic=" << (comp.isStatic ? "true" : "false") << "\n";
-        _oss << "[/BoxColliderComponent]" << "\n";
-    }
-
 }
 
 void saveColliderComponent(Entity &_ent, std::ostringstream &_oss) {
@@ -227,3 +226,21 @@ void saveColliderComponent(Entity &_ent, std::ostringstream &_oss) {
         _oss << "[/ColliderComponent]" << "\n";
     } 
 } 
+
+void saveRigidBodyComponent(Entity& _ent, std::ostringstream& _oss) {
+    if (_ent.hasComponent<RigidBodyComponent>()) {
+        auto &comp = _ent.getComponent<RigidBodyComponent>();
+        _oss << "[RigidBodyComponent]" << "\n";
+        _oss << "gravityScale=" << comp.gravityScale << "\n";
+        _oss << "mass=" << comp.gravityScale << "\n";
+        _oss << "friction=" << comp.gravityScale << "\n";
+        _oss << "lockPos_x=" << (comp.lockPos_x ? "true" : "false") << "\n";
+        _oss << "lockPos_y=" << (comp.lockPos_y ? "true" : "false") << "\n";
+        _oss << "lockPos_z=" << (comp.lockPos_z ? "true" : "false") << "\n";
+        _oss << "lockRot_x=" << (comp.lockRot_x ? "true" : "false") << "\n";
+        _oss << "lockRot_y=" << (comp.lockRot_y ? "true" : "false") << "\n";
+        _oss << "lockRot_z=" << (comp.lockRot_z ? "true" : "false") << "\n";
+        _oss << "isKinematic=" << (comp.isKinematic ? "true" : "false") << "\n";
+        _oss << "[/RigidBodyComponent]" << "\n";
+    }
+}
