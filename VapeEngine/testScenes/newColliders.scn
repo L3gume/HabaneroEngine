@@ -3,7 +3,7 @@ SCENE:/home/l3gume/Programming/OpenGL/VapeEngine/VapeEngine/testScenes/newCollid
 ENTITY:Player
 {
 [TransformComponent]
-position=0 0 0
+position=-10 10 0
 rotation=0 0 0
 scale=1 1 1
 [/TransformComponent]
@@ -15,17 +15,17 @@ script=PlayerMovementScript
 [/ScriptComponent]
 [ColliderComponent]
 type=SPHERE
-center=0 0 0
+center=-10 10 0
 radius=2
 istrigger=false
 isstatic=false
 [/ColliderComponent]
 [RigidBodyComponent]
-gravityScale=1
+gravityScale=5
 mass=1
-friction=1
+friction=0.7
 lockPos_x=false
-lockPos_y=true
+lockPos_y=false
 lockPos_z=false
 lockRot_x=false
 lockRot_y=false
@@ -54,8 +54,8 @@ isstatic=true
 ENTITY:cam
 {
 [TransformComponent]
-position=0 15 5
-rotation=90 0 0
+position=15 15 -15
+rotation=30 -60 0
 scale=1 1 1
 [/TransformComponent]
 [CameraComponent]
@@ -95,5 +95,41 @@ lockRot_y=false
 lockRot_z=false
 isKinematic=false
 [/RigidBodyComponent]
+}
+ENTITY:Floor
+{
+[TransformComponent]
+position=0 -1 0
+rotation=0 0 0
+scale=20 0.1 20
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=BOX
+center=0 -1 0
+halfwidths=20 0.1 20
+istrigger=false
+isstatic=true
+[/ColliderComponent]
+}
+ENTITY:Obstacle
+{
+[TransformComponent]
+position=-10 4 0
+rotation=0 0 0
+scale=4 4 4
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=BOX
+center=-10 4 0
+halfwidths=4 4 4
+istrigger=false
+isstatic=true
+[/ColliderComponent]
 }
 }

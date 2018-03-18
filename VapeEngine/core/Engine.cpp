@@ -13,6 +13,7 @@
 #include <systems/TransformSystem.h>
 #include <components/BoxColliderComponent.h>
 #include <systems/CollisionSystem.h>
+#include <systems/PhysicsSystem.h>
 #include <components/ColliderComponent.h>
 #include "SceneManager.h"
 
@@ -90,9 +91,11 @@ void Engine::gameLoop(const bool _editor) {
     m_systemManager.addSystem<ScriptSystem>();
     m_systemManager.setSystemPriority<ScriptSystem>(100);
     m_systemManager.addSystem<TransformSystem>();
-    m_systemManager.setSystemPriority<TransformSystem>(90);
+    m_systemManager.setSystemPriority<TransformSystem>(80);
     m_systemManager.addSystem<CollisionSystem>();
-    m_systemManager.setSystemPriority<CollisionSystem>(80);
+    m_systemManager.setSystemPriority<CollisionSystem>(90);
+    m_systemManager.addSystem<PhysicsSystem>();
+    m_systemManager.setSystemPriority<PhysicsSystem>(95);
 
     inputManager.init(m_window);
 
@@ -199,9 +202,11 @@ void Engine::reset() {
     m_systemManager.addSystem<ScriptSystem>();
     m_systemManager.setSystemPriority<ScriptSystem>(100);
     m_systemManager.addSystem<TransformSystem>();
-    m_systemManager.setSystemPriority<TransformSystem>(90);
+    m_systemManager.setSystemPriority<TransformSystem>(80);
     m_systemManager.addSystem<CollisionSystem>();
-    m_systemManager.setSystemPriority<CollisionSystem>(80);
+    m_systemManager.setSystemPriority<CollisionSystem>(90);
+    m_systemManager.addSystem<PhysicsSystem>();
+    m_systemManager.setSystemPriority<PhysicsSystem>(95);
     m_entityManager = ECS::EntityManager(); // reset manager
 #if EDITOR
     m_systemManager.switchMode(m_bRunGame);

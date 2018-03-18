@@ -232,8 +232,8 @@ void saveRigidBodyComponent(Entity& _ent, std::ostringstream& _oss) {
         auto &comp = _ent.getComponent<RigidBodyComponent>();
         _oss << "[RigidBodyComponent]" << "\n";
         _oss << "gravityScale=" << comp.gravityScale << "\n";
-        _oss << "mass=" << comp.gravityScale << "\n";
-        _oss << "friction=" << comp.gravityScale << "\n";
+        _oss << "mass=" << comp.mass << "\n";
+        _oss << "friction=" << comp.friction << "\n";
         _oss << "lockPos_x=" << (comp.lockPos_x ? "true" : "false") << "\n";
         _oss << "lockPos_y=" << (comp.lockPos_y ? "true" : "false") << "\n";
         _oss << "lockPos_z=" << (comp.lockPos_z ? "true" : "false") << "\n";

@@ -136,37 +136,25 @@ void CollisionSystem::resolveAABBCollision(Collision &col) {
                     if (col.dx < 0.f) {
                         transform.position =
                                 transform.position + glm::vec3(col.intersectX, 0.f, 0.f);
-                        transform.abs_position =
-                                transform.abs_position + glm::vec3(col.intersectX, 0.f, 0.f);
                     } else {
                         transform.position =
                                 transform.position + glm::vec3(-col.intersectX, 0.f, 0.f);
-                        transform.abs_position =
-                                transform.abs_position + glm::vec3(-col.intersectX, 0.f, 0.f);
                     }
                 } else if (col.intersectY > col.intersectX && col.intersectY > col.intersectZ) {
                     if (col.dy < 0.f) {
                         transform.position =
                                 transform.position + glm::vec3(0.f, col.intersectY, 0.f);
-                        transform.abs_position =
-                                transform.abs_position + glm::vec3(0.f, col.intersectY, 0.f);
                     } else {
                         transform.position =
                                 transform.position + glm::vec3(0.f, -col.intersectY, 0.f);
-                        transform.abs_position =
-                                transform.abs_position + glm::vec3(0.f, -col.intersectY, 0.f);
                     }
                 } else {
                     if (col.dz < 0.f) {
                         transform.position =
                                 transform.position + glm::vec3(0.f, 0.f, col.intersectZ);
-                        transform.abs_position =
-                                transform.abs_position + glm::vec3(0.f, 0.f, col.intersectZ);
                     } else {
                         transform.position =
                                 transform.position + glm::vec3(0.f, 0.f, -col.intersectZ);
-                        transform.abs_position =
-                                transform.abs_position + glm::vec3(0.f, 0.f, -col.intersectZ);
                     }
                 }
             }
@@ -209,9 +197,9 @@ void CollisionSystem::resolveAABBSphereCollision(Collision &col) {
                     if (rb.lockPos_z) n.z = 0.f;
                 }
                 if (col.e1_type == SPHERE)
-                    transform.position += n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position += 1.1f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
                 else if (col.e1_type == BOX)
-                    transform.position -= n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position -= 1.1f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
             }
         }
     }
