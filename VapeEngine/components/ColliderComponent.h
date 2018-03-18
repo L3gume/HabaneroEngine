@@ -31,9 +31,6 @@ union Collider {
     Collider() { memset(this, 0, sizeof(Collider)); }
 };
 
-/*
- * TODO: add some form of validation that the passed type is a type of collider.
- */
 struct ColliderComponent : Component {
     /*
      * Box Collider constructor

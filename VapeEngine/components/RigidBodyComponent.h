@@ -44,6 +44,7 @@ struct RigidBodyComponent : Component {
     float friction      = 1.f; // Not exactly friction in the proper sense
     
     glm::vec3 velocity;
+    glm::vec3 accel;
 
     bool lockPos_x      : 1;
     bool lockPos_y      : 1;
