@@ -5,6 +5,7 @@
 #include <core/Engine.h>
 #include <components/TransformComponent.h>
 #include <components/RigidBodyComponent.h>
+#include <components/ColliderComponent.h>
 #include <glm/glm.hpp>
 #include <vector>
 #include <common/util.h>

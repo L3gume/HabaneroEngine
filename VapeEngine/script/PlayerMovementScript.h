@@ -9,6 +9,9 @@
 #include <input/InputMessage.h>
 #include <components/TransformComponent.h>
 #include <components/ScriptComponent.h>
+#include <physics/VapePhysics.h>
+#include <components/RigidBodyComponent.h>
+#include <components/ColliderComponent.h>
 #include <input/InputManager.h>
 
 using namespace VapeInput;
@@ -17,12 +20,13 @@ class PlayerMovementScript : public Script, public InputListener {
 public:
     PlayerMovementScript() : InputListener(true, false, false, false, false) {
         m_sName = "PlayerMovementScript";
-        m_bMoveForward = false;
-        m_bMoveBack = false;
-        m_bMoveLeft = false;
-        m_bMoveRight = false;
-        m_bTurnLeft = false;
-        m_bTurnRight = false;
+        m_bMoveForward  = false;
+        m_bMoveBack     = false;
+        m_bMoveLeft     = false;
+        m_bMoveRight    = false;
+        m_bTurnLeft     = false;
+        m_bTurnRight    = false;
+        m_bJump         = false;
         InputManager::getInstance().addInputListener(this);
     }
     
@@ -49,6 +53,7 @@ private:
     bool m_bMoveRight       : 1;
     bool m_bTurnLeft        : 1;
     bool m_bTurnRight       : 1;
+    bool m_bJump            : 1;
 };
 
 

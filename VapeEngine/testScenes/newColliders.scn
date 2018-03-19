@@ -1,4 +1,4 @@
-SCENE:/home/l3gume/Programming/OpenGL/VapeEngine/VapeEngine/testScenes/newColliders
+SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/testScenes/newColliders
 {
 ENTITY:Player
 {
@@ -21,9 +21,9 @@ istrigger=false
 isstatic=false
 [/ColliderComponent]
 [RigidBodyComponent]
-gravityScale=5
+gravityScale=10
 mass=1
-friction=0.7
+friction=1e-06
 lockPos_x=false
 lockPos_y=false
 lockPos_z=false
@@ -69,7 +69,7 @@ zFar=100
 ENTITY:otherSphere
 {
 [TransformComponent]
-position=5 0 -4
+position=14.5 10 0
 rotation=0 0 0
 scale=1 1 1
 [/TransformComponent]
@@ -78,7 +78,7 @@ shape=0
 [/RenderableComponent]
 [ColliderComponent]
 type=SPHERE
-center=5 0 -4
+center=14.5 10 0
 radius=3
 istrigger=false
 isstatic=false
@@ -86,10 +86,10 @@ isstatic=false
 [RigidBodyComponent]
 gravityScale=1
 mass=1
-friction=1
-lockPos_x=true
-lockPos_y=true
-lockPos_z=true
+friction=0.01
+lockPos_x=false
+lockPos_y=false
+lockPos_z=false
 lockRot_x=false
 lockRot_y=false
 lockRot_z=false
@@ -99,9 +99,9 @@ isKinematic=false
 ENTITY:Floor
 {
 [TransformComponent]
-position=0 -1 0
+position=0 -1.5 0
 rotation=0 0 0
-scale=20 0.1 20
+scale=20 0.5 20
 [/TransformComponent]
 [RenderableComponent]
 shape=0
@@ -109,7 +109,7 @@ shape=0
 [ColliderComponent]
 type=BOX
 center=0 -1 0
-halfwidths=20 0.1 20
+halfwidths=20 0.5 20
 istrigger=false
 isstatic=true
 [/ColliderComponent]
@@ -128,6 +128,24 @@ shape=0
 type=BOX
 center=-10 4 0
 halfwidths=4 4 4
+istrigger=false
+isstatic=true
+[/ColliderComponent]
+}
+ENTITY:obstacle2
+{
+[TransformComponent]
+position=15 0 0
+rotation=0 0 0
+scale=1 1 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=SPHERE
+center=15 0 0
+radius=5
 istrigger=false
 isstatic=true
 [/ColliderComponent]

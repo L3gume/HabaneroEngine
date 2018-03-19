@@ -6,6 +6,7 @@
 #include <components/CollisionHandlerComponent.h>
 #include <components/ColliderComponent.h>
 #include <components/RigidBodyComponent.h>
+#include <common/util.h>
 
 void CollisionSystem::update(float _deltaTime) {
 //    auto &entities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
@@ -15,6 +16,7 @@ void CollisionSystem::update(float _deltaTime) {
 
     if (!entities.empty()) {
         for (auto &e1 : entities) {
+            e1->getComponent<ColliderComponent>().collidingBelow = false; 
             for (auto &e2 : entities) {
                 if (e1 != e2) {
                     if (Collision col{}; testCollision(e1, e2, col)) {
@@ -144,9 +146,11 @@ void CollisionSystem::resolveAABBCollision(Collision &col) {
                     if (col.dy < 0.f) {
                         transform.position =
                                 transform.position + glm::vec3(0.f, col.intersectY, 0.f);
+                        col.e1->getComponent<ColliderComponent>().collidingBelow = true; 
                     } else {
                         transform.position =
                                 transform.position + glm::vec3(0.f, -col.intersectY, 0.f);
+                        col.e1->getComponent<ColliderComponent>().collidingBelow = false; 
                     }
                 } else {
                     if (col.dz < 0.f) {
@@ -176,6 +180,11 @@ void CollisionSystem::resolveSphereCollision(Collision &col) {
                     if (rb.lockPos_y) n.y = 0.f;
                     if (rb.lockPos_z) n.z = 0.f;
                 }
+                if (glm::normalize(n) == defaultUpVector()) {
+                    col.e1->getComponent<ColliderComponent>().collidingBelow = true; 
+                } else {
+                    col.e1->getComponent<ColliderComponent>().collidingBelow = false; 
+                }
                 transform.position += n * ((col.e1_Sphere.r + col.e2_Sphere.r) - glm::sqrt(col.sqDist));
             }
         }
@@ -196,10 +205,13 @@ void CollisionSystem::resolveAABBSphereCollision(Collision &col) {
                     if (rb.lockPos_y) n.y = 0.f;
                     if (rb.lockPos_z) n.z = 0.f;
                 }
+                if (glm::normalize(n) == defaultUpVector()) {
+                    col.e1->getComponent<ColliderComponent>().collidingBelow = true; 
+                }
                 if (col.e1_type == SPHERE)
-                    transform.position += 1.1f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position += 1.2f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
                 else if (col.e1_type == BOX)
-                    transform.position -= 1.1f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position -= 1.2f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
             }
         }
     }

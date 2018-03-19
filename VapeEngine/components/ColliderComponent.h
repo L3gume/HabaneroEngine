@@ -59,6 +59,8 @@ struct ColliderComponent : Component {
 
     bool isTrigger = false;
     bool isStatic = false;
+    
+    bool collidingBelow = false;
 };
 
 #endif //VAPEENGINE_COLLIDERCOMPONENT_H
