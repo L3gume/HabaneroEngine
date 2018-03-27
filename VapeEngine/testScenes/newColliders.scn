@@ -1,4 +1,4 @@
-SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/testScenes/newColliders
+SCENE:/home/l3gume/Programming/OpenGL/VapeEngine/VapeEngine/testScenes/newColliders
 {
 ENTITY:Player
 {
@@ -16,7 +16,7 @@ script=PlayerMovementScript
 [ColliderComponent]
 type=SPHERE
 center=-10 10 0
-radius=2
+radius=1
 istrigger=false
 isstatic=false
 [/ColliderComponent]
@@ -36,7 +36,7 @@ isKinematic=false
 ENTITY:wall
 {
 [TransformComponent]
-position=0 0 5
+position=0 5 5
 rotation=0 0 0
 scale=5 3 1
 [/TransformComponent]
@@ -45,11 +45,23 @@ shape=0
 [/RenderableComponent]
 [ColliderComponent]
 type=BOX
-center=0 0 5
+center=0 5 5
 halfwidths=5 3 1
 istrigger=false
-isstatic=true
+isstatic=false
 [/ColliderComponent]
+[RigidBodyComponent]
+gravityScale=1
+mass=1
+friction=1
+lockPos_x=false
+lockPos_y=false
+lockPos_z=false
+lockRot_x=false
+lockRot_y=false
+lockRot_z=false
+isKinematic=false
+[/RigidBodyComponent]
 }
 ENTITY:cam
 {

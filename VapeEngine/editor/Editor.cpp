@@ -4,7 +4,6 @@
 
 #include <components/TransformComponent.h>
 #include <core/SceneManager.h>
-#include <components/BoxColliderComponent.h>
 #include <components/ColliderComponent.h>
 #include <components/RigidBodyComponent.h>
 #include "Editor.h"

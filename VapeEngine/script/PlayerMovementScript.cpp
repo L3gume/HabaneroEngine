@@ -5,6 +5,7 @@
 #include <glm/detail/type_mat.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "PlayerMovementScript.h"
+#include <core/Engine.h>
 
 void PlayerMovementScript::init() {
     Script::init();
@@ -19,7 +20,6 @@ void PlayerMovementScript::onKeyPressed(const KeyboardInputMessage &_kbdMsg) {
     m_bMoveRight = _kbdMsg.KEY_L;
     m_bTurnLeft = _kbdMsg.KEY_U;
     m_bTurnRight = _kbdMsg.KEY_O;
-    m_bJump = _kbdMsg.KEY_SPACE;
 }
 
 void PlayerMovementScript::update(float _deltaTime) {
@@ -51,10 +51,5 @@ void PlayerMovementScript::update(float _deltaTime) {
     // Rotate Right
     if (m_bTurnRight) {
         transform->rotation = glm::eulerAngles(glm::angleAxis(-(_deltaTime * m_fSpeed / 2.f), up) * glm::quat(transform->rotation));
-    }
-    if (m_bJump) {
-        auto& col = m_entity->getComponent<ColliderComponent>();
-        if (col.collidingBelow)
-            physics::applyImpulse(m_entity->getComponent<RigidBodyComponent>(), defaultUpVector(), 10.f);
     }
 }

@@ -11,7 +11,6 @@
 #include <systems/ScriptSystem.h>
 #include <ecs/EntityConstructor.h>
 #include <systems/TransformSystem.h>
-#include <components/BoxColliderComponent.h>
 #include <systems/CollisionSystem.h>
 #include <systems/PhysicsSystem.h>
 #include <components/ColliderComponent.h>

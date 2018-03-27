@@ -7,7 +7,6 @@
 
 #include <ecs.h>
 #include <core/Engine.h>
-#include <components/BoxColliderComponent.h>
 #include <components/CollisionHandlerComponent.h>
 #include <components/TransformComponent.h>
 

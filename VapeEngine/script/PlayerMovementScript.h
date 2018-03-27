@@ -26,7 +26,6 @@ public:
         m_bMoveRight    = false;
         m_bTurnLeft     = false;
         m_bTurnRight    = false;
-        m_bJump         = false;
         InputManager::getInstance().addInputListener(this);
     }
     
@@ -53,7 +52,6 @@ private:
     bool m_bMoveRight       : 1;
     bool m_bTurnLeft        : 1;
     bool m_bTurnRight       : 1;
-    bool m_bJump            : 1;
 };
 
 

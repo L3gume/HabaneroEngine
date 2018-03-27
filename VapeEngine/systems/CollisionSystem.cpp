@@ -133,6 +133,7 @@ void CollisionSystem::resolveAABBCollision(Collision &col) {
         // position adjustment
         if (!col.e1_isStatic) {
             auto &transform = col.e1->getComponent<TransformComponent>();
+            col.e1->getComponent<ColliderComponent>().collidingBelow = false; 
             if (!col.e1->getParent()) {
                 if (col.intersectX > col.intersectY && col.intersectX > col.intersectZ) {
                     if (col.dx < 0.f) {
@@ -146,11 +147,11 @@ void CollisionSystem::resolveAABBCollision(Collision &col) {
                     if (col.dy < 0.f) {
                         transform.position =
                                 transform.position + glm::vec3(0.f, col.intersectY, 0.f);
-                        col.e1->getComponent<ColliderComponent>().collidingBelow = true; 
+                        col.e1->getComponent<ColliderComponent>().collidingBelow = false; 
                     } else {
                         transform.position =
                                 transform.position + glm::vec3(0.f, -col.intersectY, 0.f);
-                        col.e1->getComponent<ColliderComponent>().collidingBelow = false; 
+                        col.e1->getComponent<ColliderComponent>().collidingBelow = true; 
                     }
                 } else {
                     if (col.dz < 0.f) {
@@ -209,9 +210,9 @@ void CollisionSystem::resolveAABBSphereCollision(Collision &col) {
                     col.e1->getComponent<ColliderComponent>().collidingBelow = true; 
                 }
                 if (col.e1_type == SPHERE)
-                    transform.position += 1.2f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position += n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
                 else if (col.e1_type == BOX)
-                    transform.position -= 1.2f * n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
+                    transform.position -= n * ((col.e1_type == SPHERE ? col.e1_Sphere.r : col.e2_Sphere.r) - glm::sqrt(col.sqDist));
             }
         }
     }
