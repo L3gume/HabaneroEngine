@@ -501,7 +501,10 @@ void Editor::renderRenderableInspector() {
 void Editor::renderScriptInspector() {
     ImGui::Text("ScriptComponent");
     ImGui::Text(" ");
-    ImGui::InputText("Script", m_selectedEntity->getComponent<ScriptComponent>().m_script->m_sName, 20);
+    // that's pretty hacky, TODO: find a better solution
+    char* buf = const_cast<char*>(m_selectedEntity->getComponent<ScriptComponent>().m_script->m_sName.c_str()); 
+    ImGui::InputText("Script", buf, 20);
+    m_selectedEntity->getComponent<ScriptComponent>().m_script->m_sName = buf;
 }
 
 void Editor::renderCameraInspector() {
