@@ -1,4 +1,4 @@
-SCENE:/home/l3gume/Programming/OpenGL/VapeEngine/VapeEngine/testScenes/newColliders
+SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/testScenes/newColliders
 {
 ENTITY:Player
 {
@@ -21,7 +21,7 @@ istrigger=false
 isstatic=false
 [/ColliderComponent]
 [RigidBodyComponent]
-gravityScale=10
+gravityScale=30
 mass=1
 friction=1e-06
 lockPos_x=false
