@@ -1,0 +1,165 @@
+SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/testScenes/newColliders
+{
+ENTITY:Player
+{
+[TransformComponent]
+position=-10 10 0
+rotation=0 0 0
+scale=1 1 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ScriptComponent]
+script=PlayerMovementScript
+[/ScriptComponent]
+[ColliderComponent]
+type=SPHERE
+center=-10 10 0
+radius=1
+istrigger=false
+isstatic=false
+[/ColliderComponent]
+[RigidBodyComponent]
+gravityScale=30
+mass=1
+friction=1e-06
+lockPos_x=false
+lockPos_y=false
+lockPos_z=false
+lockRot_x=false
+lockRot_y=false
+lockRot_z=false
+isKinematic=false
+[/RigidBodyComponent]
+}
+ENTITY:wall
+{
+[TransformComponent]
+position=0 5 5
+rotation=0 0 0
+scale=5 3 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=BOX
+center=0 5 5
+halfwidths=5 3 1
+istrigger=false
+isstatic=false
+[/ColliderComponent]
+[RigidBodyComponent]
+gravityScale=1
+mass=1
+friction=1
+lockPos_x=false
+lockPos_y=false
+lockPos_z=false
+lockRot_x=false
+lockRot_y=false
+lockRot_z=false
+isKinematic=false
+[/RigidBodyComponent]
+}
+ENTITY:cam
+{
+[TransformComponent]
+position=15 15 -15
+rotation=30 -60 0
+scale=1 1 1
+[/TransformComponent]
+[CameraComponent]
+fov=90
+hRes=16
+vRes=9
+zNear=0.1
+zFar=100
+[/CameraComponent]
+}
+ENTITY:otherSphere
+{
+[TransformComponent]
+position=14.5 10 0
+rotation=0 0 0
+scale=1 1 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=SPHERE
+center=14.5 10 0
+radius=3
+istrigger=false
+isstatic=false
+[/ColliderComponent]
+[RigidBodyComponent]
+gravityScale=1
+mass=1
+friction=0.01
+lockPos_x=false
+lockPos_y=false
+lockPos_z=false
+lockRot_x=false
+lockRot_y=false
+lockRot_z=false
+isKinematic=false
+[/RigidBodyComponent]
+}
+ENTITY:Floor
+{
+[TransformComponent]
+position=0 -1.5 0
+rotation=0 0 0
+scale=20 0.5 20
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=BOX
+center=0 -1 0
+halfwidths=20 0.5 20
+istrigger=false
+isstatic=true
+[/ColliderComponent]
+}
+ENTITY:Obstacle
+{
+[TransformComponent]
+position=-10 4 0
+rotation=0 0 0
+scale=4 4 4
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=BOX
+center=-10 4 0
+halfwidths=4 4 4
+istrigger=false
+isstatic=true
+[/ColliderComponent]
+}
+ENTITY:obstacle2
+{
+[TransformComponent]
+position=15 0 0
+rotation=0 0 0
+scale=1 1 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ColliderComponent]
+type=SPHERE
+center=15 0 0
+radius=5
+istrigger=false
+isstatic=true
+[/ColliderComponent]
+}
+}

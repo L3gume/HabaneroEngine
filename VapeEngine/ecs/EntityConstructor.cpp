@@ -27,7 +27,7 @@ std::vector<std::string> EntityConstructor::loadFile(std::ifstream &_ifs) {
 }
 
 void
-EntityConstructor::constructEntity(std::vector<std::string> _args, /*const std::shared_ptr<Entity> &*/ Entity* _parent) noexcept {
+EntityConstructor::constructEntity(std::vector<std::string> _args, Entity *_parent) noexcept {
     assert(!_args.empty());
     Entity &newEnt = Core::Engine::getInstance().getEntityManager().addEntity("");
     newEnt.m_parent = _parent; // May be nullptr, but that's intended!
@@ -68,6 +68,18 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, /*const std::
                 args.emplace_back(_args[i]);
             }
             constructScriptComponent(newEnt, args);
+        } else if (_args[i] == "[ColliderComponent]") {
+            std::vector<std::string> args;
+            while (_args[++i] != "[/ColliderComponent]") {
+                args.emplace_back(_args[i]);
+            }
+            constructColliderComponent(newEnt, args);
+        } else if (_args[i] == "[RigidBodyComponent]") {
+            std::vector<std::string> args;
+            while (_args[++i] != "[/RigidBodyComponent]") {
+                args.emplace_back(_args[i]);
+            }
+            constructRigidBodyComponent(newEnt, args);
         } else if (boost::starts_with(_args[i], "ENTITY:")) {
             std::vector<std::string> args;
             args.emplace_back(_args[i]); // don't forget that part.
@@ -79,7 +91,8 @@ EntityConstructor::constructEntity(std::vector<std::string> _args, /*const std::
     }
 }
 
-void EntityConstructor::saveEntityFile(Entity& _ent, std::string _filename) {
+
+void EntityConstructor::saveEntityFile(Entity &_ent, std::string _filename) {
     std::ofstream of(_filename);
     std::ostringstream oss;
 
@@ -89,21 +102,17 @@ void EntityConstructor::saveEntityFile(Entity& _ent, std::string _filename) {
     of.close();
 }
 
-void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream* _oss) {
-//    std::ofstream of(_filename);
-//    std::ostringstream oss;
-
+void EntityConstructor::saveEntity(Entity &_ent, std::ostringstream *_oss) {
     *_oss << "ENTITY:" << _ent.m_sName << "\n{\n";
     saveTransformComponent(_ent, *_oss);
     saveRenderableComponent(_ent, *_oss);
     saveCameraComponent(_ent, *_oss);
     saveScriptComponent(_ent, *_oss);
-    for (auto& child : _ent.m_children) {
+    saveColliderComponent(_ent, *_oss);
+    saveRigidBodyComponent(_ent, *_oss);
+    for (auto &child : _ent.m_children) {
         saveEntity(*child, _oss);
     }
     if (_ent.getParent()) *_oss << ")\n";
     else *_oss << "}\n";
-
-
-//    (*_of).close();
 }

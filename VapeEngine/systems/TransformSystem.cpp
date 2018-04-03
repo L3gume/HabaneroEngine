@@ -5,6 +5,7 @@
 #include <core/Engine.h>
 #include <components/TransformComponent.h>
 #include <components/CameraComponent.h>
+#include <components/ColliderComponent.h>
 #include "TransformSystem.h"
 
 void TransformSystem::update(float _deltaTime) {
@@ -16,10 +17,10 @@ void TransformSystem::update(float _deltaTime) {
     for (auto &e : entities) {
         auto &transform = e->getComponent<TransformComponent>();
         if (!e->getParent()) {
+            // In case it matters
             transform.abs_position = transform.position;
             transform.abs_rotation = transform.rotation;
             transform.abs_scale = transform.scale;
-            continue;
         } else {
             assert(e->getParent()->hasComponent<TransformComponent>());
             auto &parent_transform = e->getParent()->getComponent<TransformComponent>();
@@ -29,6 +30,14 @@ void TransformSystem::update(float _deltaTime) {
             transform.abs_rotation = glm::eulerAngles(
                     glm::quat(parent_transform.rotation) * glm::quat(transform.rotation));
             transform.abs_scale = transform.scale * parent_transform.scale;
+        }
+        // Move the collider with the object
+        if (e->hasComponent<ColliderComponent>()) {
+            auto &collider = e->getComponent<ColliderComponent>();
+            if (!collider.isStatic) {
+                if (collider.type == colType::BOX) collider.collider.boxCollider.c = transform.abs_position;
+                else if (collider.type == colType::SPHERE) collider.collider.sphereCollider.c = transform.abs_position;
+            }
         }
     }
 }

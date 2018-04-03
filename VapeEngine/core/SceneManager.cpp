@@ -26,8 +26,6 @@ void SceneManager::saveScene(std::string _name) {
 }
 
 void SceneManager::loadScene(const std::string& _path) {
-//    Core::Engine::getInstance().getEntityManager().getEntities().clear();
-//    Core::Engine::getInstance().getEntityManager().refresh();
     Core::Engine::getInstance().getEntityManager().clearEntities();
     ECS::EntityConstructor ec;
     std::ifstream ifs(_path);

@@ -1,0 +1,55 @@
+SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/cmake-build-debug/colliders
+{
+ENTITY:Player
+{
+[TransformComponent]
+position=0 0 0
+rotation=0 0 0
+scale=1 1 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ScriptComponent]
+script=PlayerMovementScript
+[/ScriptComponent]
+[BoxColliderComponent]
+center=0 0 0
+halfwidths=1 1 1
+istrigger=false
+isstatic=false
+[/BoxColliderComponent]
+}
+ENTITY:wall
+{
+[TransformComponent]
+position=0 0 5
+rotation=0 0 0
+scale=5 3 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[BoxColliderComponent]
+center=0 0 5
+halfwidths=5 3 1
+istrigger=false
+isstatic=true
+[/BoxColliderComponent]
+}
+ENTITY:cam
+{
+[TransformComponent]
+position=0 15 5
+rotation=90 0 0
+scale=1 1 1
+[/TransformComponent]
+[CameraComponent]
+fov=90
+hRes=16
+vRes=9
+zNear=0.1
+zFar=100
+[/CameraComponent]
+}
+}

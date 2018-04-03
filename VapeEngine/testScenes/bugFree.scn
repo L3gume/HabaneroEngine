@@ -1,0 +1,54 @@
+SCENE:/home/notjustin/Projects/Personal/VapeEngine/VapeEngine/cmake-build-debug/bugFree
+{
+ENTITY:Car
+{
+[TransformComponent]
+position=0 1 0
+rotation=0 0 0
+scale=1 0.8 1
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+[ScriptComponent]
+script=PlayerMovementScript
+[/ScriptComponent]
+ENTITY:Body
+{
+[TransformComponent]
+position=0 -0.4 0.3
+rotation=0 0 0
+scale=1.05 0.6 1.5
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+)
+ENTITY:Car_Camera
+{
+[TransformComponent]
+position=0 4 -5
+rotation=20 0 0
+scale=1 1 1
+[/TransformComponent]
+[CameraComponent]
+fov=90
+hRes=16
+vRes=9
+zNear=0.1
+zFar=100
+[/CameraComponent]
+)
+}
+ENTITY:Ground
+{
+[TransformComponent]
+position=0 0 0
+rotation=0 0 0
+scale=20 0.1 20
+[/TransformComponent]
+[RenderableComponent]
+shape=0
+[/RenderableComponent]
+}
+}

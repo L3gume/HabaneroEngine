@@ -25,10 +25,14 @@ void constructTransformComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructRenderableComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructCameraComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructScriptComponent(Entity& _ent, std::vector<std::string>& _args);
+void constructColliderComponent(Entity& _ent, std::vector<std::string>& _args);
+void constructRigidBodyComponent(Entity& _ent, std::vector<std::string>& _args);
 
 void saveTransformComponent(Entity& _ent, std::ostringstream& _oss);
 void saveRenderableComponent(Entity& _ent, std::ostringstream& _oss);
 void saveCameraComponent(Entity& _ent, std::ostringstream& _oss);
 void saveScriptComponent(Entity& _ent, std::ostringstream& _oss);
+void saveColliderComponent(Entity& _ent, std::ostringstream& _oss);
+void saveRigidBodyComponent(Entity& _ent, std::ostringstream& _oss);
 
 #endif //VAPEENGINE_CONSTRUCTORFUNCTIONS_H

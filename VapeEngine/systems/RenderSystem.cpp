@@ -41,6 +41,8 @@ void RenderSystem::update(float _deltaTime) {
     glGenVertexArrays(1, &vertexArrayID);
     glBindVertexArray(vertexArrayID);
 
+#if EDITOR
+#endif
     for (auto &ent : m_renderableEntities) {
         if (ent->hasComponent<RenderableComponent>()) {
             renderEntity(vertex_buf, ent, _deltaTime);
@@ -64,19 +66,12 @@ void RenderSystem::renderEntity(GLuint &v_buf, const Entity *_ent, const float _
     glm::mat4 scale;
     glm::mat4 MVP; //MVP matrix
 
-    if (!_ent->getParent()) {
-        translate = glm::translate(glm::mat4(1.f), transform.position);
-        rotate = glm::toMat4(glm::quat(transform.rotation));
-        scale = glm::scale(glm::mat4(1.f), transform.scale);
-    } else {
-        translate = glm::translate(glm::mat4(1.f), transform.abs_position);
-        rotate = glm::toMat4(glm::quat(transform.abs_rotation));
-        scale = glm::scale(glm::mat4(1.f), transform.abs_scale);
-    }
+    translate = glm::translate(glm::mat4(1.f), transform.abs_position);
+    rotate = glm::toMat4(glm::quat(transform.abs_rotation));
+    scale = glm::scale(glm::mat4(1.f), transform.abs_scale);
 
     if (transform.rotation == glm::vec3(0.f) && !_ent->getParent()) rotate = glm::mat4(); // failsafe
 
-//    MVP = m_camera->getMVP(_deltaTime, translate * rotate * scale);
 #if !EDITOR
     MVP = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getMVPFromActiveCamera(
             translate * rotate * scale);

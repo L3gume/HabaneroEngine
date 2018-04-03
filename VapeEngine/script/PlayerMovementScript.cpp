@@ -5,6 +5,7 @@
 #include <glm/detail/type_mat.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "PlayerMovementScript.h"
+#include <core/Engine.h>
 
 void PlayerMovementScript::init() {
     Script::init();
@@ -46,16 +47,9 @@ void PlayerMovementScript::update(float _deltaTime) {
     // Rotate Left
     if (m_bTurnLeft) {
         transform->rotation = glm::eulerAngles(glm::angleAxis(_deltaTime * m_fSpeed / 2.f, up) * glm::quat(transform->rotation));
-//        transform->rotation += glm::vec3(0.f, m_fSpeed * _deltaTime, 0.f);
     }
     // Rotate Right
     if (m_bTurnRight) {
         transform->rotation = glm::eulerAngles(glm::angleAxis(-(_deltaTime * m_fSpeed / 2.f), up) * glm::quat(transform->rotation));
-//        transform->rotation -= glm::vec3(0.f, m_fSpeed * _deltaTime, 0.f);
     }
-//    if (transform->rotation.y > glm::radians(360.f)) {
-//        transform->rotation.y -= glm::radians(360.f);
-//    } else if (transform->rotation.y < glm::radians(0.f)) {
-//        transform->rotation.y += glm::radians(360.f);
-//    }
 }

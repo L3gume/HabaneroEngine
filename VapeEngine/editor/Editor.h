@@ -53,6 +53,7 @@ namespace VapeUI {
             m_bShowObjTree = true;
             m_bShowSaveScene = false;
             m_bShowOpenScene = false;
+            m_bScrollDownParent = false;
             m_selectedEntity = nullptr;
         };
 
@@ -72,9 +73,13 @@ namespace VapeUI {
         void renderTransformInspector();
         void renderRenderableInspector();
         void renderScriptInspector();
+        void renderCameraInspector();
+        void renderColliderInspector();
+        void renderRigidBodyInspector();
 
         GLFWwindow *m_window = nullptr;
         ECS::Entity* m_selectedEntity = nullptr;
+        ECS::Entity* m_newEntParent = nullptr;
         ImVec4 clear_color;
         std::vector<ECS::Entity*> m_treeNodes;
         std::vector<std::string> m_sRecentFiles;
@@ -89,6 +94,7 @@ namespace VapeUI {
         bool m_bShowOpenScene       : 1;
         bool m_bShowNewEntWindow    : 1;
         bool m_bShowAddComponent    : 1;
+        bool m_bScrollDownParent    : 1;
         /* TODO */
 
         char buf[50];
