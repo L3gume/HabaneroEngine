@@ -376,16 +376,17 @@ void Editor::addObjTreeNode(ECS::Entity *obj) {
     });
     if (found == m_treeNodes.end()) {
         m_treeNodes.emplace_back(obj);
-        if (ImGui::TreeNode(tag)) {
-            if (ImGui::IsItemClicked()) {
+        bool opened = ImGui::TreeNode(tag);
+        if (ImGui::IsItemClicked()) {
 #if DEBUG
-                VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                        VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
-                        VapeLog::LogSeverity::LOW, "Tree item clicked. " + obj->getName()));
+            VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
+                    VapeLog::LogTag::LOG, VapeLog::LogType::MESSAGE,
+                    VapeLog::LogSeverity::LOW, "Tree item clicked. " + obj->getName()));
 #endif
-                // TODO
-                m_selectedEntity = obj;
-            }
+            // TODO
+            m_selectedEntity = obj;
+        }
+        if (opened) {
             for (auto &_child : obj->getChildren()) {
                 addObjTreeNode(_child);
             }
