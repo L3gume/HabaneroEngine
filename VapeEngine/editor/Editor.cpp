@@ -535,10 +535,11 @@ void Editor::renderColliderInspector() {
     ImGui::Text("ColliderComponent");
     ImGui::Text(" ");
     auto &col = m_selectedEntity->getComponent<ColliderComponent>();
+    auto &parentTransform = m_selectedEntity->getComponent<TransformComponent>();
     if (col.type == BOX) {
         ImGui::Text("Type: BOX");
         auto &aabb = col.collider.boxCollider;
-        float c[3] = {aabb.c.x, aabb.c.y, aabb.c.z};
+        float c[3] = {aabb.c.x - parentTransform.abs_position.x, aabb.c.y - parentTransform.abs_position.y, aabb.c.z - parentTransform.abs_position.z};
         float h[3] = {aabb.r.x, aabb.r.y, aabb.r.z};
         bool t = col.isTrigger;
         bool s = col.isStatic;
@@ -548,16 +549,16 @@ void Editor::renderColliderInspector() {
         ImGui::Checkbox("isStatic", &s);
         col.isTrigger = t;
         col.isStatic = s;
-        aabb.c.x = c[0];
-        aabb.c.y = c[1];
-        aabb.c.z = c[2];
+        aabb.c.x = c[0] + parentTransform.abs_position.x;
+        aabb.c.y = c[1] + parentTransform.abs_position.y;
+        aabb.c.z = c[2] + parentTransform.abs_position.z;
         aabb.r.x = h[0];
         aabb.r.y = h[1];
         aabb.r.z = h[2];
     } else if (col.type == SPHERE) {
         ImGui::Text("Type: SPHERE");
         auto& sphere = col.collider.sphereCollider;
-        float c[3] = {sphere.c.x, sphere.c.y, sphere.c.z};
+        float c[3] = {sphere.c.x - parentTransform.abs_position.x, sphere.c.y - parentTransform.abs_position.y, sphere.c.z - parentTransform.abs_position.z};
         float rad = sphere.r;
         bool t = col.isTrigger;
         bool s = col.isStatic;
@@ -565,9 +566,9 @@ void Editor::renderColliderInspector() {
         ImGui::InputFloat("Radius", &rad, 3);
         ImGui::Checkbox("isTrigger", &t);
         ImGui::Checkbox("isStatic", &s);
-        sphere.c.x = c[0];
-        sphere.c.y = c[1];
-        sphere.c.z = c[2];
+        sphere.c.x = c[0] + parentTransform.abs_position.x;
+        sphere.c.y = c[1] + parentTransform.abs_position.y;
+        sphere.c.z = c[2] + parentTransform.abs_position.z;
         sphere.r = rad;
         col.isTrigger = t;
         col.isStatic = s;

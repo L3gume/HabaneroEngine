@@ -8,7 +8,6 @@
 #include <ecs/ecs.h>
 #include <physics/Sphere.h>
 #include <physics/AABB.h>
-#include <variant>
 
 using namespace ECS;
 
