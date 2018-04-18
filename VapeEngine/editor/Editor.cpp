@@ -539,7 +539,9 @@ void Editor::renderColliderInspector() {
     if (col.type == BOX) {
         ImGui::Text("Type: BOX");
         auto &aabb = col.collider.boxCollider;
-        float c[3] = {aabb.c.x - parentTransform.abs_position.x, aabb.c.y - parentTransform.abs_position.y, aabb.c.z - parentTransform.abs_position.z};
+        float c[3] = {aabb.c.x - parentTransform.abs_position.x,
+                      aabb.c.y - parentTransform.abs_position.y, 
+                      aabb.c.z - parentTransform.abs_position.z};
         float h[3] = {aabb.r.x, aabb.r.y, aabb.r.z};
         bool t = col.isTrigger;
         bool s = col.isStatic;
@@ -558,7 +560,9 @@ void Editor::renderColliderInspector() {
     } else if (col.type == SPHERE) {
         ImGui::Text("Type: SPHERE");
         auto& sphere = col.collider.sphereCollider;
-        float c[3] = {sphere.c.x - parentTransform.abs_position.x, sphere.c.y - parentTransform.abs_position.y, sphere.c.z - parentTransform.abs_position.z};
+        float c[3] = {sphere.c.x - parentTransform.abs_position.x,
+                      sphere.c.y - parentTransform.abs_position.y,
+                      sphere.c.z - parentTransform.abs_position.z};
         float rad = sphere.r;
         bool t = col.isTrigger;
         bool s = col.isStatic;
