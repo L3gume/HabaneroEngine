@@ -19,7 +19,7 @@ include:
             - cmake-data
             - cmake
       env:
-        - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+        - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/g++"
 
 install:
     - sudo apt-get install libboost-all-dev
