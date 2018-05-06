@@ -27,6 +27,6 @@ install:
 script:
     - export CC=gcc-7
     - export CXX=g++-7
-    - (mkdir build && cd build && cmake .. ${CMAKE_OPTIONS})
     - cd VapeEngine
+    - (mkdir build && cd build && cmake .. ${CMAKE_OPTIONS})
     - make
