@@ -159,13 +159,6 @@ namespace ECS {
             return *static_cast<T *>(ptr);
         }
 
-//        // TODO
-//        template<typename T>
-//        void removeComponent() {
-//            assert(hasComponent<T>());
-//            delete m_componentArray[getComponentTypeID<
-//        }
-
         const std::vector<std::unique_ptr<Component>>& getComponents() const {
             return m_components;
         }
@@ -234,7 +227,6 @@ namespace ECS {
 
         std::vector<std::shared_ptr<Entity>> &getEntities() { return m_entities; }
 
-//        void saveEntity(Entity *_ent);
         void loadEntity(std::string _path);
 
     };
@@ -242,7 +234,6 @@ namespace ECS {
     /*
      * System class, templated to only handle one type of component, only the manager can construct one
      */
-//    template<typename T>
     class System {
         friend class SystemManager;
 
@@ -252,8 +243,7 @@ namespace ECS {
         inline void enable() noexcept { m_enabled = true; }
         inline void disable() noexcept { m_enabled = false; }
     protected:
-        System() : /*typeID(getComponentTypeID<T>()),*/ m_enabled(true) {} // = default?
-
+        System() : m_enabled(true) {}
         ComponentID typeID;
         bool m_enabled;
 #if EDITOR
@@ -291,7 +281,6 @@ namespace ECS {
             auto system = new T(std::forward<TArgs>(_args)...);
             system->systemManager = this;
             system->typeID = getComponentTypeID<T>();
-//            std::unique_ptr<System> uPtr(std::move(system));
             m_systems.emplace_back(system);
 
             // Sort the systems by priority
