@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="components">
+      <UniqueIdentifier>{b317f499-35f8-42b6-b799-640e42af39bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{647192d3-53be-4a99-9078-f520aafe37ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs">
+      <UniqueIdentifier>{f3e48be1-54ab-43ff-b593-676df3fa85f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{8024f9fb-c54b-40c9-a1b8-75c9c11eb690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="jahbal">
+      <UniqueIdentifier>{57b3aa03-5b7b-48d7-9022-e8aab2627703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logging">
+      <UniqueIdentifier>{aad14d64-3e44-46bb-886c-c8292d09885e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{5778f13b-f03d-46c6-be38-c25b1806e2bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="systems">
+      <UniqueIdentifier>{156bc27b-31ed-4fd4-aa38-497c49a69b43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="components\Script.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Engine.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\GameObject.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\SceneManager.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\ConstructorFunctions.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\ecs.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\EntityConstructor.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="input\InputManager.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="logging\LogManager.cpp">
+      <Filter>logging</Filter>
+    </ClCompile>
+    <ClCompile Include="script\PlayerMovementScript.cpp">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Scene.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="components\VisualComponent.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\CameraSystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\RenderSystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\ScriptSystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\TransformSystem.cpp">
+      <Filter>systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="components\CameraComponent.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\RenderableComponent.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\ScriptComponent.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\TransformComponent.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Engine.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\GameObject.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\SceneManager.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\ConstructorFunctions.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\ecs.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\EntityConstructor.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="input\InputListener.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\InputManager.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\InputMessage.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="logging\LogManager.h">
+      <Filter>logging</Filter>
+    </ClInclude>
+    <ClInclude Include="logging\LogMessage.h">
+      <Filter>logging</Filter>
+    </ClInclude>
+    <ClInclude Include="script\PlayerMovementScript.h">
+      <Filter>script</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Scene.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="components\VisualComponent.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\CameraSystem.h">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\RenderSystem.h">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\ScriptSystem.h">
+      <Filter>systems</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\TransformSystem.h">
+      <Filter>systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

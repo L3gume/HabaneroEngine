@@ -1,0 +1,61 @@
+﻿  TransformSystem.cpp
+c:\users\msukka1\documents\vapeengine\habanero\core\gameobject.h(28): error C3861: 'generateUniqueID': identifier not found
+  RenderSystem.cpp
+c:\users\msukka1\documents\vapeengine\habanero\systems\rendersystem.h(13): error C2001: newline in constant
+c:\users\msukka1\documents\vapeengine\habanero\systems\rendersystem.h(13): fatal error C1083: Cannot open include file: '../systems/CameraSystem.h>': No such file or directory
+  InputManager.cpp
+c:\users\msukka1\documents\vapeengine\habanero\input\inputmanager.cpp(6): fatal error C1083: Cannot open include file: 'logging/LogManager.h': No such file or directory
+  ecs.cpp
+c:\users\msukka1\documents\vapeengine\habanero\ecs\ecs.cpp(5): fatal error C1083: Cannot open include file: 'ecs.h': No such file or directory
+  ConstructorFunctions.cpp
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(33): error C2653: 'VapeRenderer': is not a class or namespace name
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(33): error C2065: 'PrimitiveShapes': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(33): error C2146: syntax error: missing ';' before identifier 'shape'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(33): error C2065: 'shape': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2065: 'shape': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2653: 'VapeRenderer': is not a class or namespace name
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2065: 'PrimitiveShapes': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2143: syntax error: missing ';' before 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2672: 'boost::lexical_cast': no matching overloaded function found
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2780: 'Target boost::lexical_cast(const char32_t *,std::size_t)': expects 2 arguments - 1 provided
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(92): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2780: 'Target boost::lexical_cast(const char16_t *,std::size_t)': expects 2 arguments - 1 provided
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(83): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2780: 'Target boost::lexical_cast(const wchar_t *,std::size_t)': expects 2 arguments - 1 provided
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(74): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2780: 'Target boost::lexical_cast(const signed char *,std::size_t)': expects 2 arguments - 1 provided
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(65): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2780: 'Target boost::lexical_cast(const unsigned char *,std::size_t)': expects 2 arguments - 1 provided
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(57): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2780: 'Target boost::lexical_cast(const char *,std::size_t)': expects 2 arguments - 1 provided
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(49): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(37): error C2783: 'Target boost::lexical_cast(const Source &)': could not deduce template argument for 'Target'
+  c:\users\msukka1\documents\vapeengine\habanero\libraries\boost\lexical_cast.hpp(37): note: see declaration of 'boost::lexical_cast'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(40): error C2065: 'RenderableComponent': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(40): error C2065: 'shape': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(87): error C2065: 'RenderableComponent': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(87): error C2672: 'ECS::Entity::hasComponent': no matching overloaded function found
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(87): error C2974: 'ECS::Entity::hasComponent': invalid template argument for 'T', type expected
+  c:\users\msukka1\documents\vapeengine\habanero\ecs\ecs.h(107): note: see declaration of 'ECS::Entity::hasComponent'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(88): error C2065: 'RenderableComponent': undeclared identifier
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(88): error C2672: 'ECS::Entity::getComponent': no matching overloaded function found
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(88): error C2974: 'ECS::Entity::getComponent': invalid template argument for 'T', type expected
+  c:\users\msukka1\documents\vapeengine\habanero\ecs\ecs.h(157): note: see declaration of 'ECS::Entity::getComponent'
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(88): error C2530: 'comp': references must be initialized
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(90): error C3536: 'comp': cannot be used before it is initialized
+c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(90): error C2228: left of '.m_shape' must have class/struct/union
+  c:\users\msukka1\documents\vapeengine\habanero\ecs\constructorfunctions.cpp(90): note: type is 'int'
+  Scene.cpp
+c:\users\msukka1\documents\vapeengine\habanero\core\scene.cpp(20): warning C4150: deletion of pointer to incomplete type 'Light'; no destructor called
+  c:\users\msukka1\documents\vapeengine\habanero\core\scene.h(6): note: see declaration of 'Light'
+  GameObject.cpp
+c:\users\msukka1\documents\vapeengine\habanero\core\gameobject.h(28): error C3861: 'generateUniqueID': identifier not found
+  Engine.cpp
+c:\users\msukka1\documents\vapeengine\habanero\core\gameobject.h(28): error C3861: 'generateUniqueID': identifier not found
+c:\users\msukka1\documents\vapeengine\habanero\systems\rendersystem.h(13): error C2001: newline in constant
+c:\users\msukka1\documents\vapeengine\habanero\systems\rendersystem.h(13): fatal error C1083: Cannot open include file: '../systems/CameraSystem.h>': No such file or directory
+  VisualComponent.cpp
+c:\users\msukka1\documents\vapeengine\habanero\components\visualcomponent.cpp(7): error C2664: 'ECS::Component::Component(const ECS::Component &)': cannot convert argument 1 from 'Entity *' to 'const ECS::Component &'
+  c:\users\msukka1\documents\vapeengine\habanero\components\visualcomponent.cpp(7): note: Reason: cannot convert from 'Entity *' to 'const ECS::Component'
+  c:\users\msukka1\documents\vapeengine\habanero\components\visualcomponent.cpp(7): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+  Generating Code...
