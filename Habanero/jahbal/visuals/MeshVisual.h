@@ -1,5 +1,5 @@
 #pragma once
-#include "VisualComponent.h"
+#include "../engine/core/components/VisualComponent.h"
 
 class BaseEntity;
 class JRenderer;
@@ -14,8 +14,8 @@ struct MeshVertex
 	Vector3 normal;
 	Vector2 uv;
 };
-
-class MeshVisual : public VisualComponent
+/*
+class MeshVisual : public ECS::VisualComponent
 {
 public:
 	MeshVisual(BaseEntity* owner, JRenderer* renderer);
@@ -26,3 +26,4 @@ public:
 
 	Mesh* m_Mesh;
 };
+*/

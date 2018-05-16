@@ -27,121 +27,98 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="components\Script.cpp">
-      <Filter>components</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Engine.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\GameObject.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\SceneManager.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="ecs\ConstructorFunctions.cpp">
-      <Filter>ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="ecs\ecs.cpp">
-      <Filter>ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="ecs\EntityConstructor.cpp">
-      <Filter>ecs</Filter>
-    </ClCompile>
-    <ClCompile Include="input\InputManager.cpp">
-      <Filter>input</Filter>
-    </ClCompile>
-    <ClCompile Include="logging\LogManager.cpp">
-      <Filter>logging</Filter>
-    </ClCompile>
-    <ClCompile Include="script\PlayerMovementScript.cpp">
-      <Filter>script</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Scene.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="components\VisualComponent.cpp">
-      <Filter>components</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\CameraSystem.cpp">
-      <Filter>systems</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\RenderSystem.cpp">
-      <Filter>systems</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\ScriptSystem.cpp">
-      <Filter>systems</Filter>
-    </ClCompile>
-    <ClCompile Include="systems\TransformSystem.cpp">
-      <Filter>systems</Filter>
-    </ClCompile>
+    <ClCompile Include="engine\core\Engine.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="jahbal\common\Camera.cpp" />
+    <ClCompile Include="jahbal\common\Light.cpp" />
+    <ClCompile Include="jahbal\fx\JBillboard.cpp" />
+    <ClCompile Include="jahbal\fx\JGeneric.cpp" />
+    <ClCompile Include="jahbal\fx\JQuadTess.cpp" />
+    <ClCompile Include="jahbal\fx\JTerrain.cpp" />
+    <ClCompile Include="jahbal\renderers\JRenderer.cpp" />
+    <ClCompile Include="jahbal\util\dxerr.cpp" />
+    <ClCompile Include="jahbal\util\GeometryGenerator.cpp" />
+    <ClCompile Include="jahbal\visuals\BillBoardVisual.cpp" />
+    <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
+    <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
+    <ClCompile Include="jahbal\Mesh.cpp" />
+    <ClCompile Include="jahbal\Shader.cpp" />
+    <ClCompile Include="jahbal\ShaderManager.cpp" />
+    <ClCompile Include="jahbal\SubMesh.cpp" />
+    <ClCompile Include="jahbal\TransformComponent.cpp" />
+    <ClCompile Include="jahbal\VisualComponent.cpp" />
+    <ClCompile Include="engine\core\ecs\ConstructorFunctions.cpp" />
+    <ClCompile Include="engine\core\ecs\ecs.cpp" />
+    <ClCompile Include="engine\core\ecs\EntityConstructor.cpp" />
+    <ClCompile Include="engine\core\input\InputManager.cpp" />
+    <ClCompile Include="engine\core\components\Script.cpp" />
+    <ClCompile Include="engine\core\systems\CameraSystem.cpp" />
+    <ClCompile Include="engine\core\systems\RenderSystem.cpp" />
+    <ClCompile Include="engine\core\systems\ScriptSystem.cpp" />
+    <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="components\CameraComponent.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="components\RenderableComponent.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="components\ScriptComponent.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="components\TransformComponent.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Engine.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\GameObject.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\SceneManager.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="ecs\ConstructorFunctions.h">
-      <Filter>ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="ecs\ecs.h">
-      <Filter>ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="ecs\EntityConstructor.h">
-      <Filter>ecs</Filter>
-    </ClInclude>
-    <ClInclude Include="input\InputListener.h">
-      <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="input\InputManager.h">
-      <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="input\InputMessage.h">
-      <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="logging\LogManager.h">
-      <Filter>logging</Filter>
-    </ClInclude>
-    <ClInclude Include="logging\LogMessage.h">
-      <Filter>logging</Filter>
-    </ClInclude>
-    <ClInclude Include="script\PlayerMovementScript.h">
-      <Filter>script</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Scene.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="components\VisualComponent.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="systems\CameraSystem.h">
-      <Filter>systems</Filter>
-    </ClInclude>
-    <ClInclude Include="systems\RenderSystem.h">
-      <Filter>systems</Filter>
-    </ClInclude>
-    <ClInclude Include="systems\ScriptSystem.h">
-      <Filter>systems</Filter>
-    </ClInclude>
-    <ClInclude Include="systems\TransformSystem.h">
-      <Filter>systems</Filter>
-    </ClInclude>
+    <ClInclude Include="engine\core\Engine.h" />
+    <ClInclude Include="jahbal\common\Camera.h" />
+    <ClInclude Include="jahbal\common\Component.h" />
+    <ClInclude Include="jahbal\common\Light.h" />
+    <ClInclude Include="jahbal\common\Material.h" />
+    <ClInclude Include="jahbal\fx\JBillboard.h" />
+    <ClInclude Include="jahbal\fx\JGeneric.h" />
+    <ClInclude Include="jahbal\fx\JQuadTess.h" />
+    <ClInclude Include="jahbal\fx\JTerrain.h" />
+    <ClInclude Include="jahbal\renderers\JRenderer.h" />
+    <ClInclude Include="jahbal\util\d3dx11effect.h" />
+    <ClInclude Include="jahbal\util\dxerr.h" />
+    <ClInclude Include="jahbal\util\GeometryGenerator.h" />
+    <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
+    <ClInclude Include="jahbal\visuals\MeshVisual.h" />
+    <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
+    <ClInclude Include="jahbal\Mesh.h" />
+    <ClInclude Include="jahbal\Model.h" />
+    <ClInclude Include="jahbal\Shader.h" />
+    <ClInclude Include="jahbal\ShaderManager.h" />
+    <ClInclude Include="jahbal\SubMesh.h" />
+    <ClInclude Include="jahbal\TransformComponent.h" />
+    <ClInclude Include="engine\core\ecs\ConstructorFunctions.h" />
+    <ClInclude Include="engine\core\ecs\ecs.h" />
+    <ClInclude Include="engine\core\ecs\EntityConstructor.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Audio.h" />
+    <ClInclude Include="libraries\DirectXTK\include\CommonStates.h" />
+    <ClInclude Include="libraries\DirectXTK\include\DDSTextureLoader.h" />
+    <ClInclude Include="libraries\DirectXTK\include\DirectXHelpers.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Effects.h" />
+    <ClInclude Include="libraries\DirectXTK\include\GamePad.h" />
+    <ClInclude Include="libraries\DirectXTK\include\GeometricPrimitive.h" />
+    <ClInclude Include="libraries\DirectXTK\include\GraphicsMemory.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Keyboard.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Model.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Mouse.h" />
+    <ClInclude Include="libraries\DirectXTK\include\PostProcess.h" />
+    <ClInclude Include="libraries\DirectXTK\include\PrimitiveBatch.h" />
+    <ClInclude Include="libraries\DirectXTK\include\ScreenGrab.h" />
+    <ClInclude Include="libraries\DirectXTK\include\SimpleMath.h" />
+    <ClInclude Include="libraries\DirectXTK\include\SpriteBatch.h" />
+    <ClInclude Include="libraries\DirectXTK\include\SpriteFont.h" />
+    <ClInclude Include="libraries\DirectXTK\include\VertexTypes.h" />
+    <ClInclude Include="libraries\DirectXTK\include\WICTextureLoader.h" />
+    <ClInclude Include="libraries\DirectXTK\include\XboxDDSTextureLoader.h" />
+    <ClInclude Include="engine\core\input\InputListener.h" />
+    <ClInclude Include="engine\core\input\InputManager.h" />
+    <ClInclude Include="engine\core\input\InputMessage.h" />
+    <ClInclude Include="engine\core\util.h" />
+    <ClInclude Include="engine\core\components\CameraComponent.h" />
+    <ClInclude Include="engine\core\components\RenderableComponent.h" />
+    <ClInclude Include="engine\core\components\ScriptComponent.h" />
+    <ClInclude Include="engine\core\components\TransformComponent.h" />
+    <ClInclude Include="engine\core\components\VisualComponent.h" />
+    <ClInclude Include="engine\core\systems\CameraSystem.h" />
+    <ClInclude Include="engine\core\systems\RenderSystem.h" />
+    <ClInclude Include="engine\core\systems\ScriptSystem.h" />
+    <ClInclude Include="engine\core\systems\TransformSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Habanero.VC.db" />
+    <None Include="libraries\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
 </Project>

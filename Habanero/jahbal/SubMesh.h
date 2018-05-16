@@ -5,7 +5,7 @@
 #include <DirectXMath.h>
 #include <d3d11.h>
 
-#include "DirectXTK/SimpleMath.h"
+#include "../libraries/DirectXTK/include/SimpleMath.h"
 
 using namespace DirectX;
 

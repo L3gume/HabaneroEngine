@@ -4,13 +4,13 @@
 #include <DirectXMath.h>
 
 #include "TerrainVisual.h"
-#include "BaseEntity.h"
-#include "Engine.h"
-#include "JRenderer.h"
-#include "ShaderManager.h"
-#include "JTerrain.h"
-
-TerrainVisual::TerrainVisual(BaseEntity* owner, JRenderer* renderer, TerrainInfo info) :
+#include "../../engine/core/Engine.h"
+#include "../../engine/core/ecs/ecs.h"
+#include "../renderers/JRenderer.h"
+#include "../ShaderManager.h"
+#include "../fx/JTerrain.h"
+/*
+TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) :
 	VisualComponent(owner, renderer, VisualType::TERRAIN), m_terrainInfo(info)
 {
 	m_JTerrain = ShaderManager::GetInstance()->m_JTerrain;
@@ -235,3 +235,4 @@ void TerrainVisual::InitIB()
 	iinitData.pSysMem = &indices[0];
 	HR(m_Renderer->GetGFXDevice()->CreateBuffer(&ibd, &iinitData, &m_IB));
 }
+*/

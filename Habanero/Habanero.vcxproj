@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,76 +19,129 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="components\Script.cpp" />
-    <ClCompile Include="components\VisualComponent.cpp" />
-    <ClCompile Include="core\Engine.cpp" />
-    <ClCompile Include="core\GameObject.cpp" />
-    <ClCompile Include="core\Scene.cpp" />
-    <ClCompile Include="core\SceneManager.cpp" />
-    <ClCompile Include="ecs\ConstructorFunctions.cpp" />
-    <ClCompile Include="ecs\ecs.cpp" />
-    <ClCompile Include="ecs\EntityConstructor.cpp" />
-    <ClCompile Include="input\InputManager.cpp" />
-    <ClCompile Include="logging\LogManager.cpp" />
-    <ClCompile Include="script\PlayerMovementScript.cpp" />
-    <ClCompile Include="systems\CameraSystem.cpp" />
-    <ClCompile Include="systems\RenderSystem.cpp" />
-    <ClCompile Include="systems\ScriptSystem.cpp" />
-    <ClCompile Include="systems\TransformSystem.cpp" />
+    <ClCompile Include="engine\core\components\Script.cpp" />
+    <ClCompile Include="engine\core\ecs\ConstructorFunctions.cpp" />
+    <ClCompile Include="engine\core\ecs\ecs.cpp" />
+    <ClCompile Include="engine\core\ecs\EntityConstructor.cpp" />
+    <ClCompile Include="engine\core\Engine.cpp" />
+    <ClCompile Include="engine\core\input\InputManager.cpp" />
+    <ClCompile Include="engine\core\systems\CameraSystem.cpp" />
+    <ClCompile Include="engine\core\systems\RenderSystem.cpp" />
+    <ClCompile Include="engine\core\systems\ScriptSystem.cpp" />
+    <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
+    <ClCompile Include="jahbal\common\Camera.cpp" />
+    <ClCompile Include="jahbal\common\Light.cpp" />
+    <ClCompile Include="jahbal\fx\JBillboard.cpp" />
+    <ClCompile Include="jahbal\fx\JGeneric.cpp" />
+    <ClCompile Include="jahbal\fx\JQuadTess.cpp" />
+    <ClCompile Include="jahbal\fx\JTerrain.cpp" />
+    <ClCompile Include="jahbal\Mesh.cpp" />
+    <ClCompile Include="jahbal\renderers\JRenderer.cpp" />
+    <ClCompile Include="jahbal\Shader.cpp" />
+    <ClCompile Include="jahbal\ShaderManager.cpp" />
+    <ClCompile Include="jahbal\SubMesh.cpp" />
+    <ClCompile Include="jahbal\TransformComponent.cpp" />
+    <ClCompile Include="jahbal\util\dxerr.cpp" />
+    <ClCompile Include="jahbal\util\GeometryGenerator.cpp" />
+    <ClCompile Include="jahbal\VisualComponent.cpp" />
+    <ClCompile Include="jahbal\visuals\BillBoardVisual.cpp" />
+    <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
+    <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="components\CameraComponent.h" />
-    <ClInclude Include="components\RenderableComponent.h" />
-    <ClInclude Include="components\ScriptComponent.h" />
-    <ClInclude Include="components\TransformComponent.h" />
-    <ClInclude Include="components\VisualComponent.h" />
-    <ClInclude Include="core\Engine.h" />
-    <ClInclude Include="core\GameObject.h" />
-    <ClInclude Include="core\Scene.h" />
-    <ClInclude Include="core\SceneManager.h" />
-    <ClInclude Include="ecs\ConstructorFunctions.h" />
-    <ClInclude Include="ecs\ecs.h" />
-    <ClInclude Include="ecs\EntityConstructor.h" />
-    <ClInclude Include="input\InputListener.h" />
-    <ClInclude Include="input\InputManager.h" />
-    <ClInclude Include="input\InputMessage.h" />
-    <ClInclude Include="logging\LogManager.h" />
-    <ClInclude Include="logging\LogMessage.h" />
-    <ClInclude Include="script\PlayerMovementScript.h" />
-    <ClInclude Include="systems\CameraSystem.h" />
-    <ClInclude Include="systems\RenderSystem.h" />
-    <ClInclude Include="systems\ScriptSystem.h" />
-    <ClInclude Include="systems\TransformSystem.h" />
+    <ClInclude Include="engine\core\components\CameraComponent.h" />
+    <ClInclude Include="engine\core\components\RenderableComponent.h" />
+    <ClInclude Include="engine\core\components\ScriptComponent.h" />
+    <ClInclude Include="engine\core\components\TransformComponent.h" />
+    <ClInclude Include="engine\core\components\VisualComponent.h" />
+    <ClInclude Include="engine\core\ecs\ConstructorFunctions.h" />
+    <ClInclude Include="engine\core\ecs\ecs.h" />
+    <ClInclude Include="engine\core\ecs\EntityConstructor.h" />
+    <ClInclude Include="engine\core\Engine.h" />
+    <ClInclude Include="engine\core\input\InputListener.h" />
+    <ClInclude Include="engine\core\input\InputManager.h" />
+    <ClInclude Include="engine\core\input\InputMessage.h" />
+    <ClInclude Include="engine\core\systems\CameraSystem.h" />
+    <ClInclude Include="engine\core\systems\RenderSystem.h" />
+    <ClInclude Include="engine\core\systems\ScriptSystem.h" />
+    <ClInclude Include="engine\core\systems\TransformSystem.h" />
+    <ClInclude Include="engine\core\util.h" />
+    <ClInclude Include="jahbal\common\Camera.h" />
+    <ClInclude Include="jahbal\common\Component.h" />
+    <ClInclude Include="jahbal\common\Light.h" />
+    <ClInclude Include="jahbal\common\Material.h" />
+    <ClInclude Include="jahbal\fx\JBillboard.h" />
+    <ClInclude Include="jahbal\fx\JGeneric.h" />
+    <ClInclude Include="jahbal\fx\JQuadTess.h" />
+    <ClInclude Include="jahbal\fx\JTerrain.h" />
+    <ClInclude Include="jahbal\Mesh.h" />
+    <ClInclude Include="jahbal\Model.h" />
+    <ClInclude Include="jahbal\renderers\JRenderer.h" />
+    <ClInclude Include="jahbal\Shader.h" />
+    <ClInclude Include="jahbal\ShaderManager.h" />
+    <ClInclude Include="jahbal\SubMesh.h" />
+    <ClInclude Include="jahbal\TransformComponent.h" />
+    <ClInclude Include="jahbal\util\d3dx11effect.h" />
+    <ClInclude Include="jahbal\util\dxerr.h" />
+    <ClInclude Include="jahbal\util\GeometryGenerator.h" />
+    <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
+    <ClInclude Include="jahbal\visuals\MeshVisual.h" />
+    <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Audio.h" />
+    <ClInclude Include="libraries\DirectXTK\include\CommonStates.h" />
+    <ClInclude Include="libraries\DirectXTK\include\DDSTextureLoader.h" />
+    <ClInclude Include="libraries\DirectXTK\include\DirectXHelpers.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Effects.h" />
+    <ClInclude Include="libraries\DirectXTK\include\GamePad.h" />
+    <ClInclude Include="libraries\DirectXTK\include\GeometricPrimitive.h" />
+    <ClInclude Include="libraries\DirectXTK\include\GraphicsMemory.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Keyboard.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Model.h" />
+    <ClInclude Include="libraries\DirectXTK\include\Mouse.h" />
+    <ClInclude Include="libraries\DirectXTK\include\PostProcess.h" />
+    <ClInclude Include="libraries\DirectXTK\include\PrimitiveBatch.h" />
+    <ClInclude Include="libraries\DirectXTK\include\ScreenGrab.h" />
+    <ClInclude Include="libraries\DirectXTK\include\SimpleMath.h" />
+    <ClInclude Include="libraries\DirectXTK\include\SpriteBatch.h" />
+    <ClInclude Include="libraries\DirectXTK\include\SpriteFont.h" />
+    <ClInclude Include="libraries\DirectXTK\include\VertexTypes.h" />
+    <ClInclude Include="libraries\DirectXTK\include\WICTextureLoader.h" />
+    <ClInclude Include="libraries\DirectXTK\include\XboxDDSTextureLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Habanero.VC.db" />
+    <None Include="libraries\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8BA86B94-0239-4011-A004-DA5F20D5C11D}</ProjectGuid>
     <RootNamespace>Habanero</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

@@ -1,7 +1,6 @@
 #include <thread>
 
-#include "core/Engine.h"
-#include "logging/LogManager.h"
+#include "engine/core/Engine.h"
 
 //
 // Following tutorial on:
@@ -10,7 +9,6 @@
 int main(int argc, char *argv[]) {
 
     Core::Engine& gm = Core::Engine::getInstance();
-    VapeLog::LogManager& lm = VapeLog::LogManager::getInstance();
     // -----------------------------------------------------------------------------------------------------------------
     // The Game loop runs in a separate thread in order to be able to use the UI at the same time
     // -----------------------------------------------------------------------------------------------------------------

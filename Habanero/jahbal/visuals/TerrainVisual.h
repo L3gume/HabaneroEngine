@@ -1,5 +1,5 @@
 #pragma once
-#include "../components/VisualComponent.h"
+#include "../engine/core/components/VisualComponent.h"
 
 class JTerrain;
 
@@ -32,7 +32,7 @@ struct TerrainInfo
 class TerrainVisual : public VisualComponent
 {
 public:
-	TerrainVisual(BaseEntity* owner, JRenderer* renderer, TerrainInfo info);
+	TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info);
 	~TerrainVisual();
 
 	void SetupBuffers();

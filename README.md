@@ -1,22 +1,19 @@
-# VapeEngine
+# Habanero Engine 
 
-A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
+A simple C++ 3D game engine for windows
 
 ## Team
 
 * Justin Tremblay
 * Evan Laflamme
-* Micheal Vaquier
+* Micheal Sukkarieh
 
 ## Dependencies
 
 * C++17 (:D)
-* glfw-x11 3.2.1-1 (Available on Arch repos) - Documentation found [here](http://www.glfw.org/docs/latest/)
-* glew 2.1.0-1 (Available on Arch repos)
-* cmake 3.9 or higher
-* glm 0.9.8.5-1
-* Boost (available on every distro)
-* imgui + gl3w (included in the source code)
+* Boost 
+* Bullet 2.87
+* DirectX
 
 ## Code Style
 
@@ -32,6 +29,17 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
         * ` } else { ...`
 * Always put brackets around `if` statements, even if only one line
 * Tab length is 4 spaces
+* Header files should look something like this:
+
+```cpp
+#pragma once
+#ifndef HABANERO_CLASSNAME_H
+#define HABANERO_CLASSNAME_H
+
+// ...
+
+#endif
+```
 
 ## Practices
 
@@ -66,26 +74,3 @@ A simple C++ 3D game engine for Linux (and maybe windows) made with OpenGL
 *These don't have to ALWAYS be followed, they're basically just tips*
 
 *Stuff can be added to this list and the style list*
-
-## TODO
-
-* Encapsulate rendering in its own system [Evan]
-* Physics (Collisions, etc.) [optional for 0.1]
-* Simple Editor UI [Justin]
-    * Scene graph window
-    * Inspector window
-    * Save/Load dialog
-    * File Browser
-
-## NEXT MILESTONE
-
-For version 0.1:
-
-* Working Rendering system
-    * Simple shapes and volumes
-    * Very basic system (done right)
-* Simple Physics engine (optional)
-    * Basic collsions
-    * Gravity
-    * Forces
-* Save/Load + basic editor
