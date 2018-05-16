@@ -31,7 +31,7 @@ namespace VapeInput {
         bool KEY_C              : 1;
         bool KEY_D              : 1;
         bool KEY_E              : 1;
-        bool KEY_F              : 1;engine/core/
+        bool KEY_F              : 1;
         bool KEY_G              : 1;
         bool KEY_H              : 1;
         bool KEY_I              : 1;

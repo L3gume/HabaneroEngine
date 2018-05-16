@@ -15,9 +15,9 @@
 #include <cassert>
 #include <algorithm>
 #include <fstream>
-#include "../libraries/boost/algorithm/string/predicate.hpp"
-#include "../libraries/boost/lexical_cast.hpp"
-#include "../engine/core/util.h"
+#include "boost/algorithm/string/predicate.hpp"
+#include "boost/lexical_cast.hpp"
+#include "../util.h"
 
 namespace ECS {
     /*

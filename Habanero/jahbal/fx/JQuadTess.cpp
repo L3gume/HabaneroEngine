@@ -1,5 +1,5 @@
 #include "JQuadTess.h"
-#include "JRenderer.h"
+#include "../renderers/JRenderer.h"
 
 JQuadTess::JQuadTess(ID3D11Device* device)
 	: Shader(device)

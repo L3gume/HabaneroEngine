@@ -1,6 +1,7 @@
 #include "GeometryGenerator.h"
 #include "../jahbal/visuals/MeshVisual.h"
 
+/*
 void GeometryGenerator::CreatePlane(float width, float length, std::vector<MeshVertex>& v, std::vector<int>& i)
 {
 	v.clear();
@@ -98,3 +99,4 @@ void GeometryGenerator::CreateBox(float width, float height, float depth, std::v
 	i[30] = 20; i[31] = 21; i[32] = 22;
 	i[33] = 20; i[34] = 22; i[35] = 23;
 }
+*/

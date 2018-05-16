@@ -5,7 +5,7 @@
 #include <d3d11.h>
 
 #include "DirectXTK\include\SimpleMath.h"
-#include "../Mesh.h"
+#include "jahbal/Mesh.h"
 
 using namespace DirectX;
 

@@ -2,7 +2,7 @@
 // Created by notjustin on 2/9/18.
 //
 
-#include <ecs.h>
+#include "ecs.h"
 #include "EntityConstructor.h"
 
 using namespace ECS;

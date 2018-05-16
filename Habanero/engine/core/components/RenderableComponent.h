@@ -5,7 +5,7 @@
 #ifndef HABANERO_RENDERABLECOMPONENT_H
 #define HABANERO_RENDERABLECOMPONENT_H
 
-#include "../ecs/ecs.h"
+#include "engine/core/ecs/ecs.h"
 #include "TransformComponent.h"
 
 // TODO: THIS IS A PLACEHOLDER, FIX WHEN NEW RENDERSYSTEM IS DONE

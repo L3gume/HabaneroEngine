@@ -6,10 +6,10 @@
 #define VAPEENGINE_RENDERSYSTEM_H
 
 
-#include "../ecs/ecs.h"
-#include "../components/RenderableComponent.h"
-#include "../components/TransformComponent.h"
-#include "../engine/core/Engine.h"
+#include "engine/core/ecs/ecs.h"
+#include "engine/core/components/RenderableComponent.h"
+#include "engine/core/components/TransformComponent.h"
+#include "engine/core/Engine.h"
 #include "CameraSystem.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"

@@ -5,7 +5,7 @@
 #ifndef VAPEENGINE_TRANSFORMSYSTEM_H
 #define VAPEENGINE_TRANSFORMSYSTEM_H
 
-#include "../ecs/ecs.h"
+#include "engine/core/ecs/ecs.h"
 
 using namespace ECS;
 

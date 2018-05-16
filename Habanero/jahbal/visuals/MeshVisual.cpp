@@ -1,8 +1,10 @@
-#include "MeshVisual.h"
-#include "../components/VisualComponent.h"
-#include "../Mesh.h"
+#include "engine/core/ecs/ecs.h"
+#include "engine/core/components/VisualComponent.h"
+#include "jahbal/visuals/MeshVisual.h"
+#include "jahbal/Mesh.h"
 
-MeshVisual::MeshVisual(BaseEntity* owner, JRenderer* renderer) :
+/*
+MeshVisual::MeshVisual(Entity* owner, JRenderer* renderer) :
 	VisualComponent(owner, renderer, VisualType::MESH), m_Mesh(nullptr)
 {
 
@@ -38,4 +40,5 @@ void MeshVisual::CreateMesh(std::string filename)
 
 	m_Mesh = new Mesh(this, filename);
 }
+*/
 

@@ -2,8 +2,11 @@
 // Created by l3gume on 19/02/18.
 //
 
-#include "../core/Engine.h"
-#include "../components/TransformComponent.h"
+#include "engine/core/Engine.h"
+#include "engine/core/components/TransformComponent.h"
+#include "glm/gtx/euler_angles.hpp"
+#include "glm/gtx/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
 #include "TransformSystem.h"
 
 void TransformSystem::update(float _deltaTime) {

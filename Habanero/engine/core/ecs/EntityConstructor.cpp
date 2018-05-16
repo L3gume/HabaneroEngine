@@ -2,11 +2,11 @@
 // Created by l3gume on 15/02/18.
 //
 
-#include "../components/TransformComponent.h"
-#include "../components/RenderableComponent.h"
-#include "../components/CameraComponent.h"
-#include "../components/RenderableComponent.h"
-#include "../Engine.h"
+#include "engine/core/components/TransformComponent.h"
+#include "engine/core/components/RenderableComponent.h"
+#include "engine/core/components/CameraComponent.h"
+#include "engine/core/components/RenderableComponent.h"
+#include "engine/core/Engine.h"
 #include "EntityConstructor.h"
 #include "ConstructorFunctions.h"
 

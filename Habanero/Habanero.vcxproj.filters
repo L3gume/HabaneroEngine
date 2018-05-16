@@ -29,24 +29,6 @@
   <ItemGroup>
     <ClCompile Include="engine\core\Engine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="jahbal\common\Camera.cpp" />
-    <ClCompile Include="jahbal\common\Light.cpp" />
-    <ClCompile Include="jahbal\fx\JBillboard.cpp" />
-    <ClCompile Include="jahbal\fx\JGeneric.cpp" />
-    <ClCompile Include="jahbal\fx\JQuadTess.cpp" />
-    <ClCompile Include="jahbal\fx\JTerrain.cpp" />
-    <ClCompile Include="jahbal\renderers\JRenderer.cpp" />
-    <ClCompile Include="jahbal\util\dxerr.cpp" />
-    <ClCompile Include="jahbal\util\GeometryGenerator.cpp" />
-    <ClCompile Include="jahbal\visuals\BillBoardVisual.cpp" />
-    <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
-    <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
-    <ClCompile Include="jahbal\Mesh.cpp" />
-    <ClCompile Include="jahbal\Shader.cpp" />
-    <ClCompile Include="jahbal\ShaderManager.cpp" />
-    <ClCompile Include="jahbal\SubMesh.cpp" />
-    <ClCompile Include="jahbal\TransformComponent.cpp" />
-    <ClCompile Include="jahbal\VisualComponent.cpp" />
     <ClCompile Include="engine\core\ecs\ConstructorFunctions.cpp" />
     <ClCompile Include="engine\core\ecs\ecs.cpp" />
     <ClCompile Include="engine\core\ecs\EntityConstructor.cpp" />
@@ -56,30 +38,11 @@
     <ClCompile Include="engine\core\systems\RenderSystem.cpp" />
     <ClCompile Include="engine\core\systems\ScriptSystem.cpp" />
     <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
+    <ClCompile Include="engine\core\Scene.cpp" />
+    <ClCompile Include="engine\core\logging\LogManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
-    <ClInclude Include="jahbal\common\Camera.h" />
-    <ClInclude Include="jahbal\common\Component.h" />
-    <ClInclude Include="jahbal\common\Light.h" />
-    <ClInclude Include="jahbal\common\Material.h" />
-    <ClInclude Include="jahbal\fx\JBillboard.h" />
-    <ClInclude Include="jahbal\fx\JGeneric.h" />
-    <ClInclude Include="jahbal\fx\JQuadTess.h" />
-    <ClInclude Include="jahbal\fx\JTerrain.h" />
-    <ClInclude Include="jahbal\renderers\JRenderer.h" />
-    <ClInclude Include="jahbal\util\d3dx11effect.h" />
-    <ClInclude Include="jahbal\util\dxerr.h" />
-    <ClInclude Include="jahbal\util\GeometryGenerator.h" />
-    <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
-    <ClInclude Include="jahbal\visuals\MeshVisual.h" />
-    <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
-    <ClInclude Include="jahbal\Mesh.h" />
-    <ClInclude Include="jahbal\Model.h" />
-    <ClInclude Include="jahbal\Shader.h" />
-    <ClInclude Include="jahbal\ShaderManager.h" />
-    <ClInclude Include="jahbal\SubMesh.h" />
-    <ClInclude Include="jahbal\TransformComponent.h" />
     <ClInclude Include="engine\core\ecs\ConstructorFunctions.h" />
     <ClInclude Include="engine\core\ecs\ecs.h" />
     <ClInclude Include="engine\core\ecs\EntityConstructor.h" />
@@ -110,12 +73,15 @@
     <ClInclude Include="engine\core\components\CameraComponent.h" />
     <ClInclude Include="engine\core\components\RenderableComponent.h" />
     <ClInclude Include="engine\core\components\ScriptComponent.h" />
-    <ClInclude Include="engine\core\components\TransformComponent.h" />
     <ClInclude Include="engine\core\components\VisualComponent.h" />
     <ClInclude Include="engine\core\systems\CameraSystem.h" />
     <ClInclude Include="engine\core\systems\RenderSystem.h" />
     <ClInclude Include="engine\core\systems\ScriptSystem.h" />
     <ClInclude Include="engine\core\systems\TransformSystem.h" />
+    <ClInclude Include="engine\core\components\TransformComponent.h" />
+    <ClInclude Include="engine\core\Scene.h" />
+    <ClInclude Include="engine\core\logging\LogManager.h" />
+    <ClInclude Include="engine\core\logging\LogMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

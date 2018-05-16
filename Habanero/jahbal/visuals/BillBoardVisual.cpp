@@ -1,9 +1,9 @@
 #include "BillboardVisual.h"
-#include "BaseEntity.h"
-#include "Engine.h"
-#include "JRenderer.h"
+#include "engine/core/ecs/ecs.h"
+#include "../renderers/JRenderer.h"
 
-BillboardVisual::BillboardVisual(BaseEntity* owner, JRenderer* renderer, float sx, float sy) :
+/*
+BillboardVisual::BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy) :
 	VisualComponent(owner, renderer, VisualType::BILLBOARD), m_vertex(owner->m_position, sx, sy)
 {
 	SetupBuffers();
@@ -23,4 +23,5 @@ void BillboardVisual::SetupBuffers()
 	vinitData.pSysMem = &m_vertex;
 	HR(Engine::GetInstance()->GetRenderer()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 }
+*/
 

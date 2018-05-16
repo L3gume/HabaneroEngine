@@ -5,10 +5,10 @@
 #ifndef VAPEENGINE_CAMERASYSTEM_H
 #define VAPEENGINE_CAMERASYSTEM_H
 
-#include "../ecs/ecs.h"
-#include "../components/CameraComponent.h"
-#include "../components/TransformComponent.h"
-#include "../Engine.h"
+#include "engine/core/ecs/ecs.h"
+#include "engine/core/components/CameraComponent.h"
+#include "engine/core/components/TransformComponent.h"
+#include "engine/core/Engine.h"
 #include "glm/matrix.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 

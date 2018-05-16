@@ -5,9 +5,9 @@
 #ifndef VAPEENGINE_SCRIPTSYSTEM_H
 #define VAPEENGINE_SCRIPTSYSTEM_H
 
-#include "../ecs/ecs.h"
-#include "../core/Engine.h"
-#include "../components/ScriptComponent.h"
+#include "engine/core/ecs/ecs.h"
+#include "engine/core/Engine.h"
+#include "engine/core/components/ScriptComponent.h"
 
 using namespace ECS;
 

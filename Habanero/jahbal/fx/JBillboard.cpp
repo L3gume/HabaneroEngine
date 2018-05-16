@@ -1,5 +1,5 @@
 #include "JBillboard.h"
-#include "JRenderer.h"
+#include "../renderers/JRenderer.h"
 
 JBillboard::JBillboard(ID3D11Device* device)
 	: Shader(device)

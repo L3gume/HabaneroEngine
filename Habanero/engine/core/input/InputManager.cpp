@@ -3,7 +3,7 @@
 //
 
 #include <algorithm>
-#include "logging/LogManager.h"
+#include "engine/core/logging/LogManager.h"
 #include "InputManager.h"
 
 using namespace VapeInput;

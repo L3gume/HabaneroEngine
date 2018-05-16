@@ -6,11 +6,11 @@
 #define HABANERO_ENTITYCONSTRUCTOR_H
 
 #include "ecs.h"
-#include "../components/TransformComponent.h"
-#include "../components/RenderableComponent.h"
-#include "../components/CameraComponent.h"
-#include "../components/ScriptComponent.h"
-#include "../core/Engine.h"
+#include "engine/core/components/TransformComponent.h"
+#include "engine/core/components/RenderableComponent.h"
+#include "engine/core/components/CameraComponent.h"
+#include "engine/core/components/ScriptComponent.h"
+#include "engine/core/Engine.h"
 #include "EntityConstructor.h"
 
 namespace ECS {

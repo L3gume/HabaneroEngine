@@ -28,8 +28,9 @@ void constructTransformComponent(Entity &_ent, std::vector<std::string> &_args) 
                                           glm::vec3(glm::radians(xrot), glm::radians(yrot),
                                                     glm::radians(zrot)), glm::vec3(xscl, yscl, zscl));
 }
-/*
+
 void constructRenderableComponent(Entity &_ent, std::vector<std::string> &_args) {
+/*
     VapeRenderer::PrimitiveShapes shape;
     std::string prefix("shape=");
     for (auto &s : _args) {
@@ -38,8 +39,9 @@ void constructRenderableComponent(Entity &_ent, std::vector<std::string> &_args)
         }
     }
     _ent.addComponent<RenderableComponent>(shape);
-}
 */
+}
+
 void constructCameraComponent(Entity &_ent, std::vector<std::string> &_args) {
     float fov = 90.f, hRes = 16.f, vRes = 9.f, zNear = 0.1f, zFar = 100.f; // default values
     for (auto &s : _args) {
@@ -57,8 +59,9 @@ void constructCameraComponent(Entity &_ent, std::vector<std::string> &_args) {
     }
     _ent.addComponent<CameraComponent>(fov, hRes, vRes, zNear, zFar);
 }
-/*
+
 void constructScriptComponent(Entity &_ent, std::vector<std::string> &_args) {
+	/*
     Script *p;
     for (auto &s : _args) {
         std::string scriptName;
@@ -69,8 +72,9 @@ void constructScriptComponent(Entity &_ent, std::vector<std::string> &_args) {
         }
     }
     _ent.addComponent<ScriptComponent>(p);
+	*/
 }
-*/
+
 
 void saveTransformComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<TransformComponent>()) {
@@ -83,16 +87,16 @@ void saveTransformComponent(Entity &_ent, std::ostringstream &_oss) {
         _oss << "[/TransformComponent]" << "\n";
     }
 }
-/*
 void saveRenderableComponent(Entity &_ent, std::ostringstream &_oss) {
+/*
     if (_ent.hasComponent<RenderableComponent>()) {
         auto &comp = _ent.getComponent<RenderableComponent>();
         _oss << "[RenderableComponent]" << "\n";
         _oss << "shape=" << (int) comp.m_shape << "\n";
         _oss << "[/RenderableComponent]" << "\n";
     }
-}
 */
+}
 
 void saveCameraComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<CameraComponent>()) {
@@ -106,7 +110,7 @@ void saveCameraComponent(Entity &_ent, std::ostringstream &_oss) {
         _oss << "[/CameraComponent]" << "\n";
     }
 }
-/*
+
 void saveScriptComponent(Entity &_ent, std::ostringstream &_oss) {
     if (_ent.hasComponent<ScriptComponent>()) {
         auto &comp = _ent.getComponent<ScriptComponent>();
@@ -115,4 +119,4 @@ void saveScriptComponent(Entity &_ent, std::ostringstream &_oss) {
         _oss << "[/ScriptComponent]" << "\n";
     }
 }
-*/
+

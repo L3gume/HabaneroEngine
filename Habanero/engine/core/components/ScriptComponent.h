@@ -9,7 +9,7 @@
 // TODO: CHANGE THIS
 
 
-#include "../ecs/ecs.h"
+#include "engine/core/ecs/ecs.h"
 
 /*
  * ScriptComponents will hold an object of type script, which contains logic.

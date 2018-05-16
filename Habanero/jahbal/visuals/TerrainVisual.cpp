@@ -4,11 +4,11 @@
 #include <DirectXMath.h>
 
 #include "TerrainVisual.h"
-#include "../../engine/core/Engine.h"
-#include "../../engine/core/ecs/ecs.h"
+#include "engine/core/Engine.h"
+#include "engine/core/ecs/ecs.h"
 #include "../renderers/JRenderer.h"
 #include "../ShaderManager.h"
-#include "../fx/JTerrain.h"
+#include "jahbal/fx/JTerrain.h"
 /*
 TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) :
 	VisualComponent(owner, renderer, VisualType::TERRAIN), m_terrainInfo(info)

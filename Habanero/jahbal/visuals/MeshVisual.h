@@ -1,9 +1,10 @@
 #pragma once
-#include "../engine/core/components/VisualComponent.h"
+#include "engine/core/components/VisualComponent.h"
 
 class BaseEntity;
 class JRenderer;
 
+/*
 struct MeshVertex
 {
 	MeshVertex(float px, float py, float pz, float nx, float ny, float nz, float u, float v)
@@ -14,7 +15,7 @@ struct MeshVertex
 	Vector3 normal;
 	Vector2 uv;
 };
-/*
+
 class MeshVisual : public ECS::VisualComponent
 {
 public:

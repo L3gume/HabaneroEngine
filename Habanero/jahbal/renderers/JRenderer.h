@@ -6,9 +6,10 @@
 #include <vector>
 
 #include "../util/dxerr.h"
-#include "../ecs/ecs.h"
-#include "../../libraries/DirectXTK/include/SimpleMath.h"
+#include "engine/core/ecs/ecs.h"
+#include "../libraries/DirectXTK/include/SimpleMath.h"
 
+/*
 using namespace DirectX;
 
 class Scene;
@@ -89,3 +90,4 @@ private:
 
 #define ReleaseCOM(x) { if(x){ x->Release(); x = 0; } }
 
+*/

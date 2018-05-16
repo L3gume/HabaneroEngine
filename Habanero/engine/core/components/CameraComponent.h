@@ -5,7 +5,7 @@
 #ifndef HABANERO_CAMERACOMPONENT_H
 #define HABANERO_CAMERACOMPONENT_H
 
-#include "../ecs/ecs.h"
+#include "engine/core/ecs/ecs.h"
 
 /*
  * IMPORTANT INFO, rotation = {0.f, 0.f, 0.f} means that the camera is pointing towards negative z axis.

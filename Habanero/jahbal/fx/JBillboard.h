@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Shader.h"
+#include "jahbal/Shader.h"
 #include "../libraries/DirectXTK/include/SimpleMath.h"
-#include "../common/Light.h"
-#include "../common/Material.h"
+#include "jahbal/common/Light.h"
+#include "jahbal/common/Material.h"
 
 using namespace DirectX;
 

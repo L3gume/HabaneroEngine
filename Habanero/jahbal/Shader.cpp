@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Shader.h"
-#include "JRenderer.h"
+#include "renderers/JRenderer.h"
 
 Shader::Shader(ID3D11Device* device)
 {

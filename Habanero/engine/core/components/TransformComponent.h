@@ -1,11 +1,11 @@
 //
 // Created by l3gume on 11/02/18.
 //
-#pragma once
+
 #ifndef HABANERO_TRANSFORMCOMPONENT_H
 #define HABANERO_TRANSFORMCOMPONENT_H
 
-#include "../ecs/ecs.h"
+#include "engine/core/ecs/ecs.h"
 #include "glm\vec3.hpp"
 
 struct TransformComponent : ECS::Component {

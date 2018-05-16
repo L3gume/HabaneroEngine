@@ -6,11 +6,11 @@
 #define HABANERO_CONSTRUCTORFUNCTIONS_H
 
 #include "glm/glm.hpp"
-#include "../ecs/ecs.h"
-#include "../components/TransformComponent.h"
-#include "../components/RenderableComponent.h"
-#include "../components/CameraComponent.h"
-#include "../components/ScriptComponent.h"
+#include "engine/core/ecs/ecs.h"
+#include "engine/core/components/TransformComponent.h"
+#include "engine/core/components/RenderableComponent.h"
+#include "engine/core/components/CameraComponent.h"
+#include "engine/core/components/ScriptComponent.h"
 
 using namespace ECS;
 
@@ -21,11 +21,11 @@ using namespace ECS;
 void constructTransformComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructRenderableComponent(Entity& _ent, std::vector<std::string>& _args);
 void constructCameraComponent(Entity& _ent, std::vector<std::string>& _args);
-//void constructScriptComponent(Entity& _ent, std::vector<std::string>& _args);
+void constructScriptComponent(Entity& _ent, std::vector<std::string>& _args);
 
 void saveTransformComponent(Entity& _ent, std::ostringstream& _oss);
 void saveRenderableComponent(Entity& _ent, std::ostringstream& _oss);
 void saveCameraComponent(Entity& _ent, std::ostringstream& _oss);
-//void saveScriptComponent(Entity& _ent, std::ostringstream& _oss);
+void saveScriptComponent(Entity& _ent, std::ostringstream& _oss);
 
 #endif //HABANERO_CONSTRUCTORFUNCTIONS_H

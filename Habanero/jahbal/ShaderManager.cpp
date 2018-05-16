@@ -1,9 +1,9 @@
 #include "ShaderManager.h"
 #include "Shader.h"
-#include "JGeneric.h"
-#include "JBillboard.h"
-#include "JQuadTess.h"
-#include "JTerrain.h"
+#include "fx/JGeneric.h"
+#include "fx/JBillboard.h"
+#include "fx/JQuadTess.h"
+#include "fx/JTerrain.h"
 
 ShaderManager* ShaderManager::m_pInstance = nullptr;
 

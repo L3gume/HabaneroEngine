@@ -2,10 +2,10 @@
 
 #include <DirectXMath.h>
 
-#include "Shader.h"
-#include "DirectXTK/SimpleMath.h"
-#include "Material.h"
-#include "Light.h"
+#include "jahbal/Shader.h"
+#include "jahbal/common/Light.h"
+#include "jahbal/common/Material.h"
+#include "../libraries/DirectXTK/include/SimpleMath.h"
 
 using namespace DirectX;
 

@@ -10,9 +10,9 @@
 #include "../libraries/assimp/include/postprocess.h"
 #include "../libraries/DirectXTK/include/SimpleMath.h"
 
-class VisualComponent;
 class SubMesh;
 
+struct VisualComponent;
 struct MeshVertex;
 
 using namespace DirectX;

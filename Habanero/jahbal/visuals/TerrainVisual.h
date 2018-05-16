@@ -1,6 +1,7 @@
 #pragma once
-#include "../engine/core/components/VisualComponent.h"
+#include "engine/core/components/VisualComponent.h"
 
+/*
 class JTerrain;
 
 struct TerrainVertex
@@ -65,3 +66,4 @@ private:
 	void InitVB();
 	void InitIB();
 };
+*/

@@ -1,14 +1,14 @@
 #include <d3d11.h>
 #include <iostream>
 
-#include "Engine.h"
-#include "Mesh.h"
-#include "SubMesh.h"
-#include "MeshVisual.h"
-#include "JRenderer.h"
-#include "VisualComponent.h"
-#include "DirectXTK\WICTextureLoader.h"
+#include "engine/core/components/VisualComponent.h"
+#include "jahbal/Mesh.h"
+#include "jahbal/SubMesh.h"
+#include "jahbal/visuals/MeshVisual.h"
+#include "jahbal/renderers/JRenderer.h"
+#include "DirectXTK/include/WICTextureLoader.h"
 
+/*
 Mesh::Mesh(VisualComponent* owner, std::vector<MeshVertex> vertexList, std::vector<int> indexList) :
 	m_componentOwner(owner), m_meshFullPath(""), m_meshFolder("")
 {
@@ -82,12 +82,15 @@ bool Mesh::createSRVFromAssimpMat(aiMaterial* mat, aiTextureType type, ID3D11Sha
 	ID3D11Resource* texResource = nullptr;
 	std::string path = m_meshFolder + str.C_Str();
 	std::wstring wc = std::wstring(path.begin(), path.end());
+
+	
 	CreateWICTextureFromFile(
 		Engine::GetInstance()->GetRenderer()->GetGFXDevice(),
 		Engine::GetInstance()->GetRenderer()->GetGFXDeviceContext(),
 		wc.c_str(),
 		&texResource, srv);
 	ReleaseCOM(texResource);
+	
 
 	return srv == nullptr;
 }
@@ -125,3 +128,4 @@ void Mesh::OnDestroy()
 Mesh::~Mesh()
 {
 }
+*/

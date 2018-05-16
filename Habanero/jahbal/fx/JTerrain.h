@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Shader.h"
+#include "jahbal/Shader.h"
 #include "../libraries/DirectXTK/include/SimpleMath.h"
 
 using namespace DirectX;

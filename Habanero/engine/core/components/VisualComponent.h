@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "../ecs/ecs.h"
+#include "engine/core/ecs/ecs.h"
 #include "../jahbal/renderers/JRenderer.h"
 
 class Mesh;
@@ -41,7 +41,7 @@ void VisualComponent::CreateMaterial()
 	{
 		printf("WARNING: CREATEMATERIAL CALLED WHEN MATERIAL ALREADY EXISTS, MATERIAL IS GOING TO BE OVERWRITTEN");
 
-		delete m_Material;
+		//delete m_Material;
 	}
 
 	//m_Material = new Material();

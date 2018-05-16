@@ -1,6 +1,7 @@
 #pragma once
-#include "../components/VisualComponent.h"
+#include "engine/core/components/VisualComponent.h"
 
+/*
 struct BillBoardVertex
 {
 	BillBoardVertex(float px, float py, float pz, float sx, float sy)
@@ -26,3 +27,4 @@ public:
 	ID3D11ShaderResourceView* m_diffuseSRV;
 	ID3D11ShaderResourceView* m_specSRV;
 };
+*/
