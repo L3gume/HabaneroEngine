@@ -3,9 +3,8 @@
 #include "jahbal/visuals/MeshVisual.h"
 #include "jahbal/Mesh.h"
 
-/*
-MeshVisual::MeshVisual(Entity* owner, JRenderer* renderer) :
-	VisualComponent(owner, renderer, VisualType::MESH), m_Mesh(nullptr)
+MeshVisual::MeshVisual(ECS::Entity* owner, JRenderer* renderer) 
+	//: VisualComponent(owner, renderer, VisualType::MESH), m_Mesh(nullptr)
 {
 
 }
@@ -15,6 +14,7 @@ MeshVisual::~MeshVisual()
 
 }
 
+/*
 void MeshVisual::CreateMesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList)
 {
 	if (m_Mesh)

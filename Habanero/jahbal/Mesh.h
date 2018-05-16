@@ -5,10 +5,10 @@
 #include <DirectXMath.h>
 #include <d3d11.h>
 
-#include "../libraries/assimp/include/Importer.hpp"
-#include "../libraries/assimp/include/scene.h"
-#include "../libraries/assimp/include/postprocess.h"
-#include "../libraries/DirectXTK/include/SimpleMath.h"
+#include "libraries/assimp/include/Importer.hpp"
+#include "libraries/assimp/include/scene.h"
+#include "libraries/assimp/include/postprocess.h"
+#include "libraries/DirectXTK/include/SimpleMath.h"
 
 class SubMesh;
 

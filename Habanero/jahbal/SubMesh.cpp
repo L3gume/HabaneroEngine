@@ -1,10 +1,9 @@
 #include <d3d11.h>
 
-//#include "engine/core/Engine.h"
-#include "renderers\JRenderer.h"
-#include "Mesh.h"
-#include "SubMesh.h"
-#include "visuals\MeshVisual.h"
+#include "jahbal/Mesh.h"
+#include "jahbal/SubMesh.h"
+#include "jahbal/renderers/JRenderer.h"
+#include "jahbal/visuals/MeshVisual.h"
 
 SubMesh::SubMesh(std::vector<MeshVertex> v, std::vector<int> i) :
 	m_vertexList(v), m_indexList(i), m_diffuseSRV(0), m_specSRV(0)

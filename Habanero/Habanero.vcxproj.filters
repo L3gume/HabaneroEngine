@@ -40,6 +40,17 @@
     <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
     <ClCompile Include="engine\core\Scene.cpp" />
     <ClCompile Include="engine\core\logging\LogManager.cpp" />
+    <ClCompile Include="jahbal\util\dxerr.cpp" />
+    <ClCompile Include="jahbal\fx\JGeneric.cpp" />
+    <ClCompile Include="jahbal\renderers\JRenderer.cpp" />
+    <ClCompile Include="jahbal\Shader.cpp" />
+    <ClCompile Include="jahbal\fx\JQuadTess.cpp" />
+    <ClCompile Include="jahbal\fx\JTerrain.cpp" />
+    <ClCompile Include="jahbal\fx\JBillboard.cpp" />
+    <ClCompile Include="jahbal\common\Light.cpp" />
+    <ClCompile Include="jahbal\Mesh.cpp" />
+    <ClCompile Include="jahbal\SubMesh.cpp" />
+    <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
@@ -82,6 +93,19 @@
     <ClInclude Include="engine\core\Scene.h" />
     <ClInclude Include="engine\core\logging\LogManager.h" />
     <ClInclude Include="engine\core\logging\LogMessage.h" />
+    <ClInclude Include="jahbal\util\d3dx11effect.h" />
+    <ClInclude Include="jahbal\util\dxerr.h" />
+    <ClInclude Include="jahbal\fx\JGeneric.h" />
+    <ClInclude Include="jahbal\renderers\JRenderer.h" />
+    <ClInclude Include="jahbal\Shader.h" />
+    <ClInclude Include="jahbal\fx\JQuadTess.h" />
+    <ClInclude Include="jahbal\fx\JTerrain.h" />
+    <ClInclude Include="jahbal\fx\JBillboard.h" />
+    <ClInclude Include="jahbal\common\Light.h" />
+    <ClInclude Include="jahbal\common\Material.h" />
+    <ClInclude Include="jahbal\Mesh.h" />
+    <ClInclude Include="jahbal\SubMesh.h" />
+    <ClInclude Include="jahbal\visuals\MeshVisual.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

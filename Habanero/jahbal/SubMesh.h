@@ -7,7 +7,7 @@
 
 #include "../libraries/DirectXTK/include/SimpleMath.h"
 
-/*
+
 using namespace DirectX;
 
 struct MeshVertex;
@@ -27,4 +27,3 @@ public:
 	ID3D11ShaderResourceView* m_diffuseSRV;
 	ID3D11ShaderResourceView* m_specSRV;
 };
-*/

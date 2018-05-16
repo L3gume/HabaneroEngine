@@ -7,6 +7,7 @@
 #include "engine/core/ecs/ecs.h"
 #include "../jahbal/renderers/JRenderer.h"
 
+/*
 class Mesh;
 class Material;
 
@@ -47,4 +48,5 @@ void VisualComponent::CreateMaterial()
 	//m_Material = new Material();
 }
 
+*/
 #endif

@@ -68,6 +68,7 @@ private:
 
     UINT m_4xMsaaQuality;
 };
+*/
 
 // DX Error Checking
 #if defined(DEBUG) | defined(_DEBUG)
@@ -90,4 +91,3 @@ private:
 
 #define ReleaseCOM(x) { if(x){ x->Release(); x = 0; } }
 
-*/

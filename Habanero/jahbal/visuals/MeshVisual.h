@@ -1,10 +1,15 @@
 #pragma once
+#include <DirectXMath.h>
+
+#include "libraries/DirectXTK/include/SimpleMath.h"
+#include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
 
-class BaseEntity;
 class JRenderer;
+class Mesh;
 
-/*
+using namespace DirectX;
+
 struct MeshVertex
 {
 	MeshVertex(float px, float py, float pz, float nx, float ny, float nz, float u, float v)
@@ -16,15 +21,16 @@ struct MeshVertex
 	Vector2 uv;
 };
 
-class MeshVisual : public ECS::VisualComponent
+
+class MeshVisual : public ECS::Component
 {
 public:
-	MeshVisual(BaseEntity* owner, JRenderer* renderer);
+	MeshVisual(ECS::Entity* owner, JRenderer* renderer);
 	~MeshVisual();
 
-	void CreateMesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList);
-	void CreateMesh(std::string filename);
+	//void CreateMesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList);
+	//void CreateMesh(std::string filename);
 
 	Mesh* m_Mesh;
 };
-*/
+
