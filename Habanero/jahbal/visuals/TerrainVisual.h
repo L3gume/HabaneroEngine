@@ -1,8 +1,15 @@
 #pragma once
+#include <DirectXMath.h>
+#include <d3d11.h>
+
+#include "libraries/DirectXTK/include/SimpleMath.h"
+#include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
 
-/*
 class JTerrain;
+class JRenderer;
+
+using namespace DirectX;
 
 struct TerrainVertex
 {
@@ -30,7 +37,8 @@ struct TerrainInfo
 	float cellSpacing;
 };
 
-class TerrainVisual : public VisualComponent
+
+class TerrainVisual : public ECS::Component
 {
 public:
 	TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info);
@@ -66,4 +74,3 @@ private:
 	void InitVB();
 	void InitIB();
 };
-*/

@@ -6,14 +6,14 @@
 #include "TerrainVisual.h"
 #include "engine/core/Engine.h"
 #include "engine/core/ecs/ecs.h"
-#include "../renderers/JRenderer.h"
-#include "../ShaderManager.h"
+#include "jahbal/renderers/JRenderer.h"
+#include "jahbal/ShaderManager.h"
 #include "jahbal/fx/JTerrain.h"
-/*
-TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) :
-	VisualComponent(owner, renderer, VisualType::TERRAIN), m_terrainInfo(info)
+
+TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) 
+	: m_terrainInfo(info) //VisualComponent(owner, renderer, VisualType::TERRAIN)
 {
-	m_JTerrain = ShaderManager::GetInstance()->m_JTerrain;
+	//m_JTerrain = ShaderManager::GetInstance()->m_JTerrain;
 
 	m_numPatchCols = ((info.width - 1) / sCellsPerPatch) + 1;
 	m_numPatchRows = ((info.height - 1) / sCellsPerPatch) + 1;
@@ -43,6 +43,7 @@ TerrainVisual::~TerrainVisual() {}
 
 void TerrainVisual::InitHeightMap()
 {
+
 	std::vector<UCHAR> in(m_terrainInfo.width * m_terrainInfo.height);
 
 	std::ifstream heightMapFile;
@@ -131,14 +132,14 @@ void TerrainVisual::InitHeightMapSRV()
 	data.SysMemPitch = m_terrainInfo.width * sizeof(DirectX::PackedVector::HALF);
 	data.SysMemSlicePitch = 0;
 	ID3D11Texture2D* hmapTex = 0;
-	HR(m_Renderer->GetGFXDevice()->CreateTexture2D(&texDesc, &data, &hmapTex));
+	//HR(m_Renderer->GetGFXDevice()->CreateTexture2D(&texDesc, &data, &hmapTex));
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
 	srvDesc.Format = texDesc.Format;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	srvDesc.Texture2D.MipLevels = -1;
-	HR(m_Renderer->GetGFXDevice()->CreateShaderResourceView(hmapTex, &srvDesc, &m_heightMapSRV));
+	//HR(m_Renderer->GetGFXDevice()->CreateShaderResourceView(hmapTex, &srvDesc, &m_heightMapSRV));
 
 	ReleaseCOM(hmapTex);
 }
@@ -196,7 +197,7 @@ void TerrainVisual::InitVB()
 
 	D3D11_SUBRESOURCE_DATA vinitData;
 	vinitData.pSysMem = &patchVertices[0];
-	HR(m_Renderer->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
+	//HR(m_Renderer->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 }
 
 void TerrainVisual::InitIB()
@@ -233,6 +234,5 @@ void TerrainVisual::InitIB()
 
 	D3D11_SUBRESOURCE_DATA iinitData;
 	iinitData.pSysMem = &indices[0];
-	HR(m_Renderer->GetGFXDevice()->CreateBuffer(&ibd, &iinitData, &m_IB));
+	//HR(m_Renderer->GetGFXDevice()->CreateBuffer(&ibd, &iinitData, &m_IB));
 }
-*/

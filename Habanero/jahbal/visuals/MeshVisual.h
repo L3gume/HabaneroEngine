@@ -1,5 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
+#include <d3d11.h>
 
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "engine/core/ecs/ecs.h"
