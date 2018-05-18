@@ -1,10 +1,9 @@
-#include "BillboardVisual.h"
 #include "engine/core/ecs/ecs.h"
-#include "../renderers/JRenderer.h"
+#include "jahbal/visuals/BillboardVisual.h"
+#include "jahbal/renderers/JRenderer.h"
 
-/*
-BillboardVisual::BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy) :
-	VisualComponent(owner, renderer, VisualType::BILLBOARD), m_vertex(owner->m_position, sx, sy)
+BillboardVisual::BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy) 
+	//: VisualComponent(owner, renderer, VisualType::BILLBOARD), m_vertex(owner->m_position, sx, sy)
 {
 	SetupBuffers();
 }
@@ -21,7 +20,6 @@ void BillboardVisual::SetupBuffers()
 	vbd.MiscFlags = 0;
 	D3D11_SUBRESOURCE_DATA vinitData;
 	vinitData.pSysMem = &m_vertex;
-	HR(Engine::GetInstance()->GetRenderer()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
+	//HR(Engine::GetInstance()->GetRenderer()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 }
-*/
 

@@ -40,8 +40,10 @@
     <ClCompile Include="jahbal\Mesh.cpp" />
     <ClCompile Include="jahbal\renderers\JRenderer.cpp" />
     <ClCompile Include="jahbal\Shader.cpp" />
+    <ClCompile Include="jahbal\ShaderManager.cpp" />
     <ClCompile Include="jahbal\SubMesh.cpp" />
     <ClCompile Include="jahbal\util\dxerr.cpp" />
+    <ClCompile Include="jahbal\visuals\BillBoardVisual.cpp" />
     <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
     <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
     <ClCompile Include="main.cpp" />
@@ -77,9 +79,11 @@
     <ClInclude Include="jahbal\Mesh.h" />
     <ClInclude Include="jahbal\renderers\JRenderer.h" />
     <ClInclude Include="jahbal\Shader.h" />
+    <ClInclude Include="jahbal\ShaderManager.h" />
     <ClInclude Include="jahbal\SubMesh.h" />
     <ClInclude Include="jahbal\util\d3dx11effect.h" />
     <ClInclude Include="jahbal\util\dxerr.h" />
+    <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
     <ClInclude Include="jahbal\visuals\MeshVisual.h" />
     <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
     <ClInclude Include="libraries\DirectXTK\include\Audio.h" />

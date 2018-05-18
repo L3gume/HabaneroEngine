@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "engine/core/ecs/ecs.h"
+
 class ECS::Entity;
 class Light;
 class Camera;

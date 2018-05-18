@@ -4,28 +4,28 @@
 #include <assert.h>
 #include <DirectXMath.h>
 #include <vector>
+#include <windows.h>
 
-#include "JRenderer.h"
 #include "engine/core/Scene.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
 #include "jahbal/visuals/MeshVisual.h"
 #include "jahbal/visuals/BillboardVisual.h"
 #include "jahbal/visuals/TerrainVisual.h"
+#include "jahbal/renderers/JRenderer.h"
 #include "jahbal/common/Material.h"
 #include "jahbal/Shader.h"
 #include "jahbal/Mesh.h"
-#include "../SubMesh.h"
-#include "libraries/DirectXTK/include/SimpleMath.h"
+#include "jahbal/SubMesh.h"
 #include "jahbal/common/Camera.h" 
-#include "../ShaderManager.h"
+#include "jahbal/ShaderManager.h"
 #include "jahbal/fx/JGeneric.h"
 #include "jahbal/fx/JBillboard.h"
 #include "jahbal/fx/JQuadTess.h"
 #include "jahbal/fx/JTerrain.h"
 #include "jahbal/common/Light.h"
+#include "libraries/DirectXTK/include/SimpleMath.h"
 
-/*
 using namespace DirectX;
 
 bool JRenderer::Init(int width, int height, HWND hMainWnd)
@@ -52,7 +52,7 @@ bool JRenderer::Init(int width, int height, HWND hMainWnd)
 
 void JRenderer::DrawScene(Scene* scene)
 {
-	
+	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
 
 	dc->ClearRenderTargetView(m_renderTargetView, reinterpret_cast<const float*>(&m_ClearColor));
@@ -79,12 +79,12 @@ void JRenderer::DrawScene(Scene* scene)
 	}
 
 	HR(m_swapChain->Present(0, 0));
-	
+	*/
 }
 
 void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point)
 {
-	
+	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -138,12 +138,12 @@ void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Lig
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	
+	*/
 }
 
 void JRenderer::DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point)
 {
-	
+	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	Vector3 eyePos = Vector3(cam->m_position);
@@ -184,12 +184,12 @@ void JRenderer::DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	
+	*/
 }
 
 void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 {
-	
+	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST);
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JTerrain->m_InputLayout);
@@ -228,7 +228,7 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	
+	*/
 }
 
 void JRenderer::InitBlendStates()
@@ -462,13 +462,13 @@ bool JRenderer::InitDX11(HWND hMainWnd)
 
     if (FAILED(hr))
     {
-        MessageBox(0, L"D3D11CreateDevice Failed.", 0, 0);
+        MessageBox(0, "D3D11CreateDevice Failed.", 0, 0);
         return false;
     }
 
     if (featureLevel != D3D_FEATURE_LEVEL_11_0)
     {
-        MessageBox(0, L"Direct3D Feature Level 11 unsupported.", 0, 0);
+        MessageBox(0, "Direct3D Feature Level 11 unsupported.", 0, 0);
         return false;
     }
 
@@ -535,4 +535,3 @@ bool JRenderer::InitDX11(HWND hMainWnd)
     return true;
 
 }
-*/

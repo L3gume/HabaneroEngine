@@ -1,7 +1,15 @@
 #pragma once
+#include <DirectXMath.h>
+#include <d3d11.h>
+
+#include "libraries/DirectXTK/include/SimpleMath.h"
+#include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
 
-/*
+using namespace DirectX;
+
+class JRenderer;
+
 struct BillBoardVertex
 {
 	BillBoardVertex(float px, float py, float pz, float sx, float sy)
@@ -14,7 +22,7 @@ struct BillBoardVertex
 	Vector2 size;
 };
 
-class BillboardVisual : public VisualComponent
+class BillboardVisual : public ECS::Component
 {
 public:
 	BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy);
@@ -27,4 +35,3 @@ public:
 	ID3D11ShaderResourceView* m_diffuseSRV;
 	ID3D11ShaderResourceView* m_specSRV;
 };
-*/

@@ -53,6 +53,8 @@
     <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
     <ClCompile Include="jahbal\common\Camera.cpp" />
     <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
+    <ClCompile Include="jahbal\ShaderManager.cpp" />
+    <ClCompile Include="jahbal\visuals\BillBoardVisual.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
@@ -110,6 +112,8 @@
     <ClInclude Include="jahbal\visuals\MeshVisual.h" />
     <ClInclude Include="jahbal\common\Camera.h" />
     <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
+    <ClInclude Include="jahbal\ShaderManager.h" />
+    <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

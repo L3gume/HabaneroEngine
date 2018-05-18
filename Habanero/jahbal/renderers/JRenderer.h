@@ -5,11 +5,10 @@
 #include <DirectXMath.h>
 #include <vector>
 
-#include "../util/dxerr.h"
+#include "jahbal/util/dxerr.h"
 #include "engine/core/ecs/ecs.h"
-#include "../libraries/DirectXTK/include/SimpleMath.h"
+#include "libraries/DirectXTK/include/SimpleMath.h"
 
-/*
 using namespace DirectX;
 
 class Scene;
@@ -68,7 +67,6 @@ private:
 
     UINT m_4xMsaaQuality;
 };
-*/
 
 // DX Error Checking
 #if defined(DEBUG) | defined(_DEBUG)
