@@ -5,7 +5,11 @@
 #ifndef HABANERO_GAMEMANAGER_H
 #define HABANERO_GAMEMANAGER_H
 
-#include <../engine/core/ecs/ecs.h>
+#include <windows.h>
+
+#include "engine/core/ecs/ecs.h"
+
+class JRenderer;
 
 namespace Core {
 
@@ -27,23 +31,37 @@ namespace Core {
 
         inline bool isInitialized() const { return m_bInitialized; }
         static inline double getCurTime() { return 0; }
-//        inline GLFWwindow* getWindow() const { return m_window; }
 
         inline ECS::EntityManager& getEntityManager() { return m_entityManager; }
         inline ECS::SystemManager& getSystemManager() { return m_systemManager; }
+		
+		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     private:
         Engine() = default;
 
+		bool initWindow();
+
         ECS::EntityManager m_entityManager;
         ECS::SystemManager m_systemManager;
-
-//        GLFWwindow* m_window; // Will most lilkely be removed at some point.
 
         float m_fCurTime = 0.f;
         float m_fLastTime = 0.f;
 
         bool m_bInitialized : 1;
         bool m_bShutdown    : 1;
+
+		// win32 window params
+		HINSTANCE		m_hAppInst;
+		HWND			m_hMainWnd;
+		bool			m_Minimized;
+		bool			m_Maximized;
+		bool			m_Resizing;
+		bool			m_Running;
+		int				m_ClientWidth;
+		int				m_ClientHeight;
+		std::wstring	m_MainWndCaption;
+
+		JRenderer* m_JRenderer;
 
 #if EDITOR
         bool m_bRunGame      : 1;

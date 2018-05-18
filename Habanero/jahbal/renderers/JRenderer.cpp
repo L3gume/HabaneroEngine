@@ -52,12 +52,12 @@ bool JRenderer::Init(int width, int height, HWND hMainWnd)
 
 void JRenderer::DrawScene(Scene* scene)
 {
-	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
 
 	dc->ClearRenderTargetView(m_renderTargetView, reinterpret_cast<const float*>(&m_ClearColor));
 	dc->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
+	/*
 	Camera* cam = scene->GetActiveCamera();
 	Vector3 eyePos = Vector3(cam->m_position);
 	Light* sun = nullptr;
@@ -78,8 +78,8 @@ void JRenderer::DrawScene(Scene* scene)
 		else if (visualComponent->m_visualType == VisualType::TERRAIN) DrawTerrainEntity(entity, cam);
 	}
 
-	HR(m_swapChain->Present(0, 0));
 	*/
+	HR(m_swapChain->Present(0, 0));
 }
 
 void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point)
@@ -462,13 +462,13 @@ bool JRenderer::InitDX11(HWND hMainWnd)
 
     if (FAILED(hr))
     {
-        MessageBox(0, "D3D11CreateDevice Failed.", 0, 0);
+        MessageBox(0, L"D3D11CreateDevice Failed.", 0, 0);
         return false;
     }
 
     if (featureLevel != D3D_FEATURE_LEVEL_11_0)
     {
-        MessageBox(0, "Direct3D Feature Level 11 unsupported.", 0, 0);
+        MessageBox(0, L"Direct3D Feature Level 11 unsupported.", 0, 0);
         return false;
     }
 

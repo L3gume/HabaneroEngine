@@ -1,12 +1,10 @@
 #include <thread>
+#include <windows.h>
 
 #include "engine/core/Engine.h"
 
-//
-// Following tutorial on:
-// http://www.opengl-tutorial.org
-//
-int main(int argc, char *argv[]) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
+	PSTR cmdLine, int showCmd){
 
     Core::Engine& gm = Core::Engine::getInstance();
     // -----------------------------------------------------------------------------------------------------------------
