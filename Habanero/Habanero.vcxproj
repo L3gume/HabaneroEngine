@@ -86,6 +86,42 @@
     <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
     <ClInclude Include="jahbal\visuals\MeshVisual.h" />
     <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
+    <ClInclude Include="libraries\assimp\include\ai_assert.h" />
+    <ClInclude Include="libraries\assimp\include\anim.h" />
+    <ClInclude Include="libraries\assimp\include\camera.h" />
+    <ClInclude Include="libraries\assimp\include\cexport.h" />
+    <ClInclude Include="libraries\assimp\include\cfileio.h" />
+    <ClInclude Include="libraries\assimp\include\cimport.h" />
+    <ClInclude Include="libraries\assimp\include\color4.h" />
+    <ClInclude Include="libraries\assimp\include\Compiler\poppack1.h" />
+    <ClInclude Include="libraries\assimp\include\Compiler\pstdint.h" />
+    <ClInclude Include="libraries\assimp\include\Compiler\pushpack1.h" />
+    <ClInclude Include="libraries\assimp\include\config.h" />
+    <ClInclude Include="libraries\assimp\include\DefaultLogger.hpp" />
+    <ClInclude Include="libraries\assimp\include\defs.h" />
+    <ClInclude Include="libraries\assimp\include\Exporter.hpp" />
+    <ClInclude Include="libraries\assimp\include\Importer.hpp" />
+    <ClInclude Include="libraries\assimp\include\importerdesc.h" />
+    <ClInclude Include="libraries\assimp\include\IOStream.hpp" />
+    <ClInclude Include="libraries\assimp\include\IOSystem.hpp" />
+    <ClInclude Include="libraries\assimp\include\light.h" />
+    <ClInclude Include="libraries\assimp\include\Logger.hpp" />
+    <ClInclude Include="libraries\assimp\include\LogStream.hpp" />
+    <ClInclude Include="libraries\assimp\include\material.h" />
+    <ClInclude Include="libraries\assimp\include\matrix3x3.h" />
+    <ClInclude Include="libraries\assimp\include\matrix4x4.h" />
+    <ClInclude Include="libraries\assimp\include\mesh.h" />
+    <ClInclude Include="libraries\assimp\include\metadata.h" />
+    <ClInclude Include="libraries\assimp\include\NullLogger.hpp" />
+    <ClInclude Include="libraries\assimp\include\postprocess.h" />
+    <ClInclude Include="libraries\assimp\include\ProgressHandler.hpp" />
+    <ClInclude Include="libraries\assimp\include\quaternion.h" />
+    <ClInclude Include="libraries\assimp\include\scene.h" />
+    <ClInclude Include="libraries\assimp\include\texture.h" />
+    <ClInclude Include="libraries\assimp\include\types.h" />
+    <ClInclude Include="libraries\assimp\include\vector2.h" />
+    <ClInclude Include="libraries\assimp\include\vector3.h" />
+    <ClInclude Include="libraries\assimp\include\version.h" />
     <ClInclude Include="libraries\DirectXTK\include\Audio.h" />
     <ClInclude Include="libraries\DirectXTK\include\CommonStates.h" />
     <ClInclude Include="libraries\DirectXTK\include\DDSTextureLoader.h" />
@@ -109,6 +145,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />
+    <None Include="libraries\assimp\include\color4.inl" />
+    <None Include="libraries\assimp\include\material.inl" />
+    <None Include="libraries\assimp\include\matrix3x3.inl" />
+    <None Include="libraries\assimp\include\matrix4x4.inl" />
+    <None Include="libraries\assimp\include\quaternion.inl" />
+    <None Include="libraries\assimp\include\vector2.inl" />
+    <None Include="libraries\assimp\include\vector3.inl" />
+    <None Include="libraries\assimp\lib\assimp.exp" />
     <None Include="libraries\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -170,8 +214,8 @@
       <AdditionalIncludeDirectories>./libraries;./;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>./libraries/assimp/lib;./libraries/DirectXTK/lib;./libraries/glfw/lib;./libraries</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp.lib;DirectXTK.lib;d3d11.lib;D3DCompiler.lib;Effects11d.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>{SolutionDir}\libraries\assimp\lib;{SolutionDir}\libraries\DirectXTK\lib;{SolutionDir}\libraries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.exp;DirectXTK.lib;d3d11.lib;D3DCompiler.lib;Effects11d.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

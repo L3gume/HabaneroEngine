@@ -14,7 +14,6 @@ void LogManager::printMessage(LogMessage _message) {
 
     if (found != m_messages.end()) {
         (*found).m_occurences++; // It already exists in the system, increment the occurrences
-        (*found).m_time = glfwGetTime();
     } else {
         m_messages.emplace_back(_message);
     }

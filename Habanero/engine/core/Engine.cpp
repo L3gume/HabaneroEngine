@@ -13,7 +13,6 @@
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
-#include "glfw/include/GLFW/glfw3.h"
 
 using namespace Core;
 
@@ -35,7 +34,7 @@ void Engine::init() {
 	m_JRenderer->Init(m_ClientWidth, m_ClientHeight, m_hMainWnd);
 }
 
-void Engine::gameLoop(const bool _editor) {
+void Engine::gameLoop() {
 
 	MSG msg{0};
 	while (m_Running) {

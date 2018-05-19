@@ -10,7 +10,7 @@
  */
 
 //#include <GL/glew.h>
-#include <common/gl3w.h>
-#include <GLFW/glfw3.h>
+//#include <common/gl3w.h>
+//#include <GLFW/glfw3.h>
 
 #endif //VAPEENGINE_VAPEGL_H
