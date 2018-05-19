@@ -8,7 +8,7 @@
 //#include <common/VapeGL.h>
 #include "InputMessage.h"
 
-namespace VapeInput {
+namespace Input {
     //
     // Interface for listeners (Abstract class)
     // Since it is abstract and has no method implementation, its header-only

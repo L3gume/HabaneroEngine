@@ -5,7 +5,7 @@
 #ifndef HABANERO_INPUTMESSAGE_H
 #define HABANERO_INPUTMESSAGE_H
 
-namespace VapeInput {
+namespace Input {
     /* Heard you liked bitmaps ;) */
     struct KeyboardInputMessage {
         bool KEY_SPACE          : 1;
