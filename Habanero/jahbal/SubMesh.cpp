@@ -3,7 +3,7 @@
 #include "jahbal/Mesh.h"
 #include "jahbal/SubMesh.h"
 #include "jahbal/renderers/JRenderer.h"
-#include "jahbal/visuals/MeshVisual.h"
+#include "jahbal/components/MeshVisual.h"
 
 SubMesh::SubMesh(std::vector<MeshVertex> v, std::vector<int> i) :
 	m_vertexList(v), m_indexList(i), m_diffuseSRV(0), m_specSRV(0)

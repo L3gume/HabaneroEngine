@@ -1,5 +1,5 @@
 #include "JTerrain.h"
-#include "../renderers/JRenderer.h"
+#include "engine/core/systems/RenderSystem.h"
 
 JTerrain::JTerrain(ID3D11Device* device)
 	: Shader(device)

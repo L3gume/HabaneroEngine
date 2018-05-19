@@ -1,8 +1,9 @@
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
-#include "jahbal/visuals/MeshVisual.h"
+#include "jahbal/components/MeshVisual.h"
 #include "jahbal/Mesh.h"
 
+/*
 MeshVisual::MeshVisual(ECS::Entity* owner, JRenderer* renderer) 
 	//: VisualComponent(owner, renderer, VisualType::MESH), m_Mesh(nullptr)
 {

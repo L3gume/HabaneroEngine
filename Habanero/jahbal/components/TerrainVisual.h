@@ -44,9 +44,9 @@ public:
 	TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info);
 	~TerrainVisual();
 
-	void SetupBuffers();
-	void InitHeightMap();
-	void InitHeightMapSRV();
+	//void SetupBuffers();
+	//void InitHeightMap();
+	//void InitHeightMapSRV();
 
 	float GetWidth() const { return (m_terrainInfo.width - 1) * m_terrainInfo.cellSpacing; }
 	float GetDepth() const { return (m_terrainInfo.height - 1) * m_terrainInfo.cellSpacing; }
@@ -67,10 +67,10 @@ public:
 	int m_numPatchQuadFaces;
 
 private:
-	void SmoothHeightMap();
-	float ComputeHeightAverage(int x, int y);
-	boolean isWithinHeightMap(int i , int j);
+	//void SmoothHeightMap();
+	//float ComputeHeightAverage(int x, int y);
+	//boolean isWithinHeightMap(int i , int j);
 
-	void InitVB();
-	void InitIB();
+	//void InitVB();
+	//void InitIB();
 };

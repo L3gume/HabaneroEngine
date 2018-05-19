@@ -4,7 +4,7 @@
 #include "engine/core/components/VisualComponent.h"
 #include "jahbal/Mesh.h"
 #include "jahbal/SubMesh.h"
-#include "jahbal/visuals/MeshVisual.h"
+#include "jahbal/components/MeshVisual.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "DirectXTK/include/WICTextureLoader.h"
 
@@ -21,7 +21,7 @@ Mesh::Mesh(VisualComponent* owner, std::string filename) :
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_FlipUVs); 
 
-	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
+	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
 	{
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
 		return;

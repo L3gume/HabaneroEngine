@@ -1,5 +1,5 @@
 #include "JGeneric.h"
-#include "../renderers/JRenderer.h"
+#include "engine/core/systems/RenderSystem.h"
 
 JGeneric::JGeneric(ID3D11Device* device)
 	: Shader(device)

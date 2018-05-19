@@ -28,7 +28,7 @@ public:
 	BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy);
 	~BillboardVisual();
 
-	void SetupBuffers();
+	//void SetupBuffers();
 
 	BillBoardVertex m_vertex;
 	ID3D11Buffer* m_VB;

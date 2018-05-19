@@ -2,8 +2,8 @@
 #include <fstream>
 #include <vector>
 
-#include "Shader.h"
-#include "renderers/JRenderer.h"
+#include "jahbal/Shader.h"
+#include "engine/core/systems/RenderSystem.h"
 
 Shader::Shader(ID3D11Device* device)
 {

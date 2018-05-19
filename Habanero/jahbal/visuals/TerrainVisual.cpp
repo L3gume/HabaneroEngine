@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -236,3 +237,4 @@ void TerrainVisual::InitIB()
 	iinitData.pSysMem = &indices[0];
 	//HR(m_Renderer->GetGFXDevice()->CreateBuffer(&ibd, &iinitData, &m_IB));
 }
+*/

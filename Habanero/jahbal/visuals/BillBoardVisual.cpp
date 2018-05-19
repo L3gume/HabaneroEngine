@@ -1,7 +1,8 @@
 #include "engine/core/ecs/ecs.h"
-#include "jahbal/visuals/BillboardVisual.h"
+#include "jahbal/components/BillboardVisual.h"
 #include "jahbal/renderers/JRenderer.h"
 
+/*
 BillboardVisual::BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy) 
 	//: VisualComponent(owner, renderer, VisualType::BILLBOARD), m_vertex(owner->m_position, sx, sy)
 {
@@ -23,3 +24,4 @@ void BillboardVisual::SetupBuffers()
 	//HR(Engine::GetInstance()->GetRenderer()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 }
 
+*/

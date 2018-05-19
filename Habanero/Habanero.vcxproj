@@ -33,6 +33,8 @@
     <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
     <ClCompile Include="jahbal\common\Camera.cpp" />
     <ClCompile Include="jahbal\common\Light.cpp" />
+    <ClCompile Include="jahbal\creators\BufferCreator.cpp" />
+    <ClCompile Include="jahbal\creators\MeshCreator.cpp" />
     <ClCompile Include="jahbal\fx\JBillboard.cpp" />
     <ClCompile Include="jahbal\fx\JGeneric.cpp" />
     <ClCompile Include="jahbal\fx\JQuadTess.cpp" />
@@ -72,6 +74,8 @@
     <ClInclude Include="jahbal\common\Camera.h" />
     <ClInclude Include="jahbal\common\Light.h" />
     <ClInclude Include="jahbal\common\Material.h" />
+    <ClInclude Include="jahbal\creators\BufferCreator.h" />
+    <ClInclude Include="jahbal\creators\MeshCreator.h" />
     <ClInclude Include="jahbal\fx\JBillboard.h" />
     <ClInclude Include="jahbal\fx\JGeneric.h" />
     <ClInclude Include="jahbal\fx\JQuadTess.h" />
@@ -83,9 +87,9 @@
     <ClInclude Include="jahbal\SubMesh.h" />
     <ClInclude Include="jahbal\util\d3dx11effect.h" />
     <ClInclude Include="jahbal\util\dxerr.h" />
-    <ClInclude Include="jahbal\visuals\BillboardVisual.h" />
-    <ClInclude Include="jahbal\visuals\MeshVisual.h" />
-    <ClInclude Include="jahbal\visuals\TerrainVisual.h" />
+    <ClInclude Include="jahbal\components\BillboardVisual.h" />
+    <ClInclude Include="jahbal\components\MeshVisual.h" />
+    <ClInclude Include="jahbal\components\TerrainVisual.h" />
     <ClInclude Include="libraries\DirectXTK\include\Audio.h" />
     <ClInclude Include="libraries\DirectXTK\include\CommonStates.h" />
     <ClInclude Include="libraries\DirectXTK\include\DDSTextureLoader.h" />

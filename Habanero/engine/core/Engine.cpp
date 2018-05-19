@@ -30,9 +30,6 @@ void Engine::init() {
 	m_Running = true;
 
 	initWindow();
-
-	m_JRenderer = new JRenderer();
-	m_JRenderer->Init(m_ClientWidth, m_ClientHeight, m_hMainWnd);
 }
 
 void Engine::gameLoop(const bool _editor) {
@@ -44,7 +41,7 @@ void Engine::gameLoop(const bool _editor) {
 			DispatchMessage(&msg);
 		}
 		else {
-			m_JRenderer->DrawScene(nullptr);
+            // game loop goes here
 		}
 	}
 }
