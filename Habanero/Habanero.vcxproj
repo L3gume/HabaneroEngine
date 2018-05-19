@@ -87,33 +87,9 @@
     <ClInclude Include="jahbal\SubMesh.h" />
     <ClInclude Include="jahbal\util\d3dx11effect.h" />
     <ClInclude Include="jahbal\util\dxerr.h" />
-    <ClInclude Include="jahbal\components\BillboardVisual.h" />
-    <ClInclude Include="jahbal\components\MeshVisual.h" />
-    <ClInclude Include="jahbal\components\TerrainVisual.h" />
-    <ClInclude Include="libraries\DirectXTK\include\Audio.h" />
-    <ClInclude Include="libraries\DirectXTK\include\CommonStates.h" />
-    <ClInclude Include="libraries\DirectXTK\include\DDSTextureLoader.h" />
-    <ClInclude Include="libraries\DirectXTK\include\DirectXHelpers.h" />
-    <ClInclude Include="libraries\DirectXTK\include\Effects.h" />
-    <ClInclude Include="libraries\DirectXTK\include\GamePad.h" />
-    <ClInclude Include="libraries\DirectXTK\include\GeometricPrimitive.h" />
-    <ClInclude Include="libraries\DirectXTK\include\GraphicsMemory.h" />
-    <ClInclude Include="libraries\DirectXTK\include\Keyboard.h" />
-    <ClInclude Include="libraries\DirectXTK\include\Model.h" />
-    <ClInclude Include="libraries\DirectXTK\include\Mouse.h" />
-    <ClInclude Include="libraries\DirectXTK\include\PostProcess.h" />
-    <ClInclude Include="libraries\DirectXTK\include\PrimitiveBatch.h" />
-    <ClInclude Include="libraries\DirectXTK\include\ScreenGrab.h" />
-    <ClInclude Include="libraries\DirectXTK\include\SimpleMath.h" />
-    <ClInclude Include="libraries\DirectXTK\include\SpriteBatch.h" />
-    <ClInclude Include="libraries\DirectXTK\include\SpriteFont.h" />
-    <ClInclude Include="libraries\DirectXTK\include\VertexTypes.h" />
-    <ClInclude Include="libraries\DirectXTK\include\WICTextureLoader.h" />
-    <ClInclude Include="libraries\DirectXTK\include\XboxDDSTextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />
-    <None Include="libraries\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8BA86B94-0239-4011-A004-DA5F20D5C11D}</ProjectGuid>

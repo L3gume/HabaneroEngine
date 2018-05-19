@@ -24,7 +24,7 @@ namespace Core {
         void operator=(Engine const &) = delete;
 
         void init(); // will involve starting the systems in the right order
-        void gameLoop(bool _editor);
+        void gameLoop();
         void shutDown() { m_bShutdown = true; }
 
         void signalRunGame();

@@ -6,7 +6,7 @@
 #define HABANERO_TRANSFORMCOMPONENT_H
 
 #include "engine/core/ecs/ecs.h"
-#include "glm\vec3.hpp"
+#include "glm/vec3.hpp"
 
 struct TransformComponent : ECS::Component {
     TransformComponent(glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _scl) : position(_pos), rotation(_rot), scale(_scl) {}

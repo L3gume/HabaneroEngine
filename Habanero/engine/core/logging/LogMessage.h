@@ -8,10 +8,6 @@
 #include <string>
 #include <sstream>
 
-#include "glfw/include/GLFW/glfw3.h"
-
-//#include "../core/Engine.h"
-//#include <common/VapeGL.h>
 namespace VapeLog {
 
     enum LogTag {
@@ -45,7 +41,7 @@ namespace VapeLog {
     struct LogMessage {
         LogMessage(LogTag _tag, LogType _type, LogSeverity _severity, std::string _str) :
                 m_tag(_tag), m_type(_type), m_severity(_severity), m_str(std::move(_str)), m_occurences(1) {
-            m_time = glfwGetTime();
+            m_time = 0;
         }
 
         // Compares their content

@@ -11,6 +11,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
     // The Game loop runs in a separate thread in order to be able to use the UI at the same time
     // -----------------------------------------------------------------------------------------------------------------
     gm.init();
-    gm.gameLoop(true);
+    gm.gameLoop();
     return 0;
 }

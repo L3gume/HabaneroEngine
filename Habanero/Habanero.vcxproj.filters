@@ -121,6 +121,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />
-    <None Include="libraries\DirectXTK\include\SimpleMath.inl" />
   </ItemGroup>
 </Project>
