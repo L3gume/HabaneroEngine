@@ -8,7 +8,7 @@
 
 using namespace Input;
 
-void InputManager::init(HWND _window) {
+void InputManager::init(const HWND _window) {
 	// Initialize the keyboard and mouse
 	m_pKeyboard = std::make_unique<DirectX::Keyboard>();
 	m_pMouse = std::make_unique<DirectX::Mouse>();
