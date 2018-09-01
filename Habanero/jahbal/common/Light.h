@@ -5,7 +5,7 @@
 
 using namespace DirectX;
 
-class TransformComponent;
+namespace jahbal {
 
 class LightData
 {
@@ -60,18 +60,20 @@ public:
 enum LightType
 {
 	Directional = 0,
-	Point		= 1,
-	Spot		= 2
+	Point = 1,
+	Spot = 2
 };
 
 class Light
 {
 public:
-	Light(LightType lightType);
+	Light(LightType lightType) : m_LightType(lightType) {}
 	LightType m_LightType;
 
 	void Update(float dt) {}
 
 	LightData* m_LightData;
 };
+
+}  // namespace jahbal
 

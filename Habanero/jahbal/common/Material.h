@@ -6,6 +6,7 @@
 
 using namespace DirectX;
 
+namespace jahbal {
 class Material
 {
 public:
@@ -15,4 +16,5 @@ public:
 	Vector4 Diffuse;
 	Vector4 Specular;
 };
+}  // namespace jahbal
 

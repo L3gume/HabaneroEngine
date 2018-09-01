@@ -1,7 +1,10 @@
 #include "Camera.h"
-//#include "InputManager.h"
 
-Camera::Camera(float radius, Vector3 target)
+#include "libraries/DirectXTK/include/SimpleMath.h"
+
+namespace jahbal {
+
+Camera::Camera(float radius, DirectX::Vector3 target)
 {
 	m_Phi = 0;
 	m_Theta = 0;
@@ -12,9 +15,9 @@ Camera::Camera(float radius, Vector3 target)
 	m_target = target;
 }
 
-Camera::Camera(float radius) : Camera(radius, Vector3::Zero) {}
+Camera::Camera(float radius) : Camera(radius, DirectX::Vector3::Zero) {}
 
-Camera::Camera() : Camera(20.0, Vector3::Zero) {}
+Camera::Camera() : Camera(20.0, DirectX::Vector3::Zero) {}
 
 void Camera::Update(float dt)
 {
@@ -44,12 +47,17 @@ void Camera::Update(float dt)
 
 void Camera::UpdatePosition()
 {
-	m_position = Vector3(m_Radius * cosf(m_Phi) * cosf(m_Theta),
+	m_position = DirectX::Vector3(m_Radius * cosf(m_Phi) * cosf(m_Theta),
 		m_Radius * sinf(m_Phi),
 		m_Radius * cosf(m_Phi) * sinf(m_Theta));
 }
-Matrix Camera::GetLookAtMatrix()
+DirectX::Matrix Camera::GetLookAtMatrix()
 {
-	return Matrix::CreateLookAtLH(Vector3(m_position), Vector3(m_target), Vector3(0.0f, 1.0f, 0.0f));
+	return DirectX::Matrix::CreateLookAtLH(
+		DirectX::Vector3(m_position),
+		DirectX::Vector3(m_target),
+		DirectX::Vector3(0.0f, 1.0f, 0.0f));
 }
+
+}  // namespace jahbal
 

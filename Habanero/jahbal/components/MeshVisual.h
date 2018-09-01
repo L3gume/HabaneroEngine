@@ -1,13 +1,16 @@
 #pragma once
 #include <DirectXMath.h>
 #include <d3d11.h>
+#include <memory>
 
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
+#include "jahbal/Mesh.h"
 
 class JRenderer;
 class Mesh;
+class RenderSystem;
 
 using namespace DirectX;
 
@@ -26,12 +29,13 @@ struct MeshVertex
 class MeshVisual : public ECS::Component
 {
 public:
-	MeshVisual(ECS::Entity* owner, JRenderer* renderer);
-	~MeshVisual();
+	MeshVisual(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
+		m_Mesh(new Mesh(vertexList, indexList)) {}
+	MeshVisual(const std::string& filename) :
+		m_Mesh(new Mesh(filename)) {}
 
-	//void CreateMesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList);
-	//void CreateMesh(std::string filename);
+	~MeshVisual() {}
 
-	Mesh* m_Mesh;
+	std::unique_ptr<Mesh> m_Mesh;
 };
 

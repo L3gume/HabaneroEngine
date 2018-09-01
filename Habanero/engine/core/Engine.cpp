@@ -29,6 +29,8 @@ void Engine::init() {
 	m_Running = true;
 
 	initWindow();
+	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
+		m_hMainWnd);
 }
 
 void Engine::gameLoop() {
@@ -40,7 +42,8 @@ void Engine::gameLoop() {
 			DispatchMessage(&msg);
 		}
 		else {
-            // game loop goes here
+			// TODO calculate deltaTime and pass it in
+			m_systemManager.update(0);
 		}
 	}
 }

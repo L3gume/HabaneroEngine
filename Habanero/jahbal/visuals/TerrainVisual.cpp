@@ -10,6 +10,7 @@
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/ShaderManager.h"
 #include "jahbal/fx/JTerrain.h"
+#include "jahbal/util/dxmacros.h"
 
 TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) 
 	: m_terrainInfo(info) //VisualComponent(owner, renderer, VisualType::TERRAIN)

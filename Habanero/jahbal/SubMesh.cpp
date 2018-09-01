@@ -4,6 +4,7 @@
 #include "jahbal/SubMesh.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/components/MeshVisual.h"
+#include "jahbal/util/dxmacros.h"
 
 SubMesh::SubMesh(std::vector<MeshVertex> v, std::vector<int> i) :
 	m_vertexList(v), m_indexList(i), m_diffuseSRV(0), m_specSRV(0)

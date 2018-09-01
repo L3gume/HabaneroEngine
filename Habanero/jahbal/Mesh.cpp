@@ -1,22 +1,25 @@
 #include <d3d11.h>
 #include <iostream>
 
+#include "engine/core/Engine.h"
 #include "engine/core/components/VisualComponent.h"
+#include "engine/core/systems/RenderSystem.h"
 #include "jahbal/Mesh.h"
 #include "jahbal/SubMesh.h"
 #include "jahbal/components/MeshVisual.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/util/dxmacros.h"
 #include "DirectXTK/include/WICTextureLoader.h"
 
 
-Mesh::Mesh(VisualComponent* owner, std::vector<MeshVertex> vertexList, std::vector<int> indexList) :
-	m_componentOwner(owner), m_meshFullPath(""), m_meshFolder("")
+Mesh::Mesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList) :
+	m_meshFullPath(""), m_meshFolder("")
 {
 	m_subMeshList.push_back(SubMesh(vertexList, indexList));
 }
 
-Mesh::Mesh(VisualComponent* owner, std::string filename) :
-	m_componentOwner(owner), m_meshFullPath(filename), m_meshFolder(getFolderFromFullPath(filename))
+Mesh::Mesh(std::string filename) :
+	m_meshFullPath(filename), m_meshFolder(getFolderFromFullPath(filename))
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_FlipUVs); 
@@ -83,15 +86,13 @@ bool Mesh::createSRVFromAssimpMat(aiMaterial* mat, aiTextureType type, ID3D11Sha
 	std::string path = m_meshFolder + str.C_Str();
 	std::wstring wc = std::wstring(path.begin(), path.end());
 
-	/*
+	
 	CreateWICTextureFromFile(
-		Engine::GetInstance()->GetRenderer()->GetGFXDevice(),
-		Engine::GetInstance()->GetRenderer()->GetGFXDeviceContext(),
+		Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>()->GetGFXDevice(),
+		Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>()->GetGFXDeviceContext(),
 		wc.c_str(),
 		&texResource, srv);
 	ReleaseCOM(texResource);
-	*/
-	
 
 	return srv == nullptr;
 }

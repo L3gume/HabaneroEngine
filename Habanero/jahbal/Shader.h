@@ -21,39 +21,39 @@ public:
 
 
 #define WVP_DEC	\
-	void SetWorldViewProj(Matrix M) { WorldViewProj->SetMatrix(reinterpret_cast<const float*>(&M)); }	\
+	void SetWorldViewProj(DirectX::Matrix M) { WorldViewProj->SetMatrix(reinterpret_cast<const float*>(&M)); }	\
 	ID3DX11EffectMatrixVariable* WorldViewProj;	\
 
 #define WORLD_DEC	\
-	void SetWorld(Matrix M) { World->SetMatrix(reinterpret_cast<const float*>(&M)); }	\
+	void SetWorld(DirectX::Matrix M) { World->SetMatrix(reinterpret_cast<const float*>(&M)); }	\
 	ID3DX11EffectMatrixVariable* World;	\
 
 #define WOLRDINV_DEC	\
-	void SetWorldInvTranspose(Matrix M) { WorldInvTranspose->SetMatrix(reinterpret_cast<const float*>(&M)); }	\
+	void SetWorldInvTranspose(DirectX::Matrix M) { WorldInvTranspose->SetMatrix(reinterpret_cast<const float*>(&M)); }	\
 	ID3DX11EffectMatrixVariable* WorldInvTranspose;	\
 
 #define TPARAMS_DEC \
-	void SetTessParams(const Vector4& v) {TessParams->SetRawValue(&v, 0, sizeof(Vector4));} \
+	void SetTessParams(const DirectX::Vector4& v) {TessParams->SetRawValue(&v, 0, sizeof(Vector4));} \
 	ID3DX11EffectVectorVariable* TessParams; \
 
 #define VP_DEC \
-	void SetViewProj(Matrix M) {ViewProj->SetMatrix(reinterpret_cast<const float*>(&M));}	\
+	void SetViewProj(DirectX::Matrix M) {ViewProj->SetMatrix(reinterpret_cast<const float*>(&M));}	\
 	ID3DX11EffectMatrixVariable* ViewProj;	\
 
 #define EYEPOS_DEC																				\
-	void SetEyePosW(const Vector3& v) { EyePosW->SetRawValue(&v, 0, sizeof(Vector3)); }			\
+	void SetEyePosW(const DirectX::Vector3& v) { EyePosW->SetRawValue(&v, 0, sizeof(Vector3)); }			\
 	ID3DX11EffectVectorVariable* EyePosW;															\
 
 #define DLIGHT_DEC	\
-	void SetDLight(const LightData* data) { DirectionalLight->SetRawValue(data, 0, sizeof(DLightData)); }	\
+	void SetDLight(const jahbal::LightData* data) { DirectionalLight->SetRawValue(data, 0, sizeof(jahbal::DLightData)); }	\
 	ID3DX11EffectVariable* DirectionalLight;	\
 
 #define PLIGHT_DEC	\
-	void SetPLight(const LightData* data) { PointLight->SetRawValue(data, 0, sizeof(PLightData)); }	\
+	void SetPLight(const jahbal::LightData* data) { PointLight->SetRawValue(data, 0, sizeof(jahbal::PLightData)); }	\
 	ID3DX11EffectVariable* PointLight;	\
 
 #define MAT_DEC	\
-	void SetMaterial(const Material* mat) { Mat->SetRawValue(mat, 0, sizeof(Material)); }	\
+	void SetMaterial(const jahbal::Material* mat) { Mat->SetRawValue(mat, 0, sizeof(jahbal::Material)); }	\
 	ID3DX11EffectVariable* Mat;	\
 
 #define DIFFUSE_DEC	\

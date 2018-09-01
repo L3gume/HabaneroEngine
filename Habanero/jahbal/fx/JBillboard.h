@@ -1,7 +1,7 @@
 #pragma once
 
 #include "jahbal/Shader.h"
-#include "../libraries/DirectXTK/include/SimpleMath.h"
+#include "libraries/DirectXTK/include/SimpleMath.h"
 #include "jahbal/common/Light.h"
 #include "jahbal/common/Material.h"
 
