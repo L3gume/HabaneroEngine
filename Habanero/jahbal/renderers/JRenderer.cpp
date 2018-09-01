@@ -10,9 +10,9 @@
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
 #include "engine/core/systems/RenderSystem.h"
-#include "jahbal/components/MeshVisual.h"
-#include "jahbal/components/BillboardVisual.h"
-#include "jahbal/components/TerrainVisual.h"
+#include "jahbal/components/MeshComponent.h"
+#include "jahbal/components/BillboardComponent.h"
+#include "jahbal/components/TerrainComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/common/Material.h"
 #include "jahbal/Shader.h"
@@ -98,8 +98,8 @@ void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Lig
 		ShaderManager::GetInstance()->m_JGeneric->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JGeneric->SetEyePosW(eyePos);
 
-		MeshVisual* meshVisual = (MeshVisual*)entity->m_VisualComponent;
-		Mesh* mesh = meshVisual->m_Mesh;
+		MeshComponent* MeshComponent = (MeshComponent*)entity->m_VisualComponent;
+		Mesh* mesh = MeshComponent->m_Mesh;
 		for (unsigned int s = 0; s < mesh->m_subMeshList.size(); s++)
 		{
 			SubMesh* subMesh = &mesh->m_subMeshList[s];
@@ -151,7 +151,7 @@ void JRenderer::DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun
 		ShaderManager::GetInstance()->m_JBillboard->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JBillboard->SetEyePosW(eyePos);
 
-		BillboardVisual* boardVisual = (BillboardVisual*)entity->m_VisualComponent;
+		BillboardComponent* boardVisual = (BillboardComponent*)entity->m_VisualComponent;
 
 		UINT stride = sizeof(BillBoardVertex);
 		UINT offset = 0;
@@ -181,12 +181,12 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	dc->OMSetBlendState(m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
 
-	TerrainVisual* terrainVisual = (TerrainVisual*)entity->m_VisualComponent;
+	TerrainComponent* TerrainComponent = (TerrainComponent*)entity->m_VisualComponent;
 
 	UINT stride = sizeof(TerrainVertex);
 	UINT offset = 0;
-	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &terrainVisual->m_VB, &stride, &offset);
-	GetGFXDeviceContext()->IASetIndexBuffer(terrainVisual->m_IB, DXGI_FORMAT_R16_UINT, 0);
+	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &TerrainComponent->m_VB, &stride, &offset);
+	GetGFXDeviceContext()->IASetIndexBuffer(TerrainComponent->m_IB, DXGI_FORMAT_R16_UINT, 0);
 
 	Vector3 eyePos = Vector3(cam->m_position);
 	Matrix view = cam->GetLookAtMatrix();
@@ -195,7 +195,7 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	ShaderManager::GetInstance()->m_JTerrain->SetEyePosW(eyePos);
 	ShaderManager::GetInstance()->m_JTerrain->SetViewProj(VP);
 
-	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(terrainVisual->m_heightMapSRV);
+	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(TerrainComponent->m_heightMapSRV);
 	ShaderManager::GetInstance()->m_JTerrain->SetTessParams(Vector4(0, 1000, 0, 6));
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JTerrain->Tech;
@@ -204,7 +204,7 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
 		activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-		GetGFXDeviceContext()->DrawIndexed(terrainVisual->m_numPatchQuadFaces * 4, 0, 0);
+		GetGFXDeviceContext()->DrawIndexed(TerrainComponent->m_numPatchQuadFaces * 4, 0, 0);
 	}
 
 	dc->RSSetState(0);

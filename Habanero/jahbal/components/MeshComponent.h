@@ -26,15 +26,15 @@ struct MeshVertex
 };
 
 
-class MeshVisual : public ECS::Component
+struct MeshComponent : public ECS::Component
 {
 public:
-	MeshVisual(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
+	MeshComponent(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
 		m_Mesh(new Mesh(vertexList, indexList)) {}
-	MeshVisual(const std::string& filename) :
+	MeshComponent(const std::string& filename) :
 		m_Mesh(new Mesh(filename)) {}
 
-	~MeshVisual() {}
+	~MeshComponent() {}
 
 	std::unique_ptr<Mesh> m_Mesh;
 };

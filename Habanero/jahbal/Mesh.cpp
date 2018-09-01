@@ -6,7 +6,7 @@
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/Mesh.h"
 #include "jahbal/SubMesh.h"
-#include "jahbal/components/MeshVisual.h"
+#include "jahbal/components/MeshComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/util/dxmacros.h"
 #include "DirectXTK/include/WICTextureLoader.h"

@@ -95,6 +95,9 @@
     <ClInclude Include="jahbal\util\dxmacros.h" />
     <ClInclude Include="jahbal\components\BillboardVisual.h" />
     <ClInclude Include="jahbal\components\MeshVisual.h" />
+    <ClInclude Include="jahbal\components\BillboardComponent.h" />
+    <ClInclude Include="jahbal\components\MeshComponent.h" />
+    <ClInclude Include="jahbal\components\TerrainComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

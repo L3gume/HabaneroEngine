@@ -24,12 +24,12 @@ struct BillBoardVertex
 	Vector2 size;
 };
 
-struct BillboardVisual : public ECS::Component
+struct BillboardComponent : public ECS::Component
 {
 public:
-	BillboardVisual(float sx, float sy) : 
+	BillboardComponent(float sx, float sy) : 
 		m_vertex(Vector3::Zero, sx, sy) { SetupBuffers(); }
-	~BillboardVisual() 
+	~BillboardComponent() 
 	{
 		if (m_diffuseSRV) m_diffuseSRV->Release();
 		if (m_specSRV) m_specSRV->Release();

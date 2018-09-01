@@ -3,7 +3,7 @@
 #include "jahbal/creators/MeshCreator.h"
 #include "jahbal/Mesh.h"
 #include "jahbal/SubMesh.h"
-#include "jahbal/components/MeshVisual.h"
+#include "jahbal/components/MeshComponent.h"
 
 Mesh* MeshCreator::createMesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList) {
     return nullptr;
