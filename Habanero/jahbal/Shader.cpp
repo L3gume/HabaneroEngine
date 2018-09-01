@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "jahbal/Shader.h"
+#include "jahbal/util/dxmacros.h"
 #include "engine/core/systems/RenderSystem.h"
 
 Shader::Shader(ID3D11Device* device)

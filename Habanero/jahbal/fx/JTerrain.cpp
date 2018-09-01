@@ -1,5 +1,7 @@
 #include "JTerrain.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/util/dxmacros.h"
+
 
 JTerrain::JTerrain(ID3D11Device* device)
 	: Shader(device)

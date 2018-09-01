@@ -1,5 +1,7 @@
 #include "JGeneric.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/util/dxmacros.h"
+
 
 JGeneric::JGeneric(ID3D11Device* device)
 	: Shader(device)

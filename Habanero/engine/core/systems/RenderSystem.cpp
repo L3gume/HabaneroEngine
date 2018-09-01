@@ -9,6 +9,7 @@
 #include "engine/core/Engine.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/util/dxmacros.h"
 
 using namespace DirectX;
 

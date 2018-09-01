@@ -44,8 +44,6 @@
     <ClCompile Include="jahbal\ShaderManager.cpp" />
     <ClCompile Include="jahbal\SubMesh.cpp" />
     <ClCompile Include="jahbal\util\dxerr.cpp" />
-    <ClCompile Include="jahbal\visuals\BillBoardVisual.cpp" />
-    <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />
     <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -73,6 +71,8 @@
     <ClInclude Include="jahbal\common\Camera.h" />
     <ClInclude Include="jahbal\common\Light.h" />
     <ClInclude Include="jahbal\common\Material.h" />
+    <ClInclude Include="jahbal\components\BillboardVisual.h" />
+    <ClInclude Include="jahbal\components\MeshVisual.h" />
     <ClInclude Include="jahbal\creators\BufferCreator.h" />
     <ClInclude Include="jahbal\creators\MeshCreator.h" />
     <ClInclude Include="jahbal\fx\JBillboard.h" />
@@ -86,6 +86,7 @@
     <ClInclude Include="jahbal\SubMesh.h" />
     <ClInclude Include="jahbal\util\d3dx11effect.h" />
     <ClInclude Include="jahbal\util\dxerr.h" />
+    <ClInclude Include="jahbal\util\dxmacros.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

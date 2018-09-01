@@ -3,12 +3,14 @@
 #include <d3d11.h>
 
 #include "libraries/DirectXTK/include/SimpleMath.h"
+#include "engine/core/Engine.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
+#include "engine/core/systems/RenderSystem.h"
+#include "jahbal/renderers/JRenderer.h"
+#include "jahbal/util/dxmacros.h"
 
 using namespace DirectX;
-
-class JRenderer;
 
 struct BillBoardVertex
 {
@@ -22,16 +24,35 @@ struct BillBoardVertex
 	Vector2 size;
 };
 
-class BillboardVisual : public ECS::Component
+struct BillboardVisual : public ECS::Component
 {
 public:
-	BillboardVisual(ECS::Entity* owner, JRenderer* renderer, float sx, float sy);
-	~BillboardVisual();
-
-	//void SetupBuffers();
+	BillboardVisual(float sx, float sy) : 
+		m_vertex(Vector3::Zero, sx, sy) { SetupBuffers(); }
+	~BillboardVisual() 
+	{
+		if (m_diffuseSRV) m_diffuseSRV->Release();
+		if (m_specSRV) m_specSRV->Release();
+	}
 
 	BillBoardVertex m_vertex;
 	ID3D11Buffer* m_VB;
 	ID3D11ShaderResourceView* m_diffuseSRV;
 	ID3D11ShaderResourceView* m_specSRV;
+	RenderSystem* m_renderSystem;
+
+	void SetupBuffers()
+	{
+		D3D11_BUFFER_DESC vbd;
+		vbd.Usage = D3D11_USAGE_IMMUTABLE;
+		vbd.ByteWidth = sizeof(BillBoardVertex);
+		vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vbd.CPUAccessFlags = 0;
+		vbd.MiscFlags = 0;
+		D3D11_SUBRESOURCE_DATA vinitData;
+		vinitData.pSysMem = &m_vertex;
+		HR(Core::Engine::getInstance().getSystemManager().
+			getSystem<RenderSystem>()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
+	}
+
 };

@@ -1,5 +1,7 @@
 #include "JQuadTess.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/util/dxmacros.h"
+
 
 JQuadTess::JQuadTess(ID3D11Device* device)
 	: Shader(device)

@@ -11,8 +11,8 @@
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
 class SubMesh;
+class RenderSystem;
 
-struct VisualComponent;
 struct MeshVertex;
 
 using namespace DirectX;
@@ -26,16 +26,14 @@ struct Texture
 class Mesh
 {
 public:
-	Mesh(VisualComponent* owner, std::vector<MeshVertex> vertexList, std::vector<int> indexList);
-	Mesh(VisualComponent* owner, std::string filename);
+	Mesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList);
+	Mesh(std::string filename);
 	~Mesh();
 
 	void OnDestroy();
 
 	std::vector<SubMesh> m_subMeshList;
 	std::string m_meshFullPath;
-	VisualComponent* m_componentOwner;
-
 
 private:
 	bool createSRVFromAssimpMat(aiMaterial* mat, aiTextureType type, ID3D11ShaderResourceView** srv);

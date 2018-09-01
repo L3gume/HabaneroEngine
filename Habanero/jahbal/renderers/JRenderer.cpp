@@ -25,6 +25,7 @@
 #include "jahbal/fx/JQuadTess.h"
 #include "jahbal/fx/JTerrain.h"
 #include "jahbal/common/Light.h"
+#include "jahbal/util/dxmacros.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
 using namespace DirectX;
