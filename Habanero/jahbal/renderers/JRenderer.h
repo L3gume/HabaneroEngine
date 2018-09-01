@@ -5,31 +5,30 @@
 #include <DirectXMath.h>
 #include <vector>
 
-#include "jahbal/util/dxerr.h"
 #include "engine/core/ecs/ecs.h"
+#include "engine/core/Scene.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
+#include "jahbal/common/Camera.h"
+#include "jahbal/util/dxerr.h"
 
-using namespace DirectX;
-
-class Scene;
-class Camera;
-class Entity;
-class Light;
 class RenderSystem;
 
+namespace jahbal {
 class JRenderer
 {
-    friend RenderSystem;
-
+public:
+	friend class RenderSystem;
 private:
-    void DrawScene(Scene* scene);
-    void DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point);
-    void DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point);
-    void DrawTerrainEntity(ECS::Entity* entity, Camera* cam);
+	RenderSystem* m_renderSystem;
+	
+	void DrawScene(Core::Scene* scene);
+	void DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point);
+	void DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point);
+	void DrawTerrainEntity(ECS::Entity* entity, Camera* cam);
 
-    JRenderer() {};
-    ~JRenderer() {};
-    RenderSystem* m_renderSystem;
+	JRenderer(RenderSystem* render_system) : m_renderSystem(render_system) {}
+	~JRenderer() {}
 };
+}  // namespace jahbal
 
 

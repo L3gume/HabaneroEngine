@@ -8,6 +8,7 @@
 #include <windows.h>
 
 #include "engine/core/ecs/ecs.h"
+#include "engine/core/Scene.h"
 
 class JRenderer;
 
@@ -43,6 +44,7 @@ namespace Core {
 
         ECS::EntityManager m_entityManager;
         ECS::SystemManager m_systemManager;
+		Scene m_activeScene;
 
         float m_fCurTime = 0.f;
         float m_fLastTime = 0.f;
@@ -60,9 +62,6 @@ namespace Core {
 		int				m_ClientWidth;
 		int				m_ClientHeight;
 		std::wstring	m_MainWndCaption;
-
-		JRenderer* m_JRenderer;
-
 #if EDITOR
         bool m_bRunGame      : 1;
 #endif

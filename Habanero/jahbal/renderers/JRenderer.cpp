@@ -29,7 +29,9 @@
 
 using namespace DirectX;
 
-void JRenderer::DrawScene(Scene* scene)
+namespace jahbal {
+
+void JRenderer::DrawScene(Core::Scene* scene)
 {
 	ID3D11DeviceContext* dc = m_renderSystem->GetGFXDeviceContext();
 
@@ -51,7 +53,7 @@ void JRenderer::DrawScene(Scene* scene)
 	{
 		ECS::Entity* entity = scene->GetEntityList()->at(i);
 		VisualComponent* visualComponent = &(entity->getComponent<VisualComponent>());
-		
+
 		if (visualComponent->m_visualType == VisualType::MESH) DrawMeshEntity(entity, cam, sun, point);
 		else if (visualComponent->m_visualType == VisualType::BILLBOARD) DrawBillboardEntity(entity, cam, sun, point);
 		else if (visualComponent->m_visualType == VisualType::TERRAIN) DrawTerrainEntity(entity, cam);
@@ -179,7 +181,7 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
 
 	TerrainVisual* terrainVisual = (TerrainVisual*)entity->m_VisualComponent;
-	
+
 	UINT stride = sizeof(TerrainVertex);
 	UINT offset = 0;
 	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &terrainVisual->m_VB, &stride, &offset);
@@ -209,4 +211,6 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	dc->OMSetDepthStencilState(0, 0);
 	*/
 }
+
+}  // namespace jahbal
 

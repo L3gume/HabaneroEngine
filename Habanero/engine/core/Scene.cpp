@@ -1,8 +1,11 @@
-#include "engine/core/ecs/ecs.h"
 #include "Scene.h"
+
+#include "engine/core/ecs/ecs.h"
+#include "jahbal/common/Light.h"
 
 using namespace ECS;
 
+namespace Core {
 void Scene::AddEntity(Entity* entity)
 {
 	m_EntityList.push_back(entity);
@@ -15,8 +18,9 @@ void Scene::Shutdown()
 		//delete e->m_VisualComponent;
 	}
 
-	for (Light* l : m_LightList)
+	for (jahbal::Light* l : m_LightList)
 	{
 		delete l;
 	}
+}
 }

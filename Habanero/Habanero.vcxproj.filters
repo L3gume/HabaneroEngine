@@ -47,7 +47,6 @@
     <ClCompile Include="jahbal\fx\JQuadTess.cpp" />
     <ClCompile Include="jahbal\fx\JTerrain.cpp" />
     <ClCompile Include="jahbal\fx\JBillboard.cpp" />
-    <ClCompile Include="jahbal\common\Light.cpp" />
     <ClCompile Include="jahbal\Mesh.cpp" />
     <ClCompile Include="jahbal\SubMesh.cpp" />
     <ClCompile Include="jahbal\visuals\MeshVisual.cpp" />

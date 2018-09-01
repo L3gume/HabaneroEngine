@@ -7,8 +7,6 @@
 #include "jahbal/common/Light.h"
 #include "jahbal/common/Material.h"
 
-using namespace DirectX;
-
 class JGeneric : public Shader
 {
 public:
