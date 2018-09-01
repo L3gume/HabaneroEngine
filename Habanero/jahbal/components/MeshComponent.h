@@ -28,7 +28,6 @@ struct MeshVertex
 
 struct MeshComponent : public ECS::Component
 {
-public:
 	MeshComponent(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
 		m_Mesh(new Mesh(vertexList, indexList)) {}
 	MeshComponent(const std::string& filename) :

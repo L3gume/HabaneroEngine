@@ -26,7 +26,6 @@ struct BillBoardVertex
 
 struct BillboardComponent : public ECS::Component
 {
-public:
 	BillboardComponent(float sx, float sy) : 
 		m_vertex(Vector3::Zero, sx, sy) { SetupBuffers(); }
 	~BillboardComponent() 
