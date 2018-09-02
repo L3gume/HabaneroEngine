@@ -5,10 +5,10 @@
 #include "ScriptSystem.h"
 
 void ScriptSystem::preUpdate(float _deltaTime) {
-    m_scriptedEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+    const auto& scriptedEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
             getComponentTypeID<ScriptComponent>());
 
-    for (auto& ent : m_scriptedEntities) {
+    for (auto& ent : scriptedEntities) {
         auto& comp = ent->getComponent<ScriptComponent>();
         if (!comp.initialized) {
             assert(comp.m_script != nullptr);
@@ -20,6 +20,8 @@ void ScriptSystem::preUpdate(float _deltaTime) {
 }
 
 void ScriptSystem::update(float _deltaTime) {
+	const auto& scriptedEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+		getComponentTypeID<ScriptComponent>());
     for (auto& ent : m_scriptedEntities) {
         auto& comp = ent->getComponent<ScriptComponent>();
         comp.m_script->update(_deltaTime);

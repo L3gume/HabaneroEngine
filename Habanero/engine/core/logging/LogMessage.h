@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 
-namespace VapeLog {
+namespace HabaneroLog {
 
     enum LogTag {
         COMMON,
@@ -17,7 +17,8 @@ namespace VapeLog {
         RENDER,
         PHYSICS,
         GAME,
-        SCENEMANAGER
+        SCENEMANAGER,
+		ECS
         // Add stuff to this
     };
 

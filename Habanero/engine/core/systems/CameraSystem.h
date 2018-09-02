@@ -31,7 +31,6 @@ public:
 private:
 
     void preUpdate(float _deltaTime) override;
-    std::vector<Entity *> m_cameras;
     Entity *m_activeCamera = nullptr;
 
     glm::vec3 cartesianRot;

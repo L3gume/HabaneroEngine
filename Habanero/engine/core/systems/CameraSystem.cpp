@@ -24,10 +24,10 @@ void CameraSystem::preUpdate(float _deltaTime) {
      * Since we won't be changing cameras during a single frame, generate all the relevant stuff in preUpdate.
      */
     if (m_activeCamera == nullptr) {
-        m_cameras = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+        const auto& cameras = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
                 getComponentTypeID<CameraComponent>());
-        assert(!m_cameras.empty()); // If there is no registered camera, we won't go very far.
-        m_activeCamera = m_cameras[0]; // just pick the first one.
+        assert(!cameras.empty()); // If there is no registered camera, we won't go very far.
+        m_activeCamera = cameras[0]; // just pick the first one.
     }
 
     const TransformComponent &transform = m_activeCamera->getComponent<TransformComponent>();

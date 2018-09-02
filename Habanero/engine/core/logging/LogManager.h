@@ -9,7 +9,7 @@
 #include <regex>
 #include "LogMessage.h"
 
-namespace VapeLog {
+namespace HabaneroLog {
 
     // -----------------------------------------------------------------------------------------------------------------
     // The next struct + union are quite fun! They use the concept of overlapping memory to update multiple flags with a
@@ -54,7 +54,7 @@ namespace VapeLog {
 
         void clearLog();
 
-        std::vector<VapeLog::LogMessage>* getOutputMessages();
+        std::vector<HabaneroLog::LogMessage>* getOutputMessages();
 
     private:
         LogManager() = default;
@@ -64,8 +64,8 @@ namespace VapeLog {
         SortFlags m_sortFlags;
         std::string m_sRegex;
 
-        std::vector<VapeLog::LogMessage> m_messages; // holds ALL the messages
-        std::vector<VapeLog::LogMessage> m_outputMessages; // Holds the message to pass to the UI
+        std::vector<HabaneroLog::LogMessage> m_messages; // holds ALL the messages
+        std::vector<HabaneroLog::LogMessage> m_outputMessages; // Holds the message to pass to the UI
     };
 }
 
