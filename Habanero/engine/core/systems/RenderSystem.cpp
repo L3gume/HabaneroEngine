@@ -14,7 +14,7 @@
 using namespace DirectX;
 
 RenderSystem::RenderSystem(int width, int height, HWND hMainWnd) : 
-	System(), m_renderer(this) {
+	System() {
     m_ClientWidth = width;
     m_ClientHeight = height;
     m_Enable4xMSAA = true;
@@ -59,7 +59,9 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::update(float _deltaTime) 
 {
-	m_renderer.DrawScene(nullptr);
+	// TODO figure out a way to use EntityManager here 
+	Core::Scene scene;
+	m_renderer.DrawScene(scene);
 }
 
 void RenderSystem::InitBlendStates()
