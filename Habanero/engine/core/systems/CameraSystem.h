@@ -24,6 +24,7 @@ public:
 #endif
     }
 
+	inline Entity* getActiveCamera() { return m_activeCamera; }
     inline void setActiveCamera(Entity *_cam) noexcept; // This essentially forces the system to use a specific camera,
                                                         // usually you'd have only one anyway.
     glm::mat4 getMVPFromActiveCamera(glm::mat4 _modelMat);

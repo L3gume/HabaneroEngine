@@ -7,7 +7,9 @@
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/Engine.h"
+#include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/components/MeshComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/util/dxmacros.h"
 
@@ -59,9 +61,11 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::update(float _deltaTime) 
 {
-	// TODO figure out a way to use EntityManager here 
-	Core::Scene scene;
-	m_renderer.DrawScene(scene);
+	const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+		ECS::getComponentTypeID<MeshComponent>());
+	ECS::Entity* activeCamera =
+		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
+	m_renderer.DrawScene(meshEntities, activeCamera);
 }
 
 void RenderSystem::InitBlendStates()

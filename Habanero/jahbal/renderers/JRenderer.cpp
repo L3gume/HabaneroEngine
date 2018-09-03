@@ -35,7 +35,8 @@ namespace jahbal {
 
 JRenderer::JRenderer() {}
 
-void JRenderer::DrawScene(const Core::Scene& scene)
+void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
+						  ECS::Entity* activeCamera)
 {
 	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
 	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();

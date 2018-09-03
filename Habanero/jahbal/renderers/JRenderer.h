@@ -19,7 +19,8 @@ class JRenderer
 public:
 	friend class RenderSystem;
 private:
-	void DrawScene(const Core::Scene& scene);
+	void DrawScene(const std::vector<ECS::Entity*>& renderableEntities, 
+		           ECS::Entity* activeCamera);
 	void DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
 	void DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
 	void DrawTerrainEntity(const ECS::Entity& entity, const Camera& cam);
