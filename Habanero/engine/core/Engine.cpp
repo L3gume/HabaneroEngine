@@ -31,6 +31,7 @@ void Engine::init() {
 	initWindow();
 	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
 		m_hMainWnd);
+	m_systemManager.addSystem<CameraSystem>();
 }
 
 void Engine::gameLoop() {
