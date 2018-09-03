@@ -1,12 +1,9 @@
 //
 // Created by l3gume on 11/02/18.
 //
+
+
 #include "CameraSystem.h"
-
-#include "libraries/DirectXTK/include/SimpleMath.h"
-
-using DirectX::Matrix;
-using DirectX::Vector3;
 
 inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
     assert(_cam->hasComponent<CameraComponent>() &&
@@ -16,18 +13,10 @@ inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
     ComponentID typeID = getComponentTypeID<CameraComponent>();
     if (!_cam->hasGroup(typeID)) _cam->addGroup(typeID); // Just in case.
     m_activeCamera = _cam;
-
-	UpdateProjectionMatrix();
 }
 
 glm::mat4 CameraSystem::getMVPFromActiveCamera(glm::mat4 _modelMat) {
     return projMat * viewMat * _modelMat;
-}
-
-void CameraSystem::UpdateProjectionMatrix() {
-	const CameraComponent &camera = m_activeCamera->getComponent<CameraComponent>();
-	projMat = Matrix::CreatePerspectiveFieldOfViewLH(camera.m_fov, camera.m_hRes / camera.m_vRes,
-		camera.m_zNear, camera.m_zFar);
 }
 
 void CameraSystem::preUpdate(float _deltaTime) {
@@ -39,21 +28,36 @@ void CameraSystem::preUpdate(float _deltaTime) {
                 getComponentTypeID<CameraComponent>());
         assert(!cameras.empty()); // If there is no registered camera, we won't go very far.
         m_activeCamera = cameras[0]; // just pick the first one.
-		UpdateProjectionMatrix();
     }
 
     const TransformComponent &transform = m_activeCamera->getComponent<TransformComponent>();
     const CameraComponent &camera = m_activeCamera->getComponent<CameraComponent>();
 
-	Vector3 cameraTarget = {
+    /*
+     * The lookAt function likes cartesian coordinates so we do a bunch of conversions.
+     *
+     * We do this in preUpdate as we only want to do it once per frame.
+     */
+    cartesianRot = {
             glm::cos(transform.rotation.x) * glm::sin(transform.rotation.y),
             glm::sin(transform.rotation.x),
             glm::cos(transform.rotation.x) * glm::cos(transform.rotation.y)
     };
 
-	viewMat = DirectX::Matrix::CreateLookAtLH(
-		transform.position,
-		cameraTarget,
-		Vector3(0.0f, 1.0f, 0.0f)
-	);
+    cartesianRight = {
+            glm::sin(transform.rotation.y - 3.14f / 2.0f),
+            0,
+            glm::cos(transform.rotation.y - 3.14f / 2.0f)
+    };
+
+    cartesianUp = glm::cross(cartesianRight, cartesianRot);
+
+    viewMat = glm::lookAt(
+            transform.position,
+            transform.position + cartesianRot,
+            cartesianUp
+    );
+
+    projMat = glm::perspective(glm::radians(camera.m_fov), camera.m_hRes / camera.m_vRes, camera.m_zNear,
+                                         camera.m_zFar);
 }
