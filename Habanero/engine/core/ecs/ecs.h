@@ -57,9 +57,7 @@ namespace ECS {
 
     inline ComponentID getUniqueComponentID() noexcept {
         static ComponentID lastID{0u};
-		ComponentID cur_id = lastID;
-		lastID = lastID << 1;
-        return cur_id;
+        return lastID++;
     }
 
     // Template Magic, have fun trying to figure it out!
