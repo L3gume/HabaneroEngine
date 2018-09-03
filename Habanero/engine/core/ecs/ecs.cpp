@@ -13,10 +13,10 @@ void Entity::addGroup(Group _group) noexcept {
     m_manager->addToGroup(this, _group);
 }
 
-void EntityManager::loadEntity(std::string _path) {
+void EntityManager::loadEntity(const std::string& _path) {
     EntityConstructor constructor;
     std::ifstream ifs(_path);
-    std::vector<std::string> args = constructor.loadFile(ifs);
+    const auto args = constructor.loadFile(ifs);
     constructor.constructEntity(args, nullptr);
     ifs.close();
 }

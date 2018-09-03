@@ -95,10 +95,10 @@ namespace ECS {
     public:
         inline std::string getName() { return m_sName; }
         inline uint64_t getID() { return m_iId; }
-//        inline const std::shared_ptr<Entity>& getParent() const { return m_parent; }
         inline const Entity* getParent() const { return m_parent; }
         inline const std::vector<Entity*>& getChildren() const { return m_children; };
         inline void destroy() { m_bDestroyed = true; }
+		
         /*
          * Check if the entity already has an instance of component T
          */
@@ -173,9 +173,11 @@ namespace ECS {
             for (auto i{0u}; i < MAX_GROUPS; i++) {
                 auto &v{m_groupedEntities[i]};
                 v.erase(std::remove_if(std::begin(v), std::end(v),
+	        
                                        [i](Entity *_ent) {
                                            return !_ent->hasGroup(i) || _ent->m_bDestroyed;
                                        }), std::end(v));
+//        inline const std::shared_ptr<Entity>& getParent() const { return m_parent; }
             }
         }
 
@@ -211,7 +213,7 @@ namespace ECS {
         std::vector<std::shared_ptr<Entity>> &getEntities() { return m_entities; }
 
 //        void saveEntity(Entity *_ent);
-        void loadEntity(std::string _path);
+        void loadEntity(const std::string& _path);
 
     };
 
@@ -257,12 +259,12 @@ namespace ECS {
         template<typename T, typename... TArgs>
         T &addSystem(TArgs&&... _args) {
             ComponentID _typeID = getComponentTypeID<T>();
-            if (auto found = std::find_if(std::begin(m_systems), std::end(m_systems),
-                                           [_typeID](System* _sys) { return _sys->typeID == _typeID; });
-            found != std::end(m_systems)) {
-                // System already exists.
-                assert(false);
-            }
+			const auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
+								   [_typeID](System* _sys) { return _sys->typeID == _typeID; });
+            if (found != std::end(m_systems)) {
+		        // System already exists.
+		        assert(false);
+	        }
 
             auto system = new T(std::forward<TArgs>(_args)...);
             system->systemManager = this;
@@ -290,9 +292,9 @@ namespace ECS {
         template<typename T>
         void setSystemPriority(uint8_t _priority) {
             ComponentID _typeID = getComponentTypeID<T>();
-            if (auto found = std::find_if(std::begin(m_systems), std::end(m_systems),
+			const auto& found = std::find_if(std::begin(m_systems), std::end(m_systems),
                                            [_typeID](System* _sys) { return _sys->typeID == _typeID; });
-            found != std::end(m_systems)) {
+            if (found != std::end(m_systems)) {
                 // System already exists.
                 (*found)->m_priority = _priority;
             } else {
