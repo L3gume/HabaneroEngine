@@ -15,9 +15,19 @@
 #include <cassert>
 #include <algorithm>
 #include <fstream>
+
+
 #include "boost/algorithm/string/predicate.hpp"
 #include "boost/lexical_cast.hpp"
+#include "engine/core/logging/LogManager.h"
+#include "engine/core/logging/LogMessage.h"
 #include "../util.h"
+
+using HabaneroLog::LogManager;
+using HabaneroLog::LogMessage;
+using HabaneroLog::LogTag;
+using HabaneroLog::LogType;
+using HabaneroLog::LogSeverity;
 
 namespace ECS {
     /*
@@ -164,6 +174,14 @@ namespace ECS {
     private:
         std::vector<std::shared_ptr<Entity>> m_entities;
         std::array<std::vector<Entity *>, MAX_GROUPS> m_groupedEntities;
+
+		// This is used in the case where an invalid group is passed to
+		// getEntitiesByGroup. Since that method return a reference, it's best
+		// to return a reference to this empty vector (which will remain in scope)
+		// than returning a reference to a local variable.
+		// TODO: once there's a way to properly terminate the program, replace the use
+		// of this vector with a program termination
+		const std::vector<Entity*> m_emptyVector;
     public:
         /* Add a function to remove entities that have to be removed */
         void refresh() {
@@ -203,12 +221,39 @@ namespace ECS {
             m_groupedEntities[_group].emplace_back(_ent);
         }
 
+		/*
+		 * Helper method to check if any entities of a given group exist
+		*/
+		bool hasEntitiesInGroup(Group _group) {
+			return (_group < MAX_GROUPS) && !m_groupedEntities[_group].empty();
+		}
+
         /*
          * Get a group of entities, this will be handy for separating entites by the components they have.
          */
-        std::vector<Entity *> &getEntitiesByGroup(Group _group) {
+        const std::vector<Entity *> &getEntitiesByGroup(Group _group) {
+			if (_group >= MAX_GROUPS) {
+				LogManager::getInstance().printMessage(
+					LogMessage(
+						LogTag::ECS, LogType::BUG, LogSeverity::CRITICAL,
+						"Group given to getEntitiesByGroup is larger than max group"));
+				
+				return m_emptyVector;
+			}
+
             return m_groupedEntities[_group];
         }
+
+		std::vector<Entity *> *getMutableEntitiesByGroup(Group _group) {
+			if (_group >= MAX_GROUPS) {
+				LogManager::getInstance().printMessage(
+					LogMessage(
+						LogTag::ECS, LogType::BUG, LogSeverity::CRITICAL,
+						"Group given to getMutableEntitiesByGroup is larger than max group"));
+				return nullptr;
+			}
+			return &m_groupedEntities[_group];
+		}
 
         std::vector<std::shared_ptr<Entity>> &getEntities() { return m_entities; }
 

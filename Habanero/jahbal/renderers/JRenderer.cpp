@@ -7,12 +7,13 @@
 #include <windows.h>
 
 #include "engine/core/Scene.h"
+#include "engine/core/Engine.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
 #include "engine/core/systems/RenderSystem.h"
-#include "jahbal/components/MeshVisual.h"
-#include "jahbal/components/BillboardVisual.h"
-#include "jahbal/components/TerrainVisual.h"
+#include "jahbal/components/MeshComponent.h"
+#include "jahbal/components/BillboardComponent.h"
+#include "jahbal/components/TerrainComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/common/Material.h"
 #include "jahbal/Shader.h"
@@ -32,27 +33,31 @@ using namespace DirectX;
 
 namespace jahbal {
 
-void JRenderer::DrawScene(Core::Scene* scene)
-{
-	ID3D11DeviceContext* dc = m_renderSystem->GetGFXDeviceContext();
+JRenderer::JRenderer() {}
 
-	dc->ClearRenderTargetView(m_renderSystem->m_renderTargetView, reinterpret_cast<const float*>(&m_renderSystem->m_ClearColor));
-	dc->ClearDepthStencilView(m_renderSystem->m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
+						  ECS::Entity* activeCamera)
+{
+	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
+	dc->ClearRenderTargetView(render_system->m_renderTargetView, reinterpret_cast<const float*>(&render_system->m_ClearColor));
+	dc->ClearDepthStencilView(render_system->m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	/*
-	Camera* cam = scene->GetActiveCamera();
-	Vector3 eyePos = Vector3(cam->m_position);
-	Light* sun = nullptr;
-	Light* point = nullptr;
-	sun = scene->GetLightList()->at(0);
-	if (scene->GetLightList()->size() >= 2)
+	const Camera& cam = scene.GetActiveCamera();
+	const Vector3& eyePos = Vector3(cam.m_position);
+	const Light& sun = nullptr;
+	const Light& point = nullptr;
+	sun = *(scene.GetLightList()->at(0));
+	if (scene.GetLightList()->size() >= 2)
 	{
-		point = scene->GetLightList()->at(1);
+		point = scene.GetLightList()->at(1);
 	}
 
-	for (unsigned int i = 0; i < scene->GetEntityList()->size(); i++)
+	for (unsigned int i = 0; i < scene.GetEntityList()->size(); i++)
 	{
-		ECS::Entity* entity = scene->GetEntityList()->at(i);
+		ECS::Entity* entity = scene.GetEntityList()->at(i);
 		VisualComponent* visualComponent = &(entity->getComponent<VisualComponent>());
 
 		if (visualComponent->m_visualType == VisualType::MESH) DrawMeshEntity(entity, cam, sun, point);
@@ -61,10 +66,10 @@ void JRenderer::DrawScene(Core::Scene* scene)
 	}
 
 	*/
-	HR(m_renderSystem->m_swapChain->Present(0, 0));
+	HR(render_system->m_swapChain->Present(0, 0));
 }
 
-void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point)
+void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
@@ -98,8 +103,8 @@ void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Lig
 		ShaderManager::GetInstance()->m_JGeneric->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JGeneric->SetEyePosW(eyePos);
 
-		MeshVisual* meshVisual = (MeshVisual*)entity->m_VisualComponent;
-		Mesh* mesh = meshVisual->m_Mesh;
+		MeshComponent* MeshComponent = (MeshComponent*)entity->m_VisualComponent;
+		Mesh* mesh = MeshComponent->m_Mesh;
 		for (unsigned int s = 0; s < mesh->m_subMeshList.size(); s++)
 		{
 			SubMesh* subMesh = &mesh->m_subMeshList[s];
@@ -123,7 +128,7 @@ void JRenderer::DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Lig
 	*/
 }
 
-void JRenderer::DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point)
+void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
@@ -151,7 +156,7 @@ void JRenderer::DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun
 		ShaderManager::GetInstance()->m_JBillboard->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JBillboard->SetEyePosW(eyePos);
 
-		BillboardVisual* boardVisual = (BillboardVisual*)entity->m_VisualComponent;
+		BillboardComponent* boardVisual = (BillboardComponent*)entity->m_VisualComponent;
 
 		UINT stride = sizeof(BillBoardVertex);
 		UINT offset = 0;
@@ -169,7 +174,7 @@ void JRenderer::DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun
 	*/
 }
 
-void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
+void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const Camera& cam)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
@@ -181,12 +186,12 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	dc->OMSetBlendState(m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
 
-	TerrainVisual* terrainVisual = (TerrainVisual*)entity->m_VisualComponent;
+	TerrainComponent* TerrainComponent = (TerrainComponent*)entity->m_VisualComponent;
 
 	UINT stride = sizeof(TerrainVertex);
 	UINT offset = 0;
-	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &terrainVisual->m_VB, &stride, &offset);
-	GetGFXDeviceContext()->IASetIndexBuffer(terrainVisual->m_IB, DXGI_FORMAT_R16_UINT, 0);
+	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &TerrainComponent->m_VB, &stride, &offset);
+	GetGFXDeviceContext()->IASetIndexBuffer(TerrainComponent->m_IB, DXGI_FORMAT_R16_UINT, 0);
 
 	Vector3 eyePos = Vector3(cam->m_position);
 	Matrix view = cam->GetLookAtMatrix();
@@ -195,7 +200,7 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	ShaderManager::GetInstance()->m_JTerrain->SetEyePosW(eyePos);
 	ShaderManager::GetInstance()->m_JTerrain->SetViewProj(VP);
 
-	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(terrainVisual->m_heightMapSRV);
+	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(TerrainComponent->m_heightMapSRV);
 	ShaderManager::GetInstance()->m_JTerrain->SetTessParams(Vector4(0, 1000, 0, 6));
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JTerrain->Tech;
@@ -204,7 +209,7 @@ void JRenderer::DrawTerrainEntity(ECS::Entity* entity, Camera* cam)
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
 		activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-		GetGFXDeviceContext()->DrawIndexed(terrainVisual->m_numPatchQuadFaces * 4, 0, 0);
+		GetGFXDeviceContext()->DrawIndexed(TerrainComponent->m_numPatchQuadFaces * 4, 0, 0);
 	}
 
 	dc->RSSetState(0);

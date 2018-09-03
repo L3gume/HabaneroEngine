@@ -19,14 +19,13 @@ class JRenderer
 public:
 	friend class RenderSystem;
 private:
-	RenderSystem* m_renderSystem;
-	
-	void DrawScene(Core::Scene* scene);
-	void DrawMeshEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point);
-	void DrawBillboardEntity(ECS::Entity* entity, Camera* cam, Light* sun, Light* point);
-	void DrawTerrainEntity(ECS::Entity* entity, Camera* cam);
+	void DrawScene(const std::vector<ECS::Entity*>& renderableEntities, 
+		           ECS::Entity* activeCamera);
+	void DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
+	void DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
+	void DrawTerrainEntity(const ECS::Entity& entity, const Camera& cam);
 
-	JRenderer(RenderSystem* render_system) : m_renderSystem(render_system) {}
+	JRenderer();
 	~JRenderer() {}
 };
 }  // namespace jahbal

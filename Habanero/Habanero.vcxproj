@@ -71,8 +71,11 @@
     <ClInclude Include="jahbal\common\Camera.h" />
     <ClInclude Include="jahbal\common\Light.h" />
     <ClInclude Include="jahbal\common\Material.h" />
+    <ClInclude Include="jahbal\components\BillboardComponent.h" />
     <ClInclude Include="jahbal\components\BillboardVisual.h" />
+    <ClInclude Include="jahbal\components\MeshComponent.h" />
     <ClInclude Include="jahbal\components\MeshVisual.h" />
+    <ClInclude Include="jahbal\components\TerrainComponent.h" />
     <ClInclude Include="jahbal\creators\BufferCreator.h" />
     <ClInclude Include="jahbal\creators\MeshCreator.h" />
     <ClInclude Include="jahbal\fx\JBillboard.h" />

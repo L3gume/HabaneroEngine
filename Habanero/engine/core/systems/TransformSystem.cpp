@@ -10,8 +10,18 @@
 #include "TransformSystem.h"
 
 void TransformSystem::update(float _deltaTime) {
-    std::vector<Entity *> entities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-            getComponentTypeID<TransformComponent>());
+	// TODO: We might want to rethink how we're doing this. There are two ways we can remove the need
+	// to make this copy: 1) Don't sort the vector, allowing us to just get a const ref to the 
+	// entity list or 2) Expose a way to sort the entity list directly in the EntityManager. The second
+	// option is probably a really bad idea. The first idea is the best imo, because there really is no
+	// need to sort the the list to have child transforms coming first (if I'm understanding this correctly)
+	std::vector<Entity*> entities;
+	if (Core::Engine::getInstance().getEntityManager().hasEntitiesInGroup(
+		getComponentTypeID<TransformComponent>())) {
+		entities = *(Core::Engine::getInstance().getEntityManager().getMutableEntitiesByGroup(
+			getComponentTypeID< TransformComponent>()));
+	}
+
     std::sort(std::begin(entities), std::end(entities), [](const Entity* A, const Entity* B) {
         return A->getParent() != nullptr && B->getParent() == nullptr;
     });

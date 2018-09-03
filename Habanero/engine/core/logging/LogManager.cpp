@@ -4,7 +4,7 @@
 
 #include "../logging/LogManager.h"
 
-using namespace VapeLog;
+using namespace HabaneroLog;
 
 void LogManager::printMessage(LogMessage _message) {
     // First try to see if the message already exists:
@@ -27,7 +27,7 @@ void LogManager::setSearchString(const std::string& _regex) {
     m_sRegex = _regex;
 }
 
-std::vector<VapeLog::LogMessage>* LogManager::getOutputMessages() {
+std::vector<HabaneroLog::LogMessage>* LogManager::getOutputMessages() {
     if (!m_sRegex.empty()) {
         m_outputMessages.clear();
         std::smatch match;

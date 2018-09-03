@@ -24,6 +24,7 @@ public:
 #endif
     }
 
+	inline Entity* getActiveCamera() { return m_activeCamera; }
     inline void setActiveCamera(Entity *_cam) noexcept; // This essentially forces the system to use a specific camera,
                                                         // usually you'd have only one anyway.
     glm::mat4 getMVPFromActiveCamera(glm::mat4 _modelMat);
@@ -31,14 +32,12 @@ public:
 private:
 
     void preUpdate(float _deltaTime) override;
-    std::vector<Entity *> m_cameras;
+	void UpdateProjectionMatrix();
+
     Entity *m_activeCamera = nullptr;
 
-    glm::vec3 cartesianRot;
-    glm::vec3 cartesianRight;
-    glm::vec3 cartesianUp;
-    glm::mat4 viewMat;
-    glm::mat4 projMat;
+	Matrix viewMat;
+	Matrix projMat;
 };
 
 #endif //VAPEENGINE_CAMERASYSTEM_H

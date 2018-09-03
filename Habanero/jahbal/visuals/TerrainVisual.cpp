@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <DirectXMath.h>
 
-#include "TerrainVisual.h"
+#include "TerrainComponent.h"
 #include "engine/core/Engine.h"
 #include "engine/core/ecs/ecs.h"
 #include "jahbal/renderers/JRenderer.h"
@@ -12,7 +12,7 @@
 #include "jahbal/fx/JTerrain.h"
 #include "jahbal/util/dxmacros.h"
 
-TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) 
+TerrainComponent::TerrainComponent(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) 
 	: m_terrainInfo(info) //VisualComponent(owner, renderer, VisualType::TERRAIN)
 {
 	//m_JTerrain = ShaderManager::GetInstance()->m_JTerrain;
@@ -41,9 +41,9 @@ TerrainVisual::TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInf
 	SetupBuffers();
 }
 
-TerrainVisual::~TerrainVisual() {}
+TerrainComponent::~TerrainComponent() {}
 
-void TerrainVisual::InitHeightMap()
+void TerrainComponent::InitHeightMap()
 {
 
 	std::vector<UCHAR> in(m_terrainInfo.width * m_terrainInfo.height);
@@ -65,7 +65,7 @@ void TerrainVisual::InitHeightMap()
 	}
 }
 
-void TerrainVisual::SmoothHeightMap()
+void TerrainComponent::SmoothHeightMap()
 {
 	if (m_heightMapData.size() == 0)
 	{
@@ -86,7 +86,7 @@ void TerrainVisual::SmoothHeightMap()
 	m_heightMapData = smoothedData;
 }
 
-float TerrainVisual::ComputeHeightAverage(int i, int j)
+float TerrainComponent::ComputeHeightAverage(int i, int j)
 {
 	float sum = 0;
 	int count = 0;
@@ -106,12 +106,12 @@ float TerrainVisual::ComputeHeightAverage(int i, int j)
 	return sum / float(count);
 }
 
-boolean TerrainVisual::isWithinHeightMap(int i, int j)
+boolean TerrainComponent::isWithinHeightMap(int i, int j)
 {
 	return (i >= 0) && (i < (UINT)m_terrainInfo.height) && (j >= 0) && (j < (UINT)m_terrainInfo.width);
 }
 
-void TerrainVisual::InitHeightMapSRV()
+void TerrainComponent::InitHeightMapSRV()
 {
 	D3D11_TEXTURE2D_DESC texDesc;
 	texDesc.Width = m_terrainInfo.width;
@@ -146,13 +146,13 @@ void TerrainVisual::InitHeightMapSRV()
 	ReleaseCOM(hmapTex);
 }
 
-void TerrainVisual::SetupBuffers()
+void TerrainComponent::SetupBuffers()
 {
 	InitVB();
 	InitIB();
 }
 
-void TerrainVisual::InitVB()
+void TerrainComponent::InitVB()
 {
 	std::vector<TerrainVertex> patchVertices(m_numPatchRows * m_numPatchCols);
 
@@ -202,7 +202,7 @@ void TerrainVisual::InitVB()
 	//HR(m_Renderer->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 }
 
-void TerrainVisual::InitIB()
+void TerrainComponent::InitIB()
 {
 	std::vector<USHORT> indices(m_numPatchQuadFaces * 4);
 

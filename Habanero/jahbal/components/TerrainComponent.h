@@ -38,11 +38,11 @@ struct TerrainInfo
 };
 
 
-class TerrainVisual : public ECS::Component
+struct TerrainComponent : public ECS::Component
 {
 public:
-	TerrainVisual(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info);
-	~TerrainVisual();
+	TerrainComponent(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info);
+	~TerrainComponent();
 
 	//void SetupBuffers();
 	//void InitHeightMap();

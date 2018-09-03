@@ -7,14 +7,16 @@
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/Engine.h"
+#include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/components/MeshComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/util/dxmacros.h"
 
 using namespace DirectX;
 
 RenderSystem::RenderSystem(int width, int height, HWND hMainWnd) : 
-	System(), m_renderer(this) {
+	System() {
     m_ClientWidth = width;
     m_ClientHeight = height;
     m_Enable4xMSAA = true;
@@ -59,7 +61,11 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::update(float _deltaTime) 
 {
-	m_renderer.DrawScene(nullptr);
+	const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+		ECS::getComponentTypeID<MeshComponent>());
+	ECS::Entity* activeCamera =
+		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
+	m_renderer.DrawScene(meshEntities, activeCamera);
 }
 
 void RenderSystem::InitBlendStates()

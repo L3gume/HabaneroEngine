@@ -27,9 +27,9 @@ void InputManager::init(const HWND _window) {
 bool InputManager::addInputListener(InputListener* _listener) {
     if (!_listener) {
 #if _DEBUG 
-        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                VapeLog::LogTag::INPUT, VapeLog::LogType::ISSUE,
-                VapeLog::LogSeverity::CRITICAL, "Passed input listener is NULL"));
+        HabaneroLog::LogManager::getInstance().printMessage(HabaneroLog::LogMessage(
+                HabaneroLog::LogTag::INPUT, HabaneroLog::LogType::ISSUE,
+                HabaneroLog::LogSeverity::CRITICAL, "Passed input listener is NULL"));
 #endif
         return false;
     }
@@ -45,9 +45,9 @@ bool InputManager::addInputListener(InputListener* _listener) {
 bool InputManager::removeInputListener(InputListener* _listener) {
     if (!_listener) {
 #if _DEBUG
-        VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                VapeLog::LogTag::INPUT, VapeLog::LogType::ISSUE,
-                VapeLog::LogSeverity::CRITICAL, "Passed input listener is NULL"));
+        HabaneroLog::LogManager::getInstance().printMessage(HabaneroLog::LogMessage(
+                HabaneroLog::LogTag::INPUT, HabaneroLog::LogType::ISSUE,
+                HabaneroLog::LogSeverity::CRITICAL, "Passed input listener is NULL"));
 #endif
         return false;
     }
@@ -96,9 +96,9 @@ void InputManager::update() {
         }
         if (il->getUseController()) {
 #if _DEBUG
-            VapeLog::LogManager::getInstance().printMessage(VapeLog::LogMessage(
-                    VapeLog::LogTag::INPUT, VapeLog::LogType::MESSAGE,
-                    VapeLog::LogSeverity::LOW, "Controller support is not implemented"));
+            HabaneroLog::LogManager::getInstance().printMessage(HabaneroLog::LogMessage(
+                    HabaneroLog::LogTag::INPUT, HabaneroLog::LogType::MESSAGE,
+                    HabaneroLog::LogSeverity::LOW, "Controller support is not implemented"));
 #endif
         }
     }
