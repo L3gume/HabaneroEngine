@@ -30,13 +30,13 @@ void TransformSystem::update(float _deltaTime) {
             auto& parent_transform = e->getParent()->getComponent<TransformComponent>();
             auto& transform = e->getComponent<TransformComponent>();
 
-			// TODO porting this to use DirectXMath was not trivial unfortunetely, we should figure out how to 
-			// port it once we actually need to use this system (this is blocking getting meshes rendering)
-			/*
+            // TODO porting this to use DirectXMath was not trivial unfortunetely, we should figure out how to 
+            // port it once we actually need to use this system (this is blocking getting meshes rendering)
+            /*
             transform.abs_position = parent_transform.position + glm::quat(parent_transform.rotation) * transform.position;
             transform.abs_rotation = glm::eulerAngles(glm::quat(parent_transform.rotation) * glm::quat(transform.rotation));
             transform.abs_scale = transform.scale * parent_transform.scale;
-			*/
+            */
         }
     }
 }
