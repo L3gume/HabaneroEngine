@@ -1,13 +1,10 @@
 //
 // Created by l3gume on 19/02/18.
 //
+#include "TransformSystem.h"
 
 #include "engine/core/Engine.h"
 #include "engine/core/components/TransformComponent.h"
-#include "glm/gtx/euler_angles.hpp"
-#include "glm/gtx/quaternion.hpp"
-#include "glm/gtx/quaternion.hpp"
-#include "TransformSystem.h"
 
 void TransformSystem::update(float _deltaTime) {
 	// TODO: We might want to rethink how we're doing this. There are two ways we can remove the need
@@ -33,9 +30,13 @@ void TransformSystem::update(float _deltaTime) {
             auto& parent_transform = e->getParent()->getComponent<TransformComponent>();
             auto& transform = e->getComponent<TransformComponent>();
 
+			// TODO porting this to use DirectXMath was not trivial unfortunetely, we should figure out how to 
+			// port it once we actually need to use this system (this is blocking getting meshes rendering)
+			/*
             transform.abs_position = parent_transform.position + glm::quat(parent_transform.rotation) * transform.position;
             transform.abs_rotation = glm::eulerAngles(glm::quat(parent_transform.rotation) * glm::quat(transform.rotation));
             transform.abs_scale = transform.scale * parent_transform.scale;
+			*/
         }
     }
 }

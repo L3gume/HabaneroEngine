@@ -32,6 +32,12 @@ void Engine::init() {
 	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
 		m_hMainWnd);
 	m_systemManager.addSystem<CameraSystem>();
+
+	// Manual entity adding for testing, remove once entity serialization system is complete
+	Entity& camera = m_entityManager.addEntity("main_camera");
+	camera.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+	camera.addComponent<CameraComponent>(0.25f * 3.14f, m_ClientHeight, m_ClientHeight,
+		1.0f, 1000.0f);
 }
 
 void Engine::gameLoop() {
@@ -44,6 +50,7 @@ void Engine::gameLoop() {
 		}
 		else {
 			// TODO calculate deltaTime and pass it in
+			m_systemManager.preUpdate(0);
 			m_systemManager.update(0);
 		}
 	}
