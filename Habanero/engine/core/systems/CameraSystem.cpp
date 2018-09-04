@@ -48,9 +48,9 @@ void CameraSystem::preUpdate(float _deltaTime) {
     const CameraComponent &camera = m_activeCamera->getComponent<CameraComponent>();
 	
 	DirectX::Vector3 target = DirectX::Vector3(
-		glm::sin(transform.rotation.y - 3.14f / 2.0f),
-		0,
-		glm::cos(transform.rotation.y - 3.14f / 2.0f));
+		DirectX::XMScalarCos(transform.rotation.x) * DirectX::XMScalarSin(transform.rotation.y),
+		DirectX::XMScalarSin(transform.rotation.x),
+		DirectX::XMScalarCos(transform.rotation.x) * DirectX::XMScalarCos(transform.rotation.y));
 
 
 	viewMat = Matrix::CreateLookAtLH(transform.position, target,
