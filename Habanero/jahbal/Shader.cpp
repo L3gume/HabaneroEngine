@@ -18,6 +18,7 @@ Shader::~Shader()
 }
 
 void Shader::loadFX(std::string path)
+
 {
 	std::ifstream fin(path, std::ios::binary);
 
