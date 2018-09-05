@@ -13,6 +13,7 @@
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/components/MeshComponent.h"
 #include "jahbal/ShaderManager.h"
 
 using namespace Core;
@@ -47,6 +48,10 @@ void Engine::init() {
     sunLight.m_lightData.Ambient = Vector4(0.2f, 0.2f, 0.2f, 1.0f);
     sunLight.m_lightData.Diffuse = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
     sunLight.m_lightData.Specular = Vector4(0.05f, 0.05f, 0.05f, 16.0f);
+
+    Entity& nanosuit = m_entityManager.addEntity("nano_suit");
+    nanosuit.addComponent<TransformComponent>(Vector3(0.0f, 0.0f, 3.0f), Vector3::Zero, Vector3::One);
+    nanosuit.addComponent<MeshComponent>("jahbal/resources/objects/nanosuit/nanosuit.obj");
 }
 
 void Engine::gameLoop() {

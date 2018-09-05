@@ -94,18 +94,18 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JGeneric->m_InputLayout);
 	ShaderManager::GetInstance()->m_JGeneric->SetDLight((DLightData*)&sun.m_lightData);
-	/*
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(m_rasterizerStates[RSWIREFRAME]);
-	dc->OMSetBlendState(m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
-	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
+	dc->RSSetState(render_system->m_rasterizerStates[RSWIREFRAME]);
+	dc->OMSetBlendState(render_system->m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
+	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JGeneric->Tech;
 	D3DX11_TECHNIQUE_DESC techDesc;
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
+	/*
 		Matrix rotation = Matrix::CreateFromYawPitchRoll(entity->m_rotationEuler.x, entity->m_rotationEuler.y, entity->m_rotationEuler.z);
 		Matrix model = rotation * Matrix::CreateTranslation(entity->m_position);
 		Matrix modelInvTranspose = model; modelInvTranspose.Invert().Transpose();
@@ -135,12 +135,12 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 			activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
 			GetGFXDeviceContext()->DrawIndexed(subMesh->m_indexList.size(), 0, 0);
 		}
+	*/
 	}
 
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	*/
 }
 
 void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const CameraComponent& cam, const LightComponent& sun)

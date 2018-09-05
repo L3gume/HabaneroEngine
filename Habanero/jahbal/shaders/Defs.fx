@@ -3,6 +3,14 @@
 
 #define F4_Zero float4(0.0f, 0.0f, 0.0f, 0.0f);
 
+struct Light
+{
+    float4 ambient;
+    float4 diffuse;
+    float4 specular;
+    float4 attenuation; // (A0, A1, A2, Pad)
+    float4 attributes;  // (Range, Spot, Pad, Pad)
+};
 struct DirectionalLight
 {
 	float4 ambient;
