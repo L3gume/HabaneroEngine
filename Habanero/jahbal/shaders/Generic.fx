@@ -58,6 +58,7 @@ VOUT VS(VIN vin)
 	return vout;
 }
 
+// TODO Reimplement lighting
 float4 PS(VOUT pin) : SV_Target
 {
 	float4 mat_d = gDiffuseMap.Sample(MeshTextureSampler, pin.UV);
@@ -77,15 +78,17 @@ float4 PS(VOUT pin) : SV_Target
 	diffuse += d;
 	spec += s;
 
+    /*
 	computePointLight(gPLight, pin.NormalW, pin.PosW, ptoeye, mat_d, mat_s, a, d, s);
 	ambient += a;
 	diffuse += d;
 	spec += s;
+    */
 
 	float4 color = ambient + diffuse + spec;
 	color.a = gMaterial.ambient.a;
 
-	return color;
+	return mat_d;
 }
 
 technique11 Tech

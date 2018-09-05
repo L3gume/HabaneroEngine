@@ -11,6 +11,7 @@
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/CameraComponent.h"
 #include "engine/core/components/TransformComponent.h"
+#include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/components/MeshComponent.h"
 #include "jahbal/components/BillboardComponent.h"
@@ -85,6 +86,7 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 
 void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun)
 {
+    CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
     RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
     ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
 
@@ -96,7 +98,7 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 	ShaderManager::GetInstance()->m_JGeneric->SetDLight((DLightData*)&sun.m_lightData);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(render_system->m_rasterizerStates[RSWIREFRAME]);
+	dc->RSSetState(render_system->m_rasterizerStates[RSSOLID]);
 	dc->OMSetBlendState(render_system->m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
@@ -105,37 +107,37 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-	/*
-		Matrix rotation = Matrix::CreateFromYawPitchRoll(entity->m_rotationEuler.x, entity->m_rotationEuler.y, entity->m_rotationEuler.z);
-		Matrix model = rotation * Matrix::CreateTranslation(entity->m_position);
+        const auto& entityTransform = entity.getComponent<TransformComponent>();
+		Matrix rotation = Matrix::CreateFromYawPitchRoll(entityTransform.rotation.x, entityTransform.rotation.y,
+            entityTransform.rotation.z);
+		Matrix model = rotation * Matrix::CreateTranslation(entityTransform.position);
 		Matrix modelInvTranspose = model; modelInvTranspose.Invert().Transpose();
-		Matrix view = cam->GetLookAtMatrix();
-		Matrix MVP = model * view * m_ProjectionMatrix;
+        Matrix view = camera_system->viewMat;
+		Matrix MVP = model * view * camera_system->projMat;
 
 		ShaderManager::GetInstance()->m_JGeneric->SetWorldViewProj(MVP);
 		ShaderManager::GetInstance()->m_JGeneric->SetWorld(model);
 		ShaderManager::GetInstance()->m_JGeneric->SetWorldInvTranspose(modelInvTranspose);
-		ShaderManager::GetInstance()->m_JGeneric->SetMaterial(entity->m_VisualComponent->m_Material);
+        // TODO Make MaterialComponent
+		//ShaderManager::GetInstance()->m_JGeneric->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JGeneric->SetEyePosW(eyePos);
 
-		MeshComponent* MeshComponent = (MeshComponent*)entity->m_VisualComponent;
-		Mesh* mesh = MeshComponent->m_Mesh;
+        Mesh* mesh = entity.getComponent<MeshComponent>().m_Mesh.get();
 		for (unsigned int s = 0; s < mesh->m_subMeshList.size(); s++)
 		{
 			SubMesh* subMesh = &mesh->m_subMeshList[s];
 
 			UINT stride = sizeof(MeshVertex);
 			UINT offset = 0;
-			GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &subMesh->m_VB, &stride, &offset);
-			GetGFXDeviceContext()->IASetIndexBuffer(subMesh->m_IB, DXGI_FORMAT_R32_UINT, 0);
+			render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &subMesh->m_VB, &stride, &offset);
+			render_system->GetGFXDeviceContext()->IASetIndexBuffer(subMesh->m_IB, DXGI_FORMAT_R32_UINT, 0);
 
 			ShaderManager::GetInstance()->m_JGeneric->SetDiffuseMap(subMesh->m_diffuseSRV);
 			ShaderManager::GetInstance()->m_JGeneric->SetSpecMap(subMesh->m_specSRV);
 
-			activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-			GetGFXDeviceContext()->DrawIndexed(subMesh->m_indexList.size(), 0, 0);
+			activeTech->GetPassByIndex(p)->Apply(0, render_system->GetGFXDeviceContext());
+			render_system->GetGFXDeviceContext()->DrawIndexed(subMesh->m_indexList.size(), 0, 0);
 		}
-	*/
 	}
 
 	dc->RSSetState(0);

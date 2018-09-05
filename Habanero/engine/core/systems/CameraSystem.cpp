@@ -53,6 +53,6 @@ void CameraSystem::preUpdate(float _deltaTime) {
 		DirectX::XMScalarCos(transform.rotation.x) * DirectX::XMScalarCos(transform.rotation.y));
 
 
-	viewMat = Matrix::CreateLookAtLH(transform.position, target,
+	viewMat = Matrix::CreateLookAtLH(transform.position, DirectX::Vector3::Zero,
 		DirectX::Vector3(0.0f, 1.0f, 0.0f));
 }

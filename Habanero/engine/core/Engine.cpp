@@ -38,8 +38,8 @@ void Engine::init() {
 
 	// Manual entity adding for testing, remove once entity serialization system is complete
 	Entity& camera = m_entityManager.addEntity("main_camera");
-	camera.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
-	camera.addComponent<CameraComponent>(0.25f * 3.14f, m_ClientHeight, m_ClientHeight,
+	camera.addComponent<TransformComponent>(Vector3(30.0f, 30.0f, 30.0f), Vector3::Zero, Vector3::One);
+	camera.addComponent<CameraComponent>(0.25f * 3.14f, m_ClientWidth, m_ClientHeight,
 		1.0f, 1000.0f);
 
     Entity& sun = m_entityManager.addEntity("sun");
@@ -50,8 +50,8 @@ void Engine::init() {
     sunLight.m_lightData.Specular = Vector4(0.05f, 0.05f, 0.05f, 16.0f);
 
     Entity& nanosuit = m_entityManager.addEntity("nano_suit");
-    nanosuit.addComponent<TransformComponent>(Vector3(0.0f, 0.0f, 3.0f), Vector3::Zero, Vector3::One);
-    nanosuit.addComponent<MeshComponent>("jahbal/resources/objects/nanosuit/nanosuit.obj");
+    nanosuit.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    nanosuit.addComponent<MeshComponent>("jahbal/resources/nanosuit/nanosuit.obj");
 }
 
 void Engine::gameLoop() {

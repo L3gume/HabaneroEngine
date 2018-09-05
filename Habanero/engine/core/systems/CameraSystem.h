@@ -29,6 +29,8 @@ public:
                                                         // usually you'd have only one anyway.
     DirectX::Matrix getMVPFromActiveCamera(DirectX::Matrix _modelMat);
 
+    DirectX::Matrix viewMat;
+    DirectX::Matrix projMat;
 private:
 
     void preUpdate(float _deltaTime) override;
@@ -36,8 +38,6 @@ private:
 
     Entity *m_activeCamera = nullptr;
 
-    DirectX::Matrix viewMat;
-    DirectX::Matrix projMat;
 };
 
 #endif //VAPEENGINE_CAMERASYSTEM_H
