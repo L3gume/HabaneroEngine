@@ -65,7 +65,16 @@ void RenderSystem::update(float _deltaTime)
 		ECS::getComponentTypeID<MeshComponent>());
 	ECS::Entity* activeCamera =
 		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
-	m_renderer.DrawScene(meshEntities, activeCamera);
+    assert(activeCamera);
+
+
+    // We assume that there's only one light in the scene atm and that ligh is the sun
+    ECS::Entity* sun =
+        Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+            ECS::getComponentTypeID<LightComponent>()).at(0);
+    assert(sun);
+
+	m_renderer.DrawScene(meshEntities, *activeCamera, *sun);
 }
 
 void RenderSystem::InitBlendStates()

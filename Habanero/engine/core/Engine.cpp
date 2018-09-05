@@ -13,6 +13,7 @@
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/ShaderManager.h"
 
 using namespace Core;
 
@@ -32,12 +33,20 @@ void Engine::init() {
 	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
 		m_hMainWnd);
 	m_systemManager.addSystem<CameraSystem>();
+    ShaderManager::GetInstance()->Init(m_systemManager.getSystem<RenderSystem>()->GetGFXDevice());
 
 	// Manual entity adding for testing, remove once entity serialization system is complete
 	Entity& camera = m_entityManager.addEntity("main_camera");
 	camera.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
 	camera.addComponent<CameraComponent>(0.25f * 3.14f, m_ClientHeight, m_ClientHeight,
 		1.0f, 1000.0f);
+
+    Entity& sun = m_entityManager.addEntity("sun");
+    sun.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    LightComponent sunLight = sun.addComponent<LightComponent>(LightType::Directional);
+    sunLight.m_lightData.Ambient = Vector4(0.2f, 0.2f, 0.2f, 1.0f);
+    sunLight.m_lightData.Diffuse = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+    sunLight.m_lightData.Specular = Vector4(0.05f, 0.05f, 0.05f, 16.0f);
 }
 
 void Engine::gameLoop() {

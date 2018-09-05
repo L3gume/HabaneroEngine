@@ -6,7 +6,7 @@
 JQuadTess::JQuadTess(ID3D11Device* device)
 	: Shader(device)
 {
-	loadFX("./FX/QuadTess.fxo");
+	loadFX("./jahbal/shaders/QuadTess.fxo");
 	Tech = m_FX->GetTechniqueByName("Tess");
 
 	// cbPerObject

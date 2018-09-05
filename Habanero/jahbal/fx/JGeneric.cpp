@@ -6,7 +6,7 @@
 JGeneric::JGeneric(ID3D11Device* device)
 	: Shader(device)
 {
-	loadFX("./FX/Generic.fxo");
+	loadFX("./jahbal/shaders/Generic.fxo");
 	Tech = m_FX->GetTechniqueByName("Tech");
 
 

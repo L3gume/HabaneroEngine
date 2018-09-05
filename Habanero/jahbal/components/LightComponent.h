@@ -24,10 +24,10 @@ enum LightType
     Spot = 2
 };
 
-class LightComponent : public ECS::Component
+struct LightComponent : public ECS::Component
 {
     LightComponent(LightType lightType) : m_lightType(lightType) {}
 
     LightType m_lightType;
-    LightData m_lightData
+    LightData m_lightData;
 };

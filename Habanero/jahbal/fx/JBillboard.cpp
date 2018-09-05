@@ -5,7 +5,7 @@
 JBillboard::JBillboard(ID3D11Device* device)
 	: Shader(device)
 {
-	loadFX("./FX/Billboard.fxo");
+	loadFX("./jahbal/shaders/Billboard.fxo");
 	Tech = m_FX->GetTechniqueByName("Tech");
 
 	// cbPerObject

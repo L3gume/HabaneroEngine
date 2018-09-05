@@ -9,10 +9,12 @@
 #include "engine/core/Scene.h"
 #include "engine/core/Engine.h"
 #include "engine/core/ecs/ecs.h"
-#include "engine/core/components/VisualComponent.h"
+#include "engine/core/components/CameraComponent.h"
+#include "engine/core/components/TransformComponent.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/components/MeshComponent.h"
 #include "jahbal/components/BillboardComponent.h"
+#include "jahbal/components/LightComponent.h"
 #include "jahbal/components/TerrainComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/common/Material.h"
@@ -36,13 +38,25 @@ namespace jahbal {
 JRenderer::JRenderer() {}
 
 void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
-						  ECS::Entity* activeCamera)
+						  const ECS::Entity& activeCamera,
+                          const ECS::Entity& sunLight)
 {
+    assert(activeCamera.hasComponent<CameraComponent>());
+    const auto& camera = activeCamera.getComponent<CameraComponent>();
+
+    assert(sunLight.hasComponent<LightComponent>());
+    const auto& sun = sunLight.getComponent<LightComponent>();
+    assert(sun.m_lightType == LightType::Directional);
+
 	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
 	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
 
 	dc->ClearRenderTargetView(render_system->m_renderTargetView, reinterpret_cast<const float*>(&render_system->m_ClearColor));
 	dc->ClearDepthStencilView(render_system->m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+    for (ECS::Entity* entity : renderableEntities) {
+        DrawMeshEntity(*entity, activeCamera, sun);
+    }
 
 	/*
 	const Camera& cam = scene.GetActiveCamera();
@@ -69,17 +83,18 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 	HR(render_system->m_swapChain->Present(0, 0));
 }
 
-void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
+void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun)
 {
-	/*
-	ID3D11DeviceContext* dc = GetGFXDeviceContext();
+    RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+    ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	Vector3 eyePos = Vector3(cam->m_position);
+	Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JGeneric->m_InputLayout);
-	ShaderManager::GetInstance()->m_JGeneric->SetDLight((DLightData*)sun->m_LightData);
-	ShaderManager::GetInstance()->m_JGeneric->SetPLight((PLightData*)point->m_LightData);
+	ShaderManager::GetInstance()->m_JGeneric->SetDLight((DLightData*)&sun.m_lightData);
+	/*
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
 	dc->RSSetState(m_rasterizerStates[RSWIREFRAME]);
@@ -128,7 +143,7 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, con
 	*/
 }
 
-void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
+void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const CameraComponent& cam, const LightComponent& sun)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
@@ -174,7 +189,7 @@ void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam
 	*/
 }
 
-void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const Camera& cam)
+void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const CameraComponent& cam)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
