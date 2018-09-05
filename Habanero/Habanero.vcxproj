@@ -73,6 +73,7 @@
     <ClInclude Include="jahbal\common\Material.h" />
     <ClInclude Include="jahbal\components\BillboardComponent.h" />
     <ClInclude Include="jahbal\components\BillboardVisual.h" />
+    <ClInclude Include="jahbal\components\LightComponent.h" />
     <ClInclude Include="jahbal\components\MeshComponent.h" />
     <ClInclude Include="jahbal\components\MeshVisual.h" />
     <ClInclude Include="jahbal\components\TerrainComponent.h" />
