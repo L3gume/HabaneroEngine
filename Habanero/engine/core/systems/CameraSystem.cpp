@@ -44,9 +44,19 @@ void CameraSystem::preUpdate(float _deltaTime) {
 		updateProjectionMatrix();
     }
 
-    const TransformComponent &transform = m_activeCamera->getComponent<TransformComponent>();
+    TransformComponent &transform = m_activeCamera->getComponent<TransformComponent>();
     const CameraComponent &camera = m_activeCamera->getComponent<CameraComponent>();
 	
+    // TODO this is hack to get the camera moving with the keyboard for testing, 
+    // this should be put into it's own system
+    auto kb = Core::Engine::getInstance().m_keyboard->GetState();
+    if (kb.W) transform.position.y += 0.2f;
+    if (kb.S) transform.position.y -= 0.2f;
+    if (kb.D) transform.position.x += 0.2f;
+    if (kb.A) transform.position.x -= 0.2f;
+    if (kb.E) transform.position.z += 0.2f;
+    if (kb.Q) transform.position.z -= 0.2f;
+
 	DirectX::Vector3 target = DirectX::Vector3(
 		DirectX::XMScalarCos(transform.rotation.x) * DirectX::XMScalarSin(transform.rotation.y),
 		DirectX::XMScalarSin(transform.rotation.x),
