@@ -38,7 +38,6 @@ namespace Core {
         inline ECS::SystemManager& getSystemManager() { return m_systemManager; }
 		
 		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-        std::unique_ptr<Keyboard> m_keyboard;
     private:
         Engine() = default;
 

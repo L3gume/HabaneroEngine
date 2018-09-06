@@ -38,9 +38,6 @@ void Engine::init() {
 	m_systemManager.addSystem<CameraSystem>();
     ShaderManager::GetInstance()->Init(m_systemManager.getSystem<RenderSystem>()->GetGFXDevice());
 
-    // TODO make an input system and move this into it
-    m_keyboard = std::make_unique<Keyboard>();
-
 	// Manual entity adding for testing, remove once entity serialization system is complete
 	Entity& camera = m_entityManager.addEntity("main_camera");
 	camera.addComponent<TransformComponent>(Vector3(30.0f, 30.0f, 30.0f), Vector3::Zero, Vector3::One);
@@ -111,7 +108,7 @@ LRESULT Engine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 	case WM_ACTIVATEAPP:
-		Keyboard::ProcessMessage(msg, wParam, lParam);
+		//Keyboard::ProcessMessage(msg, wParam, lParam);
 		//Mouse::ProcessMessage(msg, wParam, lParam);
 		break;
 	case WM_INPUT:
@@ -132,7 +129,7 @@ LRESULT Engine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSKEYDOWN:
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		Keyboard::ProcessMessage(msg, wParam, lParam);
+		//Keyboard::ProcessMessage(msg, wParam, lParam);
 		break;
 	}
 	
