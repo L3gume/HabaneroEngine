@@ -15,6 +15,7 @@
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/components/BillboardComponent.h"
 #include "jahbal/components/MeshComponent.h"
+#include "jahbal/components/TerrainComponent.h"
 #include "jahbal/ShaderManager.h"
 
 using namespace Core;
@@ -57,6 +58,12 @@ void Engine::init() {
     Entity& billboard = m_entityManager.addEntity("billboard");
     billboard.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
     billboard.addComponent<BillboardComponent>(15.0f, 15.0f, L"jahbal/resources/textures/tree0.dds");
+
+    Entity& terrain = m_entityManager.addEntity("terrain");
+    terrain.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+
+    TerrainInfo terrainInfo(L"jahbal/resources/textures/terrain.raw", 2049, 2049, 50, 1);
+    terrain.addComponent<TerrainComponent>(terrainInfo);
 }
 
 void Engine::gameLoop() {

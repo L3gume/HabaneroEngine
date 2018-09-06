@@ -40,6 +40,7 @@ JRenderer::JRenderer() {}
 
 void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
                           const std::vector<ECS::Entity*>& billboardEntities,
+                          const std::vector<ECS::Entity*>& terrainEntities,
 						  const ECS::Entity& activeCamera,
                           const ECS::Entity& sunLight)
 {
@@ -62,6 +63,10 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 
     for (ECS::Entity* entity : billboardEntities) {
         DrawBillboardEntity(*entity, activeCamera, sun);
+    }
+
+    for (ECS::Entity* entity : terrainEntities) {
+        DrawTerrainEntity(*entity, activeCamera);
     }
 
 	/*
@@ -195,33 +200,35 @@ void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const ECS::Entity
 	dc->OMSetDepthStencilState(0, 0);
 }
 
-void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const CameraComponent& cam)
+void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const ECS::Entity& cam)
 {
-	/*
-	ID3D11DeviceContext* dc = GetGFXDeviceContext();
+    CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
+    RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+    ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST);
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JTerrain->m_InputLayout);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(m_rasterizerStates[RSWIREFRAME]);
-	dc->OMSetBlendState(m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
-	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
+	dc->RSSetState(render_system->m_rasterizerStates[RSWIREFRAME]);
+	dc->OMSetBlendState(render_system->m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
+	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
-	TerrainComponent* TerrainComponent = (TerrainComponent*)entity->m_VisualComponent;
+	const TerrainComponent& terrainComponent = entity.getComponent<TerrainComponent>();
 
 	UINT stride = sizeof(TerrainVertex);
 	UINT offset = 0;
-	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &TerrainComponent->m_VB, &stride, &offset);
-	GetGFXDeviceContext()->IASetIndexBuffer(TerrainComponent->m_IB, DXGI_FORMAT_R16_UINT, 0);
+    render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &terrainComponent.m_VB, &stride, &offset);
+    render_system->GetGFXDeviceContext()->IASetIndexBuffer(terrainComponent.m_IB, DXGI_FORMAT_R16_UINT, 0);
 
-	Vector3 eyePos = Vector3(cam->m_position);
-	Matrix view = cam->GetLookAtMatrix();
-	Matrix VP = view * m_ProjectionMatrix;
+    Vector3 eyePos = cam.getComponent<TransformComponent>().position;
+    Matrix view = camera_system->viewMat;
+    Matrix VP = view * camera_system->projMat;
 
 	ShaderManager::GetInstance()->m_JTerrain->SetEyePosW(eyePos);
 	ShaderManager::GetInstance()->m_JTerrain->SetViewProj(VP);
 
-	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(TerrainComponent->m_heightMapSRV);
+	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(terrainComponent.m_heightMapSRV);
 	ShaderManager::GetInstance()->m_JTerrain->SetTessParams(Vector4(0, 1000, 0, 6));
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JTerrain->Tech;
@@ -229,14 +236,13 @@ void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const CameraCompone
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-		activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-		GetGFXDeviceContext()->DrawIndexed(TerrainComponent->m_numPatchQuadFaces * 4, 0, 0);
+		activeTech->GetPassByIndex(p)->Apply(0, render_system->GetGFXDeviceContext());
+		render_system->GetGFXDeviceContext()->DrawIndexed(terrainComponent.m_numPatchQuadFaces * 4, 0, 0);
 	}
 
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	*/
 }
 
 }  // namespace jahbal
