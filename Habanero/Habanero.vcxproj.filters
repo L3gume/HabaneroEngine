@@ -30,7 +30,6 @@
     <ClCompile Include="engine\core\Engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="engine\core\ecs\ConstructorFunctions.cpp" />
-    <ClCompile Include="engine\core\ecs\ecs.cpp" />
     <ClCompile Include="engine\core\ecs\EntityConstructor.cpp" />
     <ClCompile Include="engine\core\input\InputManager.cpp" />
     <ClCompile Include="engine\core\components\Script.cpp" />
@@ -54,6 +53,7 @@
     <ClCompile Include="jahbal\ShaderManager.cpp" />
     <ClCompile Include="jahbal\creators\MeshCreator.cpp" />
     <ClCompile Include="jahbal\creators\BufferCreator.cpp" />
+    <ClCompile Include="engine\core\ecs\entitymanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
@@ -98,6 +98,11 @@
     <ClInclude Include="jahbal\components\BillboardComponent.h" />
     <ClInclude Include="jahbal\components\MeshComponent.h" />
     <ClInclude Include="jahbal\components\TerrainComponent.h" />
+    <ClInclude Include="engine\core\ecs\component.h" />
+    <ClInclude Include="engine\core\ecs\entity.h" />
+    <ClInclude Include="engine\core\ecs\system.h" />
+    <ClInclude Include="engine\core\ecs\entitymanager.h" />
+    <ClInclude Include="engine\core\ecs\systemmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

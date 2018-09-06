@@ -62,8 +62,8 @@ RenderSystem::~RenderSystem()
 void RenderSystem::update(float _deltaTime) 
 {
 	const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-		ECS::getComponentTypeID<MeshComponent>());
-	ECS::Entity* activeCamera =
+		ecs::getComponentTypeID<MeshComponent>());
+	ecs::Entity* activeCamera =
 		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
 	m_renderer.DrawScene(meshEntities, activeCamera);
 }

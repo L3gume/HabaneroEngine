@@ -8,7 +8,8 @@
 
 #include "engine/core/Scene.h"
 #include "engine/core/Engine.h"
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entitymanager.h"
+#include "engine/core/ecs/component.h"
 #include "engine/core/components/VisualComponent.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/components/MeshComponent.h"
@@ -35,8 +36,8 @@ namespace jahbal {
 
 JRenderer::JRenderer() {}
 
-void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
-						  ECS::Entity* activeCamera)
+void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
+						  ecs::Entity* activeCamera)
 {
 	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
 	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
@@ -57,7 +58,7 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 
 	for (unsigned int i = 0; i < scene.GetEntityList()->size(); i++)
 	{
-		ECS::Entity* entity = scene.GetEntityList()->at(i);
+		ecs::Entity* entity = scene.GetEntityList()->at(i);
 		VisualComponent* visualComponent = &(entity->getComponent<VisualComponent>());
 
 		if (visualComponent->m_visualType == VisualType::MESH) DrawMeshEntity(entity, cam, sun, point);
@@ -69,7 +70,7 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 	HR(render_system->m_swapChain->Present(0, 0));
 }
 
-void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
+void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
@@ -128,7 +129,7 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, con
 	*/
 }
 
-void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
+void JRenderer::DrawBillboardEntity(const ecs::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();
@@ -174,7 +175,7 @@ void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam
 	*/
 }
 
-void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const Camera& cam)
+void JRenderer::DrawTerrainEntity(const ecs::Entity& entity, const Camera& cam)
 {
 	/*
 	ID3D11DeviceContext* dc = GetGFXDeviceContext();

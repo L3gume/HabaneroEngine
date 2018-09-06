@@ -7,7 +7,8 @@
 
 #include <windows.h>
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entitymanager.h"
+#include "engine/core/ecs/systemmanager.h"
 #include "engine/core/Scene.h"
 
 class JRenderer;
@@ -33,8 +34,8 @@ namespace Core {
         inline bool isInitialized() const { return m_bInitialized; }
         static inline double getCurTime() { return 0; }
 
-        inline ECS::EntityManager& getEntityManager() { return m_entityManager; }
-        inline ECS::SystemManager& getSystemManager() { return m_systemManager; }
+        ecs::EntityManager& getEntityManager() { return m_entityManager; }
+        ecs::SystemManager& getSystemManager() { return m_systemManager; }
 		
 		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     private:
@@ -42,8 +43,8 @@ namespace Core {
 
 		bool initWindow();
 
-        ECS::EntityManager m_entityManager;
-        ECS::SystemManager m_systemManager;
+        ecs::EntityManager m_entityManager;
+        ecs::SystemManager m_systemManager;
 		Scene m_activeScene;
 
         float m_fCurTime = 0.f;

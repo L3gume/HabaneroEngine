@@ -6,13 +6,13 @@
 #define HABANERO_CONSTRUCTORFUNCTIONS_H
 
 #include "glm/glm.hpp"
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entity.h"
 #include "engine/core/components/TransformComponent.h"
 #include "engine/core/components/RenderableComponent.h"
 #include "engine/core/components/CameraComponent.h"
 #include "engine/core/components/ScriptComponent.h"
 
-using namespace ECS;
+using namespace ecs;
 
 /*
  * The point of this file is to add components here so they can be saved/loaded

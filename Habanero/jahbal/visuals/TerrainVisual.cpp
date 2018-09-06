@@ -12,7 +12,7 @@
 #include "jahbal/fx/JTerrain.h"
 #include "jahbal/util/dxmacros.h"
 
-TerrainComponent::TerrainComponent(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info) 
+TerrainComponent::TerrainComponent(ecs::Entity* owner, JRenderer* renderer, TerrainInfo info) 
 	: m_terrainInfo(info) //VisualComponent(owner, renderer, VisualType::TERRAIN)
 {
 	//m_JTerrain = ShaderManager::GetInstance()->m_JTerrain;

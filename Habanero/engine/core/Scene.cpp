@@ -3,7 +3,7 @@
 #include "engine/core/ecs/ecs.h"
 #include "jahbal/common/Light.h"
 
-using namespace ECS;
+using namespace ecs;
 
 namespace Core {
 void Scene::AddEntity(Entity* entity)

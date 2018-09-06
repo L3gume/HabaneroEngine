@@ -7,7 +7,7 @@
 
 #include "engine/core/ecs/ecs.h"
 
-using namespace ECS;
+using namespace ecs;
 
 class TransformSystem : public System {
     friend class SystemManager;

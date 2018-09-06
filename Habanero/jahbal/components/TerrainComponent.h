@@ -3,7 +3,7 @@
 #include <d3d11.h>
 
 #include "libraries/DirectXTK/include/SimpleMath.h"
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/component.h"
 #include "engine/core/components/VisualComponent.h"
 
 class JTerrain;
@@ -38,10 +38,10 @@ struct TerrainInfo
 };
 
 
-struct TerrainComponent : public ECS::Component
+struct TerrainComponent : public ecs::Component
 {
 public:
-	TerrainComponent(ECS::Entity* owner, JRenderer* renderer, TerrainInfo info);
+	TerrainComponent(ecs::Entity* owner, JRenderer* renderer, TerrainInfo info);
 	~TerrainComponent();
 
 	//void SetupBuffers();

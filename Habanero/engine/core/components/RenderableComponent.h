@@ -11,7 +11,7 @@
 // TODO: THIS IS A PLACEHOLDER, FIX WHEN NEW RENDERSYSTEM IS DONE
 
 /*
-struct RenderableComponent : ECS::Component {
+struct RenderableComponent : ecs::Component {
     explicit RenderableComponent(VapeRenderer::PrimitiveShapes _shape) {
         m_shape = _shape;
         switch (_shape) {

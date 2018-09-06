@@ -8,7 +8,8 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entitymanager.h"
+#include "engine/core/ecs/systemmanager.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/util/dxerr.h"
@@ -19,13 +20,13 @@ enum BlendState { BSNOBLEND, BSALPHACOVERAGE, BSNOTARGETWRITE, BSALPHA, BSSIZE }
 enum RasterizerState { RSWIREFRAME, RSSOLID, RSSOLIDBACK, RSSIZE };
 enum DepthStencilState { DSDEFAULT, DSMARKSTENCIL, DSSTENCILEQUAL, DSSIZE };
 
-class RenderSystem : public ECS::System {
-    friend class ECS::SystemManager;
+class RenderSystem : public ecs::System {
+    friend class ecs::SystemManager;
     friend class JRenderer;
 public:
     void update(float _deltaTime) override;
 
-    std::vector<ECS::Entity*> m_renderableEntities;
+    std::vector<ecs::Entity*> m_renderableEntities;
 
     ID3D11Device* GetGFXDevice() { return m_d3dDevice; }
     ID3D11DeviceContext* GetGFXDeviceContext() { return m_d3dImmediateContext; }

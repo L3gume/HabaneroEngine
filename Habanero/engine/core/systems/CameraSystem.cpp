@@ -15,7 +15,7 @@ inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
     m_activeCamera = _cam;
 }
 
-glm::mat4 CameraSystem::getMVPFromActiveCamera(glm::mat4 _modelMat) {
+glm::mat4 CameraSystem::getMVPFromActiveCamera(glm::mat4 _modelMat) const {
     return projMat * viewMat * _modelMat;
 }
 

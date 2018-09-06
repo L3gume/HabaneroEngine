@@ -5,7 +5,7 @@
 #include <DirectXMath.h>
 #include <vector>
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entitymanager.h"
 #include "engine/core/Scene.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "jahbal/common/Camera.h"
@@ -19,11 +19,11 @@ class JRenderer
 public:
 	friend class RenderSystem;
 private:
-	void DrawScene(const std::vector<ECS::Entity*>& renderableEntities, 
-		           ECS::Entity* activeCamera);
-	void DrawMeshEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
-	void DrawBillboardEntity(const ECS::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
-	void DrawTerrainEntity(const ECS::Entity& entity, const Camera& cam);
+	void DrawScene(const std::vector<ecs::Entity*>& renderableEntities, 
+		           ecs::Entity* activeCamera);
+	void DrawMeshEntity(const ecs::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
+	void DrawBillboardEntity(const ecs::Entity& entity, const Camera& cam, const Light& sun, const Light& point);
+	void DrawTerrainEntity(const ecs::Entity& entity, const Camera& cam);
 
 	JRenderer();
 	~JRenderer() {}
