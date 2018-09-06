@@ -9,6 +9,7 @@
 
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/Scene.h"
+#include "libraries/DirectXTK/include/Keyboard.h"
 
 class JRenderer;
 

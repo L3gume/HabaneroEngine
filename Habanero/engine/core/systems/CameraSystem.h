@@ -4,13 +4,13 @@
 #pragma once
 #ifndef VAPEENGINE_CAMERASYSTEM_H
 #define VAPEENGINE_CAMERASYSTEM_H
+#include <d3d11.h>
 
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/CameraComponent.h"
 #include "engine/core/components/TransformComponent.h"
 #include "engine/core/Engine.h"
-#include "glm/matrix.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "libraries/DirectXTK/include/SimpleMath.h"
 
 using namespace ECS;
 
@@ -27,18 +27,17 @@ public:
 	inline Entity* getActiveCamera() { return m_activeCamera; }
     inline void setActiveCamera(Entity *_cam) noexcept; // This essentially forces the system to use a specific camera,
                                                         // usually you'd have only one anyway.
-    glm::mat4 getMVPFromActiveCamera(glm::mat4 _modelMat);
+    DirectX::Matrix getMVPFromActiveCamera(DirectX::Matrix _modelMat);
 
+    DirectX::Matrix viewMat;
+    DirectX::Matrix projMat;
 private:
 
     void preUpdate(float _deltaTime) override;
+	void updateProjectionMatrix();
+
     Entity *m_activeCamera = nullptr;
 
-    glm::vec3 cartesianRot;
-    glm::vec3 cartesianRight;
-    glm::vec3 cartesianUp;
-    glm::mat4 viewMat;
-    glm::mat4 projMat;
 };
 
 #endif //VAPEENGINE_CAMERASYSTEM_H

@@ -6,7 +6,7 @@
 JTerrain::JTerrain(ID3D11Device* device)
 	: Shader(device)
 {
-	loadFX("./FX/Terrain.fxo");
+	loadFX("./jahbal/shaders/Terrain.fxo");
 	Tech = m_FX->GetTechniqueByName("Tess");
 
 	// cbPerObject

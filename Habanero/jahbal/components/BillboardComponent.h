@@ -3,6 +3,7 @@
 #include <d3d11.h>
 
 #include "libraries/DirectXTK/include/SimpleMath.h"
+#include "libraries/DirectXTK/include/WICTextureLoader.h"
 #include "engine/core/Engine.h"
 #include "engine/core/ecs/ecs.h"
 #include "engine/core/components/VisualComponent.h"
@@ -12,6 +13,7 @@
 
 using namespace DirectX;
 
+// TODO take out position from here since it's going to be in the TransformComponent
 struct BillBoardVertex
 {
 	BillBoardVertex(float px, float py, float pz, float sx, float sy)
@@ -26,8 +28,11 @@ struct BillBoardVertex
 
 struct BillboardComponent : public ECS::Component
 {
-	BillboardComponent(float sx, float sy) : 
-		m_vertex(Vector3::Zero, sx, sy) { SetupBuffers(); }
+	BillboardComponent(float sx, float sy, std::wstring texture_filename) : 
+		m_vertex(Vector3::Zero, sx, sy), m_textureFilename(texture_filename) {
+        SetupBuffers(); 
+        LoadTexture();
+    }
 	~BillboardComponent() 
 	{
 		if (m_diffuseSRV) m_diffuseSRV->Release();
@@ -38,10 +43,9 @@ struct BillboardComponent : public ECS::Component
 	ID3D11Buffer* m_VB;
 	ID3D11ShaderResourceView* m_diffuseSRV;
 	ID3D11ShaderResourceView* m_specSRV;
-	RenderSystem* m_renderSystem;
+    std::wstring m_textureFilename;
 
-	void SetupBuffers()
-	{
+	void SetupBuffers() {
 		D3D11_BUFFER_DESC vbd;
 		vbd.Usage = D3D11_USAGE_IMMUTABLE;
 		vbd.ByteWidth = sizeof(BillBoardVertex);
@@ -53,5 +57,19 @@ struct BillboardComponent : public ECS::Component
 		HR(Core::Engine::getInstance().getSystemManager().
 			getSystem<RenderSystem>()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 	}
+
+    void LoadTexture() {
+        RenderSystem* render_system =
+            Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+        ID3D11Resource* texResource = nullptr;
+        CreateWICTextureFromFile(
+            render_system->GetGFXDevice(),
+            render_system->GetGFXDeviceContext(),
+            m_textureFilename.c_str(),
+            &texResource, &m_diffuseSRV);
+        ReleaseCOM(texResource);
+
+        m_specSRV = nullptr;
+    }
 
 };

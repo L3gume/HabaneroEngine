@@ -5,7 +5,7 @@
 JBillboard::JBillboard(ID3D11Device* device)
 	: Shader(device)
 {
-	loadFX("./FX/Billboard.fxo");
+	loadFX("./jahbal/shaders/Billboard.fxo");
 	Tech = m_FX->GetTechniqueByName("Tech");
 
 	// cbPerObject
@@ -13,8 +13,7 @@ JBillboard::JBillboard(ID3D11Device* device)
 	Mat = m_FX->GetVariableByName("gMaterial");
 
 	// cbPerFrame
-	DirectionalLight = m_FX->GetVariableByName("gDLight");
-	PointLight = m_FX->GetVariableByName("gPLight");
+    Light = m_FX->GetVariableByName("gSun");
 	EyePosW = m_FX->GetVariableByName("gEyePosW")->AsVector();
 
 	// textures
@@ -39,8 +38,6 @@ JBillboard::~JBillboard()
 	ReleaseCOM(Tech)
 	ReleaseCOM(ViewProj)
 	ReleaseCOM(EyePosW)
-	ReleaseCOM(DirectionalLight)
-	ReleaseCOM(PointLight)
 	ReleaseCOM(Mat)
 	ReleaseCOM(DiffuseMap)
 }

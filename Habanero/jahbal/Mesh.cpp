@@ -94,6 +94,7 @@ bool Mesh::createSRVFromAssimpMat(aiMaterial* mat, aiTextureType type, ID3D11Sha
 		&texResource, srv);
 	ReleaseCOM(texResource);
 
+    if (!srv) std::cout << "Unable to load texture:" << path << std::endl;
 	return srv == nullptr;
 }
 
