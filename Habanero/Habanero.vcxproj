@@ -154,8 +154,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>./libraries/assimp/lib;./libraries/DirectXTK/lib;./libraries/glfw/lib;./libraries</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp.lib;DirectXTK32.lib;d3d11.lib;D3DCompiler.lib;Effects11d.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./libraries/assimp/lib;./libraries/DirectXTK/lib;./libraries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-32.lib;DirectXTK32.lib;d3d11.lib;D3DCompiler.lib;Effects11d-32.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -164,10 +164,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./libraries;./;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;assimp.lib;DirectXTK64.lib;d3d11.lib;D3DCompiler.lib;Effects11d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>./libraries/assimp/lib;./libraries/DirectXTK/lib;./libraries/glfw/lib;./libraries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-64.lib;DirectXTK64.lib;d3d11.lib;D3DCompiler.lib;Effects11d-64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./libraries/assimp/lib;./libraries/DirectXTK/lib;./libraries</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -32,12 +32,13 @@ public:
 private:
 
     void preUpdate(float _deltaTime) override;
-	void UpdateProjectionMatrix();
-
     Entity *m_activeCamera = nullptr;
 
-	Matrix viewMat;
-	Matrix projMat;
+    glm::vec3 cartesianRot;
+    glm::vec3 cartesianRight;
+    glm::vec3 cartesianUp;
+    glm::mat4 viewMat;
+    glm::mat4 projMat;
 };
 
 #endif //VAPEENGINE_CAMERASYSTEM_H

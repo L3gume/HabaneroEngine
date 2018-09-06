@@ -6,20 +6,18 @@
 #define HABANERO_TRANSFORMCOMPONENT_H
 
 #include "engine/core/ecs/ecs.h"
-#include "libraries/DirectXTK/include/SimpleMath.h"
-
-using DirectX::Vector3;
+#include "glm/vec3.hpp"
 
 struct TransformComponent : ECS::Component {
-    TransformComponent(Vector3 _pos, Vector3 _rot, Vector3 _scl) : position(_pos), rotation(_rot), scale(_scl) {}
+    TransformComponent(glm::vec3 _pos, glm::vec3 _rot, glm::vec3 _scl) : position(_pos), rotation(_rot), scale(_scl) {}
 
-    Vector3 position = Vector3(0.f, 0.f, 0.f);
-    Vector3 rotation = Vector3(0.f, 0.f, 0.f);
-    Vector3 scale = Vector3(1.f, 1.f, 1.f);
+    glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
+    glm::vec3 rotation = glm::vec3(0.f, 0.f, 0.f);
+    glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
 
-    Vector3 abs_position = Vector3(0.f, 0.f, 0.f);
-    Vector3 abs_rotation = Vector3(0.f, 0.f, 0.f);
-    Vector3 abs_scale = Vector3(1.f, 1.f, 1.f);
+    glm::vec3 abs_position = glm::vec3(0.f, 0.f, 0.f);
+    glm::vec3 abs_rotation = glm::vec3(0.f, 0.f, 0.f);
+    glm::vec3 abs_scale = glm::vec3(1.f, 1.f, 1.f);
 };
 
 #endif //HABANERO_TRANSFORMCOMPONENT_H
