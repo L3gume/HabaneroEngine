@@ -57,15 +57,15 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 	dc->ClearRenderTargetView(render_system->m_renderTargetView, reinterpret_cast<const float*>(&render_system->m_ClearColor));
 	dc->ClearDepthStencilView(render_system->m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-    for (ECS::Entity* entity : renderableEntities) {
+    for (auto entity : renderableEntities) {
         DrawMeshEntity(*entity, activeCamera, sun);
     }
 
-    for (ECS::Entity* entity : billboardEntities) {
+    for (auto entity : billboardEntities) {
         DrawBillboardEntity(*entity, activeCamera, sun);
     }
 
-    for (ECS::Entity* entity : terrainEntities) {
+    for (auto entity : terrainEntities) {
         DrawTerrainEntity(*entity, activeCamera);
     }
 

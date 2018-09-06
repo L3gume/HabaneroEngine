@@ -3,7 +3,7 @@
 #include "engine/core/ecs/ecs.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
-class LightData
+struct LightData
 {
 public:
     DirectX::Vector4 Ambient;
