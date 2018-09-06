@@ -2,7 +2,7 @@
 
 #include "jahbal/Shader.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
-#include "jahbal/common/Light.h"
+#include "jahbal/components/LightComponent.h"
 #include "jahbal/common/Material.h"
 
 using namespace DirectX;
@@ -16,7 +16,7 @@ public:
 	VP_DEC
 	MAT_DEC
 	EYEPOS_DEC
-
+    LIGHT_DEC
 	DIFFUSE_DEC
 
 	/*

@@ -13,6 +13,7 @@ JBillboard::JBillboard(ID3D11Device* device)
 	Mat = m_FX->GetVariableByName("gMaterial");
 
 	// cbPerFrame
+    Light = m_FX->GetVariableByName("gSun");
 	EyePosW = m_FX->GetVariableByName("gEyePosW")->AsVector();
 
 	// textures

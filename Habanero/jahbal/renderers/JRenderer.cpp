@@ -165,7 +165,7 @@ void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const ECS::Entity
     Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JBillboard->m_InputLayout);
-	//ShaderManager::GetInstance()->m_JBillboard->SetDLight((DLightData*)sun->m_LightData);
+	ShaderManager::GetInstance()->m_JBillboard->SetLight((LightData*)&sun.m_lightData);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
 	dc->RSSetState(render_system->m_rasterizerStates[RSSOLID]);
