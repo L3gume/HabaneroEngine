@@ -13,6 +13,10 @@
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/components/BillboardComponent.h"
+#include "jahbal/components/MeshComponent.h"
+#include "jahbal/components/TerrainComponent.h"
+#include "jahbal/ShaderManager.h"
 
 using namespace Core;
 
@@ -32,6 +36,34 @@ void Engine::init() {
 	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
 		m_hMainWnd);
 	m_systemManager.addSystem<CameraSystem>();
+    ShaderManager::GetInstance()->Init(m_systemManager.getSystem<RenderSystem>()->GetGFXDevice());
+
+	// Manual entity adding for testing, remove once entity serialization system is complete
+	Entity& camera = m_entityManager.addEntity("main_camera");
+	camera.addComponent<TransformComponent>(Vector3(30.0f, 30.0f, 30.0f), Vector3::Zero, Vector3::One);
+	camera.addComponent<CameraComponent>(0.25f * 3.14f, m_ClientWidth, m_ClientHeight,
+		1.0f, 1000.0f);
+
+    Entity& sun = m_entityManager.addEntity("sun");
+    sun.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    LightComponent& sunLight = sun.addComponent<LightComponent>(LightType::Directional);
+    sunLight.m_lightData.Ambient = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+    sunLight.m_lightData.Diffuse = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+    sunLight.m_lightData.Specular = Vector4(0.2f, 0.2f, 0.2f, 16.0f);
+
+    Entity& nanosuit = m_entityManager.addEntity("nano_suit");
+    nanosuit.addComponent<TransformComponent>(Vector3(10.0f, 0.0f, 0.0f), Vector3::Zero, Vector3::One);
+    nanosuit.addComponent<MeshComponent>("jahbal/resources/nanosuit/nanosuit.obj");
+
+    Entity& billboard = m_entityManager.addEntity("billboard");
+    billboard.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    billboard.addComponent<BillboardComponent>(15.0f, 15.0f, L"jahbal/resources/textures/tree0.dds");
+
+    Entity& terrain = m_entityManager.addEntity("terrain");
+    terrain.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+
+    TerrainInfo terrainInfo(L"jahbal/resources/textures/terrain.raw", 2049, 2049, 50, 1);
+    terrain.addComponent<TerrainComponent>(terrainInfo);
 }
 
 void Engine::gameLoop() {
@@ -44,6 +76,7 @@ void Engine::gameLoop() {
 		}
 		else {
 			// TODO calculate deltaTime and pass it in
+			m_systemManager.preUpdate(0);
 			m_systemManager.update(0);
 		}
 	}

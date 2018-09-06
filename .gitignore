@@ -5,7 +5,10 @@
 *.slo
 *.lo
 *.o
-*.obj
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
 
 # Precompiled Headers
 *.gch
