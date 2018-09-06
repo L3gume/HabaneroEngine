@@ -3,8 +3,9 @@
 
 cbuffer cbPerFrame
 {
-	DirectionalLight gDLight;
-	PointLight gPLight;
+	//DirectionalLight gDLight;
+	//PointLight gPLight;
+    Light gSun;
 	float3 gEyePosW;
 };
 
@@ -73,7 +74,7 @@ float4 PS(VOUT pin) : SV_Target
 	float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	float4 a, d, s;
-	computeDirectionalLight(gDLight, pin.NormalW, ptoeye, mat_d, mat_s, a, d, s);
+	computeDirectionalLight(gSun, pin.NormalW, ptoeye, mat_d, mat_s, a, d, s);
 	ambient += a;
 	diffuse += d;
 	spec += s;
@@ -88,7 +89,7 @@ float4 PS(VOUT pin) : SV_Target
 	float4 color = ambient + diffuse + spec;
 	color.a = gMaterial.ambient.a;
 
-	return mat_d;
+	return color;
 }
 
 technique11 Tech

@@ -13,8 +13,6 @@ JBillboard::JBillboard(ID3D11Device* device)
 	Mat = m_FX->GetVariableByName("gMaterial");
 
 	// cbPerFrame
-	DirectionalLight = m_FX->GetVariableByName("gDLight");
-	PointLight = m_FX->GetVariableByName("gPLight");
 	EyePosW = m_FX->GetVariableByName("gEyePosW")->AsVector();
 
 	// textures
@@ -39,8 +37,6 @@ JBillboard::~JBillboard()
 	ReleaseCOM(Tech)
 	ReleaseCOM(ViewProj)
 	ReleaseCOM(EyePosW)
-	ReleaseCOM(DirectionalLight)
-	ReleaseCOM(PointLight)
 	ReleaseCOM(Mat)
 	ReleaseCOM(DiffuseMap)
 }

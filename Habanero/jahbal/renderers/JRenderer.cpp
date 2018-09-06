@@ -105,7 +105,7 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 	Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JGeneric->m_InputLayout);
-	ShaderManager::GetInstance()->m_JGeneric->SetDLight((DLightData*)&sun.m_lightData);
+	ShaderManager::GetInstance()->m_JGeneric->SetLight((LightData*)&sun.m_lightData);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
 	dc->RSSetState(render_system->m_rasterizerStates[RSSOLID]);

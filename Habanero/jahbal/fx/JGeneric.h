@@ -4,7 +4,7 @@
 
 #include "jahbal/Shader.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
-#include "jahbal/common/Light.h"
+#include "jahbal/components/LightComponent.h"
 #include "jahbal/common/Material.h"
 
 class JGeneric : public Shader
@@ -17,8 +17,7 @@ public:
 	WORLD_DEC
 	WOLRDINV_DEC
 	EYEPOS_DEC
-	DLIGHT_DEC
-	PLIGHT_DEC
+    LIGHT_DEC
 	MAT_DEC
 
 	DIFFUSE_DEC

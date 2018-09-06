@@ -44,6 +44,10 @@ public:
 	void SetEyePosW(const DirectX::Vector3& v) { EyePosW->SetRawValue(&v, 0, sizeof(Vector3)); }			\
 	ID3DX11EffectVectorVariable* EyePosW;															\
 
+#define LIGHT_DEC \
+    void SetLight(const LightData* data) { Light->SetRawValue(data, 0, sizeof(LightData)); } \
+    ID3DX11EffectVariable* Light;	\
+
 #define DLIGHT_DEC	\
 	void SetDLight(const jahbal::LightData* data) { DirectionalLight->SetRawValue(data, 0, sizeof(jahbal::DLightData)); }	\
 	ID3DX11EffectVariable* DirectionalLight;	\

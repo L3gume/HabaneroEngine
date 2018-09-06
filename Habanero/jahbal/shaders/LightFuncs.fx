@@ -1,15 +1,19 @@
 #include "Defs.fx"
-void computeDirectionalLight(DirectionalLight l, float3 normal, float3 ptoeye, float4 mat_d, float4 mat_s,
+void computeDirectionalLight(Light l, float3 normal, float3 ptoeye, float4 mat_d, float4 mat_s,
 							 out float4 ambient, out float4 diffuse, out float4 spec)
 {
 	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-	float3 reflected = reflect(l.direction, normal);
+    // TODO this is a hack, direction should be obtained from the light's
+    // transform component somehow
+    float3 direction = float3(-1.0f, 0.0f, 0.0f);
+
+	float3 reflected = reflect(direction, normal);
 	reflected = normalize(reflected);
 
-	float diffuse_factor = max(dot(-l.direction, normal), 0.0f);
+	float diffuse_factor = max(dot(-direction, normal), 0.0f);
 	diffuse = diffuse_factor * (mat_d * l.diffuse);
 
 	if (diffuse_factor > 0.0f)
