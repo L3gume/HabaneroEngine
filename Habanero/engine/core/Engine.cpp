@@ -13,6 +13,7 @@
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/components/BillboardComponent.h"
 #include "jahbal/components/MeshComponent.h"
 #include "jahbal/ShaderManager.h"
 
@@ -50,8 +51,12 @@ void Engine::init() {
     sunLight.m_lightData.Specular = Vector4(0.05f, 0.05f, 0.05f, 16.0f);
 
     Entity& nanosuit = m_entityManager.addEntity("nano_suit");
-    nanosuit.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    nanosuit.addComponent<TransformComponent>(Vector3(10.0f, 0.0f, 0.0f), Vector3::Zero, Vector3::One);
     nanosuit.addComponent<MeshComponent>("jahbal/resources/nanosuit/nanosuit.obj");
+
+    Entity& billboard = m_entityManager.addEntity("billboard");
+    billboard.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    billboard.addComponent<BillboardComponent>(15.0f, 15.0f, L"jahbal/resources/textures/tree0.dds");
 }
 
 void Engine::gameLoop() {

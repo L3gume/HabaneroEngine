@@ -190,13 +190,13 @@ fxgroup
                 //   v3.x <- pin.UV.x; v3.y <- pin.UV.y; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 63 "C:\Users\msukka1\Documents\HabaneroEngine\Habanero\jahbal\shaders\Generic.fx"
+                #line 64 "C:\Users\msukka1\Documents\HabaneroEngine\Habanero\jahbal\shaders\Generic.fx"
                 sample_indexable(texture2d)(float,float,float,float) r0.xyzw, v3.xyxx, t0.xyzw, s0  // r0.x <- mat_d.x; r0.y <- mat_d.y; r0.z <- mat_d.z; r0.w <- mat_d.w
                 
-                #line 75
+                #line 76
                 nop 
                 
-                #line 90
+                #line 91
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 4 instruction slots used

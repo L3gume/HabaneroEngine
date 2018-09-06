@@ -21,9 +21,10 @@ public:
 	friend class RenderSystem;
 private:
 	void DrawScene(const std::vector<ECS::Entity*>& renderableEntities, 
+        const std::vector<ECS::Entity*>& billboardEntities,
         const ECS::Entity& activeCamera, const ECS::Entity& sunLight);
 	void DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun);
-	void DrawBillboardEntity(const ECS::Entity& entity, const CameraComponent& cam, const LightComponent& sun);
+	void DrawBillboardEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun);
 	void DrawTerrainEntity(const ECS::Entity& entity, const CameraComponent& cam);
 
 	JRenderer();

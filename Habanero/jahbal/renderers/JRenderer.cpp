@@ -39,6 +39,7 @@ namespace jahbal {
 JRenderer::JRenderer() {}
 
 void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
+                          const std::vector<ECS::Entity*>& billboardEntities,
 						  const ECS::Entity& activeCamera,
                           const ECS::Entity& sunLight)
 {
@@ -57,6 +58,10 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 
     for (ECS::Entity* entity : renderableEntities) {
         DrawMeshEntity(*entity, activeCamera, sun);
+    }
+
+    for (ECS::Entity* entity : billboardEntities) {
+        DrawBillboardEntity(*entity, activeCamera, sun);
     }
 
 	/*
@@ -145,50 +150,49 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 	dc->OMSetDepthStencilState(0, 0);
 }
 
-void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const CameraComponent& cam, const LightComponent& sun)
+void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun)
 {
-	/*
-	ID3D11DeviceContext* dc = GetGFXDeviceContext();
+    CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
+    RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+    ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	Vector3 eyePos = Vector3(cam->m_position);
+    Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JBillboard->m_InputLayout);
-	ShaderManager::GetInstance()->m_JBillboard->SetDLight((DLightData*)sun->m_LightData);
-	ShaderManager::GetInstance()->m_JBillboard->SetPLight((PLightData*)point->m_LightData);
+	//ShaderManager::GetInstance()->m_JBillboard->SetDLight((DLightData*)sun->m_LightData);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(m_rasterizerStates[RSSOLID]);
-	dc->OMSetBlendState(m_blendStates[BSALPHACOVERAGE], blendFactors, 0xffffffff);
-	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
+	dc->RSSetState(render_system->m_rasterizerStates[RSSOLID]);
+	dc->OMSetBlendState(render_system->m_blendStates[BSALPHACOVERAGE], blendFactors, 0xffffffff);
+	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
+    const auto& billboard = entity.getComponent<BillboardComponent>();
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JBillboard->Tech;
 	D3DX11_TECHNIQUE_DESC techDesc;
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-		Matrix view = cam->GetLookAtMatrix();
-		Matrix VP = view * m_ProjectionMatrix;
+        Matrix view = camera_system->viewMat;
+		Matrix VP = view * camera_system->projMat;
 
 		ShaderManager::GetInstance()->m_JBillboard->SetViewProj(VP);
-		ShaderManager::GetInstance()->m_JBillboard->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JBillboard->SetEyePosW(eyePos);
 
-		BillboardComponent* boardVisual = (BillboardComponent*)entity->m_VisualComponent;
 
 		UINT stride = sizeof(BillBoardVertex);
 		UINT offset = 0;
-		GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &boardVisual->m_VB, &stride, &offset);
+		render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &billboard.m_VB, &stride, &offset);
 
-		ShaderManager::GetInstance()->m_JBillboard->SetDiffuseMap(boardVisual->m_diffuseSRV);
+		ShaderManager::GetInstance()->m_JBillboard->SetDiffuseMap(billboard.m_diffuseSRV);
 
-		activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-		GetGFXDeviceContext()->Draw(1, 0);
+		activeTech->GetPassByIndex(p)->Apply(0, render_system->GetGFXDeviceContext());
+        render_system->GetGFXDeviceContext()->Draw(1, 0);
 	}
 
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	*/
 }
 
 void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const CameraComponent& cam)

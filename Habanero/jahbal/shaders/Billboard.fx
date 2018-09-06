@@ -128,7 +128,7 @@ float4 PS(GOUT pin)	: SV_TARGET
 	float4 color = ambient + diffuse + spec;
 	color.a = gMaterial.ambient.a;
 
-	return color;
+	return mat_d;
 }
 
 technique11 Tech

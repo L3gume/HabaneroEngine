@@ -9,6 +9,7 @@
 #include "engine/core/Engine.h"
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/components/BillboardComponent.h"
 #include "jahbal/components/MeshComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/util/dxmacros.h"
@@ -63,6 +64,8 @@ void RenderSystem::update(float _deltaTime)
 {
 	const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
 		ECS::getComponentTypeID<MeshComponent>());
+    const auto& billboardEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+        ECS::getComponentTypeID<BillboardComponent>());
 	ECS::Entity* activeCamera =
 		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
     assert(activeCamera);
@@ -74,7 +77,7 @@ void RenderSystem::update(float _deltaTime)
             ECS::getComponentTypeID<LightComponent>()).at(0);
     assert(sun);
 
-	m_renderer.DrawScene(meshEntities, *activeCamera, *sun);
+	m_renderer.DrawScene(meshEntities, billboardEntities, *activeCamera, *sun);
 }
 
 void RenderSystem::InitBlendStates()
