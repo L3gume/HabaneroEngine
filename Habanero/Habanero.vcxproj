@@ -95,6 +95,8 @@
     <ClInclude Include="jahbal\util\d3dx11effect.h" />
     <ClInclude Include="jahbal\util\dxerr.h" />
     <ClInclude Include="jahbal\util\dxmacros.h" />
+    <ClInclude Include="libraries\visit_struct\visit_struct.hpp" />
+    <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

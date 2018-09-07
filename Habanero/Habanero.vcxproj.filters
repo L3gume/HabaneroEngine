@@ -103,6 +103,8 @@
     <ClInclude Include="engine\core\ecs\system.h" />
     <ClInclude Include="engine\core\ecs\entitymanager.h" />
     <ClInclude Include="engine\core\ecs\systemmanager.h" />
+    <ClInclude Include="libraries\visit_struct\visit_struct.hpp" />
+    <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

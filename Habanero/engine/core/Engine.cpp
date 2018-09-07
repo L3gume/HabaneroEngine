@@ -13,6 +13,7 @@
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "ecs/ConstructorFunctions.h"
 
 using namespace Core;
 
@@ -32,6 +33,10 @@ void Engine::init() {
 	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
 		m_hMainWnd);
 	m_systemManager.addSystem<CameraSystem>();
+    
+	auto& ent = m_entityManager.addEntity("swag");
+	auto& transformComp = ent.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f));
+	saveComponent<TransformComponent>(transformComp);
 }
 
 void Engine::gameLoop() {
