@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "libraries/DirectXTK/include/SimpleMath.h"
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/component.h"
 #include "engine/core/components/VisualComponent.h"
 #include "jahbal/Mesh.h"
 
@@ -26,7 +26,7 @@ struct MeshVertex
 };
 
 
-struct MeshComponent : public ECS::Component
+struct MeshComponent : public ecs::Component
 {
 	MeshComponent(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
 		m_Mesh(new Mesh(vertexList, indexList)) {}

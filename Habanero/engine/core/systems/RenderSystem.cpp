@@ -63,21 +63,21 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::update(float _deltaTime) 
 {
-	const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-		ECS::getComponentTypeID<MeshComponent>());
+	  const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+		  ecs::getComponentTypeID<MeshComponent>());
     const auto& billboardEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-        ECS::getComponentTypeID<BillboardComponent>());
+      ecs::getComponentTypeID<BillboardComponent>());
     const auto& terrainEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-        ECS::getComponentTypeID<TerrainComponent>());
-	ECS::Entity* activeCamera =
-		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
+      ecs::getComponentTypeID<TerrainComponent>());
+	  ecs::Entity* activeCamera =
+		  Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
     assert(activeCamera);
 
 
     // We assume that there's only one light in the scene atm and that ligh is the sun
-    ECS::Entity* sun =
+    ecs::Entity* sun =
         Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-            ECS::getComponentTypeID<LightComponent>()).at(0);
+            ecs::getComponentTypeID<LightComponent>()).at(0);
     assert(sun);
 
 	m_renderer.DrawScene(meshEntities, billboardEntities, terrainEntities, *activeCamera, *sun);

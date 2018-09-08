@@ -9,7 +9,7 @@
 // TODO: CHANGE THIS
 
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entity.h"
 
 /*
  * ScriptComponents will hold an object of type script, which contains logic.
@@ -28,13 +28,13 @@ public:
 
     std::string m_sName;
 protected:
-    ECS::Entity* m_entity = nullptr;
+    ecs::Entity* m_entity = nullptr;
 };
 
 /*
  * Heavily inspired from Unity's scripting system.
  */
-struct ScriptComponent : ECS::Component {
+struct ScriptComponent : ecs::Component {
     explicit ScriptComponent(Script* _script) {
         std::unique_ptr<Script> uPtr{_script};
         m_script = std::move(uPtr);

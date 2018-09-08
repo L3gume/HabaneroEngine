@@ -15,7 +15,7 @@ struct MeshVertex;
 
 enum VisualType {MESH, BILLBOARD, TERRAIN};
 
-struct VisualComponent : ECS::Component
+struct VisualComponent : ecs::Component
 {
 	VisualComponent(Entity* owner, JRenderer* renderer, VisualType visualType);
 	~VisualComponent() = default;

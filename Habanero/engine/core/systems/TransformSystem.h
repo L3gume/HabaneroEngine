@@ -5,9 +5,9 @@
 #ifndef VAPEENGINE_TRANSFORMSYSTEM_H
 #define VAPEENGINE_TRANSFORMSYSTEM_H
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/system.h"
 
-using namespace ECS;
+using namespace ecs;
 
 class TransformSystem : public System {
     friend class SystemManager;

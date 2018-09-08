@@ -9,7 +9,7 @@
 #include "engine/core/Engine.h"
 #include "engine/core/components/ScriptComponent.h"
 
-using namespace ECS;
+using namespace ecs;
 
 class ScriptSystem : public System {
 friend class SystemManager;

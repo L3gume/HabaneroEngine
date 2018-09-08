@@ -5,7 +5,7 @@
 #include "libraries/DirectXTK/include/SimpleMath.h"
 #include "libraries/DirectXTK/include/WICTextureLoader.h"
 #include "engine/core/Engine.h"
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/component.h"
 #include "engine/core/components/VisualComponent.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/renderers/JRenderer.h"
@@ -26,7 +26,7 @@ struct BillBoardVertex
 	Vector2 size;
 };
 
-struct BillboardComponent : public ECS::Component
+struct BillboardComponent : public ecs::Component
 {
 	BillboardComponent(float sx, float sy, std::wstring texture_filename) : 
 		m_vertex(Vector3::Zero, sx, sy), m_textureFilename(texture_filename) {

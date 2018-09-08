@@ -3,7 +3,7 @@
 #include <iostream>
 #include <d3d11.h>
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/component.h"
 #include "engine/core/Engine.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
@@ -40,7 +40,7 @@ struct TerrainInfo
 };
 
 
-struct TerrainComponent : public ECS::Component
+struct TerrainComponent : public ecs::Component
 {
 public:
     TerrainComponent(TerrainInfo info) : m_terrainInfo(info) {

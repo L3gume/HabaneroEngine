@@ -8,7 +8,8 @@
 
 #include "engine/core/Scene.h"
 #include "engine/core/Engine.h"
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/entitymanager.h"
+#include "engine/core/ecs/component.h"
 #include "engine/core/components/CameraComponent.h"
 #include "engine/core/components/TransformComponent.h"
 #include "engine/core/systems/CameraSystem.h"
@@ -38,11 +39,11 @@ namespace jahbal {
 
 JRenderer::JRenderer() {}
 
-void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
-                          const std::vector<ECS::Entity*>& billboardEntities,
-                          const std::vector<ECS::Entity*>& terrainEntities,
-						  const ECS::Entity& activeCamera,
-                          const ECS::Entity& sunLight)
+void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
+                          const std::vector<ecs::Entity*>& billboardEntities,
+                          const std::vector<ecs::Entity*>& terrainEntities,
+						  const ecs::Entity& activeCamera,
+                          const ecs::Entity& sunLight)
 {
     assert(activeCamera.hasComponent<CameraComponent>());
     const auto& camera = activeCamera.getComponent<CameraComponent>();
@@ -82,7 +83,7 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 
 	for (unsigned int i = 0; i < scene.GetEntityList()->size(); i++)
 	{
-		ECS::Entity* entity = scene.GetEntityList()->at(i);
+		ecs::Entity* entity = scene.GetEntityList()->at(i);
 		VisualComponent* visualComponent = &(entity->getComponent<VisualComponent>());
 
 		if (visualComponent->m_visualType == VisualType::MESH) DrawMeshEntity(entity, cam, sun, point);
@@ -94,7 +95,7 @@ void JRenderer::DrawScene(const std::vector<ECS::Entity*>& renderableEntities,
 	HR(render_system->m_swapChain->Present(0, 0));
 }
 
-void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun)
+void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const ecs::Entity& cam, const LightComponent& sun)
 {
     CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
     RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
@@ -155,7 +156,7 @@ void JRenderer::DrawMeshEntity(const ECS::Entity& entity, const ECS::Entity& cam
 	dc->OMSetDepthStencilState(0, 0);
 }
 
-void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const ECS::Entity& cam, const LightComponent& sun)
+void JRenderer::DrawBillboardEntity(const ecs::Entity& entity, const ecs::Entity& cam, const LightComponent& sun)
 {
     CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
     RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
@@ -200,7 +201,7 @@ void JRenderer::DrawBillboardEntity(const ECS::Entity& entity, const ECS::Entity
 	dc->OMSetDepthStencilState(0, 0);
 }
 
-void JRenderer::DrawTerrainEntity(const ECS::Entity& entity, const ECS::Entity& cam)
+void JRenderer::DrawTerrainEntity(const ecs::Entity& entity, const ecs::Entity& cam)
 {
     CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
     RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();

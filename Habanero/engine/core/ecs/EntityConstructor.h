@@ -13,7 +13,7 @@
 #include "engine/core/Engine.h"
 #include "EntityConstructor.h"
 
-namespace ECS {
+namespace ecs {
     class EntityConstructor {
     public:
         EntityConstructor() = default;

@@ -7,11 +7,10 @@
 
 #include <d3d11.h>
 
-#include "engine/core/ecs/ecs.h"
-#include "glm/vec3.hpp"
+#include "engine/core/ecs/component.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
-struct TransformComponent : ECS::Component {
+struct TransformComponent : ecs::Component {
     TransformComponent(DirectX::Vector3 _pos, DirectX::Vector3 _rot, DirectX::Vector3 _scl) : position(_pos), rotation(_rot), scale(_scl) {}
 
     DirectX::Vector3 position = DirectX::Vector3(0.f, 0.f, 0.f);

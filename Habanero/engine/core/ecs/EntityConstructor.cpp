@@ -10,7 +10,7 @@
 #include "EntityConstructor.h"
 #include "ConstructorFunctions.h"
 
-using namespace ECS;
+using namespace ecs;
 
 /*
  * TODO: make this useable and safer lul

@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClCompile Include="engine\core\components\Script.cpp" />
     <ClCompile Include="engine\core\ecs\ConstructorFunctions.cpp" />
-    <ClCompile Include="engine\core\ecs\ecs.cpp" />
     <ClCompile Include="engine\core\ecs\EntityConstructor.cpp" />
+    <ClCompile Include="engine\core\ecs\entitymanager.cpp" />
     <ClCompile Include="engine\core\Engine.cpp" />
     <ClCompile Include="engine\core\input\InputManager.cpp" />
     <ClCompile Include="engine\core\logging\LogManager.cpp" />
@@ -53,9 +53,14 @@
     <ClInclude Include="engine\core\components\ScriptComponent.h" />
     <ClInclude Include="engine\core\components\TransformComponent.h" />
     <ClInclude Include="engine\core\components\VisualComponent.h" />
+    <ClInclude Include="engine\core\ecs\component.h" />
     <ClInclude Include="engine\core\ecs\ConstructorFunctions.h" />
     <ClInclude Include="engine\core\ecs\ecs.h" />
+    <ClInclude Include="engine\core\ecs\entity.h" />
     <ClInclude Include="engine\core\ecs\EntityConstructor.h" />
+    <ClInclude Include="engine\core\ecs\entitymanager.h" />
+    <ClInclude Include="engine\core\ecs\system.h" />
+    <ClInclude Include="engine\core\ecs\systemmanager.h" />
     <ClInclude Include="engine\core\Engine.h" />
     <ClInclude Include="engine\core\input\InputListener.h" />
     <ClInclude Include="engine\core\input\InputManager.h" />
@@ -221,7 +226,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./libraries;./;</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp-64.lib;DirectXTK64.lib;d3d11.lib;D3DCompiler.lib;Effects11d-64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
