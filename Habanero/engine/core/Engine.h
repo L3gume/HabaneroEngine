@@ -10,6 +10,7 @@
 #include "engine/core/ecs/entitymanager.h"
 #include "engine/core/ecs/systemmanager.h"
 #include "engine/core/Scene.h"
+#include "libraries/DirectXTK/include/Keyboard.h"
 
 class JRenderer;
 

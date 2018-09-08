@@ -10,10 +10,13 @@
 #include "engine/core/Engine.h"
 #include "engine/core/ecs/entitymanager.h"
 #include "engine/core/ecs/component.h"
-#include "engine/core/components/VisualComponent.h"
+#include "engine/core/components/CameraComponent.h"
+#include "engine/core/components/TransformComponent.h"
+#include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "jahbal/components/MeshComponent.h"
 #include "jahbal/components/BillboardComponent.h"
+#include "jahbal/components/LightComponent.h"
 #include "jahbal/components/TerrainComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/common/Material.h"
@@ -37,13 +40,35 @@ namespace jahbal {
 JRenderer::JRenderer() {}
 
 void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
-						  ecs::Entity* activeCamera)
+                          const std::vector<ecs::Entity*>& billboardEntities,
+                          const std::vector<ecs::Entity*>& terrainEntities,
+						  const ecs::Entity& activeCamera,
+                          const ecs::Entity& sunLight)
 {
+    assert(activeCamera.hasComponent<CameraComponent>());
+    const auto& camera = activeCamera.getComponent<CameraComponent>();
+
+    assert(sunLight.hasComponent<LightComponent>());
+    const auto& sun = sunLight.getComponent<LightComponent>();
+    assert(sun.m_lightType == LightType::Directional);
+
 	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
 	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
 
 	dc->ClearRenderTargetView(render_system->m_renderTargetView, reinterpret_cast<const float*>(&render_system->m_ClearColor));
 	dc->ClearDepthStencilView(render_system->m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+    for (auto entity : renderableEntities) {
+        DrawMeshEntity(*entity, activeCamera, sun);
+    }
+
+    for (auto entity : billboardEntities) {
+        DrawBillboardEntity(*entity, activeCamera, sun);
+    }
+
+    for (auto entity : terrainEntities) {
+        DrawTerrainEntity(*entity, activeCamera);
+    }
 
 	/*
 	const Camera& cam = scene.GetActiveCamera();
@@ -70,138 +95,141 @@ void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
 	HR(render_system->m_swapChain->Present(0, 0));
 }
 
-void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
+void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const ecs::Entity& cam, const LightComponent& sun)
 {
-	/*
-	ID3D11DeviceContext* dc = GetGFXDeviceContext();
+    CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
+    RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+    ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	Vector3 eyePos = Vector3(cam->m_position);
+	Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JGeneric->m_InputLayout);
-	ShaderManager::GetInstance()->m_JGeneric->SetDLight((DLightData*)sun->m_LightData);
-	ShaderManager::GetInstance()->m_JGeneric->SetPLight((PLightData*)point->m_LightData);
+	ShaderManager::GetInstance()->m_JGeneric->SetLight((LightData*)&sun.m_lightData);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(m_rasterizerStates[RSWIREFRAME]);
-	dc->OMSetBlendState(m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
-	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
+	dc->RSSetState(render_system->m_rasterizerStates[RSSOLID]);
+	dc->OMSetBlendState(render_system->m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
+	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JGeneric->Tech;
 	D3DX11_TECHNIQUE_DESC techDesc;
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-		Matrix rotation = Matrix::CreateFromYawPitchRoll(entity->m_rotationEuler.x, entity->m_rotationEuler.y, entity->m_rotationEuler.z);
-		Matrix model = rotation * Matrix::CreateTranslation(entity->m_position);
+        const auto& entityTransform = entity.getComponent<TransformComponent>();
+		Matrix rotation = Matrix::CreateFromYawPitchRoll(entityTransform.rotation.x, entityTransform.rotation.y,
+            entityTransform.rotation.z);
+		Matrix model = rotation * Matrix::CreateTranslation(entityTransform.position);
 		Matrix modelInvTranspose = model; modelInvTranspose.Invert().Transpose();
-		Matrix view = cam->GetLookAtMatrix();
-		Matrix MVP = model * view * m_ProjectionMatrix;
+        Matrix view = camera_system->viewMat;
+		Matrix MVP = model * view * camera_system->projMat;
 
 		ShaderManager::GetInstance()->m_JGeneric->SetWorldViewProj(MVP);
 		ShaderManager::GetInstance()->m_JGeneric->SetWorld(model);
 		ShaderManager::GetInstance()->m_JGeneric->SetWorldInvTranspose(modelInvTranspose);
-		ShaderManager::GetInstance()->m_JGeneric->SetMaterial(entity->m_VisualComponent->m_Material);
+        // TODO Make MaterialComponent
+		//ShaderManager::GetInstance()->m_JGeneric->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JGeneric->SetEyePosW(eyePos);
 
-		MeshComponent* MeshComponent = (MeshComponent*)entity->m_VisualComponent;
-		Mesh* mesh = MeshComponent->m_Mesh;
+        Mesh* mesh = entity.getComponent<MeshComponent>().m_Mesh.get();
 		for (unsigned int s = 0; s < mesh->m_subMeshList.size(); s++)
 		{
 			SubMesh* subMesh = &mesh->m_subMeshList[s];
 
 			UINT stride = sizeof(MeshVertex);
 			UINT offset = 0;
-			GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &subMesh->m_VB, &stride, &offset);
-			GetGFXDeviceContext()->IASetIndexBuffer(subMesh->m_IB, DXGI_FORMAT_R32_UINT, 0);
+			render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &subMesh->m_VB, &stride, &offset);
+			render_system->GetGFXDeviceContext()->IASetIndexBuffer(subMesh->m_IB, DXGI_FORMAT_R32_UINT, 0);
 
 			ShaderManager::GetInstance()->m_JGeneric->SetDiffuseMap(subMesh->m_diffuseSRV);
 			ShaderManager::GetInstance()->m_JGeneric->SetSpecMap(subMesh->m_specSRV);
 
-			activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-			GetGFXDeviceContext()->DrawIndexed(subMesh->m_indexList.size(), 0, 0);
+			activeTech->GetPassByIndex(p)->Apply(0, render_system->GetGFXDeviceContext());
+			render_system->GetGFXDeviceContext()->DrawIndexed(subMesh->m_indexList.size(), 0, 0);
 		}
 	}
 
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	*/
 }
 
-void JRenderer::DrawBillboardEntity(const ecs::Entity& entity, const Camera& cam, const Light& sun, const Light& point)
+void JRenderer::DrawBillboardEntity(const ecs::Entity& entity, const ecs::Entity& cam, const LightComponent& sun)
 {
-	/*
-	ID3D11DeviceContext* dc = GetGFXDeviceContext();
+    CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
+    RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+    ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	Vector3 eyePos = Vector3(cam->m_position);
+    Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JBillboard->m_InputLayout);
-	ShaderManager::GetInstance()->m_JBillboard->SetDLight((DLightData*)sun->m_LightData);
-	ShaderManager::GetInstance()->m_JBillboard->SetPLight((PLightData*)point->m_LightData);
+	ShaderManager::GetInstance()->m_JBillboard->SetLight((LightData*)&sun.m_lightData);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(m_rasterizerStates[RSSOLID]);
-	dc->OMSetBlendState(m_blendStates[BSALPHACOVERAGE], blendFactors, 0xffffffff);
-	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
+	dc->RSSetState(render_system->m_rasterizerStates[RSSOLID]);
+	dc->OMSetBlendState(render_system->m_blendStates[BSALPHACOVERAGE], blendFactors, 0xffffffff);
+	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
+    const auto& billboard = entity.getComponent<BillboardComponent>();
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JBillboard->Tech;
 	D3DX11_TECHNIQUE_DESC techDesc;
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-		Matrix view = cam->GetLookAtMatrix();
-		Matrix VP = view * m_ProjectionMatrix;
+        Matrix view = camera_system->viewMat;
+		Matrix VP = view * camera_system->projMat;
 
 		ShaderManager::GetInstance()->m_JBillboard->SetViewProj(VP);
-		ShaderManager::GetInstance()->m_JBillboard->SetMaterial(entity->m_VisualComponent->m_Material);
 		ShaderManager::GetInstance()->m_JBillboard->SetEyePosW(eyePos);
 
-		BillboardComponent* boardVisual = (BillboardComponent*)entity->m_VisualComponent;
 
 		UINT stride = sizeof(BillBoardVertex);
 		UINT offset = 0;
-		GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &boardVisual->m_VB, &stride, &offset);
+		render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &billboard.m_VB, &stride, &offset);
 
-		ShaderManager::GetInstance()->m_JBillboard->SetDiffuseMap(boardVisual->m_diffuseSRV);
+		ShaderManager::GetInstance()->m_JBillboard->SetDiffuseMap(billboard.m_diffuseSRV);
 
-		activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-		GetGFXDeviceContext()->Draw(1, 0);
+		activeTech->GetPassByIndex(p)->Apply(0, render_system->GetGFXDeviceContext());
+        render_system->GetGFXDeviceContext()->Draw(1, 0);
 	}
 
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	*/
 }
 
-void JRenderer::DrawTerrainEntity(const ecs::Entity& entity, const Camera& cam)
+void JRenderer::DrawTerrainEntity(const ecs::Entity& entity, const ecs::Entity& cam)
 {
-	/*
-	ID3D11DeviceContext* dc = GetGFXDeviceContext();
+    CameraSystem* camera_system = Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>();
+    RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
+    ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST);
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JTerrain->m_InputLayout);
 
 	float blendFactors[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // only used with D3D11_BLEND_BLEND_FACTOR
-	dc->RSSetState(m_rasterizerStates[RSWIREFRAME]);
-	dc->OMSetBlendState(m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
-	dc->OMSetDepthStencilState(m_depthStencilStates[DSDEFAULT], 0);
+	dc->RSSetState(render_system->m_rasterizerStates[RSWIREFRAME]);
+	dc->OMSetBlendState(render_system->m_blendStates[BSNOBLEND], blendFactors, 0xffffffff);
+	dc->OMSetDepthStencilState(render_system->m_depthStencilStates[DSDEFAULT], 0);
 
-	TerrainComponent* TerrainComponent = (TerrainComponent*)entity->m_VisualComponent;
+	const TerrainComponent& terrainComponent = entity.getComponent<TerrainComponent>();
 
 	UINT stride = sizeof(TerrainVertex);
 	UINT offset = 0;
-	GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &TerrainComponent->m_VB, &stride, &offset);
-	GetGFXDeviceContext()->IASetIndexBuffer(TerrainComponent->m_IB, DXGI_FORMAT_R16_UINT, 0);
+    render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &terrainComponent.m_VB, &stride, &offset);
+    render_system->GetGFXDeviceContext()->IASetIndexBuffer(terrainComponent.m_IB, DXGI_FORMAT_R16_UINT, 0);
 
-	Vector3 eyePos = Vector3(cam->m_position);
-	Matrix view = cam->GetLookAtMatrix();
-	Matrix VP = view * m_ProjectionMatrix;
+    Vector3 eyePos = cam.getComponent<TransformComponent>().position;
+    Matrix view = camera_system->viewMat;
+    Matrix VP = view * camera_system->projMat;
 
 	ShaderManager::GetInstance()->m_JTerrain->SetEyePosW(eyePos);
 	ShaderManager::GetInstance()->m_JTerrain->SetViewProj(VP);
 
-	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(TerrainComponent->m_heightMapSRV);
+	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(terrainComponent.m_heightMapSRV);
 	ShaderManager::GetInstance()->m_JTerrain->SetTessParams(Vector4(0, 1000, 0, 6));
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JTerrain->Tech;
@@ -209,14 +237,13 @@ void JRenderer::DrawTerrainEntity(const ecs::Entity& entity, const Camera& cam)
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-		activeTech->GetPassByIndex(p)->Apply(0, GetGFXDeviceContext());
-		GetGFXDeviceContext()->DrawIndexed(TerrainComponent->m_numPatchQuadFaces * 4, 0, 0);
+		activeTech->GetPassByIndex(p)->Apply(0, render_system->GetGFXDeviceContext());
+		render_system->GetGFXDeviceContext()->DrawIndexed(terrainComponent.m_numPatchQuadFaces * 4, 0, 0);
 	}
 
 	dc->RSSetState(0);
 	dc->OMSetBlendState(0, blendFactors, 0xffffffff);
 	dc->OMSetDepthStencilState(0, 0);
-	*/
 }
 
 }  // namespace jahbal

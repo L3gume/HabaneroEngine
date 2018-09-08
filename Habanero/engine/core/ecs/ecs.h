@@ -15,12 +15,14 @@
 #include <cassert>
 #include <algorithm>
 #include <fstream>
+#include <d3d11.h>
 
 
 #include "boost/algorithm/string/predicate.hpp"
 #include "boost/lexical_cast.hpp"
 #include "engine/core/logging/LogManager.h"
 #include "engine/core/logging/LogMessage.h"
+#include "libraries/DirectXTK/include/SimpleMath.h"
 #include "../util.h"
 
 using HabaneroLog::LogManager;

@@ -5,7 +5,6 @@
 #ifndef HABANERO_CONSTRUCTORFUNCTIONS_H
 #define HABANERO_CONSTRUCTORFUNCTIONS_H
 
-#include "glm/glm.hpp"
 #include "engine/core/ecs/entity.h"
 #include "engine/core/components/TransformComponent.h"
 #include "engine/core/components/RenderableComponent.h"

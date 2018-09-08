@@ -59,6 +59,11 @@
     <ClInclude Include="engine\core\Engine.h" />
     <ClInclude Include="engine\core\ecs\ConstructorFunctions.h" />
     <ClInclude Include="engine\core\ecs\ecs.h" />
+    <ClInclude Include="engine\core\ecs\component.h" />
+    <ClInclude Include="engine\core\ecs\entity.h" />
+    <ClInclude Include="engine\core\ecs\system.h" />
+    <ClInclude Include="engine\core\ecs\entitymanager.h" />
+    <ClInclude Include="engine\core\ecs\systemmanager.h" />
     <ClInclude Include="engine\core\ecs\EntityConstructor.h" />
     <ClInclude Include="engine\core\input\InputListener.h" />
     <ClInclude Include="engine\core\input\InputManager.h" />
@@ -98,13 +103,17 @@
     <ClInclude Include="jahbal\components\BillboardComponent.h" />
     <ClInclude Include="jahbal\components\MeshComponent.h" />
     <ClInclude Include="jahbal\components\TerrainComponent.h" />
-    <ClInclude Include="engine\core\ecs\component.h" />
-    <ClInclude Include="engine\core\ecs\entity.h" />
-    <ClInclude Include="engine\core\ecs\system.h" />
-    <ClInclude Include="engine\core\ecs\entitymanager.h" />
-    <ClInclude Include="engine\core\ecs\systemmanager.h" />
+    <ClInclude Include="jahbal\components\LightComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="jahbal\shaders\Billboard.fx" />
+    <FxCompile Include="jahbal\shaders\Defs.fx" />
+    <FxCompile Include="jahbal\shaders\Generic.fx" />
+    <FxCompile Include="jahbal\shaders\LightFuncs.fx" />
+    <FxCompile Include="jahbal\shaders\QuadTess.fx" />
+    <FxCompile Include="jahbal\shaders\Terrain.fx" />
   </ItemGroup>
 </Project>

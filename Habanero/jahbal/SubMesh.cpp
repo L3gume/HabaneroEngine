@@ -1,5 +1,7 @@
 #include <d3d11.h>
 
+#include "engine/core/Engine.h"
+#include "engine/core/systems/RenderSystem.h"
 #include "jahbal/Mesh.h"
 #include "jahbal/SubMesh.h"
 #include "jahbal/renderers/JRenderer.h"
@@ -14,6 +16,9 @@ SubMesh::SubMesh(std::vector<MeshVertex> v, std::vector<int> i) :
 
 void SubMesh::SetupBuffers()
 {
+    RenderSystem* render_system = Core::Engine::getInstance().
+        getSystemManager().getSystem<RenderSystem>();
+
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_IMMUTABLE;
 	vbd.ByteWidth = sizeof(MeshVertex) * m_vertexList.size();
@@ -22,7 +27,7 @@ void SubMesh::SetupBuffers()
 	vbd.MiscFlags = 0;
 	D3D11_SUBRESOURCE_DATA vinitData;
 	vinitData.pSysMem = &m_vertexList[0];
-	//HR(Engine::GetInstance()->GetRenderer()->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
+	HR(render_system->GetGFXDevice()->CreateBuffer(&vbd, &vinitData, &m_VB));
 
 	D3D11_BUFFER_DESC ibd;
 	ibd.Usage = D3D11_USAGE_IMMUTABLE;
@@ -32,5 +37,5 @@ void SubMesh::SetupBuffers()
 	ibd.MiscFlags = 0;
 	D3D11_SUBRESOURCE_DATA iinitData;
 	iinitData.pSysMem = &m_indexList[0];
-	//HR(Engine::GetInstance()->GetRenderer()->GetGFXDevice()->CreateBuffer(&ibd, &iinitData, &m_IB));
+	HR(render_system->GetGFXDevice()->CreateBuffer(&ibd, &iinitData, &m_IB));
 }

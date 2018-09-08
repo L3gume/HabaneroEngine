@@ -36,6 +36,13 @@ public:
     IDXGISwapChain* m_swapChain;
     const Vector4 m_ClearColor = { 0.2f, 0.2f, 0.2f, 1.0f };
 
+    Matrix m_ProjectionMatrix;
+    Matrix m_ViewMatrix;
+
+    std::vector<ID3D11RasterizerState*> m_rasterizerStates;
+    std::vector<ID3D11BlendState*> m_blendStates;
+    std::vector<ID3D11DepthStencilState*> m_depthStencilStates;
+
 private:
     RenderSystem(int width, int height, HWND hMainWnd);
     ~RenderSystem();
@@ -53,12 +60,6 @@ private:
     ID3D11Texture2D* m_depthStencilBuffer;
     D3D11_VIEWPORT m_screenViewport;
 
-    Matrix m_ProjectionMatrix;
-    Matrix m_ViewMatrix;
-
-    std::vector<ID3D11RasterizerState*> m_rasterizerStates;
-    std::vector<ID3D11BlendState*> m_blendStates;
-    std::vector<ID3D11DepthStencilState*> m_depthStencilStates;
 
     int m_ClientWidth;
     int m_ClientHeight;

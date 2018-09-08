@@ -9,7 +9,9 @@
 #include "engine/core/Engine.h"
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/RenderSystem.h"
+#include "jahbal/components/BillboardComponent.h"
 #include "jahbal/components/MeshComponent.h"
+#include "jahbal/components/TerrainComponent.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/util/dxmacros.h"
 
@@ -61,11 +63,24 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::update(float _deltaTime) 
 {
-	const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-		ecs::getComponentTypeID<MeshComponent>());
-	ecs::Entity* activeCamera =
-		Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
-	m_renderer.DrawScene(meshEntities, activeCamera);
+	  const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+		  ecs::getComponentTypeID<MeshComponent>());
+    const auto& billboardEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+      ecs::getComponentTypeID<BillboardComponent>());
+    const auto& terrainEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+      ecs::getComponentTypeID<TerrainComponent>());
+	  ecs::Entity* activeCamera =
+		  Core::Engine::getInstance().getSystemManager().getSystem<CameraSystem>()->getActiveCamera();
+    assert(activeCamera);
+
+
+    // We assume that there's only one light in the scene atm and that ligh is the sun
+    ecs::Entity* sun =
+        Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
+            ecse::getComponentTypeID<LightComponent>()).at(0);
+    assert(sun);
+
+	m_renderer.DrawScene(meshEntities, billboardEntities, terrainEntities, *activeCamera, *sun);
 }
 
 void RenderSystem::InitBlendStates()

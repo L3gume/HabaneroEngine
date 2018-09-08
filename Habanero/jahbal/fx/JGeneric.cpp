@@ -6,7 +6,7 @@
 JGeneric::JGeneric(ID3D11Device* device)
 	: Shader(device)
 {
-	loadFX("./FX/Generic.fxo");
+	loadFX("./jahbal/shaders/Generic.fxo");
 	Tech = m_FX->GetTechniqueByName("Tech");
 
 
@@ -17,8 +17,7 @@ JGeneric::JGeneric(ID3D11Device* device)
 	Mat = m_FX->GetVariableByName("gMaterial");
 
 	// cbPerFrame
-	DirectionalLight = m_FX->GetVariableByName("gDLight");
-	PointLight = m_FX->GetVariableByName("gPLight");
+    Light = m_FX->GetVariableByName("gSun");
 	EyePosW = m_FX->GetVariableByName("gEyePosW")->AsVector();
 
 	// textures
@@ -43,13 +42,12 @@ JGeneric::JGeneric(ID3D11Device* device)
 
 JGeneric::~JGeneric()
 {
-	ReleaseCOM(Tech)
-	ReleaseCOM(WorldViewProj)
-	ReleaseCOM(World)
-	ReleaseCOM(WorldInvTranspose)
-	ReleaseCOM(EyePosW)
-	ReleaseCOM(DirectionalLight)
-	ReleaseCOM(PointLight)
+    ReleaseCOM(Tech)
+    ReleaseCOM(WorldViewProj)
+    ReleaseCOM(World)
+    ReleaseCOM(WorldInvTranspose)
+    ReleaseCOM(EyePosW)
+    ReleaseCOM(Light);
 	ReleaseCOM(Mat)
 	ReleaseCOM(DiffuseMap)
 }
