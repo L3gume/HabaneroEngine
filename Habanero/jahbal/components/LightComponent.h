@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/core/ecs/ecs.h"
+#include "engine/core/ecs/component.h"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
 struct LightData
@@ -24,7 +24,7 @@ enum LightType
     Spot = 2
 };
 
-struct LightComponent : public ECS::Component
+struct LightComponent : public ecs::Component
 {
     LightComponent(LightType lightType) : m_lightType(lightType) {}
 

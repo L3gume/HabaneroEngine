@@ -77,7 +77,7 @@ void RenderSystem::update(float _deltaTime)
     // We assume that there's only one light in the scene atm and that ligh is the sun
     ecs::Entity* sun =
         Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
-            ecse::getComponentTypeID<LightComponent>()).at(0);
+            ecs::getComponentTypeID<LightComponent>()).at(0);
     assert(sun);
 
 	m_renderer.DrawScene(meshEntities, billboardEntities, terrainEntities, *activeCamera, *sun);
