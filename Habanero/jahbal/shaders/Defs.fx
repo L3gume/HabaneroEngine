@@ -8,8 +8,8 @@ struct Light
     float4 ambient;
     float4 diffuse;
     float4 specular;
-    float4 attenuation; // (A0, A1, A2, Pad)
-    float4 attributes;  // (Range, Spot, Pad, Pad)
+    float4 direction;    // (direction.x, direction.y, direction.z, Range)
+    float4 attenuation; // (A0, A1, A2, Spot)
 };
 
 struct DirectionalLight

@@ -160,8 +160,8 @@ fxgroup
                 //       float4 ambient;                // Offset:    0
                 //       float4 diffuse;                // Offset:   16
                 //       float4 specular;               // Offset:   32
-                //       float4 attenuation;            // Offset:   48
-                //       float4 attributes;             // Offset:   64
+                //       float4 direction;              // Offset:   48
+                //       float4 attenuation;            // Offset:   64
                 //
                 //   } gSun;                            // Offset:    0 Size:    80
                 //   float3 gEyePosW;                   // Offset:   80 Size:    12
@@ -264,64 +264,66 @@ fxgroup
                 nop 
                 mov r7.xyz, cb0[0].xyzx
                 mov r8.xyz, cb0[1].xyzx
-                mov r9.xyzw, cb0[2].xyzw
+                mov r9.xyz, cb0[2].xyzx
+                mov r0.w, cb0[2].w
+                mov r10.xyz, cb0[3].xyzx
                 mov r2.xyz, r2.xyzx
                 mov r3.xyz, r3.xyzx
                 mov r0.xyz, r0.xyzx
                 mov r1.xyz, r1.xyzx
                 
                 #line 7 "C:\Users\msukka1\Documents\HabaneroEngine\Habanero\jahbal\shaders\LightFuncs.fx"
-                mov r10.xyz, l(0,0,0,0)  // r10.x <- spec.x; r10.y <- spec.y; r10.z <- spec.z
+                mov r11.xyz, l(0,0,0,0)  // r11.x <- spec.x; r11.y <- spec.y; r11.z <- spec.z
+                
+                #line 9
+                mov r10.xyz, r10.xyzx  // r10.x <- direction.x; r10.y <- direction.y; r10.z <- direction.z
                 
                 #line 11
-                mov r11.xyz, l(-1.000000,0,0,0)  // r11.x <- direction.x; r11.y <- direction.y; r11.z <- direction.z
+                dp3 r1.w, r10.xyzx, r2.xyzx
+                add r1.w, r1.w, r1.w
+                mov r1.w, -r1.w
+                mul r12.xyz, r1.wwww, r2.xyzx
+                add r12.xyz, r10.xyzx, r12.xyzx  // r12.x <- reflected.x; r12.y <- reflected.y; r12.z <- reflected.z
                 
-                #line 13
-                dp3 r0.w, r11.xyzx, r2.xyzx
-                add r0.w, r0.w, r0.w
-                mov r0.w, -r0.w
-                mul r12.xyz, r0.wwww, r2.xyzx
-                add r12.xyz, r11.xyzx, r12.xyzx  // r12.x <- reflected.x; r12.y <- reflected.y; r12.z <- reflected.z
+                #line 12
+                dp3 r1.w, r12.xyzx, r12.xyzx
+                rsq r1.w, r1.w
+                mul r12.xyz, r1.wwww, r12.xyzx
                 
                 #line 14
-                dp3 r0.w, r12.xyzx, r12.xyzx
-                rsq r0.w, r0.w
-                mul r12.xyz, r0.wwww, r12.xyzx
+                mov r10.xyz, -r10.xyzx
+                dp3 r1.w, r10.xyzx, r2.xyzx
+                max r1.w, r1.w, l(0.000000)  // r1.w <- diffuse_factor
                 
-                #line 16
-                mov r11.xyz, -r11.xyzx
-                dp3 r0.w, r11.xyzx, r2.xyzx
-                max r0.w, r0.w, l(0.000000)  // r0.w <- diffuse_factor
+                #line 15
+                mul r2.xyz, r8.xyzx, r0.xyzx
+                mul r2.xyz, r1.wwww, r2.xyzx  // r2.x <- diffuse.x; r2.y <- diffuse.y; r2.z <- diffuse.z
                 
                 #line 17
-                mul r2.xyz, r8.xyzx, r0.xyzx
-                mul r2.xyz, r0.wwww, r2.xyzx  // r2.x <- diffuse.x; r2.y <- diffuse.y; r2.z <- diffuse.z
+                lt r1.w, l(0.000000), r1.w
+                if_nz r1.w
                 
                 #line 19
-                lt r0.w, l(0.000000), r0.w
-                if_nz r0.w
-                
-                #line 21
-                  dp3 r0.w, r12.xyzx, r3.xyzx
-                  max r0.w, r0.w, l(0.000000)
-                  log r0.w, r0.w
-                  mul r0.w, r0.w, r9.w
+                  dp3 r1.w, r12.xyzx, r3.xyzx
+                  max r1.w, r1.w, l(0.000000)
+                  log r1.w, r1.w
+                  mul r0.w, r0.w, r1.w
                   exp r0.w, r0.w  // r0.w <- spec_factor
                 
-                #line 23
+                #line 21
                   mul r1.xyz, r9.xyzx, r1.xyzx
-                  mul r10.xyz, r0.wwww, r1.xyzx
+                  mul r11.xyz, r0.wwww, r1.xyzx
                 
-                #line 24
+                #line 22
                 endif 
                 
-                #line 26
+                #line 24
                 mul r0.xyz, r7.xyzx, r0.xyzx  // r0.x <- ambient.x; r0.y <- ambient.y; r0.z <- ambient.z
                 
                 #line 77 "C:\Users\msukka1\Documents\HabaneroEngine\Habanero\jahbal\shaders\Generic.fx"
                 mov r0.xyz, r0.xyzx  // r0.x <- a.x; r0.y <- a.y; r0.z <- a.z
                 mov r2.xyz, r2.xyzx  // r2.x <- d.x; r2.y <- d.y; r2.z <- d.z
-                mov r10.xyz, r10.xyzx  // r10.x <- s.x; r10.y <- s.y; r10.z <- s.z
+                mov r11.xyz, r11.xyzx  // r11.x <- s.x; r11.y <- s.y; r11.z <- s.z
                 
                 #line 78
                 add r0.xyz, r0.xyzx, r4.xyzx  // r0.x <- ambient.x; r0.y <- ambient.y; r0.z <- ambient.z
@@ -330,7 +332,7 @@ fxgroup
                 add r1.xyz, r2.xyzx, r5.xyzx  // r1.x <- diffuse.x; r1.y <- diffuse.y; r1.z <- diffuse.z
                 
                 #line 80
-                add r2.xyz, r6.xyzx, r10.xyzx  // r2.x <- spec.x; r2.y <- spec.y; r2.z <- spec.z
+                add r2.xyz, r6.xyzx, r11.xyzx  // r2.x <- spec.x; r2.y <- spec.y; r2.z <- spec.z
                 
                 #line 89
                 add r0.xyz, r0.xyzx, r1.xyzx
@@ -343,7 +345,7 @@ fxgroup
                 mov o0.xyz, r0.xyzx
                 mov o0.w, r0.w
                 ret 
-                // Approximately 61 instruction slots used
+                // Approximately 63 instruction slots used
                             
             };
         }

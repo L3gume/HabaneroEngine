@@ -6,9 +6,7 @@ void computeDirectionalLight(Light l, float3 normal, float3 ptoeye, float4 mat_d
 	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-    // TODO this is a hack, direction should be obtained from the light's
-    // transform component somehow
-    float3 direction = float3(-1.0f, 0.0f, 0.0f);
+    float3 direction = l.direction.xyz;
 
 	float3 reflected = reflect(direction, normal);
 	reflected = normalize(reflected);

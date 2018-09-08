@@ -9,12 +9,12 @@ public:
     DirectX::Vector4 Ambient;
     DirectX::Vector4 Diffuse;
     DirectX::Vector4 Specular;
+    
+    // Packed into 4D vector: (direction.x, direction.y, direction.z, Range)
+    DirectX::Vector4 Direction;
 
-    // Packed into 4D vector: (A0, A1, A2, Pad)
+    // Packed into 4D vector: (A0, A1, A2, Spot)
     DirectX::Vector4 Attenuation;
-
-    // Packed into 4D vector: (Range, Spot, Pad, Pad)
-    DirectX::Vector4 Attributes;
 };
 
 enum LightType

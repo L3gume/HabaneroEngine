@@ -45,14 +45,14 @@ void Engine::init() {
 		1.0f, 1000.0f);
 
     Entity& sun = m_entityManager.addEntity("sun");
-    sun.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    sun.addComponent<TransformComponent>(Vector3::Zero, Vector3(0.0f, 270.0f, 0.0f), Vector3::One);
     LightComponent& sunLight = sun.addComponent<LightComponent>(LightType::Directional);
     sunLight.m_lightData.Ambient = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
     sunLight.m_lightData.Diffuse = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
     sunLight.m_lightData.Specular = Vector4(0.2f, 0.2f, 0.2f, 16.0f);
 
     Entity& nanosuit = m_entityManager.addEntity("nano_suit");
-    nanosuit.addComponent<TransformComponent>(Vector3(10.0f, 0.0f, 0.0f), Vector3::Zero, Vector3::One);
+    nanosuit.addComponent<TransformComponent>(Vector3(10.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3::One);
     nanosuit.addComponent<MeshComponent>("jahbal/resources/nanosuit/nanosuit.obj");
 
     Entity& billboard = m_entityManager.addEntity("billboard");

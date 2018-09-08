@@ -49,8 +49,16 @@ void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
     const auto& camera = activeCamera.getComponent<CameraComponent>();
 
     assert(sunLight.hasComponent<LightComponent>());
-    const auto& sun = sunLight.getComponent<LightComponent>();
+    auto& sun = sunLight.getComponent<LightComponent>();
     assert(sun.m_lightType == LightType::Directional);
+
+    // TODO find a more scalable way of updating the direction field in the lightData
+    // field in the lights (maybe a system that goes and updates all the lights?)
+    const auto& sunDirection = sunLight.getComponent<TransformComponent>().rotation;
+    Matrix sunRot = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(sunDirection.y),
+        XMConvertToRadians(sunDirection.x), XMConvertToRadians(sunDirection.z));
+    Vector4 sunDir = Vector4::Transform(Vector4(0.0f, 0.0f, 1.0f, 1.0f), sunRot);
+    sun.m_lightData.Direction = Vector4(sunDir.x, sunDir.y, sunDir.z, sun.m_lightData.Direction.w);
 
 	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
 	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
@@ -119,8 +127,9 @@ void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const ecs::Entity& cam
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
         const auto& entityTransform = entity.getComponent<TransformComponent>();
-		Matrix rotation = Matrix::CreateFromYawPitchRoll(entityTransform.rotation.x, entityTransform.rotation.y,
-            entityTransform.rotation.z);
+		Matrix rotation = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(entityTransform.rotation.y),
+            XMConvertToRadians(entityTransform.rotation.z),
+            XMConvertToRadians(entityTransform.rotation.z));
 		Matrix model = rotation * Matrix::CreateTranslation(entityTransform.position);
 		Matrix modelInvTranspose = model; modelInvTranspose.Invert().Transpose();
         Matrix view = camera_system->viewMat;
