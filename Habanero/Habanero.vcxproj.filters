@@ -106,6 +106,7 @@
     <ClInclude Include="jahbal\components\TerrainComponent.h" />
     <ClInclude Include="jahbal\components\LightComponent.h" />
     <ClInclude Include="engine\core\systems\PickingSystem.h" />
+    <ClInclude Include="jahbal\common\GeometryGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

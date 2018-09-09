@@ -15,6 +15,7 @@
 #include "engine/core/systems/ScriptSystem.h"
 #include "engine/core/systems/PickingSystem.h"
 #include "jahbal/renderers/JRenderer.h"
+#include "jahbal/common/GeometryGenerator.h"
 #include "jahbal/components/BillboardComponent.h"
 #include "jahbal/components/MeshComponent.h"
 #include "jahbal/components/TerrainComponent.h"
@@ -56,9 +57,17 @@ void Engine::init() {
     sunLight.m_lightData.Diffuse = DirectX::SimpleMath::Vector4(0.5f, 0.5f, 0.5f, 1.0f);
     sunLight.m_lightData.Specular = DirectX::SimpleMath::Vector4(0.2f, 0.2f, 0.2f, 16.0f);
 
+    Entity& box = m_entityManager.addEntity("box");
+    box.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::One);
+    std::vector<MeshVertex> boxVertices; std::vector<int> boxIndicies;
+    GeometryGenerator::CreateBox(5.0f, 5.0f, 5.0f, boxVertices, boxIndicies);
+    box.addComponent<MeshComponent>(boxVertices, boxIndicies);
+
+    /*
     Entity& nanosuit = m_entityManager.addEntity("nano_suit");
     nanosuit.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3(10.0f, 0.0f, 0.0f), DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f), DirectX::SimpleMath::Vector3::One);
     nanosuit.addComponent<MeshComponent>("jahbal/resources/nanosuit/nanosuit.obj");
+
 
     Entity& billboard = m_entityManager.addEntity("billboard");
     billboard.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::One);
@@ -69,6 +78,7 @@ void Engine::init() {
 
     TerrainInfo terrainInfo(L"jahbal/resources/textures/terrain.raw", 2049, 2049, 50, 1);
     terrain.addComponent<TerrainComponent>(terrainInfo);
+    */
 }
 
 void Engine::gameLoop() {

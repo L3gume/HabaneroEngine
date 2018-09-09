@@ -76,6 +76,7 @@
     <ClInclude Include="engine\core\systems\TransformSystem.h" />
     <ClInclude Include="engine\core\util.h" />
     <ClInclude Include="jahbal\common\Camera.h" />
+    <ClInclude Include="jahbal\common\GeometryGenerator.h" />
     <ClInclude Include="jahbal\common\Light.h" />
     <ClInclude Include="jahbal\common\Material.h" />
     <ClInclude Include="jahbal\components\BillboardComponent.h" />

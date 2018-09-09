@@ -29,13 +29,12 @@ struct MeshVertex
 struct MeshComponent : public ecs::Component
 {
 	MeshComponent(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
-        m_vertexList(vertexList), m_Mesh(new Mesh(vertexList, indexList)) {}
+        m_Mesh(new Mesh(vertexList, indexList)) {}
 	MeshComponent(const std::string& filename) :
 		m_Mesh(new Mesh(filename)) {}
 
 	~MeshComponent() {}
 
 	std::unique_ptr<Mesh> m_Mesh;
-    std::vector<MeshVertex> m_vertexList;
 };
 

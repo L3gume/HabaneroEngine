@@ -32,6 +32,7 @@ public:
 
 	void OnDestroy();
 
+    std::vector<MeshVertex> m_vertexList;
 	std::vector<SubMesh> m_subMeshList;
 	std::string m_meshFullPath;
 

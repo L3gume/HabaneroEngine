@@ -1,5 +1,6 @@
 #include "engine/core/systems/PickingSystem.h"
 
+#include <DirectXMath.h>
 #include <DirectXCollision.h>
 #include <iostream>
 
@@ -48,23 +49,27 @@ void PickingSystem::pick(int screenX, int screenY) {
     DirectX::SimpleMath::Matrix invView = camSystem->viewMat.Invert();
     DirectX::SimpleMath::Vector3::Transform(ray.position, invView, ray.position);
     DirectX::SimpleMath::Vector3::TransformNormal(ray.direction, invView, ray.direction);
+    ray.direction.Normalize();
 
     const auto& meshEntities = Core::Engine::getInstance().getEntityManager().getEntitiesByGroup(
         getComponentTypeID<MeshComponent>());
     // TODO implement ray interestection logic
-    /*
     for (auto entity : meshEntities) {
         Mesh* mesh = entity->getComponent<MeshComponent>().m_Mesh.get();
         BoundingBox meshBox;
 
+        std::vector<DirectX::XMFLOAT3> points;
+        for (const auto& vertex : mesh->m_vertexList) {
+            points.push_back(DirectX::XMFLOAT3(vertex.position.x, vertex.position.y,
+                vertex.position.z));
+        }
 
-        DirectX::BoundingBox::CreateFromPoints(meshBox, (size_t)mesh.m_vertexList.size(),
-            (const DirectX::XMFLOAT3*)&mesh.m_vertexList, sizeof(MeshVertex));
+        DirectX::BoundingBox::CreateFromPoints(meshBox, points.size(),
+            &points[0], sizeof(DirectX::XMFLOAT3));
 
         float distance;
         if (ray.Intersects(meshBox, distance)) {
             std::cout << "test" << std::endl;
         }
     }
-    */
 }

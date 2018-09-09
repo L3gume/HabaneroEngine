@@ -15,6 +15,7 @@
 Mesh::Mesh(std::vector<MeshVertex> vertexList, std::vector<int> indexList) :
 	m_meshFullPath(""), m_meshFolder("")
 {
+    m_vertexList = vertexList;
 	m_subMeshList.push_back(SubMesh(vertexList, indexList));
 }
 
@@ -53,6 +54,7 @@ void Mesh::processMesh(aiMesh* mesh, const aiScene* scene)
 		else vertices.push_back(MeshVertex(v.x, v.y, v.z, n.x, n.y, n.z, 0.0f, 0.0f));
 
 	}
+    m_vertexList.insert(m_vertexList.end(), vertices.begin(), vertices.end());
 
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
