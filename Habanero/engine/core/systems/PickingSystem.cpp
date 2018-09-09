@@ -65,6 +65,6 @@ void PickingSystem::pick(int screenX, int screenY) {
         if (ray.Intersects(meshBox, distance)) {
             std::cout << "test" << std::endl;
         }
-    */
     }
+    */
 }
