@@ -18,18 +18,18 @@ struct BillBoardVertex
 {
 	BillBoardVertex(float px, float py, float pz, float sx, float sy)
 		: position(px, py, pz), size(sx, sy) {}
-	BillBoardVertex(Vector3 pos, float sx, float sy)
+	BillBoardVertex(DirectX::SimpleMath::Vector3 pos, float sx, float sy)
 		: position(pos), size(sx, sy) {}
 	BillBoardVertex() : position(0.0f, 0.0f, 0.0f), size(2.0f, 2.0f) {}
 
-	Vector3 position;
-	Vector2 size;
+	DirectX::SimpleMath::Vector3 position;
+	DirectX::SimpleMath::Vector2 size;
 };
 
 struct BillboardComponent : public ecs::Component
 {
 	BillboardComponent(float sx, float sy, std::wstring texture_filename) : 
-		m_vertex(Vector3::Zero, sx, sy), m_textureFilename(texture_filename) {
+		m_vertex(DirectX::SimpleMath::Vector3::Zero, sx, sy), m_textureFilename(texture_filename) {
         SetupBuffers(); 
         LoadTexture();
     }

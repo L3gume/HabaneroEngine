@@ -23,8 +23,8 @@ RenderSystem::RenderSystem(int width, int height, HWND hMainWnd) :
     m_ClientHeight = height;
     m_Enable4xMSAA = true;
 
-    // Calculate projection matrix
-    m_ProjectionMatrix = Matrix::CreatePerspectiveFieldOfViewLH(0.25f*(3.14f), (float)m_ClientWidth / (float)m_ClientHeight, 1.0f, 1000.0f);
+    // Calculate projection DirectX::SimpleMath::Matrix
+    m_ProjectionMatrix = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfViewLH(0.25f*(3.14f), (float)m_ClientWidth / (float)m_ClientHeight, 1.0f, 1000.0f);
 
     if (!InitDX11(hMainWnd)) {
         //TODO log something, probably even terminate the program

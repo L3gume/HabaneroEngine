@@ -6,15 +6,15 @@
 struct LightData
 {
 public:
-    DirectX::Vector4 Ambient;
-    DirectX::Vector4 Diffuse;
-    DirectX::Vector4 Specular;
+    DirectX::SimpleMath::Vector4 Ambient;
+    DirectX::SimpleMath::Vector4 Diffuse;
+    DirectX::SimpleMath::Vector4 Specular;
     
     // Packed into 4D vector: (direction.x, direction.y, direction.z, Range)
-    DirectX::Vector4 Direction;
+    DirectX::SimpleMath::Vector4 Direction;
 
     // Packed into 4D vector: (A0, A1, A2, Spot)
-    DirectX::Vector4 Attenuation;
+    DirectX::SimpleMath::Vector4 Attenuation;
 };
 
 enum LightType

@@ -173,8 +173,8 @@ void TerrainComponent::InitVB()
 
 			int index = (i * m_numPatchCols) + j;
 
-			patchVertices[index].position = Vector3(x, 0, z);
-			patchVertices[index].textureCoord = Vector2(i*du, j*dv);
+			patchVertices[index].position = DirectX::SimpleMath::Vector3(x, 0, z);
+			patchVertices[index].textureCoord = DirectX::SimpleMath::Vector2(i*du, j*dv);
 		}
 	}
 
@@ -220,7 +220,7 @@ void TerrainComponent::InitIB()
 		}
 	}
 
-	std::vector<Vector3> vertexPosTest(indices.size());
+	std::vector<DirectX::SimpleMath::Vector3> vertexPosTest(indices.size());
 	for (int i = 0; i < (UINT)indices.size(); i++)
 	{
 		vertexPosTest[i] = m_vertices[indices[i]].position;

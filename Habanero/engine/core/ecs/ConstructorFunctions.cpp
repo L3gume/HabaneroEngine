@@ -27,9 +27,9 @@ void constructTransformComponent(Entity &_ent, std::vector<std::string> &_args) 
             if (!(fss >> xscl >> yscl >> zscl)) {/* error */}
         }
     }
-    _ent.addComponent<TransformComponent>(DirectX::Vector3(xpos, ypos, zpos),
-		DirectX::Vector3(DirectX::XMConvertToRadians(xrot), DirectX::XMConvertToRadians(yrot),
-			DirectX::XMConvertToRadians(zrot)), DirectX::Vector3(xscl, yscl, zscl));
+    _ent.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3(xpos, ypos, zpos),
+		DirectX::SimpleMath::Vector3(DirectX::XMConvertToRadians(xrot), DirectX::XMConvertToRadians(yrot),
+			DirectX::XMConvertToRadians(zrot)), DirectX::SimpleMath::Vector3(xscl, yscl, zscl));
 }
 
 void constructRenderableComponent(Entity &_ent, std::vector<std::string> &_args) {

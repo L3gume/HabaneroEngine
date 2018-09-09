@@ -11,15 +11,15 @@
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
 struct TransformComponent : ecs::Component {
-    TransformComponent(DirectX::Vector3 _pos, DirectX::Vector3 _rot, DirectX::Vector3 _scl) : position(_pos), rotation(_rot), scale(_scl) {}
+    TransformComponent(DirectX::SimpleMath::Vector3 _pos, DirectX::SimpleMath::Vector3 _rot, DirectX::SimpleMath::Vector3 _scl) : position(_pos), rotation(_rot), scale(_scl) {}
 
-    DirectX::Vector3 position = DirectX::Vector3(0.f, 0.f, 0.f);
-    DirectX::Vector3 rotation = DirectX::Vector3(0.f, 0.f, 0.f);
-    DirectX::Vector3 scale = DirectX::Vector3(1.f, 1.f, 1.f);
+    DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
+    DirectX::SimpleMath::Vector3 rotation = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
+    DirectX::SimpleMath::Vector3 scale = DirectX::SimpleMath::Vector3(1.f, 1.f, 1.f);
 
-    DirectX::Vector3 abs_position = DirectX::Vector3(0.f, 0.f, 0.f);
-    DirectX::Vector3 abs_rotation = DirectX::Vector3(0.f, 0.f, 0.f);
-    DirectX::Vector3 abs_scale = DirectX::Vector3(1.f, 1.f, 1.f);
+    DirectX::SimpleMath::Vector3 abs_position = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
+    DirectX::SimpleMath::Vector3 abs_rotation = DirectX::SimpleMath::Vector3(0.f, 0.f, 0.f);
+    DirectX::SimpleMath::Vector3 abs_scale = DirectX::SimpleMath::Vector3(1.f, 1.f, 1.f);
 };
 
 #endif //HABANERO_TRANSFORMCOMPONENT_H

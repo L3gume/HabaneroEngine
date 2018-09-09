@@ -27,10 +27,10 @@ public:
 	Entity* getActiveCamera() { return m_activeCamera; }
     inline void setActiveCamera(Entity *_cam) noexcept; // This essentially forces the system to use a specific camera,
                                                         // usually you'd have only one anyway.
-    DirectX::Matrix getMVPFromActiveCamera(DirectX::Matrix _modelMat);
+    DirectX::SimpleMath::Matrix getMVPFromActiveCamera(DirectX::SimpleMath::Matrix _modelMat);
 
-    DirectX::Matrix viewMat;
-    DirectX::Matrix projMat;
+    DirectX::SimpleMath::Matrix viewMat;
+    DirectX::SimpleMath::Matrix projMat;
 private:
 
     void preUpdate(float _deltaTime) override;

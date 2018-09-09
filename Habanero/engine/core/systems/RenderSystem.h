@@ -34,10 +34,10 @@ public:
     ID3D11RenderTargetView* m_renderTargetView;
     ID3D11DepthStencilView* m_depthStencilView;
     IDXGISwapChain* m_swapChain;
-    const Vector4 m_ClearColor = { 0.2f, 0.2f, 0.2f, 1.0f };
+    const DirectX::SimpleMath::Vector4 m_ClearColor = { 0.2f, 0.2f, 0.2f, 1.0f };
 
-    Matrix m_ProjectionMatrix;
-    Matrix m_ViewMatrix;
+    DirectX::SimpleMath::Matrix m_ProjectionMatrix;
+    DirectX::SimpleMath::Matrix m_ViewMatrix;
 
     std::vector<ID3D11RasterizerState*> m_rasterizerStates;
     std::vector<ID3D11BlendState*> m_blendStates;

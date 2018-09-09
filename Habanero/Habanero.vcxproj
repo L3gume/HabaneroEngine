@@ -28,6 +28,7 @@
     <ClCompile Include="engine\core\logging\LogManager.cpp" />
     <ClCompile Include="engine\core\Scene.cpp" />
     <ClCompile Include="engine\core\systems\CameraSystem.cpp" />
+    <ClCompile Include="engine\core\systems\PickingSystem.cpp" />
     <ClCompile Include="engine\core\systems\RenderSystem.cpp" />
     <ClCompile Include="engine\core\systems\ScriptSystem.cpp" />
     <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="engine\core\logging\LogMessage.h" />
     <ClInclude Include="engine\core\Scene.h" />
     <ClInclude Include="engine\core\systems\CameraSystem.h" />
+    <ClInclude Include="engine\core\systems\PickingSystem.h" />
     <ClInclude Include="engine\core\systems\RenderSystem.h" />
     <ClInclude Include="engine\core\systems\ScriptSystem.h" />
     <ClInclude Include="engine\core\systems\TransformSystem.h" />

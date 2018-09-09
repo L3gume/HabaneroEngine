@@ -12,9 +12,9 @@ class Material
 public:
 
 	Material() {}
-	Vector4 Ambient;
-	Vector4 Diffuse;
-	Vector4 Specular;
+	DirectX::SimpleMath::Vector4 Ambient;
+	DirectX::SimpleMath::Vector4 Diffuse;
+	DirectX::SimpleMath::Vector4 Specular;
 };
 }  // namespace jahbal
 

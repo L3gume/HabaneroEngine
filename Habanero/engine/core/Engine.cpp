@@ -8,10 +8,12 @@
 #include "engine/core/components/CameraComponent.h"
 #include "engine/core/components/ScriptComponent.h"
 #include "engine/core/ecs/EntityConstructor.h"
+#include "engine/core/input/InputManager.h"
 #include "engine/core/systems/TransformSystem.h"
 #include "engine/core/systems/RenderSystem.h"
 #include "engine/core/systems/CameraSystem.h"
 #include "engine/core/systems/ScriptSystem.h"
+#include "engine/core/systems/PickingSystem.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "jahbal/components/BillboardComponent.h"
 #include "jahbal/components/MeshComponent.h"
@@ -33,34 +35,37 @@ void Engine::init() {
 	m_Running = true;
 
 	initWindow();
+    input::InputManager::getInstance().init(m_hMainWnd);
 	m_systemManager.addSystem<RenderSystem>(m_ClientWidth, m_ClientHeight,
 		m_hMainWnd);
 	m_systemManager.addSystem<CameraSystem>();
     ShaderManager::GetInstance()->Init(m_systemManager.getSystem<RenderSystem>()->GetGFXDevice());
+    PickingSystem& pickingSystem = m_systemManager.addSystem<PickingSystem>();
+    input::InputManager::getInstance().addInputListener(&pickingSystem);
 
 	// Manual entity adding for testing, remove once entity serialization system is complete
 	Entity& camera = m_entityManager.addEntity("main_camera");
-	camera.addComponent<TransformComponent>(Vector3(30.0f, 30.0f, 30.0f), Vector3::Zero, Vector3::One);
+	camera.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3(30.0f, 30.0f, 30.0f), DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::One);
 	camera.addComponent<CameraComponent>(0.25f * 3.14f, m_ClientWidth, m_ClientHeight,
 		1.0f, 1000.0f);
 
     Entity& sun = m_entityManager.addEntity("sun");
-    sun.addComponent<TransformComponent>(Vector3::Zero, Vector3(0.0f, 270.0f, 0.0f), Vector3::One);
+    sun.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3(0.0f, 270.0f, 0.0f), DirectX::SimpleMath::Vector3::One);
     LightComponent& sunLight = sun.addComponent<LightComponent>(LightType::Directional);
-    sunLight.m_lightData.Ambient = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
-    sunLight.m_lightData.Diffuse = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
-    sunLight.m_lightData.Specular = Vector4(0.2f, 0.2f, 0.2f, 16.0f);
+    sunLight.m_lightData.Ambient = DirectX::SimpleMath::Vector4(0.1f, 0.1f, 0.1f, 1.0f);
+    sunLight.m_lightData.Diffuse = DirectX::SimpleMath::Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+    sunLight.m_lightData.Specular = DirectX::SimpleMath::Vector4(0.2f, 0.2f, 0.2f, 16.0f);
 
     Entity& nanosuit = m_entityManager.addEntity("nano_suit");
-    nanosuit.addComponent<TransformComponent>(Vector3(10.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3::One);
+    nanosuit.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3(10.0f, 0.0f, 0.0f), DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f), DirectX::SimpleMath::Vector3::One);
     nanosuit.addComponent<MeshComponent>("jahbal/resources/nanosuit/nanosuit.obj");
 
     Entity& billboard = m_entityManager.addEntity("billboard");
-    billboard.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    billboard.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::One);
     billboard.addComponent<BillboardComponent>(15.0f, 15.0f, L"jahbal/resources/textures/tree0.dds");
 
     Entity& terrain = m_entityManager.addEntity("terrain");
-    terrain.addComponent<TransformComponent>(Vector3::Zero, Vector3::Zero, Vector3::One);
+    terrain.addComponent<TransformComponent>(DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::Zero, DirectX::SimpleMath::Vector3::One);
 
     TerrainInfo terrainInfo(L"jahbal/resources/textures/terrain.raw", 2049, 2049, 50, 1);
     terrain.addComponent<TerrainComponent>(terrainInfo);
@@ -76,6 +81,14 @@ void Engine::gameLoop() {
 		}
 		else {
 			// TODO calculate deltaTime and pass it in
+            input::InputManager::getInstance().update();
+
+            // temporary logic to exit on escape key press
+            if (input::InputManager::getInstance().getKeyboardState().Escape) {
+                m_Running = false;
+                break;
+            }
+
 			m_systemManager.preUpdate(0);
 			m_systemManager.update(0);
 		}
@@ -108,8 +121,8 @@ LRESULT Engine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 	case WM_ACTIVATEAPP:
-		//Keyboard::ProcessMessage(msg, wParam, lParam);
-		//Mouse::ProcessMessage(msg, wParam, lParam);
+		Keyboard::ProcessMessage(msg, wParam, lParam);
+		Mouse::ProcessMessage(msg, wParam, lParam);
 		break;
 	case WM_INPUT:
 	case WM_MOUSEMOVE:
@@ -123,13 +136,13 @@ LRESULT Engine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_XBUTTONDOWN:
 	case WM_XBUTTONUP:
 	case WM_MOUSEHOVER:
-		//Mouse::ProcessMessage(msg, wParam, lParam);
+		Mouse::ProcessMessage(msg, wParam, lParam);
 		break;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		//Keyboard::ProcessMessage(msg, wParam, lParam);
+		Keyboard::ProcessMessage(msg, wParam, lParam);
 		break;
 	}
 	

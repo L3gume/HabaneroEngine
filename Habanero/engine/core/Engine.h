@@ -37,6 +37,9 @@ namespace Core {
 
         ecs::EntityManager& getEntityManager() { return m_entityManager; }
         ecs::SystemManager& getSystemManager() { return m_systemManager; }
+
+        int getClientWidth() { return m_ClientWidth; }
+        int getClientHeight() { return m_ClientHeight; }
 		
 		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     private:

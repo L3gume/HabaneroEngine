@@ -9,17 +9,17 @@ namespace jahbal {
 class Camera
 {
 public:
-	Camera(float radius, DirectX::Vector3 target);
+	Camera(float radius, DirectX::SimpleMath::Vector3 target);
 	Camera(float radius);
 	Camera();
 
 	void Update(float dt);
 
-	DirectX::Matrix GetLookAtMatrix();
+	DirectX::SimpleMath::Matrix GetLookAtMatrix();
 	void UpdatePosition();
 
-	DirectX::Vector3 m_position;
-	DirectX::Vector3 m_target;
+	DirectX::SimpleMath::Vector3 m_position;
+	DirectX::SimpleMath::Vector3 m_target;
 
 	float m_Phi;
 	float m_Theta;

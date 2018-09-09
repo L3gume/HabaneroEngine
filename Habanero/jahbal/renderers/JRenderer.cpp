@@ -55,10 +55,10 @@ void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
     // TODO find a more scalable way of updating the direction field in the lightData
     // field in the lights (maybe a system that goes and updates all the lights?)
     const auto& sunDirection = sunLight.getComponent<TransformComponent>().rotation;
-    Matrix sunRot = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(sunDirection.y),
+    DirectX::SimpleMath::Matrix sunRot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(XMConvertToRadians(sunDirection.y),
         XMConvertToRadians(sunDirection.x), XMConvertToRadians(sunDirection.z));
-    Vector4 sunDir = Vector4::Transform(Vector4(0.0f, 0.0f, 1.0f, 1.0f), sunRot);
-    sun.m_lightData.Direction = Vector4(sunDir.x, sunDir.y, sunDir.z, sun.m_lightData.Direction.w);
+    DirectX::SimpleMath::Vector4 sunDir = DirectX::SimpleMath::Vector4::Transform(DirectX::SimpleMath::Vector4(0.0f, 0.0f, 1.0f, 1.0f), sunRot);
+    sun.m_lightData.Direction = DirectX::SimpleMath::Vector4(sunDir.x, sunDir.y, sunDir.z, sun.m_lightData.Direction.w);
 
 	RenderSystem* render_system = Core::Engine::getInstance().getSystemManager().getSystem<RenderSystem>();
 	ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
@@ -80,7 +80,7 @@ void JRenderer::DrawScene(const std::vector<ecs::Entity*>& renderableEntities,
 
 	/*
 	const Camera& cam = scene.GetActiveCamera();
-	const Vector3& eyePos = Vector3(cam.m_position);
+	const DirectX::SimpleMath::Vector3& eyePos = DirectX::SimpleMath::Vector3(cam.m_position);
 	const Light& sun = nullptr;
 	const Light& point = nullptr;
 	sun = *(scene.GetLightList()->at(0));
@@ -111,7 +111,7 @@ void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const ecs::Entity& cam
 
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	Vector3 eyePos = cam.getComponent<TransformComponent>().position;
+	DirectX::SimpleMath::Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JGeneric->m_InputLayout);
 	ShaderManager::GetInstance()->m_JGeneric->SetLight((LightData*)&sun.m_lightData);
@@ -127,13 +127,13 @@ void JRenderer::DrawMeshEntity(const ecs::Entity& entity, const ecs::Entity& cam
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
         const auto& entityTransform = entity.getComponent<TransformComponent>();
-		Matrix rotation = Matrix::CreateFromYawPitchRoll(XMConvertToRadians(entityTransform.rotation.y),
+		DirectX::SimpleMath::Matrix rotation = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(XMConvertToRadians(entityTransform.rotation.y),
             XMConvertToRadians(entityTransform.rotation.z),
             XMConvertToRadians(entityTransform.rotation.z));
-		Matrix model = rotation * Matrix::CreateTranslation(entityTransform.position);
-		Matrix modelInvTranspose = model; modelInvTranspose.Invert().Transpose();
-        Matrix view = camera_system->viewMat;
-		Matrix MVP = model * view * camera_system->projMat;
+		DirectX::SimpleMath::Matrix model = rotation * DirectX::SimpleMath::Matrix::CreateTranslation(entityTransform.position);
+		DirectX::SimpleMath::Matrix modelInvTranspose = model; modelInvTranspose.Invert().Transpose();
+        DirectX::SimpleMath::Matrix view = camera_system->viewMat;
+		DirectX::SimpleMath::Matrix MVP = model * view * camera_system->projMat;
 
 		ShaderManager::GetInstance()->m_JGeneric->SetWorldViewProj(MVP);
 		ShaderManager::GetInstance()->m_JGeneric->SetWorld(model);
@@ -172,7 +172,7 @@ void JRenderer::DrawBillboardEntity(const ecs::Entity& entity, const ecs::Entity
     ID3D11DeviceContext* dc = render_system->GetGFXDeviceContext();
 
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-    Vector3 eyePos = cam.getComponent<TransformComponent>().position;
+    DirectX::SimpleMath::Vector3 eyePos = cam.getComponent<TransformComponent>().position;
 
 	dc->IASetInputLayout(ShaderManager::GetInstance()->m_JBillboard->m_InputLayout);
 	ShaderManager::GetInstance()->m_JBillboard->SetLight((LightData*)&sun.m_lightData);
@@ -188,8 +188,8 @@ void JRenderer::DrawBillboardEntity(const ecs::Entity& entity, const ecs::Entity
 	activeTech->GetDesc(&techDesc);
 	for (unsigned int p = 0; p < techDesc.Passes; p++)
 	{
-        Matrix view = camera_system->viewMat;
-		Matrix VP = view * camera_system->projMat;
+        DirectX::SimpleMath::Matrix view = camera_system->viewMat;
+		DirectX::SimpleMath::Matrix VP = view * camera_system->projMat;
 
 		ShaderManager::GetInstance()->m_JBillboard->SetViewProj(VP);
 		ShaderManager::GetInstance()->m_JBillboard->SetEyePosW(eyePos);
@@ -231,15 +231,15 @@ void JRenderer::DrawTerrainEntity(const ecs::Entity& entity, const ecs::Entity& 
     render_system->GetGFXDeviceContext()->IASetVertexBuffers(0, 1, &terrainComponent.m_VB, &stride, &offset);
     render_system->GetGFXDeviceContext()->IASetIndexBuffer(terrainComponent.m_IB, DXGI_FORMAT_R16_UINT, 0);
 
-    Vector3 eyePos = cam.getComponent<TransformComponent>().position;
-    Matrix view = camera_system->viewMat;
-    Matrix VP = view * camera_system->projMat;
+    DirectX::SimpleMath::Vector3 eyePos = cam.getComponent<TransformComponent>().position;
+    DirectX::SimpleMath::Matrix view = camera_system->viewMat;
+    DirectX::SimpleMath::Matrix VP = view * camera_system->projMat;
 
 	ShaderManager::GetInstance()->m_JTerrain->SetEyePosW(eyePos);
 	ShaderManager::GetInstance()->m_JTerrain->SetViewProj(VP);
 
 	ShaderManager::GetInstance()->m_JTerrain->SetHeightMap(terrainComponent.m_heightMapSRV);
-	ShaderManager::GetInstance()->m_JTerrain->SetTessParams(Vector4(0, 1000, 0, 6));
+	ShaderManager::GetInstance()->m_JTerrain->SetTessParams(DirectX::SimpleMath::Vector4(0, 1000, 0, 6));
 
 	ID3DX11EffectTechnique* activeTech = ShaderManager::GetInstance()->m_JTerrain->Tech;
 	D3DX11_TECHNIQUE_DESC techDesc;

@@ -20,21 +20,22 @@ struct MeshVertex
 		: position(px, py, pz), normal(nx, ny, nz), uv(u, v) {}
 	MeshVertex() : position(0.0f, 0.0f, 0.0f), normal(0.0f, 0.0f, 0.0f), uv(0.0f, 0.0f) {}
 
-	Vector3 position;
-	Vector3 normal;
-	Vector2 uv;
+	DirectX::SimpleMath::Vector3 position;
+	DirectX::SimpleMath::Vector3 normal;
+	DirectX::SimpleMath::Vector2 uv;
 };
 
-
+// TODO remove unneeded mesh vertex copies
 struct MeshComponent : public ecs::Component
 {
 	MeshComponent(const std::vector<MeshVertex>& vertexList, const std::vector<int>& indexList) : 
-		m_Mesh(new Mesh(vertexList, indexList)) {}
+        m_vertexList(vertexList), m_Mesh(new Mesh(vertexList, indexList)) {}
 	MeshComponent(const std::string& filename) :
 		m_Mesh(new Mesh(filename)) {}
 
 	~MeshComponent() {}
 
 	std::unique_ptr<Mesh> m_Mesh;
+    std::vector<MeshVertex> m_vertexList;
 };
 

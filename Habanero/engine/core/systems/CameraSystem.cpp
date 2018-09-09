@@ -8,11 +8,10 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "libraries/DirectXTK/include/SimpleMath.h"
 
-
 inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
     assert(_cam->hasComponent<CameraComponent>() &&
            _cam->hasComponent<TransformComponent>()); // throw an error if its not the case.
-    // A camera entity needs both a camera component, which holds the data for the projection matrix,
+    // A camera entity needs both a camera component, which holds the data for the projection DirectX::SimpleMath::Matrix,
     // and a transform component, which contains the info about the camera's position and orientation.
     ComponentID typeID = getComponentTypeID<CameraComponent>();
     if (!_cam->hasGroup(typeID)) _cam->addGroup(typeID); // Just in case.
@@ -21,13 +20,13 @@ inline void CameraSystem::setActiveCamera(Entity *_cam) noexcept {
 	updateProjectionMatrix();
 }
 
-DirectX::Matrix CameraSystem::getMVPFromActiveCamera(DirectX::Matrix _modelMat) {
+DirectX::SimpleMath::Matrix CameraSystem::getMVPFromActiveCamera(DirectX::SimpleMath::Matrix _modelMat) {
     return projMat * viewMat * _modelMat;
 }
 
 void CameraSystem::updateProjectionMatrix() {
 	const CameraComponent &camera = m_activeCamera->getComponent<CameraComponent>();
-	projMat = Matrix::CreatePerspectiveFieldOfViewLH(camera.m_fov,
+	projMat = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfViewLH(camera.m_fov,
 		camera.m_hRes / camera.m_vRes, camera.m_zNear, camera.m_zFar);
 }
 
@@ -47,12 +46,12 @@ void CameraSystem::preUpdate(float _deltaTime) {
     TransformComponent &transform = m_activeCamera->getComponent<TransformComponent>();
     const CameraComponent &camera = m_activeCamera->getComponent<CameraComponent>();
 
-	DirectX::Vector3 target = DirectX::Vector3(
+	DirectX::SimpleMath::Vector3 target = DirectX::SimpleMath::Vector3(
 		DirectX::XMScalarCos(transform.rotation.x) * DirectX::XMScalarSin(transform.rotation.y),
 		DirectX::XMScalarSin(transform.rotation.x),
 		DirectX::XMScalarCos(transform.rotation.x) * DirectX::XMScalarCos(transform.rotation.y));
 
 
-	viewMat = Matrix::CreateLookAtLH(transform.position, DirectX::Vector3::Zero,
-		DirectX::Vector3(0.0f, 1.0f, 0.0f));
+	viewMat = DirectX::SimpleMath::Matrix::CreateLookAtLH(transform.position, DirectX::SimpleMath::Vector3::Zero,
+		DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f));
 }

@@ -54,6 +54,7 @@
     <ClCompile Include="jahbal\creators\MeshCreator.cpp" />
     <ClCompile Include="jahbal\creators\BufferCreator.cpp" />
     <ClCompile Include="engine\core\ecs\entitymanager.cpp" />
+    <ClCompile Include="engine\core\systems\PickingSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
@@ -104,16 +105,17 @@
     <ClInclude Include="jahbal\components\MeshComponent.h" />
     <ClInclude Include="jahbal\components\TerrainComponent.h" />
     <ClInclude Include="jahbal\components\LightComponent.h" />
+    <ClInclude Include="engine\core\systems\PickingSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="jahbal\shaders\Billboard.fx" />
-    <FxCompile Include="jahbal\shaders\Defs.fx" />
-    <FxCompile Include="jahbal\shaders\Generic.fx" />
-    <FxCompile Include="jahbal\shaders\LightFuncs.fx" />
-    <FxCompile Include="jahbal\shaders\QuadTess.fx" />
-    <FxCompile Include="jahbal\shaders\Terrain.fx" />
+    <CustomBuild Include="jahbal\shaders\Billboard.fx" />
+    <CustomBuild Include="jahbal\shaders\Defs.fx" />
+    <CustomBuild Include="jahbal\shaders\Generic.fx" />
+    <CustomBuild Include="jahbal\shaders\LightFuncs.fx" />
+    <CustomBuild Include="jahbal\shaders\QuadTess.fx" />
+    <CustomBuild Include="jahbal\shaders\Terrain.fx" />
   </ItemGroup>
 </Project>
