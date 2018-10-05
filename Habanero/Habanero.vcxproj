@@ -46,6 +46,7 @@
     <ClCompile Include="jahbal\util\dxerr.cpp" />
     <ClCompile Include="jahbal\visuals\TerrainVisual.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="engine\core\ecs\xmlentityserializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\components\CameraComponent.h" />
@@ -97,6 +98,7 @@
     <ClInclude Include="jahbal\util\dxmacros.h" />
     <ClInclude Include="libraries\visit_struct\visit_struct.hpp" />
     <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
+    <ClInclude Include="engine\core\ecs\xmlentityserializer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

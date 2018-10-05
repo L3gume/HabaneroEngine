@@ -54,6 +54,7 @@
     <ClCompile Include="jahbal\creators\MeshCreator.cpp" />
     <ClCompile Include="jahbal\creators\BufferCreator.cpp" />
     <ClCompile Include="engine\core\ecs\entitymanager.cpp" />
+    <ClCompile Include="engine\core\ecs\xmlentityserializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="engine\core\ecs\systemmanager.h" />
     <ClInclude Include="libraries\visit_struct\visit_struct.hpp" />
     <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
+    <ClInclude Include="engine\core\ecs\xmlentityserializer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

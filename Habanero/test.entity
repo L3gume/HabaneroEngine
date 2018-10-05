@@ -1,0 +1,6 @@
+<TransformComponent type=struct TransformComponent>
+    <vposition type=struct DirectX::SimpleMath::Vector3>0, 0, 0</vposition>
+    <vrotation type=struct DirectX::SimpleMath::Vector3>0, 0, 0</vrotation>
+    <vscale type=struct DirectX::SimpleMath::Vector3>1, 1, 1</vscale>
+</TransformComponent>
+

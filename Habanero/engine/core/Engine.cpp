@@ -14,6 +14,7 @@
 #include "engine/core/systems/ScriptSystem.h"
 #include "jahbal/renderers/JRenderer.h"
 #include "ecs/ConstructorFunctions.h"
+#include "ecs/xmlentityserializer.h"
 
 using namespace Core;
 
@@ -36,7 +37,8 @@ void Engine::init() {
     
 	auto& ent = m_entityManager.addEntity("swag");
 	auto& transformComp = ent.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f));
-	saveComponent<TransformComponent>(transformComp);
+	HXmlEntitySerializer serializer;
+	serializer.serializeComponent<TransformComponent>(transformComp);
 }
 
 void Engine::gameLoop() {
