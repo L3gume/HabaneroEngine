@@ -15,6 +15,7 @@
 #include "jahbal/renderers/JRenderer.h"
 #include "ecs/ConstructorFunctions.h"
 #include "ecs/xmlentityserializer.h"
+#include "components/scenecomponent.h"
 
 using namespace Core;
 
@@ -36,9 +37,10 @@ void Engine::init() {
 	m_systemManager.addSystem<CameraSystem>();
     
 	auto& ent = m_entityManager.addEntity("swag");
+    ent.addComponent<SceneComponent>("testScene");
 	auto& transformComp = ent.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f));
 	HXmlEntitySerializer serializer;
-	serializer.serializeComponent<TransformComponent>(transformComp);
+	serializer.saveScene(&ent);
 }
 
 void Engine::gameLoop() {

@@ -107,6 +107,7 @@
     <ClInclude Include="libraries\visit_struct\visit_struct.hpp" />
     <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
     <ClInclude Include="engine\core\ecs\xmlentityserializer.h" />
+    <ClInclude Include="engine\core\components\scenecomponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

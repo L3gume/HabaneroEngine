@@ -15,7 +15,8 @@ using ComponentArray = std::array<Component *, MAX_COMPS>;
 	
 class Entity {
 	friend class EntityManager;
-	friend class EntityConstructor;
+	friend class EntityConstructor; // TODO: remove this
+	friend class HXmlEntitySerializer;
 private:
 	EntityManager* m_manager;
 	/*

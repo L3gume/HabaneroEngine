@@ -1,6 +1,11 @@
+<Entity name="swag">
+    <SceneComponent type="struct SceneComponent">
+        <name type="class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >">testScene</name>
+    </SceneComponent>
     <TransformComponent type="struct TransformComponent">
         <vposition type="struct DirectX::SimpleMath::Vector3">0, 0, 0</vposition>
         <vrotation type="struct DirectX::SimpleMath::Vector3">0, 0, 0</vrotation>
         <vscale type="struct DirectX::SimpleMath::Vector3">1, 1, 1</vscale>
     </TransformComponent>
+</Entity>
 

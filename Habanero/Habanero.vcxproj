@@ -51,6 +51,7 @@
   <ItemGroup>
     <ClInclude Include="engine\core\components\CameraComponent.h" />
     <ClInclude Include="engine\core\components\RenderableComponent.h" />
+    <ClInclude Include="engine\core\components\scenecomponent.h" />
     <ClInclude Include="engine\core\components\ScriptComponent.h" />
     <ClInclude Include="engine\core\components\TransformComponent.h" />
     <ClInclude Include="engine\core\components\VisualComponent.h" />

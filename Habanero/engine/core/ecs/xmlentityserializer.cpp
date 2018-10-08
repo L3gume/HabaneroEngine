@@ -1,4 +1,34 @@
 #include "xmlentityserializer.h"
+#include "engine/core/components/scenecomponent.h"
 
-void ecs::HXmlEntitySerializer::saveScene(const Entity* _sceneEntity) {
+void ecs::HXmlEntitySerializer::saveScene(const Entity* _sceneEntity) const {
+    if (!_sceneEntity->hasComponent<SceneComponent>()) {
+        return;
+    }
+    const auto& sceneComp = _sceneEntity->getComponent<SceneComponent>();
+    writeEntityToFile(sceneComp.name + ".entity", serializeEntity(_sceneEntity));
+}
+
+ecs::SSerializedEntity ecs::HXmlEntitySerializer::serializeEntity(const Entity* _ent, const std::string& _indent) const {
+    const auto& components = _ent->m_components;
+    const auto& children = _ent->getChildren();
+    const auto tab = _indent + "    ";
+    SSerializedEntity serializedEnt;
+    serializedEnt.name = _ent->m_sName;
+    if (_ent->hasComponent<SceneComponent>()) {
+        serializedEnt.components.emplace_back(serializeComponent(_ent->getComponent<SceneComponent>(), tab));
+    }
+    if (_ent->hasComponent<TransformComponent>()) {
+        serializedEnt.components.emplace_back(serializeComponent(_ent->getComponent<TransformComponent>(), tab));
+    }
+    for (const auto& child : children) {
+        serializedEnt.children.emplace_back(serializeEntity(child, tab));
+    }
+    return serializedEnt;
+}
+
+void ecs::HXmlEntitySerializer::writeEntityToFile(const std::string& _filename, const SSerializedEntity& _ent) {
+    std::ofstream of(_filename);
+    of << _ent.toString() << "\n";
+    of.close();
 }
