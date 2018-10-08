@@ -29,8 +29,8 @@ struct TXmlField {
         return ss.str();
     }
 
-    template <typename T>
-    std::string serializeType(T _obj) const {
+    template <typename U>
+    std::string serializeType(U _obj) const {
         std::stringstream ss;
         ss << _obj;
         return ss.str();
@@ -103,10 +103,6 @@ private:
             ss << tab << TXmlField<decltype(value)>(name, value).toString();
         });
         ss << _indent << TXmlField<ComponentType>(s, _component).xmlFieldEnd() << "\n";
-
-        std::ofstream of("test.entity");
-        of << ss.str() << "\n";
-        of.close();
 
         return ss.str();
     }
