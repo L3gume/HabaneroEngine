@@ -13,8 +13,12 @@ ecs::SSerializedEntity ecs::HXmlEntitySerializer::serializeEntity(const Entity* 
     const auto& components = _ent->m_components;
     const auto& children = _ent->getChildren();
     const auto tab = _indent + "    ";
+    
     SSerializedEntity serializedEnt;
     serializedEnt.name = _ent->m_sName;
+    /*
+     * TODO: Find a way to simplify that, typenames or typeids maybe?
+     */
     if (_ent->hasComponent<SceneComponent>()) {
         serializedEnt.components.emplace_back(serializeComponent(_ent->getComponent<SceneComponent>(), tab));
     }

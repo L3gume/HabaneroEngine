@@ -69,7 +69,7 @@ struct SSerializedEntity {
             ss << comp;
         }
         for (const auto& child : children) {
-            ss << tab << child.toString(_indent + "    ");
+            ss << tab << child.toString(tab);
         }
         ss << "</Entity>\n";
         return ss.str();
@@ -84,7 +84,7 @@ private:
     template <typename ComponentType>
     std::string serializeComponent(const ComponentType& _component, const std::string& _indent = "") const {
         const auto& thing = typeid(ComponentType);
-        auto classname = thing.name();
+        const auto classname = thing.name();
         std::string s(classname);
 
         // remove the "struct " part of the type name
@@ -93,7 +93,7 @@ private:
         }
         else {
             // if the object being saved isn't a struct (shouldn't happen), immediately return
-            return "";
+            return std::string("");
         }
 
         const auto tab = _indent + "    "; // identation
