@@ -36,11 +36,19 @@ void Engine::init() {
 		m_hMainWnd);
 	m_systemManager.addSystem<CameraSystem>();
     
+    // ------------------------------ SERIALIZATION TESTS -------------------------------------------
+    
 	auto& ent = m_entityManager.addEntity("swag");
     ent.addComponent<SceneComponent>("testScene");
 	auto& transformComp = ent.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f));
+    auto& dummyComp = ent.addComponent<DummyComponent>(69, 'a', 420.f, "swag");
+    
 	HXmlEntitySerializer serializer;
 	serializer.saveScene(&ent);
+    
+    REGISTER_COMPONENT_FACTORY("DummyComponent", DummyComponent);
+    auto fact = ecs::HComponentFactoryManager::getInstance().getComponentFactory("DummyComponent");
+    auto comp = fact.make();
 }
 
 void Engine::gameLoop() {

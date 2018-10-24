@@ -55,6 +55,8 @@
     <ClCompile Include="jahbal\creators\BufferCreator.cpp" />
     <ClCompile Include="engine\core\ecs\entitymanager.cpp" />
     <ClCompile Include="engine\core\ecs\xmlentityserializer.cpp" />
+    <ClCompile Include="engine\core\components\factory\factory.cpp" />
+    <ClCompile Include="engine\core\components\factory\factorymanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\core\Engine.h" />
@@ -108,6 +110,10 @@
     <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
     <ClInclude Include="engine\core\ecs\xmlentityserializer.h" />
     <ClInclude Include="engine\core\components\scenecomponent.h" />
+    <ClInclude Include="engine\core\ecs\reflection\reflection.h" />
+    <ClInclude Include="engine\core\components\factory\factory.h" />
+    <ClInclude Include="engine\core\util\singleton.h" />
+    <ClInclude Include="engine\core\components\factory\factorymanager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

@@ -31,6 +31,8 @@
     <ClCompile Include="engine\core\systems\RenderSystem.cpp" />
     <ClCompile Include="engine\core\systems\ScriptSystem.cpp" />
     <ClCompile Include="engine\core\systems\TransformSystem.cpp" />
+    <ClCompile Include="engine\core\components\factory\factory.cpp" />
+    <ClCompile Include="engine\core\components\factory\factorymanager.cpp" />
     <ClCompile Include="jahbal\common\Camera.cpp" />
     <ClCompile Include="jahbal\creators\BufferCreator.cpp" />
     <ClCompile Include="jahbal\creators\MeshCreator.cpp" />
@@ -61,6 +63,7 @@
     <ClInclude Include="engine\core\ecs\entity.h" />
     <ClInclude Include="engine\core\ecs\EntityConstructor.h" />
     <ClInclude Include="engine\core\ecs\entitymanager.h" />
+    <ClInclude Include="engine\core\ecs\reflection\reflection.h" />
     <ClInclude Include="engine\core\ecs\system.h" />
     <ClInclude Include="engine\core\ecs\systemmanager.h" />
     <ClInclude Include="engine\core\Engine.h" />
@@ -75,6 +78,8 @@
     <ClInclude Include="engine\core\systems\ScriptSystem.h" />
     <ClInclude Include="engine\core\systems\TransformSystem.h" />
     <ClInclude Include="engine\core\util.h" />
+    <ClInclude Include="engine\core\components\factory\factory.h" />
+    <ClInclude Include="engine\core\components\factory\factorymanager.h" />
     <ClInclude Include="jahbal\common\Camera.h" />
     <ClInclude Include="jahbal\common\Light.h" />
     <ClInclude Include="jahbal\common\Material.h" />
@@ -100,6 +105,7 @@
     <ClInclude Include="libraries\visit_struct\visit_struct.hpp" />
     <ClInclude Include="libraries\visit_struct\visit_struct_intrusive.hpp" />
     <ClInclude Include="engine\core\ecs\xmlentityserializer.h" />
+    <ClInclude Include="engine\core\util\singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

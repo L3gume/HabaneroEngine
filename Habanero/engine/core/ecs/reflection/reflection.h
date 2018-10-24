@@ -24,6 +24,17 @@
 // ----------------------- MACROS -----------------------------------------
 
 // Main macro, initializes reflection data with a variadic list of properties
+// This one takes a name as an arg
+#define H_DEFINE_NAMED_REFLECTION_DATA(class_name, base_class, ...)         \
+    template <> struct SReflectionProperties<base_class> {                  \
+        using T = base_class;                                               \
+        constexpr static auto s_className = class_name;                     \
+        constexpr static auto s_properties = std::make_tuple(__VA_ARGS__);  \
+        constexpr static std::size_t s_propertiesCount =                    \
+            std::tuple_size<decltype(s_properties)>::value;                 \
+    };
+
+// Same as other macro, except it is unnamed
 #define H_DEFINE_REFLECTION_DATA(base_class, ...)                           \
     template <> struct SReflectionProperties<base_class> {                  \
         using T = base_class;                                               \
@@ -50,6 +61,7 @@
 template <typename T> struct SReflectionProperties {
     // The members are static, which mean they weill only be initialized once per type T
     // since templates are initialized at compile-time
+    constexpr static auto s_className = "Undefined";
     constexpr static auto s_properties = std::tuple<>();
     constexpr static std::size_t s_propertiesCount = std::tuple_size<decltype(s_properties)>::value;
 };
