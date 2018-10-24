@@ -18,6 +18,7 @@ VISITABLE_STRUCT(SceneComponent, name);
 struct DummyComponent : ecs::Component {
     H_DECLARE_AS_REFLECTABLE(DummyComponent)
         
+    DummyComponent() : m1(0), m2('\0'), m3(0.f), m4("") {}
     DummyComponent(int _m1, char _m2, float _m3, const char* _m4) : m1(_m1), m2(_m2), m3(_m3), m4(_m4) {}
     
     int m1;

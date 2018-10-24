@@ -48,7 +48,9 @@ void Engine::init() {
     
     REGISTER_COMPONENT_FACTORY("DummyComponent", DummyComponent);
     auto fact = ecs::HComponentFactoryManager::getInstance().getComponentFactory("DummyComponent");
-    auto comp = fact.make();
+    auto comp = fact->make();
+    
+    // ------------------------------ SERIALIZATION TESTS -------------------------------------------
 }
 
 void Engine::gameLoop() {

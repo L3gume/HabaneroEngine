@@ -14,7 +14,7 @@ class HComponentFactory : public IComponentFactory
 {
 public:
     HComponentFactory() = default;
-    virtual ecs::Component* make() override {
+    ecs::Component* make() override {
         return new T();
     }
 };
