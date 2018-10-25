@@ -4,9 +4,14 @@
 
 #include "engine/core/ecs/component.h"
 
+namespace ecs
+{
+
 class IComponentFactory {
 public:
-    virtual ecs::Component* make() = 0;
+    virtual Component* make() const = 0;
+    virtual ComponentID getID() const = 0;
+    virtual ~IComponentFactory() = default;
 };
 
 template <typename T>
@@ -14,11 +19,15 @@ class HComponentFactory : public IComponentFactory
 {
 public:
     HComponentFactory() = default;
-    ecs::Component* make() override {
+    T* make() const override {
         return new T();
+    }
+
+    ComponentID getID() const override {
+        return getComponentTypeID<T>();
     }
 };
 
-
+}
 #endif
 

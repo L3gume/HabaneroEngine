@@ -11,11 +11,11 @@
 #define REGISTER_COMPONENT_FACTORY(name, class_name)\
     ecs::HComponentFactoryManager::getInstance().addComponentFactory<class_name>(name);
 
-namespace ecs {
-    
-class HComponentFactoryManager
+namespace ecs
 {
-    HSINGLETON(HComponentFactoryManager)
+    
+class HComponentFactoryManager {
+    HSINGLETON(HComponentFactoryManager) // Kinda evil, dunno
         
 public:
     template <typename T>

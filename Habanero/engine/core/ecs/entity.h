@@ -4,6 +4,7 @@
 
 #include "ecs.h"
 #include "component.h"
+#include "engine/core/components/factory/factory.h"
 
 namespace ecs
 {
@@ -49,6 +50,10 @@ public:
 	bool hasComponent() const {
 		return m_componentBitset[getComponentTypeID<T>()];
 	}
+    
+    bool hasComponent(const ComponentID& _id) const {
+        return m_componentBitset[_id];
+	}
 
 	/*
 	 * Check if entity belongs to a group
@@ -76,12 +81,12 @@ public:
 	T &addComponent(TArgs &&... _args) {
 		assert(!hasComponent<T>()); // Make sure the entity doesn't already have this type of component.
 
-		T *c(new T(std::forward<TArgs>(_args)...));
+		auto *c(new T(std::forward<TArgs>(_args)...));
 		c->m_entity = this;
 		std::unique_ptr<Component> uPtr(std::move(c));
 		m_components.emplace_back(std::move(uPtr));
 
-		ComponentID id = getComponentTypeID<T>();
+		const auto id = getComponentTypeID<T>();
 		m_componentArray[id] = c;
 		m_componentBitset[id] = true;
 
@@ -100,6 +105,26 @@ public:
 		auto ptr(m_componentArray[getComponentTypeID<T>()]);
 		return *static_cast<T *>(ptr);
 	}
+//private: TODO: make private
+    /*
+     * Private as it is only meant to be called from automated systems (serialization)
+     */
+    //template<typename T>
+    void addComponentFromFactory(const IComponentFactory *_factory) {
+        const auto id = _factory->getID();
+        assert(!hasComponent(id));
+
+        auto *c(/*dynamic_cast<T*>*/(_factory->make()));
+        //const auto name = typeid(decltype(*c)).name();
+        std::unique_ptr<Component> uPtr(std::move(c));
+        m_components.emplace_back(std::move(uPtr));
+
+        m_componentArray[id] = c;
+		m_componentBitset[id] = true;
+        
+        this->addGroup(id);
+        c->m_bEnabled = true;
+    }
 };
 	
 }

@@ -41,14 +41,15 @@ void Engine::init() {
 	auto& ent = m_entityManager.addEntity("swag");
     ent.addComponent<SceneComponent>("testScene");
 	auto& transformComp = ent.addComponent<TransformComponent>(glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f),glm::vec3(0.f, 0.f, 0.f));
-    auto& dummyComp = ent.addComponent<DummyComponent>(69, 'a', 420.f, "swag");
+    //auto& dummyComp = ent.addComponent<DummyComponent>(69, 'a', 420.f, "swag");
     
 	HXmlEntitySerializer serializer;
 	serializer.saveScene(&ent);
     
     REGISTER_COMPONENT_FACTORY("DummyComponent", DummyComponent);
-    auto fact = ecs::HComponentFactoryManager::getInstance().getComponentFactory("DummyComponent");
-    auto comp = fact->make();
+    const auto fact = HComponentFactoryManager::getInstance().getComponentFactory("DummyComponent");
+    ent.addComponentFromFactory(fact);
+    assert(ent.hasComponent<DummyComponent>());
     
     // ------------------------------ SERIALIZATION TESTS -------------------------------------------
 }

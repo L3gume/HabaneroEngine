@@ -38,6 +38,7 @@
 #define H_DEFINE_REFLECTION_DATA(base_class, ...)                           \
     template <> struct SReflectionProperties<base_class> {                  \
         using T = base_class;                                               \
+        constexpr static auto s_className = "no_name";                      \
         constexpr static auto s_properties = std::make_tuple(__VA_ARGS__);  \
         constexpr static std::size_t s_propertiesCount =                    \
             std::tuple_size<decltype(s_properties)>::value;                 \
@@ -76,12 +77,12 @@ namespace hreflection
     template <typename Class, typename T>
     struct SProperty {
         // Properties are generated at compile-time using a macro, hence the constexpr
-        constexpr SProperty(T Class::*member, const char* name) : m_member(member), m_name(name) {}
+        constexpr SProperty(T Class::*member, const char* name) : member(member), name(name) {}
 
         using Type = T;
         
-        T Class::*m_member; // pointer to the class's member, this allows for some funky stuff, see below
-        const char* m_name; // name of the property
+        T Class::*member; // pointer to the class's member, this allows for some funky stuff, see below
+        const char* name; // name of the property
     };
     
     /*

@@ -53,7 +53,7 @@ inline ComponentID getUniqueComponentID() noexcept {
 // Template Magic, have fun trying to figure it out!
 template<typename T>
 ComponentID getComponentTypeID() noexcept {
-	static ComponentID typeID{getUniqueComponentID()};
+	static auto typeID{getUniqueComponentID()};
 	return typeID;
 }
 }
