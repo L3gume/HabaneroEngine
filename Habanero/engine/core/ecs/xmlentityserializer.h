@@ -11,6 +11,16 @@
 namespace ecs
 {
     
+/*
+ * TODO:
+ * - Implement abstraction for xml document
+ *      - Make it a HTree<T> class in util and typedef xmlDoc as HTree<SomeXMLthing>
+ *      - Then big rework of HXmlEntitySerializer
+ * - Find a good way to extract components and serialize them
+ * - Make specializable serialize/deserialize type templates (improve)
+ * - Implement XML parser for deserialization
+ */
+    
 template <typename T>
 struct TXmlField {
     TXmlField(std::string _name, T _value) : name(std::move(_name)), value(std::move(_value)) {

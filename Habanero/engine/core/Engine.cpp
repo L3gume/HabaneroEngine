@@ -49,7 +49,7 @@ void Engine::init() {
     REGISTER_COMPONENT_FACTORY("DummyComponent", DummyComponent);
     const auto fact = HComponentFactoryManager::getInstance().getComponentFactory("DummyComponent");
     ent.addComponentFromFactory(fact);
-    assert(ent.hasComponent<DummyComponent>());
+    assert(ent.hasComponent<DummyComponent>()); // PASSES
     
     // ------------------------------ SERIALIZATION TESTS -------------------------------------------
 }

@@ -87,7 +87,7 @@ public:
 		m_components.emplace_back(std::move(uPtr));
 
 		const auto id = getComponentTypeID<T>();
-		m_componentArray[id] = c;
+		m_componentArray[id] = c; // NOLINT(bugprone-use-after-move)
 		m_componentBitset[id] = true;
 
 		this->addGroup(id);
@@ -109,18 +109,16 @@ public:
     /*
      * Private as it is only meant to be called from automated systems (serialization)
      */
-    //template<typename T>
     void addComponentFromFactory(const IComponentFactory *_factory) {
         const auto id = _factory->getID();
         assert(!hasComponent(id));
 
-        auto *c(/*dynamic_cast<T*>*/(_factory->make()));
-        //const auto name = typeid(decltype(*c)).name();
-        std::unique_ptr<Component> uPtr(std::move(c));
+        auto *c(_factory->make());
+        std::unique_ptr<Component> uPtr(c);
         m_components.emplace_back(std::move(uPtr));
 
-        m_componentArray[id] = c;
-		m_componentBitset[id] = true;
+        m_componentArray[id] = c; // NOLINT(bugprone-use-after-move)
+		m_componentBitset[id] = true;  
         
         this->addGroup(id);
         c->m_bEnabled = true;

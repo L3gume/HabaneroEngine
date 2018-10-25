@@ -23,8 +23,6 @@ public:
         static_assert(std::is_base_of<Component, T>::value, "T must inherit from ecs::Component"); 
         assert(m_factories.find(_name) == m_factories.end());
         
-        //IComponentFactory* factory = new HComponentFactory<T>();
-        //m_factories[_name] = std::make_unique<IComponentFactory>(*factory);
         m_factories[_name] = new HComponentFactory<T>();
     }
     
