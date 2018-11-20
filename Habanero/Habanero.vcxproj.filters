@@ -114,6 +114,7 @@
     <ClInclude Include="engine\core\components\factory\factory.h" />
     <ClInclude Include="engine\core\util\singleton.h" />
     <ClInclude Include="engine\core\components\factory\factorymanager.h" />
+    <ClInclude Include="engine\core\util\tree.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Habanero.VC.db" />

@@ -29,7 +29,7 @@ struct TXmlField {
 
     std::string xmlFieldStart() const {
         std::stringstream ss;
-        ss << "<" << name << " type=\"" << valueTypeName << "\">";
+        ss << "<" << name << ">";
         return ss.str();
     }
 
@@ -109,9 +109,9 @@ private:
         const auto tab = _indent + "    "; // identation
         std::stringstream ss;
         ss << _indent << TXmlField<ComponentType>(s, _component).xmlFieldStart() << "\n";
-        visit_struct::for_each(_component, [s, tab, &ss](const auto& name, const auto& value) {
-            ss << tab << TXmlField<decltype(value)>(name, value).toString();
-        });
+        //visit_struct::for_each(_component, [s, tab, &ss](const auto& name, const auto& value) {
+        //    ss << tab << TXmlField<decltype(value)>(name, value).toString();
+        //});
         ss << _indent << TXmlField<ComponentType>(s, _component).xmlFieldEnd() << "\n";
 
         return ss.str();

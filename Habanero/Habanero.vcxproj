@@ -80,6 +80,7 @@
     <ClInclude Include="engine\core\util.h" />
     <ClInclude Include="engine\core\components\factory\factory.h" />
     <ClInclude Include="engine\core\components\factory\factorymanager.h" />
+    <ClInclude Include="engine\core\util\tree.h" />
     <ClInclude Include="jahbal\common\Camera.h" />
     <ClInclude Include="jahbal\common\Light.h" />
     <ClInclude Include="jahbal\common\Material.h" />
